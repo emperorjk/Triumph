@@ -12,4 +12,9 @@ public class BarracksCavalry : BuildingsBase{
     {
         get { return BuildingTypes.BarracksCavalry; }
     }
+
+    public override Texture productionOverlay
+    {
+        get { throw new System.NotImplementedException(); }
+    }
 }

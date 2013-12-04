@@ -12,4 +12,9 @@ public class BarracksRange : BuildingsBase {
     {
         get { return BuildingTypes.BarracksRange; }
     }
+
+    public override Texture productionOverlay
+    {
+        get { throw new System.NotImplementedException(); }
+    }
 }

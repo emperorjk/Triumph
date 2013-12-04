@@ -22,4 +22,22 @@ public abstract class UnitBase {
     public int attackRange { get; set; }
     public int baseAttackRange { get; set; }
     public int moveRange { get; set; }
+
+    /// <summary>
+    /// Show the possible unit move locations. I think this can be done in the base class since we have acces to all
+    /// of the properties. e.g. range and hasMoved etc.
+    /// </summary>
+    public void ShowMovement()
+    {
+        
+    }
+
+    /// <summary>
+    /// Show the possible attack locations. I think this can be done in the base class since we have acces to all
+    /// of the properties. e.g. range and hasMoved etc.
+    /// </summary>
+    public void ShowAttack()
+    {
+
+    }
 }

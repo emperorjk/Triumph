@@ -15,4 +15,9 @@ public class TrainingZone : BuildingsBase{
     {
         get { return BuildingTypes.TrainingZone; }
     }
+
+    public override Texture productionOverlay
+    {
+        get { throw new System.NotImplementedException(); }
+    }
 }

@@ -12,4 +12,9 @@ public class Castle : BuildingsBase{
     {
         get { return BuildingTypes.Castle; }
     }
+
+    public override Texture productionOverlay
+    {
+        get { throw new System.NotImplementedException(); }
+    }
 }

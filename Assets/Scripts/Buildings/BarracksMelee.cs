@@ -13,4 +13,9 @@ public class BarracksMelee : BuildingsBase {
     {
         get { return BuildingTypes.BarracksMelee; }
     }
+
+    public override Texture productionOverlay
+    {
+        get { throw new System.NotImplementedException(); }
+    }
 }

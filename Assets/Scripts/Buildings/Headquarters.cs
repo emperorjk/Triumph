@@ -12,4 +12,9 @@ public class Headquarters : BuildingsBase{
     {
         get { return BuildingTypes.Headquarters; }
     }
+
+    public override Texture productionOverlay
+    {
+        get { throw new System.NotImplementedException(); }
+    }
 }
