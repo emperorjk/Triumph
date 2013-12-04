@@ -8,7 +8,6 @@ public class GuideState : MenuStateBase
 {
     private MenuManager _manager;
     private int activeImage = 0;
-    private int previousImage = 0;
 
     public GuideState(MenuManager _manager)
     {
@@ -19,17 +18,34 @@ public class GuideState : MenuStateBase
     {
         if (Input.GetKeyDown(KeyCode.V))
         {
-            _manager.ChangeState(MenuStates.StartState);
-            _manager.mainCamera.transform.position = _manager.menuPositions[0];
+            if (activeImage == 0)
+            {
+                _manager.ChangeState(MenuStates.StartState);
+                _manager.mainCamera.transform.position = _manager.menuPositions[0];
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            ChangeActiveImage(-1);
+            if (activeImage == 0)
+            {
+                ActiveImage(true);
+            }
+            else if (activeImage == 1)
+            {
+                ActiveImage(true);
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            ChangeActiveImage(1);
+            if (activeImage == 1)
+            {
+                ActiveImage(false);
+            }
+            else if (activeImage == 2)
+            {
+                ActiveImage(false);
+            }
         }
     }
 
@@ -43,22 +59,19 @@ public class GuideState : MenuStateBase
 
     }
 
-    private void ChangeActiveImage(int next)
+    private void ActiveImage(bool next)
     {
-        previousImage = activeImage;
+        _manager.images[activeImage].gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
-        activeImage += next;
-
-        if (activeImage <= 0)
+        if (next)
         {
-            activeImage = 0;
+            _manager.images[activeImage + 1].gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            activeImage++;
         }
-        else if (activeImage >= _manager.images.Count)
+        else 
         {
-            activeImage = _manager.images.Count - 1;
+            _manager.images[activeImage - 1].gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            activeImage--;
         }
-
-        _manager.images[activeImage].gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        _manager.images[previousImage].gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 }
