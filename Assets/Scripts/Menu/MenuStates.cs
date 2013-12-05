@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 public enum MenuStates
-{
+{ 
     StartState,
     GuideState,
     LevelState
