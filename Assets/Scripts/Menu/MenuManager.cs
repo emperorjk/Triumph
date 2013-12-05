@@ -52,8 +52,17 @@ public class MenuManager : MonoBehaviour {
     /// </summary>
     private void MenuPositions()
     {
-        menuPositions[0] = new Vector3(0, 0, -1);
-        menuPositions[1] =  new Vector3(0, -12, -1);
-        menuPositions[2] = new Vector3(20, 0, -1);
+        Vector3 levelScreen = GameObject.FindGameObjectWithTag("BackgroundLevel").renderer.bounds.center;
+        Vector3 guideScreen = GameObject.FindGameObjectWithTag("BackgroundGuide").renderer.bounds.center;
+        Vector3 startScreen = GameObject.FindGameObjectWithTag("BackgroundStart").renderer.bounds.center;
+
+        // set all z values to zero otherwise the camera has the same z value as the background image
+        levelScreen.z = 0;
+        guideScreen.z = 0;
+        startScreen.z = 0;
+
+        menuPositions[0] = startScreen;
+        menuPositions[1] = levelScreen;
+        menuPositions[2] = guideScreen;
     }
 }
