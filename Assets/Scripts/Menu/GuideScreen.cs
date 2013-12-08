@@ -37,6 +37,7 @@ public class GuideScreen : MonoBehaviour
                             activeScreen++;
                             GameObject.Find("CaptureZoneGuide").renderer.enabled = false;
                             GameObject.Find("TilesGuide").renderer.enabled = true;
+                            GameObject.Find("ForwardButton").renderer.enabled = false;
                         }
                     }
                     else if (touchBox.collider == backwardButton.collider)
@@ -56,6 +57,7 @@ public class GuideScreen : MonoBehaviour
                             activeScreen--;
                             GameObject.Find("CaptureZoneGuide").renderer.enabled = true;
                             GameObject.Find("TilesGuide").renderer.enabled = false;
+                            GameObject.Find("ForwardButton").renderer.enabled = true;
                         }
                     }
                 }
