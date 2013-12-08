@@ -42,4 +42,10 @@ public class MenuManager
         menuPositions[1] = levelScreen;
         menuPositions[2] = guideScreen;
     }
+
+    public void BackToMenu()
+    {
+        Camera.main.transform.position = MenuManager.Instance.menuPositions[0];
+        MenuManager.activeMenuState = MenuStates.StartState;
+    }
 }
