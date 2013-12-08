@@ -5,8 +5,8 @@ using System.Text;
 
 public class Archer : UnitBase
 {
-    public Archer()
-        : base(10, 1.5f, 2, 2, 2)
+    public Archer(UnitGameObject game)
+        : base(game, 10, 1.5f, 2, 2, 2)
     {
 
     }

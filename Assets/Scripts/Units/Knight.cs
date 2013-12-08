@@ -5,8 +5,8 @@ using System.Text;
 
 public class Knight : UnitBase
 {
-    public Knight() 
-        : base(10, 1.5f, 1, 1, 3)
+    public Knight(UnitGameObject game) 
+        : base(game, 10, 1.5f, 1, 1, 3)
     {
 
     }

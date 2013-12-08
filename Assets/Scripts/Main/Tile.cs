@@ -4,9 +4,42 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Tile
+/// <summary>
+/// This struct is used to find Tiles in the tile list. This makes it easier than using two variables e.g. int ColumndId and int RowId.
+/// </summary>
+public struct TileCoordinates
 {
-    public BuildingsBase building { get; set; }
-    public UnitBase unit { get; set; }
-    public EnvironmentBase environment { get; set; }
+    public int ColumnId { get; private set; }
+    public int RowId { get; private set; }
+    public TileCoordinates(int ColumnId, int RowId)
+    {
+        this.ColumnId = ColumnId;
+        this.RowId = RowId;
+    }
+}
+
+/// <summary>
+/// This script is put on a prefab. Some information needs to be set within Unity. The environment object is a prefab. That needs to be dragged ontop of the environmentGameObject variable.
+/// This is also true for possible units and buildings.
+/// So the tile has a reference to the stuff that is on it.
+/// </summary>
+public class Tile : MonoBehaviour
+{
+    // These values are set within unity.
+    public int ColumnId;
+    public int RowId;
+    // The three gameobjects below are prefabs of corresponding objects. ArcherRed-Prefab, ArcherBlue-Prefab, Grass-Prefab, etc.
+    // Each of these prefabs should have the corresponding script attached e.g. BuildingGameObject, UnitGameObject or EnvironmentGameObject.
+    // And be set within the unity environment.
+    public EnvironmentGameObject environmentGameObject;
+    public BuildingGameObject buildingGameObject;
+    public UnitGameObject unitGameObject;
+
+    public TileCoordinates coordinate { get; private set; }
+
+    void Start()
+    {
+        coordinate = new TileCoordinates(ColumnId, RowId);
+        GameManager.Instance.AddTile(this);
+    }
 }

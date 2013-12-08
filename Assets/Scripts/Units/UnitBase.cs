@@ -3,8 +3,9 @@ using System.Collections;
 
 public abstract class UnitBase {
 
-    protected UnitBase(int health, float damage, int attackRange, int baseAttackRange, int moveRange)
+    protected UnitBase(UnitGameObject game, int health, float damage, int attackRange, int baseAttackRange, int moveRange)
     {
+        this.unitGameObject = game;
         this.hasMoved = false;
         this.hasAttacked = false;
         this.isHero = false;
@@ -22,6 +23,8 @@ public abstract class UnitBase {
     public int attackRange { get; set; }
     public int baseAttackRange { get; set; }
     public int moveRange { get; set; }
+
+    public UnitGameObject unitGameObject { get; private set; }
 
     /// <summary>
     /// Show the possible unit move locations. I think this can be done in the base class since we have acces to all

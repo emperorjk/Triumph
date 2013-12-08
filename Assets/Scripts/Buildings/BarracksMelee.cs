@@ -3,8 +3,8 @@ using System.Collections;
 
 public class BarracksMelee : BuildingsBase {
 
-    public BarracksMelee() :
-        base(20, 20)
+    public BarracksMelee(BuildingGameObject game) :
+        base(game, 20, 20)
     {
 
     }

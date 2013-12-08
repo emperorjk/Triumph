@@ -6,7 +6,7 @@ public class MenuCamera : MonoBehaviour
     public GameObject guideButton;
     public GameObject startButton;
 
-    private MenuStates currentState = MenuStates.StartState;
+    //private MenuStates currentState = MenuStates.StartState;
     private RaycastHit touchBox;
 
     void Start()

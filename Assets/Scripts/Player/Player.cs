@@ -12,6 +12,8 @@ public class Player {
     public Player(string name)
     {
         this.name = name;
+        ownedBuildings = new List<BuildingsBase>();
+        ownedUnits = new List<UnitBase>();
     }
 
     public void AddBuilding(BuildingsBase building)

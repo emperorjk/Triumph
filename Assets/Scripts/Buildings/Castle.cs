@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Castle : BuildingsBase{
 
-    public Castle() 
-        : base(50, 40)
+    public Castle(BuildingGameObject game)
+        : base(game, 50, 40)
     {
 
     }

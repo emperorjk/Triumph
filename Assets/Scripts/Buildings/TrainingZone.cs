@@ -5,8 +5,8 @@ using System.Collections;
 public class TrainingZone : BuildingsBase{
     // dit is de capture point. Deze naam vond ik toepasselijker - joey
     
-    public TrainingZone() 
-        : base(50, 20)
+    public TrainingZone(BuildingGameObject game) 
+        : base(game, 50, 20)
     {
 
     }

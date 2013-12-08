@@ -3,8 +3,8 @@ using System.Collections;
 
 public class BarracksRange : BuildingsBase {
 
-    public BarracksRange()
-        : base(20, 20)
+    public BarracksRange(BuildingGameObject game)
+        : base(game, 20, 20)
     {
 
     }

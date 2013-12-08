@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Headquarters : BuildingsBase{
 
-    public Headquarters() 
-        : base(50, 30)
+    public Headquarters(BuildingGameObject game)
+        : base(game, 50, 30)
     {
 
     }

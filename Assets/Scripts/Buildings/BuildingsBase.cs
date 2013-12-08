@@ -3,12 +3,14 @@ using System.Collections;
 
 public abstract class BuildingsBase {
 
-    protected BuildingsBase(int income, int capturePoints)
+    protected BuildingsBase(BuildingGameObject game, int income, int capturePoints)
     {
+        this.buildingGameObject = game;
         this.income = income;
         this.capturePoints = capturePoints;
     }
 
+    public BuildingGameObject buildingGameObject { get; private set; }
     public int income { get; set; }
     public int capturePoints { get; set; }
     public abstract BuildingTypes type { get; }

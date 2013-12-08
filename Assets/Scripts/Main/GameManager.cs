@@ -2,7 +2,11 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
+/// <summary>
+/// This singleton class keeps hold of the game.
+/// </summary>
 public class GameManager
 {
     #region Singleton
@@ -10,7 +14,7 @@ public class GameManager
     private GameManager() { }
     public static GameManager Instance { 
         get {
-            if (Instance == null) 
+            if (instance == null) 
             { 
                 instance = new GameManager();
                 instance.Init();
@@ -19,50 +23,69 @@ public class GameManager
         }
     }
     #endregion
-    private IList<Tile> tiles;
-    private IList<Player> players;
+    private Dictionary<int, Dictionary<int, Tile>> tiles;
+    private Dictionary<PlayerIndex, Player> players;
 
     /// <summary>
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
     /// </summary>
     private void Init()
     {
-        tiles = new List<Tile>();
-        players = new List<Player>();
+        tiles = new Dictionary<int, Dictionary<int, Tile>>();
+        players = new Dictionary<PlayerIndex, Player>();
+        players.Add(PlayerIndex.One, new Player("Player 1"));
+        players.Add(PlayerIndex.Two, new Player("Player 2"));
     }
 
     /// <summary>
-    /// Returns the tile which the unit is placed on. Returns null if it cannot find a tile.
+    /// Add a tile to the list. This methods should only be called one when a Tile GameObject is loaded when the scene starts.
     /// </summary>
-    /// <param name="unit"></param>
-    /// <returns></returns>
-    public Tile GetTile(UnitBase unit)
+    /// <param name="tile"></param>
+    public void AddTile(Tile tile)
     {
-        return tiles.First(x => x.unit.Equals(unit));
+        // Check if the second dictionary exists in the list. If not then create a new dictionary and insert this in the tiles dictionary.
+        if(!tiles.ContainsKey(tile.coordinate.ColumnId))
+        {
+            tiles.Add(tile.coordinate.ColumnId, new Dictionary<int, Tile>());
+        }
+        // Last insert the tile object into the correct spot in the dictionarys. Since we now know that both dictionary at these keys exist.
+        tiles[tile.coordinate.ColumnId].Add(tile.coordinate.RowId, tile);
     }
 
     /// <summary>
-    /// Returns the tile which the building is placed on. Returns null if it cannot find a tile.
+    /// Removes all entrys from the tiles dictionary. Should be called before a new scene (level) starts to load. So no old references exists when new Tile are added to the list.
     /// </summary>
-    /// <param name="building"></param>
-    /// <returns></returns>
-    public Tile GetTile(BuildingsBase building)
+    public void ClearTilesDictionary()
     {
-        return tiles.First(x => x.building.Equals(building));
+        tiles.Clear();
     }
 
     /// <summary>
-    /// Returns the tile which the environment is placed on. Returns null if it cannot find a tile.
+    /// Returns the tile with via the given TileCoordinates from the tiles dictionary. Or an KeyNotFoundException if either of the keys is not found.
     /// </summary>
-    /// <param name="environment"></param>
+    /// <param name="coor"></param>
     /// <returns></returns>
-    public Tile GetTile(EnvironmentBase environment)
+    public Tile GetTile(TileCoordinates coor)
     {
-        return tiles.First(x => x.environment.Equals(environment));
+        if(tiles.ContainsKey(coor.ColumnId) && tiles[coor.ColumnId].ContainsKey(coor.RowId))
+        {
+            return tiles[coor.ColumnId][coor.RowId];
+        }
+        throw new KeyNotFoundException("The Tile was not found given the specified coordinates, YOU FOOL!!");
     }
 
-    public Player GetPlayer(string name)
+    /// <summary>
+    /// Returns the player object by the given PlayerIndex enum.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public Player GetPlayer(PlayerIndex index)
     {
-        return players.First(x => x.name.Equals(name));
+        if(!Enum.IsDefined(typeof(PlayerIndex), index))
+        {
+            throw new KeyNotFoundException("The given playerIndex was not found. Give me a correct PlayerIndex or suffer the consequences.");
+        }
+        Debug.Log("return player object.");
+        return players[index];
     }
 }
