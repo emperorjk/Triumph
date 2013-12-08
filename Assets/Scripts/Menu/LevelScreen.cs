@@ -11,10 +11,10 @@ public class LevelScreen : MonoBehaviour
     {
         if (MenuManager.activeMenuState == MenuStates.LevelState)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             if (Input.GetMouseButtonDown(0))
             {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
                 if (Physics.Raycast(ray, out touchBox))
                 {
                     foreach (GameObject level in levels)
@@ -22,10 +22,20 @@ public class LevelScreen : MonoBehaviour
                         if (touchBox.collider == level.collider)
                         {
                             Debug.Log(level.name);
+
+                            if (level.name == "level1")
+                            {
+                                Application.LoadLevel(1);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MenuManager.Instance.BackToMenu();
         }
 	}
 }
