@@ -9,21 +9,16 @@ public class MenuCamera : MonoBehaviour
     private MenuStates currentState = MenuStates.StartState;
     private RaycastHit touchBox;
 
-    void Start()
-    {
-        
-    }
-
 	void Update () 
     {
         if (MenuManager.activeMenuState == MenuStates.StartState)
         {
-            ButtonClicked();
+            ButtonClick();
         }
 
 	}
 
-    private void ButtonClicked()
+    private void ButtonClick()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
