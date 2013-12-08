@@ -21,12 +21,7 @@ public class LevelScreen : MonoBehaviour
                     {
                         if (touchBox.collider == level.collider)
                         {
-                            Debug.Log(level.name);
-
-                            if (level.name == "level1")
-                            {
-                                Application.LoadLevel(1);
-                            }
+                            LoadLevel(level.name);
                         }
                     }
                 }
@@ -38,4 +33,12 @@ public class LevelScreen : MonoBehaviour
             MenuManager.Instance.BackToMenu();
         }
 	}
+
+    void LoadLevel(string name)
+    {
+        char levelCharIndex = name[name.Length - 1];
+        int levelIndexInInt = levelCharIndex - '0';
+
+        Application.LoadLevel(levelIndexInInt);
+    }
 }
