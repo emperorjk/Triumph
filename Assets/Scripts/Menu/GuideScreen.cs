@@ -16,13 +16,15 @@ public class GuideScreen : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                MenuManager.Instance.BackToMenu();
-                activeScreen = 0;
+                GameObject.Find("Guide").GetComponent<AudioSource>().Play();
 
                 // reset images and activeScreen to 0
+                activeScreen = 0;
                 GameObject.Find("CaptureZoneGuide").renderer.enabled = false;
                 GameObject.Find("TilesGuide").renderer.enabled = false;
                 GameObject.Find("ForwardButton").renderer.enabled = true;
+
+                MenuManager.Instance.BackToMenu();
             }
 
             if (Input.GetMouseButtonDown(0))

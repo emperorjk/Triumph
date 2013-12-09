@@ -26,16 +26,19 @@ public class LevelScreen : MonoBehaviour
                     }
                 }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            MenuManager.Instance.BackToMenu();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                GameObject.Find("Level").GetComponents<AudioSource>()[1].Play();
+
+                MenuManager.Instance.BackToMenu();
+            }
         }
 	}
 
     void LoadLevel(string name)
     {
+        GameObject.Find("Level").GetComponents<AudioSource>()[0].Play();
         char levelCharIndex = name[name.Length - 1];
         int levelIndexInInt = levelCharIndex - '0';
 

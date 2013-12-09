@@ -30,11 +30,13 @@ public class MenuCamera : MonoBehaviour
                 {
                     Camera.main.transform.position = MenuManager.Instance.menuPositions[1];
                     MenuManager.activeMenuState = MenuStates.LevelState;
+                    GameObject.Find("StartButton").audio.Play();
                 }
                 else if (touchBox.collider == guideButton.collider)
                 {
                     Camera.main.transform.position = MenuManager.Instance.menuPositions[2];
                     MenuManager.activeMenuState = MenuStates.GuideState;
+                    GameObject.Find("GuideButton").audio.Play();
                 }
             }
         }
