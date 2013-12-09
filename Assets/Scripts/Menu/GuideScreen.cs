@@ -17,6 +17,12 @@ public class GuideScreen : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Escape))
             {
                 MenuManager.Instance.BackToMenu();
+                activeScreen = 0;
+
+                // reset images and activeScreen to 0
+                GameObject.Find("CaptureZoneGuide").renderer.enabled = false;
+                GameObject.Find("TilesGuide").renderer.enabled = false;
+                GameObject.Find("ForwardButton").renderer.enabled = true;
             }
 
             if (Input.GetMouseButtonDown(0))
