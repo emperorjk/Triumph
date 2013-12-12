@@ -25,6 +25,7 @@ public class GameManager
     #endregion
     private Dictionary<int, Dictionary<int, Tile>> tiles;
     private Dictionary<PlayerIndex, Player> players;
+    private bool isAudioOn = true;
 
     /// <summary>
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
@@ -35,6 +36,16 @@ public class GameManager
         players = new Dictionary<PlayerIndex, Player>();
         players.Add(PlayerIndex.One, new Player("Player 1"));
         players.Add(PlayerIndex.Two, new Player("Player 2"));
+    }
+
+    public void ChangeAudio(bool audio)
+    {
+        isAudioOn = audio;
+    }
+
+    public bool IsAudioOn()
+    {
+        return isAudioOn;
     }
 
     /// <summary>
