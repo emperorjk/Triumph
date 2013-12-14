@@ -26,6 +26,7 @@ public class GameManager
     private Dictionary<int, Dictionary<int, Tile>> tiles;
     private Dictionary<PlayerIndex, Player> players;
     private bool isAudioOn = true;
+    private bool isQuitMenuOn = false;
 
     /// <summary>
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
@@ -46,6 +47,16 @@ public class GameManager
     public bool IsAudioOn()
     {
         return isAudioOn;
+    }
+
+    public void ChangeQuitMenuOn(bool quitMenu)
+    {
+        isQuitMenuOn = quitMenu;
+    }
+
+    public bool IsQuitMenuOn()
+    {
+        return isQuitMenuOn;
     }
 
     /// <summary>

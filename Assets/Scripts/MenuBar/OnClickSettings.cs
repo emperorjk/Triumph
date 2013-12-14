@@ -8,7 +8,16 @@ public class OnClickSettings : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) 
         {
-            Debug.Log("Settings knop, where is that image..");
+            if (!GameManager.Instance.IsQuitMenuOn())
+            {
+                this.gameObject.transform.FindChild("Quit").gameObject.SetActive(true);
+                GameManager.Instance.ChangeQuitMenuOn(true);
+            }
+            else if (GameManager.Instance.IsQuitMenuOn())
+            {
+                this.gameObject.transform.FindChild("Quit").gameObject.SetActive(false);
+                GameManager.Instance.ChangeQuitMenuOn(false);
+            }
         }
     }
 }
