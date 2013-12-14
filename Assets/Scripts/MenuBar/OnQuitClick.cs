@@ -16,6 +16,4 @@ public class OnQuitClick : MonoBehaviour
             GameManager.Instance.ChangeQuitMenuOn(false);
         }
     }
-
-
 }
