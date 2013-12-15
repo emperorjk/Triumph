@@ -19,5 +19,7 @@ public class EnvironmentGameObject : MonoBehaviour
         else if (type.Equals(EnvironmentTypes.Road)) { environmentGame = new Road(this); }
         else if (type.Equals(EnvironmentTypes.Small_Rocks)) { environmentGame = new Small_Rocks(this); }
         else if (type.Equals(EnvironmentTypes.Water)) { environmentGame = new Water(this); }
+
+        GetComponent<SpriteRenderer>().sprite = environmentGame.sprite;
 	}
 }

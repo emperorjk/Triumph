@@ -21,5 +21,7 @@ public class BuildingGameObject : MonoBehaviour
         else if (type.Equals(BuildingTypes.Headquarters)) { buildingGame = new Headquarters(this); }
         else if (type.Equals(BuildingTypes.TrainingZone)) { buildingGame = new TrainingZone(this); }
         GameManager.Instance.GetPlayer(index).AddBuilding(buildingGame);
+
+        GetComponent<SpriteRenderer>().sprite = buildingGame.sprite;
 	}
 }

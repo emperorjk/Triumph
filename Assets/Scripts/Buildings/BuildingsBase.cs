@@ -9,7 +9,10 @@ public abstract class BuildingsBase {
         this.income = income;
         this.capturePoints = capturePoints;
     }
-
+    /// <summary>
+    /// Returns the sprite. Might change to texture or texture 2d if needed. For now this works.
+    /// </summary>
+    public abstract Sprite sprite { get; protected set; }
     public BuildingGameObject buildingGameObject { get; private set; }
     public int income { get; set; }
     public int capturePoints { get; set; }

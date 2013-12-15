@@ -12,4 +12,16 @@ public class Small_Rocks : EnvironmentBase
     {
         get { return EnvironmentTypes.Small_Rocks; }
     }
+
+    public override Sprite sprite
+    {
+        get
+        {
+            throw new System.NotImplementedException();
+        }
+        protected set
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }

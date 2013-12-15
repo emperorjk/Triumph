@@ -24,6 +24,10 @@ public abstract class UnitBase {
     public int baseAttackRange { get; set; }
     public int moveRange { get; set; }
 
+    /// <summary>
+    /// Returns the sprite. Might change to texture or texture 2d if needed. For now this works.
+    /// </summary>
+    public abstract Sprite sprite { get; protected set; }
     public UnitGameObject unitGameObject { get; private set; }
 
     /// <summary>

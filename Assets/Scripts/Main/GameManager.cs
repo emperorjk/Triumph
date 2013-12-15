@@ -124,7 +124,6 @@ public class GameManager
         {
             throw new KeyNotFoundException("The given playerIndex was not found. Give me a correct PlayerIndex or suffer the consequences.");
         }
-        Debug.Log("return player object.");
         return players[index];
     }
 

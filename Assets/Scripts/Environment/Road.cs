@@ -12,4 +12,16 @@ public class Road : EnvironmentBase
     {
         get { return EnvironmentTypes.Road; }
     }
+
+    public override Sprite sprite
+    {
+        get
+        {
+            throw new System.NotImplementedException();
+        }
+        protected set
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }
