@@ -27,7 +27,7 @@ public class GameLoop : MonoBehaviour {
                 _tapTimer -= Time.deltaTime;
             }
 
-            if (Input.touchCount == 1 || Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (_tapTimer >= 0)
                 {
@@ -50,7 +50,7 @@ public class GameLoop : MonoBehaviour {
         }
         else if (_manager.isDoneButtonActive)
         {
-            if (Input.touchCount == 1 || Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
