@@ -13,7 +13,8 @@ public class GameManager
     private static GameManager instance;
     private GameManager() { }
     public static GameManager Instance { 
-        get {
+        get 
+        {
             if (instance == null) 
             { 
                 instance = new GameManager();
@@ -27,6 +28,11 @@ public class GameManager
     private Dictionary<PlayerIndex, Player> players;
     private bool isAudioOn = true;
     private bool isQuitMenuOn = false;
+    private Player currentPlayer;
+    private int currentTurn = 1;
+    private TextMesh currentTurnText;
+    private TextMesh playerText;
+    public bool isDoneButtonActive = false;
 
     /// <summary>
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
@@ -37,8 +43,18 @@ public class GameManager
         players = new Dictionary<PlayerIndex, Player>();
         players.Add(PlayerIndex.One, new Player("Player 1"));
         players.Add(PlayerIndex.Two, new Player("Player 2"));
+
+        currentPlayer = players[PlayerIndex.One];
+
+        // getting the TextMesh components and setting the player name + current turn
+        playerText = GameObject.Find("PlayerName").gameObject.GetComponent<TextMesh>();
+        playerText.text = "Player: " + currentPlayer.name;
+
+        currentTurnText = GameObject.Find("Turn").gameObject.GetComponent<TextMesh>();
+        currentTurnText.text = "Turn: " + currentTurn.ToString();
     }
 
+    #region menubar
     public void ChangeAudio(bool audio)
     {
         isAudioOn = audio;
@@ -58,6 +74,7 @@ public class GameManager
     {
         return isQuitMenuOn;
     }
+    #endregion
 
     /// <summary>
     /// Add a tile to the list. This methods should only be called one when a Tile GameObject is loaded when the scene starts.
@@ -109,5 +126,22 @@ public class GameManager
         }
         Debug.Log("return player object.");
         return players[index];
+    }
+
+    public void NextPlayer()
+    {
+        currentTurn++;
+        currentTurnText.text = "Turn: " + currentTurn.ToString();
+
+        if (currentPlayer == players[PlayerIndex.One])
+        {
+            currentPlayer = players[PlayerIndex.Two];
+            playerText.text = "Player: " + currentPlayer.name; 
+        }
+        else 
+        {
+            currentPlayer = players[PlayerIndex.One];
+            playerText.text = "Player: " + currentPlayer.name; 
+        }
     }
 }
