@@ -1,21 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuCamera : MonoBehaviour
+public class StartScreen : MonoBehaviour
 {
     public GameObject guideButton;
     public GameObject startButton;
-
-    //private MenuStates currentState = MenuStates.StartState;
     private RaycastHit touchBox;
 
 	void Update () 
     {
-        if (MenuManager.activeMenuState == MenuStates.StartState)
-        {
-            ButtonClick();
-        }
-
+        ButtonClick();
 	}
 
     private void ButtonClick()
@@ -28,14 +22,12 @@ public class MenuCamera : MonoBehaviour
             {
                 if (touchBox.collider == startButton.collider)
                 {
-                    Camera.main.transform.position = MenuManager.Instance.menuPositions[1];
-                    MenuManager.activeMenuState = MenuStates.LevelState;
+                    MenuManager.Instance.ChangeMenuScreen(MenuStates.LevelState);
                     GameObject.Find("StartButton").audio.Play();
                 }
                 else if (touchBox.collider == guideButton.collider)
                 {
-                    Camera.main.transform.position = MenuManager.Instance.menuPositions[2];
-                    MenuManager.activeMenuState = MenuStates.GuideState;
+                    MenuManager.Instance.ChangeMenuScreen(MenuStates.GuideState);
                     GameObject.Find("GuideButton").audio.Play();
                 }
             }

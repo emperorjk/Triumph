@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 public class MenuManager 
 {
     private static MenuManager instance;
-    public Vector3[] menuPositions { get; private set; }
+    public Dictionary<MenuStates, GameObject> menuPositions { get; private set; }
 
     public static MenuStates activeMenuState { get; set; }
 
@@ -21,31 +24,44 @@ public class MenuManager
             {
                 instance = new MenuManager();
             }
-
             return instance;
         }
     }
 
     private void MenuPositions()
     {
-        menuPositions = new Vector3[3];
-        Vector3 startScreen = GameObject.FindGameObjectWithTag("BackgroundStart").renderer.bounds.center;
-        Vector3 levelScreen = GameObject.FindGameObjectWithTag("BackgroundLevel").renderer.bounds.center;
-        Vector3 guideScreen = GameObject.FindGameObjectWithTag("BackgroundGuide").renderer.bounds.center;
+        menuPositions = new Dictionary<MenuStates, GameObject>();   
 
-        // set all z values to zero otherwise the camera has the same z value as the background image
-        levelScreen.z = 0;
-        guideScreen.z = 0;
-        startScreen.z = 0;
+        GameObject startScreen = GameObject.FindGameObjectWithTag("BackgroundStart");
+        GameObject levelScreen = GameObject.FindGameObjectWithTag("BackgroundLevel");
+        GameObject guideScreen = GameObject.FindGameObjectWithTag("BackgroundGuide");
 
-        menuPositions[0] = startScreen;
-        menuPositions[1] = levelScreen;
-        menuPositions[2] = guideScreen;
+        menuPositions.Add(MenuStates.StartState, startScreen);
+        menuPositions.Add(MenuStates.LevelState, levelScreen);
+        menuPositions.Add(MenuStates.GuideState, guideScreen);
     }
 
-    public void BackToMenu()
+    public void ChangeMenuScreen(MenuStates menu)
     {
-        Camera.main.transform.position = MenuManager.Instance.menuPositions[0];
-        MenuManager.activeMenuState = MenuStates.StartState;
+        SetScripts(activeMenuState, false);
+        activeMenuState = menu;
+        SetScripts(menu, true);
+        Camera.main.transform.position = menuPositions[menu].renderer.bounds.center - new Vector3(0,0,1);
+    }
+
+    private void SetScripts(MenuStates state, bool active)
+    {
+        if (state == MenuStates.StartState) 
+        { 
+            menuPositions[state].transform.parent.GetComponent<StartScreen>().enabled = active;
+        }
+        else if (state == MenuStates.GuideState) 
+        { 
+            menuPositions[state].transform.parent.GetComponent<GuideScreen>().enabled = active; 
+        }
+        else if (state == MenuStates.LevelState) 
+        { 
+            menuPositions[state].transform.parent.GetComponent<LevelScreen>().enabled = active; 
+        }
     }
 }

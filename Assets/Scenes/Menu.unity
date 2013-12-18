@@ -85,7 +85,7 @@ GameObject:
   - 212: {fileID: 22746844}
   - 65: {fileID: 22746845}
   m_Layer: 0
-  m_Name: level5
+  m_Name: Level5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ GameObject:
   - 212: {fileID: 90409613}
   - 65: {fileID: 90409614}
   m_Layer: 0
-  m_Name: level2
+  m_Name: Level2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -208,6 +208,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 168498985}
+  - 114: {fileID: 168498986}
   m_Layer: 0
   m_Name: Start
   m_TagString: Untagged
@@ -229,6 +230,19 @@ Transform:
   - {fileID: 427758149}
   - {fileID: 1211317432}
   m_Father: {fileID: 0}
+--- !u!114 &168498986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 168498984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e124df043f5eb4681b51fff9b0f496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guideButton: {fileID: 916575180}
+  startButton: {fileID: 384160014}
 --- !u!1 &384160014
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +433,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 450653936}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ec4e6ea92d026d468fa32d2720a8857, type: 3}
   m_Name: 
@@ -545,7 +559,7 @@ GameObject:
   - 212: {fileID: 770217211}
   - 65: {fileID: 770217212}
   m_Layer: 0
-  m_Name: level4
+  m_Name: Level4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -671,7 +685,7 @@ GameObject:
   - 212: {fileID: 905033990}
   - 65: {fileID: 905033991}
   m_Layer: 0
-  m_Name: level6
+  m_Name: Level6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -887,7 +901,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 926828760}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d39d47b934f5704cb081e6652944101, type: 3}
   m_Name: 
@@ -1026,7 +1040,7 @@ GameObject:
   - 212: {fileID: 968392598}
   - 65: {fileID: 968392599}
   m_Layer: 0
-  m_Name: level1
+  m_Name: Level1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1352,7 +1366,7 @@ GameObject:
   - 212: {fileID: 1816499368}
   - 65: {fileID: 1816499369}
   m_Layer: 0
-  m_Name: level3
+  m_Name: Level3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1516,7 +1530,6 @@ GameObject:
   - 92: {fileID: 2067944533}
   - 124: {fileID: 2067944532}
   - 81: {fileID: 2067944531}
-  - 114: {fileID: 2067944536}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1585,16 +1598,3 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!114 &2067944536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2067944530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb4b0108fe7403a4c97052fa5473c504, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  guideButton: {fileID: 916575180}
-  startButton: {fileID: 384160014}

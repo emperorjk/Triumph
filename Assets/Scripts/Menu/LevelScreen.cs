@@ -9,39 +9,32 @@ public class LevelScreen : MonoBehaviour
 
 	void Update () 
     {
-        if (MenuManager.activeMenuState == MenuStates.LevelState)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out touchBox))
+            if (Physics.Raycast(ray, out touchBox))
+            {
+                foreach (GameObject level in levels)
                 {
-                    foreach (GameObject level in levels)
+                    if (touchBox.collider == level.collider)
                     {
-                        if (touchBox.collider == level.collider)
-                        {
-                            LoadLevel(level.name);
-                        }
+                        LoadLevel(level.name);
                     }
                 }
             }
+        }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                GameObject.Find("Level").GetComponents<AudioSource>()[1].Play();
-
-                MenuManager.Instance.BackToMenu();
-            }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameObject.Find("Level").GetComponents<AudioSource>()[1].Play();
+            MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
         }
 	}
 
     void LoadLevel(string name)
     {
         GameObject.Find("Level").GetComponents<AudioSource>()[0].Play();
-        char levelCharIndex = name[name.Length - 1];
-        int levelIndexInInt = levelCharIndex - '0';
-
-        Application.LoadLevel(levelIndexInInt);
+        Application.LoadLevel(name);
     }
 }

@@ -44,3 +44,15 @@ TagManager:
     userID: 0
     uniqueID: 0
     locked: 0
+  - name: Environments
+    userID: 1
+    uniqueID: 4168519637
+    locked: 0
+  - name: Buildings
+    userID: 2
+    uniqueID: 3332194201
+    locked: 0
+  - name: Units
+    userID: 3
+    uniqueID: 4045587811
+    locked: 0

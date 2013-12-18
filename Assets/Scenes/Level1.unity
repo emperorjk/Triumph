@@ -1863,7 +1863,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 71f1272d04fcfa244b8cda7afb102a84, type: 2}
       propertyPath: index
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 71f1272d04fcfa244b8cda7afb102a84, type: 2}
@@ -5659,7 +5659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c68616fdb100bb419d49b57efcb86f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 2
+  index: 1
   type: 0
 --- !u!212 &1756765578
 SpriteRenderer:
@@ -5680,9 +5680,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 0
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 4045587811
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1759802804
