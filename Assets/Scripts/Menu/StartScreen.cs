@@ -7,6 +7,12 @@ public class StartScreen : MonoBehaviour
     public GameObject startButton;
     private RaycastHit touchBox;
 
+
+    void Start()
+    {
+        MenuManager.Instance.MenuPositions();
+    }
+
 	void Update () 
     {
         ButtonClick();

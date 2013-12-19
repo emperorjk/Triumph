@@ -8,13 +8,7 @@ public class MenuManager
 {
     private static MenuManager instance;
     public Dictionary<MenuStates, GameObject> menuPositions { get; private set; }
-
     public static MenuStates activeMenuState { get; set; }
-
-    private MenuManager() 
-    {
-        MenuPositions();
-    }
 
     public static MenuManager Instance
     {
@@ -28,7 +22,7 @@ public class MenuManager
         }
     }
 
-    private void MenuPositions()
+    public void MenuPositions()
     {
         menuPositions = new Dictionary<MenuStates, GameObject>();   
 
@@ -60,8 +54,8 @@ public class MenuManager
             menuPositions[state].transform.parent.GetComponent<GuideScreen>().enabled = active; 
         }
         else if (state == MenuStates.LevelState) 
-        { 
-            menuPositions[state].transform.parent.GetComponent<LevelScreen>().enabled = active; 
+        {
+            menuPositions[state].transform.parent.GetComponent<LevelScreen>().enabled = active;             
         }
     }
 }
