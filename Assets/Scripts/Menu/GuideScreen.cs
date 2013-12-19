@@ -4,11 +4,14 @@ using System.Collections.Generic;
 
 public class GuideScreen : MonoBehaviour
 {
+    public List<Sprite> guideScreenSprites;
     public GameObject forwardButton;
     public GameObject backwardButton;
 
     private RaycastHit touchBox;
     private int activeScreen;
+
+
 
     void Update()
     {
@@ -18,8 +21,6 @@ public class GuideScreen : MonoBehaviour
 
             // reset images and activeScreen to 0
             activeScreen = 0;
-            GameObject.Find("CaptureZoneGuide").renderer.enabled = false;
-            GameObject.Find("TilesGuide").renderer.enabled = false;
             GameObject.Find("ForwardButton").renderer.enabled = true;
 
             MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
@@ -33,39 +34,29 @@ public class GuideScreen : MonoBehaviour
             {
                 if (touchBox.collider == forwardButton.collider)
                 {
-                    if (activeScreen == 0)
+                    activeScreen++;
+                    if (activeScreen >= guideScreenSprites.Count -1)
                     {
-                        activeScreen++;
-                        GameObject.Find("CaptureZoneGuide").renderer.enabled = true;
+                        activeScreen = guideScreenSprites.Count - 1;
+                        forwardButton.renderer.enabled = false;
                     }
-                    else if (activeScreen == 1)
-                    {
-                        activeScreen++;
-                        GameObject.Find("CaptureZoneGuide").renderer.enabled = false;
-                        GameObject.Find("TilesGuide").renderer.enabled = true;
-                        GameObject.Find("ForwardButton").renderer.enabled = false;
-                    }
+
+                    GameObject.Find("GuideScreen").GetComponent<SpriteRenderer>().sprite = guideScreenSprites[activeScreen];
                 }
                 else if (touchBox.collider == backwardButton.collider)
                 {
-                    if (activeScreen == 0)
+                    activeScreen--;
+                    if (activeScreen < 0)
                     {
-                        //MenuManager.Instance.BackToMenu();
                         MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
+                        activeScreen = 0;
                     }
-                    else if (activeScreen == 1)
+                    if(activeScreen < 3)
                     {
-                        activeScreen--;
-                        GameObject.Find("CaptureZoneGuide").renderer.enabled = false;
-                        GameObject.Find("TilesGuide").renderer.enabled = false;
+                        forwardButton.renderer.enabled = true;
                     }
-                    else if (activeScreen == 2)
-                    {
-                        activeScreen--;
-                        GameObject.Find("CaptureZoneGuide").renderer.enabled = true;
-                        GameObject.Find("TilesGuide").renderer.enabled = false;
-                        GameObject.Find("ForwardButton").renderer.enabled = true;
-                    }
+
+                    GameObject.Find("GuideScreen").GetComponent<SpriteRenderer>().sprite = guideScreenSprites[activeScreen];
                 }
             }
         }
