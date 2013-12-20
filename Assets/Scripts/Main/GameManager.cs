@@ -26,55 +26,29 @@ public class GameManager
     #endregion
     private Dictionary<int, Dictionary<int, Tile>> tiles;
     private Dictionary<PlayerIndex, Player> players;
-    private bool isAudioOn = true;
-    private bool isQuitMenuOn = false;
+    public bool isAudioOn { get; set; }
+    public bool isQuitMenuOn { get; set; }
+    public bool isDoneButtonActive { get; set; }
     private Player currentPlayer;
     private int currentTurn = 1;
     private TextMesh currentTurnText;
     private TextMesh playerText;
-    public bool isDoneButtonActive = false;
 
     /// <summary>
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
     /// </summary>
     private void Init()
-    {
+    {	
+		isAudioOn = true;
+        isQuitMenuOn = false;
+        isDoneButtonActive = false;
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
         players = new Dictionary<PlayerIndex, Player>();
         players.Add(PlayerIndex.One, new Player("Player 1"));
         players.Add(PlayerIndex.Two, new Player("Player 2"));
 
         currentPlayer = players[PlayerIndex.One];
-
-        // getting the TextMesh components and setting the player name + current turn
-        playerText = GameObject.Find("PlayerName").gameObject.GetComponent<TextMesh>();
-        playerText.text = "Player: " + currentPlayer.name;
-
-        currentTurnText = GameObject.Find("Turn").gameObject.GetComponent<TextMesh>();
-        currentTurnText.text = "Turn: " + currentTurn.ToString();
     }
-
-    #region menubar
-    public void ChangeAudio(bool audio)
-    {
-        isAudioOn = audio;
-    }
-
-    public bool IsAudioOn()
-    {
-        return isAudioOn;
-    }
-
-    public void ChangeQuitMenuOn(bool quitMenu)
-    {
-        isQuitMenuOn = quitMenu;
-    }
-
-    public bool IsQuitMenuOn()
-    {
-        return isQuitMenuOn;
-    }
-    #endregion
 
     /// <summary>
     /// Add a tile to the list. This methods should only be called one when a Tile GameObject is loaded when the scene starts.
@@ -126,6 +100,20 @@ public class GameManager
             throw new KeyNotFoundException("The given playerIndex was not found. Give me a correct PlayerIndex or suffer the consequences.");
         }
         return players[index];
+    }
+	
+	/// <summary>
+    /// Perhaps a more cleaner system where a class holds all of the level specific data. For now this method needs to be called whenever a level scene is loaded. If loaded from
+    /// the menu errors will come forth.
+    /// </summary>
+    public void SetupLevel()
+    {
+        // getting the TextMesh components and setting the player name + current turn
+        playerText = GameObject.Find("PlayerName").gameObject.GetComponent<TextMesh>();
+        playerText.text = "Player: " + currentPlayer.name;
+
+        currentTurnText = GameObject.Find("Turn").gameObject.GetComponent<TextMesh>();
+        currentTurnText.text = "Turn: " + currentTurn.ToString();
     }
 
     public void NextPlayer()

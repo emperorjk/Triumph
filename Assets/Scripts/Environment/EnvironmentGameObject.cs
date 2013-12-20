@@ -9,6 +9,7 @@ public class EnvironmentGameObject : MonoBehaviour
 {
     public EnvironmentTypes type;
     public EnvironmentBase environmentGame { get; private set; }
+    public Tile tile { get; set; }
 
 	void Start () {
         // for now ugly code
@@ -19,7 +20,5 @@ public class EnvironmentGameObject : MonoBehaviour
         else if (type.Equals(EnvironmentTypes.Road)) { environmentGame = new Road(this); }
         else if (type.Equals(EnvironmentTypes.Small_Rocks)) { environmentGame = new Small_Rocks(this); }
         else if (type.Equals(EnvironmentTypes.Water)) { environmentGame = new Water(this); }
-
-        GetComponent<SpriteRenderer>().sprite = environmentGame.sprite;
 	}
 }

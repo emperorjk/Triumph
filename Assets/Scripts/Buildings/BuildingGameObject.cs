@@ -11,7 +11,7 @@ public class BuildingGameObject : MonoBehaviour
     public PlayerIndex index;
     public BuildingTypes type;
     public BuildingsBase buildingGame { get; private set; }
-
+    public Tile tile { get; set; }
 	void Start () {
         // for now ugly code
         if (type.Equals(BuildingTypes.BarracksCavalry)) { buildingGame = new BarracksCavalry(this); }
@@ -21,7 +21,5 @@ public class BuildingGameObject : MonoBehaviour
         else if (type.Equals(BuildingTypes.Headquarters)) { buildingGame = new Headquarters(this); }
         else if (type.Equals(BuildingTypes.TrainingZone)) { buildingGame = new TrainingZone(this); }
         GameManager.Instance.GetPlayer(index).AddBuilding(buildingGame);
-
-        GetComponent<SpriteRenderer>().sprite = buildingGame.sprite;
 	}
 }

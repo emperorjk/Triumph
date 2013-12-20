@@ -10,8 +10,9 @@ GameObject:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
-  m_Name: UnitSpritePrefab
+  m_Name: EnvironmentSpritePrefab_template
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,11 +37,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c68616fdb100bb419d49b57efcb86f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 6290cfaf5d428a14e82573aed7472f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 1
   type: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColumnId: 0
+  RowId: 0
+  environmentGameObject: {fileID: 0}
+  buildingGameObject: {fileID: 0}
+  unitGameObject: {fileID: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -59,9 +75,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 3
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_SortingLayerID: 4045587811
+  m_SortingLayerID: 4168519637
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000

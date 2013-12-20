@@ -8,19 +8,19 @@ public class OnClickAudio : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) 
         {
-            if (GameManager.Instance.IsAudioOn())
+            if (GameManager.Instance.isAudioOn)
             {
                 this.gameObject.renderer.material = (Material)Resources.Load("Textures/IngameMenu/Materials/speaker_off");
 
                 AudioListener.pause = true;
-                GameManager.Instance.ChangeAudio(false);
+                GameManager.Instance.isAudioOn = false;
             }
-            else if (!GameManager.Instance.IsAudioOn())
+            else if (!GameManager.Instance.isAudioOn)
             {
                 this.gameObject.renderer.material  = (Material)Resources.Load("Textures/IngameMenu/Materials/speaker_on");
 
                 AudioListener.pause = false;
-                GameManager.Instance.ChangeAudio(true);
+                GameManager.Instance.isAudioOn = true;
             }
         }
     }

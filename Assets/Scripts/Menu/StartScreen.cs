@@ -11,6 +11,8 @@ public class StartScreen : MonoBehaviour
     void Start()
     {
         MenuManager.Instance.MenuPositions();
+        MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
+        GameManager.Instance.ClearTilesDictionary();
     }
 
 	void Update () 

@@ -8,7 +8,7 @@ public class MenuManager
 {
     private static MenuManager instance;
     public Dictionary<MenuStates, GameObject> menuPositions { get; private set; }
-    public static MenuStates activeMenuState { get; set; }
+    public MenuStates activeMenuState { get; set; }
 
     public static MenuManager Instance
     {

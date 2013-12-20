@@ -51,7 +51,7 @@ public class GuideScreen : MonoBehaviour
                         MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
                         activeScreen = 0;
                     }
-                    if(activeScreen < 3)
+                    if(activeScreen < guideScreenSprites.Count)
                     {
                         forwardButton.renderer.enabled = true;
                     }

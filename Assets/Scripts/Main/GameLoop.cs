@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// Replace PossibleLocations with TileCoordinates? Has the same content and its used to get tile etc.
 public struct PossibleLocations 
 {
     public int x { get; private set; }
@@ -37,7 +38,8 @@ public class GameLoop : MonoBehaviour {
 	void Start () 
     {
         _manager = GameManager.Instance;
-
+		_manager.SetupLevel();
+		
         rangeTiles = new Dictionary<int, PossibleLocations[]>();
         tilesRangeOne = new PossibleLocations[4];
         tilesRangeTwo = new PossibleLocations[12];
@@ -179,8 +181,8 @@ public class GameLoop : MonoBehaviour {
         tilesRangeThree[21] = new PossibleLocations(1, -2);
         tilesRangeThree[22] = new PossibleLocations(-2, -1);
         tilesRangeThree[23] = new PossibleLocations(-1, -2);
-
-        for (int i = 0; i < 25; i++)
+        // changed i < 25 to i < 24 because it gave a out of index exception. perhaps using Count?
+        for (int i = 0; i < 24; i++)
         {
             tilesRangeFour[i] = tilesRangeThree[i];
         }

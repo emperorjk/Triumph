@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21200000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: EnvironmentSpritePrefab
+  m_Name: ArcherBlueHeroPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,10 +36,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d96283f1c1ddf0649835b19b32f2e57b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f8c7a3ef077c134d9003b45faa0df20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
+  index: 1
+  type: 0
+  isHero: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -58,10 +60,10 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_SortingLayerID: 4168519637
-  m_Sprite: {fileID: 0}
+  m_SortingLayerID: 4045587811
+  m_Sprite: {fileID: 21300000, guid: eb06e8407f781754fada1a6e3c4bd959, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
