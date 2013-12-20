@@ -110,7 +110,8 @@ public class GameManager
         {
             return tiles[coor.ColumnId][coor.RowId];
         }
-        throw new KeyNotFoundException("The Tile was not found given the specified coordinates, YOU FOOL!!");
+
+        return null;
     }
 
     /// <summary>
