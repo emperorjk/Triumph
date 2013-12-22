@@ -19,6 +19,7 @@ public class UnitGameObject : MonoBehaviour
         else if (type.Equals(UnitTypes.Knight)) { unitGame = new Knight(this); }
         else if (type.Equals(UnitTypes.Swordsman)) { unitGame = new Swordsman(this); }
         unitGame.isHero = isHero;
+        tile = this.transform.parent.GetComponent<Tile>();
         GameManager.Instance.GetPlayer(index).AddUnit(unitGame);
 	}
 }

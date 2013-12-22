@@ -6,6 +6,7 @@ TagManager:
   - BackgroundLevel
   - BackgroundStart
   - BackgroundGuide
+  - Test
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -55,4 +56,8 @@ TagManager:
   - name: Units
     userID: 3
     uniqueID: 4045587811
+    locked: 0
+  - name: GUI
+    userID: 4
+    uniqueID: 134467815
     locked: 0

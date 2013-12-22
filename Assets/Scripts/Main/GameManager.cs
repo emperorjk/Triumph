@@ -24,12 +24,15 @@ public class GameManager
         }
     }
     #endregion
-    private Dictionary<int, Dictionary<int, Tile>> tiles;
-    private Dictionary<PlayerIndex, Player> players;
+
+    public Dictionary<int, Dictionary<int, Tile>> tiles;
     public bool isAudioOn { get; set; }
     public bool isQuitMenuOn { get; set; }
     public bool isDoneButtonActive { get; set; }
-    private Player currentPlayer;
+    public Player currentPlayer { get; set; }
+    public PlayerIndex currentPlayerEnum { get; set; }
+
+    private Dictionary<PlayerIndex, Player> players;
     private int currentTurn = 1;
     private TextMesh currentTurnText;
     private TextMesh playerText;
@@ -48,6 +51,7 @@ public class GameManager
         players.Add(PlayerIndex.Two, new Player("Player 2"));
 
         currentPlayer = players[PlayerIndex.One];
+        currentPlayerEnum = PlayerIndex.One;
     }
 
     /// <summary>
@@ -124,11 +128,13 @@ public class GameManager
         if (currentPlayer == players[PlayerIndex.One])
         {
             currentPlayer = players[PlayerIndex.Two];
+            currentPlayerEnum = PlayerIndex.Two;
             playerText.text = "Player: " + currentPlayer.name; 
         }
         else 
         {
             currentPlayer = players[PlayerIndex.One];
+            currentPlayerEnum = PlayerIndex.One;
             playerText.text = "Player: " + currentPlayer.name; 
         }
     }

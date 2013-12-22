@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 // Replace PossibleLocations with TileCoordinates? Has the same content and its used to get tile etc.
+// Maybe, TileCoordinates is the coordinate of a Tile, but PossibleLocations is the locations user
+// can move or attack relative to their positions.
 public struct PossibleLocations 
 {
     public int x { get; private set; }
@@ -25,15 +27,15 @@ public class GameLoop : MonoBehaviour {
     private RaycastHit _touchBox;
     private GameObject _doneButtonGameObject;
 
-    // key = range (1, 2, 3) value = possible locations for that key
+    // key = range (1, 2, 3, 4) value = possible locations for that key
     private Dictionary<int, PossibleLocations[]> rangeTiles;
     PossibleLocations[] tilesRangeOne;
     PossibleLocations[] tilesRangeTwo;
     PossibleLocations[] tilesRangeThree;
     PossibleLocations[] tilesRangeFour;
 
-    // hardcoded tile, when we have units we need to get that tile
-    private Tile player;
+    // Last clicked unit to show range / attack
+    private Tile LastClickedUnit;
 
 	void Start () 
     {
@@ -51,41 +53,48 @@ public class GameLoop : MonoBehaviour {
 	
 	void Update ()
     {
-        // for testing purposes
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            player = _manager.GetTile(new TileCoordinates(6, 3));
-            player.transform.renderer.material.color = Color.yellow;            
-        }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            // create one range
-            ShowMovement(rangeTiles[1], Color.grey);
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            // create two range
-            ShowMovement(rangeTiles[2], Color.cyan);
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-            // create three range
-            ShowMovement(rangeTiles[3], Color.black);
-        }
-
+        MovePlayerUnit(_manager.currentPlayer);
         DoneButton();
 	}
+
+    void MovePlayerUnit(Player player)
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            foreach (UnitBase b in player.ownedUnits)
+            {
+                if (Physics.Raycast(ray, out _touchBox))
+                {
+                    if (_touchBox.collider == b.unitGameObject.collider)
+                    {
+                        if (!b.hasMoved)
+                        {
+                            // b.hasMoved = true;
+                            // int range = b.attackRange;
+
+                            LastClickedUnit = b.unitGameObject.tile;
+                            ShowMovement(rangeTiles[2], Color.cyan);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // for testing I have added a color, will use overlay image later
     void ShowMovement(PossibleLocations[] tiles, Color col)
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (tiles[i].x + player.ColumnId > 0 && tiles[i].y + player.RowId > 0)
-                _manager.GetTile(new TileCoordinates(tiles[i].x + player.ColumnId, tiles[i].y + player.RowId)).renderer.material.color = col;
+            if (tiles[i].x + LastClickedUnit.ColumnId > 0 && tiles[i].y + LastClickedUnit.RowId > 0)
+                _manager.GetTile(new TileCoordinates(tiles[i].x + LastClickedUnit.ColumnId, tiles[i].y + LastClickedUnit.RowId)).renderer.material.color = col;
         }
     }
 
+    // DoneButton click method
+    #region DoneButton
     void DoneButton()
     {
         if (!_manager.isDoneButtonActive)
@@ -140,6 +149,7 @@ public class GameLoop : MonoBehaviour {
             }
         }
     }
+    #endregion
 
     // Create range tiles only once. With these locations we can create the movement and attack range. See ShowMovement method.
     #region CreateRangeTiles

@@ -5,9 +5,11 @@ using System.Linq;
 
 public class Player {
     public string name { get; private set; }
-    public int gold{ get; private set; }
-    private IList<BuildingsBase> ownedBuildings;
-    private IList<UnitBase> ownedUnits;
+    public int gold { get; private set; }
+
+    // public? We need to get the owned units to check collider hit
+    public IList<BuildingsBase> ownedBuildings;
+    public IList<UnitBase> ownedUnits;
     
     public Player(string name)
     {
