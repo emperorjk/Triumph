@@ -40,6 +40,7 @@ public class GameLoop : MonoBehaviour {
     private List<GameObject> highLightObjects;
     private bool moveUnit = false;
     private Vector2 destionationLoc;
+    private Vector2 t;
 
 	void Start () 
     {
@@ -77,7 +78,8 @@ public class GameLoop : MonoBehaviour {
                         if (_touchBox.collider == go.collider)
                         {
                             moveUnit = true;
-                            destionationLoc = go.transform.position; 
+                            destionationLoc = go.transform.position;
+                            t = new Vector2(LastClickedUnit.transform.position.x, LastClickedUnit.transform.position.y);
                         }
                     }
                 }
@@ -102,8 +104,9 @@ public class GameLoop : MonoBehaviour {
             // Create Vector2, this is the position of the clicked unit
             // Destination Vector2 is destionationLoc
             // We need to lerp from the one to the other
-            Vector2 t = new Vector2(LastClickedUnit.transform.position.x, LastClickedUnit.transform.position.y);
-            Vector2.Lerp(t, destionationLoc, 2f);
+           
+            Vector2.Lerp(t, destionationLoc, Time.deltaTime);
+            Debug.Log(t);
         }
 
         DoneButton();
