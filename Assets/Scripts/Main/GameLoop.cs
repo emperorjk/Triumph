@@ -17,7 +17,6 @@ public struct PossibleLocations
 }
 
 public class GameLoop : MonoBehaviour {
-
     public GameObject doneButton;
 
     private GameManager _manager;
@@ -36,12 +35,18 @@ public class GameLoop : MonoBehaviour {
 
     // Last clicked unit to show range / attack
     private Tile LastClickedUnit;
+    private GameObject LastClickedUnitGameObject;
+    private bool isHightlightOn = false;
+    private List<GameObject> highLightObjects;
+    private bool moveUnit = false;
+    private Vector2 destionationLoc;
 
 	void Start () 
     {
         _manager = GameManager.Instance;
 		_manager.SetupLevel();
-		
+
+        highLightObjects = new List<GameObject>();
         rangeTiles = new Dictionary<int, PossibleLocations[]>();
         tilesRangeOne = new PossibleLocations[4];
         tilesRangeTwo = new PossibleLocations[12];
@@ -53,43 +58,91 @@ public class GameLoop : MonoBehaviour {
 	
 	void Update ()
     {
-        MovePlayerUnit(_manager.currentPlayer);
+        // If highlight is false show highlight from that player. If true then
+        // we want to move if user selects on a highlight, else disable the highlights
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isHightlightOn)
+            {
+                ShowHighLight(_manager.currentPlayer);
+            }
+            else if (isHightlightOn)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out _touchBox))
+                {
+                    foreach (GameObject go in highLightObjects)
+                    {
+                        if (_touchBox.collider == go.collider)
+                        {
+                            moveUnit = true;
+                            destionationLoc = go.transform.position; 
+                        }
+                    }
+                }
+
+                foreach (GameObject go in highLightObjects)
+                {
+                    go.SetActive(false);
+                }
+                // remake list, otherwise list gets filled with duplicates
+                highLightObjects = new List<GameObject>();
+
+                // disable current highlight
+                isHightlightOn = false;
+
+                // Call this method because we want to activate the highlight if user clicks on another unit
+                ShowHighLight(_manager.currentPlayer);
+            }
+        }
+
+        if (moveUnit)
+        {          
+            // Create Vector2, this is the position of the clicked unit
+            // Destination Vector2 is destionationLoc
+            // We need to lerp from the one to the other
+            Vector2 t = new Vector2(LastClickedUnit.transform.position.x, LastClickedUnit.transform.position.y);
+            Vector2.Lerp(t, destionationLoc, 2f);
+        }
+
         DoneButton();
 	}
 
-    void MovePlayerUnit(Player player)
+    void ShowHighLight(Player player)
     {
-        if (Input.GetMouseButtonDown(0))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        foreach (UnitBase b in player.ownedUnits)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            foreach (UnitBase b in player.ownedUnits)
+            if (Physics.Raycast(ray, out _touchBox))
             {
-                if (Physics.Raycast(ray, out _touchBox))
+                if (_touchBox.collider == b.unitGameObject.collider)
                 {
-                    if (_touchBox.collider == b.unitGameObject.collider)
+                    if (!b.hasMoved)
                     {
-                        if (!b.hasMoved)
-                        {
-                            // b.hasMoved = true;
-                            // int range = b.attackRange;
-
-                            LastClickedUnit = b.unitGameObject.tile;
-                            ShowMovement(rangeTiles[2], Color.cyan);
-                        }
+                        LastClickedUnit = b.unitGameObject.tile;
+                        LastClickedUnitGameObject = b.unitGameObject.gameObject;
+                        ShowMovement(rangeTiles[b.attackRange]);
+                        isHightlightOn = true;
                     }
                 }
             }
         }
     }
 
-    // for testing I have added a color, will use overlay image later
-    void ShowMovement(PossibleLocations[] tiles, Color col)
+    void ShowMovement(PossibleLocations[] tiles)
     {
         for (int i = 0; i < tiles.Length; i++)
         {
             if (tiles[i].x + LastClickedUnit.ColumnId > 0 && tiles[i].y + LastClickedUnit.RowId > 0)
-                _manager.GetTile(new TileCoordinates(tiles[i].x + LastClickedUnit.ColumnId, tiles[i].y + LastClickedUnit.RowId)).renderer.material.color = col;
+            {
+                GameObject go = _manager.GetTile(new TileCoordinates(tiles[i].x + LastClickedUnit.ColumnId, tiles[i].y + LastClickedUnit.RowId)).transform.FindChild("Highlight").gameObject;
+                go.SetActive(true);
+
+                // add to list so we can deactivate later
+                highLightObjects.Add(go);
+            }
         }
     }
 
