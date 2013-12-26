@@ -41,11 +41,14 @@ public class GameLoop : MonoBehaviour {
     private bool moveUnit = false;
     private Vector2 destionationLoc;
     private Vector2 t;
+    private float startTime;
+    private float duration = 2f;
 
 	void Start () 
     {
         _manager = GameManager.Instance;
 		_manager.SetupLevel();
+        startTime = Time.time;
 
         highLightObjects = new List<GameObject>();
         rangeTiles = new Dictionary<int, PossibleLocations[]>();
@@ -59,6 +62,21 @@ public class GameLoop : MonoBehaviour {
 	
 	void Update ()
     {
+        // For testing the GetTileInRange() purposes.
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            TestGetTilesInRange test = new TestGetTilesInRange();
+            Dictionary<int, Dictionary<int, Tile>> testmovement = test.GetAllTilesWithinRange(new TileCoordinates(1, 1), 1);
+            foreach (KeyValuePair<int, Dictionary<int, Tile>> item in testmovement)
+            {
+                foreach (KeyValuePair<int, Tile> val in item.Value)
+                {
+                    Debug.Log("ColumnId: " + item.Key + " | RowId: " + val.Key);
+                }
+            }
+        }
+
+
         // If highlight is false show highlight from that player. If true then
         // we want to move if user selects on a highlight, else disable the highlights
         if (Input.GetMouseButtonDown(0))
@@ -78,6 +96,7 @@ public class GameLoop : MonoBehaviour {
                         if (_touchBox.collider == go.collider)
                         {
                             moveUnit = true;
+                            startTime = Time.time;
                             destionationLoc = go.transform.position;
                             t = new Vector2(LastClickedUnit.transform.position.x, LastClickedUnit.transform.position.y);
                         }
@@ -104,9 +123,8 @@ public class GameLoop : MonoBehaviour {
             // Create Vector2, this is the position of the clicked unit
             // Destination Vector2 is destionationLoc
             // We need to lerp from the one to the other
-           
-            Vector2.Lerp(t, destionationLoc, Time.deltaTime);
-            Debug.Log(t);
+            LastClickedUnitGameObject.transform.position = Vector2.Lerp(t, destionationLoc, (Time.time - startTime) / duration);
+            Debug.Log(LastClickedUnitGameObject.transform.position);
         }
 
         DoneButton();

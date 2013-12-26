@@ -93,8 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 3
+  ColumnId: 1
+  RowId: 1
   environmentGameObject: {fileID: 11400000}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
