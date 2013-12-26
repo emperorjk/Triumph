@@ -7,5 +7,6 @@ public enum MenuStates
 { 
     StartState,
     GuideState,
-    LevelState
+    LevelState,
+    CreditsScreen
 }

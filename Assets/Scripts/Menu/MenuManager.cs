@@ -29,10 +29,12 @@ public class MenuManager
         GameObject startScreen = GameObject.FindGameObjectWithTag("BackgroundStart");
         GameObject levelScreen = GameObject.FindGameObjectWithTag("BackgroundLevel");
         GameObject guideScreen = GameObject.FindGameObjectWithTag("BackgroundGuide");
+        GameObject creditsScreen = GameObject.FindGameObjectWithTag("BackgroundCredits");
 
         menuPositions.Add(MenuStates.StartState, startScreen);
         menuPositions.Add(MenuStates.LevelState, levelScreen);
         menuPositions.Add(MenuStates.GuideState, guideScreen);
+        menuPositions.Add(MenuStates.CreditsScreen, creditsScreen);
     }
 
     public void ChangeMenuScreen(MenuStates menu)
@@ -56,6 +58,10 @@ public class MenuManager
         else if (state == MenuStates.LevelState) 
         {
             menuPositions[state].transform.parent.GetComponent<LevelScreen>().enabled = active;             
+        }
+        else if (state == MenuStates.CreditsScreen) 
+        {
+            menuPositions[state].transform.parent.GetComponent<CreditScreen>().enabled = active;             
         }
     }
 }

@@ -11,8 +11,6 @@ public class GuideScreen : MonoBehaviour
     private RaycastHit touchBox;
     private int activeScreen;
 
-
-
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))

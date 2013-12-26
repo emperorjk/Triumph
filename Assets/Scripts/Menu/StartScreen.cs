@@ -5,8 +5,9 @@ public class StartScreen : MonoBehaviour
 {
     public GameObject guideButton;
     public GameObject startButton;
-    private RaycastHit touchBox;
+    public GameObject creditButton;
 
+    private RaycastHit touchBox;
 
     void Start()
     {
@@ -37,6 +38,10 @@ public class StartScreen : MonoBehaviour
                 {
                     MenuManager.Instance.ChangeMenuScreen(MenuStates.GuideState);
                     GameObject.Find("GuideButton").audio.Play();
+                }
+                else if (touchBox.collider == creditButton.collider)
+                {
+                    MenuManager.Instance.ChangeMenuScreen(MenuStates.CreditsScreen);
                 }
             }
         }
