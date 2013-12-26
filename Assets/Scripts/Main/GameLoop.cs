@@ -62,11 +62,12 @@ public class GameLoop : MonoBehaviour {
 	
 	void Update ()
     {
-        // For testing the GetTileInRange() purposes.
+         // For testing the GetTileInRange() purposes.
         if (Input.GetKeyDown(KeyCode.A))
         {
             TestGetTilesInRange test = new TestGetTilesInRange();
             Dictionary<int, Dictionary<int, Tile>> testmovement = test.GetAllTilesWithinRange(new TileCoordinates(1, 1), 1);
+            
             foreach (KeyValuePair<int, Dictionary<int, Tile>> item in testmovement)
             {
                 foreach (KeyValuePair<int, Tile> val in item.Value)
@@ -75,8 +76,6 @@ public class GameLoop : MonoBehaviour {
                 }
             }
         }
-
-
         // If highlight is false show highlight from that player. If true then
         // we want to move if user selects on a highlight, else disable the highlights
         if (Input.GetMouseButtonDown(0))
