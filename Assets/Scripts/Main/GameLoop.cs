@@ -151,13 +151,14 @@ public class GameLoop : MonoBehaviour {
         }
     }
 
+    // Need to get the total tiles in Y and X instead of <= 7 and <= 15
     void ShowMovement(PossibleLocations[] tiles)
     {
         for (int i = 0; i < tiles.Length; i++)
         {
-            if (tiles[i].x + LastClickedUnit.ColumnId > 0 && tiles[i].y + LastClickedUnit.RowId > 0)
+            if (tiles[i].x + LastClickedUnit.ColumnId > 0 && tiles[i].y + LastClickedUnit.RowId > 0 && tiles[i].x + LastClickedUnit.ColumnId <= 15 && tiles[i].y + LastClickedUnit.RowId <= 7)
             {
-                GameObject go = _manager.GetTile(new TileCoordinates(tiles[i].x + LastClickedUnit.ColumnId, tiles[i].y + LastClickedUnit.RowId)).transform.FindChild("Highlight").gameObject;
+                GameObject go = _manager.GetTile(new TileCoordinates(tiles[i].x + LastClickedUnit.ColumnId, tiles[i].y + LastClickedUnit.RowId)).transform.FindChild("highlight_move").gameObject;
                 go.SetActive(true);
 
                 // add to list so we can deactivate later
@@ -213,11 +214,11 @@ public class GameLoop : MonoBehaviour {
                         _manager.isDoneButtonActive = false;
                         _manager.NextPlayer();
                     }
-                    else
-                    {
-                        doneButton.SetActive(false);
-                        _manager.isDoneButtonActive = false;
-                    }
+                }
+                else
+                {
+                    doneButton.SetActive(false);
+                    _manager.isDoneButtonActive = false;
                 }
             }
         }
