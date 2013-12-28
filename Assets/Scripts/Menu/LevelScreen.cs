@@ -6,6 +6,7 @@ public class LevelScreen : MonoBehaviour
 {
     public List<GameObject> levels;
     private RaycastHit touchBox;
+    public GameObject backButton;
 
 	void Update () 
     {
@@ -21,6 +22,11 @@ public class LevelScreen : MonoBehaviour
                     {
                         LoadLevel(level.name);
                     }
+                }
+
+                if (touchBox.collider == backButton.collider)
+                {
+                    MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
                 }
             }
         }

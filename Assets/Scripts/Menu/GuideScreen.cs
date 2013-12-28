@@ -19,7 +19,7 @@ public class GuideScreen : MonoBehaviour
 
             // reset images and activeScreen to 0
             activeScreen = 0;
-            GameObject.Find("ForwardButton").renderer.enabled = true;
+            forwardButton.renderer.enabled = true;
 
             MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
         }
