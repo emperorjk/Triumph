@@ -16,6 +16,13 @@ public static class ButtonClick
     // DoneButton click method
     public static void DoneButton(GameObject doneButton, GameManager _manager)
     {
+        // for testing purposes
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            _manager.NextPlayer();
+        }
+
+        /*
         if (!_manager.isDoneButtonActive)
         {
             // start timer when user has clicked once
@@ -66,6 +73,7 @@ public static class ButtonClick
                     _manager.isDoneButtonActive = false;
                 }
             }
-        }
+        } */
     }
+        
 }

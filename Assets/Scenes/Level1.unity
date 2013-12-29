@@ -8008,6 +8008,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: bbaadedcb1f2ad24f912a440b9a27a6f, type: 2}
+      propertyPath: unitGameObject
+      value: 
+      objectReference: {fileID: 1724501871}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbaadedcb1f2ad24f912a440b9a27a6f, type: 2}
   m_RootGameObject: {fileID: 994530990}
@@ -11194,7 +11198,7 @@ MonoBehaviour:
   RowId: 4
   environmentGameObject: {fileID: 1387551499}
   buildingGameObject: {fileID: 0}
-  unitGameObject: {fileID: 0}
+  unitGameObject: {fileID: 1533638850}
 --- !u!114 &1387551499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11339,6 +11343,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400046, guid: 301fabea7313c204d84ce1e20385a51e, type: 2}
+      propertyPath: unitGameObject
+      value: 
+      objectReference: {fileID: 1533638850}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 301fabea7313c204d84ce1e20385a51e, type: 2}
   m_RootGameObject: {fileID: 979790327}
@@ -13937,7 +13945,7 @@ MonoBehaviour:
   RowId: 6
   environmentGameObject: {fileID: 1754861114}
   buildingGameObject: {fileID: 0}
-  unitGameObject: {fileID: 0}
+  unitGameObject: {fileID: 1724501871}
 --- !u!114 &1754861114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17275,6 +17283,10 @@ Prefab:
     - target: {fileID: 400000, guid: 106bd095f9577b9429d02d3bf93ccee0, type: 2}
       propertyPath: m_LocalScale.y
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 106bd095f9577b9429d02d3bf93ccee0, type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 106bd095f9577b9429d02d3bf93ccee0, type: 2}

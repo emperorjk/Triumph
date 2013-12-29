@@ -42,4 +42,9 @@ public class Tile : MonoBehaviour
         coordinate = new TileCoordinates(ColumnId, RowId);
         GameManager.Instance.AddTile(this);
     }
+
+    public bool CanUnitBePlacedOn()
+    {
+        return unitGameObject == null;
+    }
 }
