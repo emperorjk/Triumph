@@ -27,7 +27,7 @@ public class Movement
             {
                 if (tile.Value.CanUnitBePlacedOn())
                 {
-                    GameObject t = tile.Value.transform.FindChild("highlight_move").gameObject;
+                    GameObject t = tile.Value.transform.FindChild("Highlight").gameObject;
                     t.SetActive(true);
                     highLightObjects.Add(t);
                 }

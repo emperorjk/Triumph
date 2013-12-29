@@ -11,5 +11,6 @@ public enum EnvironmentTypes
     Grass,
     Road,
     Small_Rocks,
-    Water
+    Water,
+    Dirt
 }

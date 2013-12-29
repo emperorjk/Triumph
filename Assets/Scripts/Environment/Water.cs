@@ -25,4 +25,9 @@ public class Water : EnvironmentBase
             throw new System.NotImplementedException();
         }
     }
+
+    public override bool IsWalkable
+    {
+        get { return false; }
+    }
 }

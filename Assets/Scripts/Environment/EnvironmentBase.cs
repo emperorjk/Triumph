@@ -11,7 +11,7 @@ public abstract class EnvironmentBase
     /// Returns the sprite. Might change to texture or texture 2d if needed. For now this works.
     /// </summary>
     public abstract Sprite sprite { get; protected set; }
-
+    public abstract bool IsWalkable { get; }
     public abstract EnvironmentTypes type { get; }
     public EnvironmentGameObject environmentGameObject { get; private set; }
 }

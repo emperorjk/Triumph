@@ -20,6 +20,7 @@ public class BuildingGameObject : MonoBehaviour
         else if (type.Equals(BuildingTypes.Castle)) { buildingGame = new Castle(this); }
         else if (type.Equals(BuildingTypes.Headquarters)) { buildingGame = new Headquarters(this); }
         else if (type.Equals(BuildingTypes.TrainingZone)) { buildingGame = new TrainingZone(this); }
+        tile = this.transform.parent.GetComponent<Tile>();
         GameManager.Instance.GetPlayer(index).AddBuilding(buildingGame);
 	}
 }

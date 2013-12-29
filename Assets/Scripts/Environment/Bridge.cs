@@ -24,4 +24,9 @@ public class Bridge : EnvironmentBase
             throw new System.NotImplementedException();
         }
     }
+
+    public override bool IsWalkable
+    {
+        get { return true; }
+    }
 }
