@@ -27,9 +27,9 @@ public class Movement
             {
                 if (tile.Value.CanUnitBePlacedOn())
                 {
-                    GameObject t = tile.Value.transform.FindChild("Highlight").gameObject;
-                    t.SetActive(true);
-                    highLightObjects.Add(t);
+                    GameObject highlightGO = tile.Value.transform.FindChild("Highlight").gameObject;
+                    highlightGO.SetActive(true);
+                    highLightObjects.Add(highlightGO);
                 }
             }
         }
@@ -51,7 +51,7 @@ public class Movement
                         GameManager.Instance.LastClickedUnitGO = b.unitGameObject.gameObject;
 
                         ShowMovement(b.unitGameObject);
-                        GameManager.Instance.isHightlightOn = true;
+                        GameManager.Instance.IsHightlightOn = true;
                     }
                 }
             }
@@ -82,10 +82,10 @@ public class Movement
         highLightObjects = new List<GameObject>();
 
         // disable current highlight
-        GameManager.Instance.isHightlightOn = false;
+        GameManager.Instance.IsHightlightOn = false;
 
         // Call this method because we want to activate the highlight if user clicks on another unit
-        ShowMovementHighLight(GameManager.Instance.currentPlayer);
+        ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
     }
 
     public void MoveUnit()

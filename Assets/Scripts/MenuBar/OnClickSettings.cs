@@ -8,15 +8,15 @@ public class OnClickSettings : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) 
         {
-            if (!GameManager.Instance.isQuitMenuOn)
+            if (!GameManager.Instance.IsQuitMenuOn)
             {
                 this.gameObject.transform.FindChild("Quit").gameObject.SetActive(true);
-                GameManager.Instance.isQuitMenuOn = true;
+                GameManager.Instance.IsQuitMenuOn = true;
             }
-            else if (GameManager.Instance.isQuitMenuOn)
+            else if (GameManager.Instance.IsQuitMenuOn)
             {
                 this.gameObject.transform.FindChild("Quit").gameObject.SetActive(false);
-                GameManager.Instance.isQuitMenuOn = false;
+                GameManager.Instance.IsQuitMenuOn = false;
             }
         }
     }

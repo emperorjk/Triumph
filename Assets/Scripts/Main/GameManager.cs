@@ -26,18 +26,17 @@ public class GameManager
     #endregion
 
     public Dictionary<int, Dictionary<int, Tile>> tiles;
-    public bool isAudioOn { get; set; }
-    public bool isQuitMenuOn { get; set; }
-    public bool isDoneButtonActive { get; set; }
-    public Player currentPlayer { get; set; }
-    public PlayerIndex currentPlayerEnum { get; set; }
+    public bool IsAudioOn { get; set; }
+    public bool IsQuitMenuOn { get; set; }
+    public bool IsDoneButtonActive { get; set; }
+    public Player CurrentPlayer { get; set; }
+    public PlayerIndex CurrentPlayerEnum { get; set; }
 
     public GameObject LastClickedUnitGO { get; set; }
     public Tile LastClickedUnitTile { get; set; }
-    public bool isHightlightOn { get; set; }
-    public CaptureBuildings captureBuildings { get; private set; }
+    public bool IsHightlightOn { get; set; }
+    public CaptureBuildings CaptureBuildings { get; private set; }
 
-    // Changed to a SortedList from a Dictionary. This way we can dynamicly go the next player without all kinds of if statements. See the NextPlayer method why.
     // The Player object can still be retrieved via the PlayerIndex enum.
     private SortedList<PlayerIndex, Player> players;
     private int currentTurn = 1;
@@ -49,16 +48,14 @@ public class GameManager
     /// </summary>
     private void Init()
     {	
-		isAudioOn = true;
-        isQuitMenuOn = false;
-        isDoneButtonActive = false;
+		IsAudioOn = true;
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
         players = new SortedList<PlayerIndex, Player>();
         players.Add(PlayerIndex.One, new Player("Player 1", PlayerIndex.One));
         players.Add(PlayerIndex.Two, new Player("Player 2", PlayerIndex.Two));
 
-        currentPlayer = players[PlayerIndex.One];
-        captureBuildings = new CaptureBuildings();
+        CurrentPlayer = players[PlayerIndex.One];
+        CaptureBuildings = new CaptureBuildings();
     }
 
     /// <summary>
@@ -121,7 +118,7 @@ public class GameManager
     {
         // getting the TextMesh components and setting the player name + current turn
         playerText = GameObject.Find("PlayerName").gameObject.GetComponent<TextMesh>();
-        playerText.text = "Player: " + currentPlayer.name;
+        playerText.text = "Player: " + CurrentPlayer.name;
 
         currentTurnText = GameObject.Find("Turn").gameObject.GetComponent<TextMesh>();
         currentTurnText.text = "Turn: " + currentTurn.ToString();
@@ -130,7 +127,7 @@ public class GameManager
     public void NextPlayer()
     {
         // calculate all of the buildings that are being captured.
-        captureBuildings.CalculateCapturing();
+        CaptureBuildings.CalculateCapturing();
 
         // Apply the income
         foreach (KeyValuePair<PlayerIndex, Player> player in players)
@@ -143,11 +140,11 @@ public class GameManager
         currentTurnText.text = "Turn: " + currentTurn.ToString();
         
         // Change the currentplayer to the next player. Works with all amount of players.
-        int indexplayer = players.IndexOfKey(currentPlayer.index) + 1;
+        int indexplayer = players.IndexOfKey(CurrentPlayer.index) + 1;
         if(indexplayer >= players.Count) { indexplayer = 0; }
-        currentPlayer = players.Values[indexplayer];
+        CurrentPlayer = players.Values[indexplayer];
 
-        playerText.text = "Player: " + currentPlayer.name; 
+        playerText.text = "Player: " + CurrentPlayer.name; 
     }
 
     /// <summary>
