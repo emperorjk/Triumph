@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Player {
+
+    public PlayerIndex index { get; private set; }
     public string name { get; private set; }
     public int gold { get; private set; }
-
-    // public? We need to get the owned units to check collider hit
-    public IList<BuildingsBase> ownedBuildings;
-    public IList<UnitBase> ownedUnits;
+    public IList<BuildingsBase> ownedBuildings { get; private set; }
+    public IList<UnitBase> ownedUnits { get; private set; }
     
-    public Player(string name)
+    public Player(string name, PlayerIndex index)
     {
         this.name = name;
+        this.index = index;
         ownedBuildings = new List<BuildingsBase>();
         ownedUnits = new List<UnitBase>();
     }
@@ -23,9 +24,19 @@ public class Player {
         if(!ownedBuildings.Contains(building)) { ownedBuildings.Add(building); }
     }
 
+    public void RemoveBuilding(BuildingsBase building)
+    {
+        if (ownedBuildings.Contains(building)) { ownedBuildings.Remove(building); }
+    }
+
     public void AddUnit(UnitBase unit)
     {
         if (!ownedUnits.Contains(unit)) { ownedUnits.Add(unit); }
+    }
+
+    public void RemoveUnit(UnitBase unit)
+    {
+        if (ownedUnits.Contains(unit)) { ownedUnits.Remove(unit); }
     }
 
     public void IncreaseGoldBy(int increaseBy) { gold += increaseBy; }
@@ -37,9 +48,9 @@ public class Player {
     /// </summary>
     /// <param name="money"></param>
     /// <returns></returns>
-    public bool CanBuy(int money)
+    public bool CanBuy(int cost)
     {
-        return (gold - money >= 0);
+        return (gold - cost >= 0);
     }
 
     public int GetCurrentIncome()

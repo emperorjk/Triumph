@@ -35,9 +35,11 @@ public class GameManager
     public GameObject LastClickedUnitGO { get; set; }
     public Tile LastClickedUnitTile { get; set; }
     public bool isHightlightOn { get; set; }
+    public CaptureBuildings captureBuildings { get; private set; }
 
-
-    private Dictionary<PlayerIndex, Player> players;
+    // Changed to a SortedList from a Dictionary. This way we can dynamicly go the next player without all kinds of if statements. See the NextPlayer method why.
+    // The Player object can still be retrieved via the PlayerIndex enum.
+    private SortedList<PlayerIndex, Player> players;
     private int currentTurn = 1;
     private TextMesh currentTurnText;
     private TextMesh playerText;
@@ -51,12 +53,12 @@ public class GameManager
         isQuitMenuOn = false;
         isDoneButtonActive = false;
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
-        players = new Dictionary<PlayerIndex, Player>();
-        players.Add(PlayerIndex.One, new Player("Player 1"));
-        players.Add(PlayerIndex.Two, new Player("Player 2"));
+        players = new SortedList<PlayerIndex, Player>();
+        players.Add(PlayerIndex.One, new Player("Player 1", PlayerIndex.One));
+        players.Add(PlayerIndex.Two, new Player("Player 2", PlayerIndex.Two));
 
         currentPlayer = players[PlayerIndex.One];
-        currentPlayerEnum = PlayerIndex.One;
+        captureBuildings = new CaptureBuildings();
     }
 
     /// <summary>
@@ -127,21 +129,25 @@ public class GameManager
 
     public void NextPlayer()
     {
+        // calculate all of the buildings that are being captured.
+        captureBuildings.CalculateCapturing();
+
+        // Apply the income
+        foreach (KeyValuePair<PlayerIndex, Player> player in players)
+        {
+            int income = player.Value.GetCurrentIncome();
+            player.Value.IncreaseGoldBy(income);
+        }
+
         currentTurn++;
         currentTurnText.text = "Turn: " + currentTurn.ToString();
+        
+        // Change the currentplayer to the next player. Works with all amount of players.
+        int indexplayer = players.IndexOfKey(currentPlayer.index) + 1;
+        if(indexplayer >= players.Count) { indexplayer = 0; }
+        currentPlayer = players.Values[indexplayer];
 
-        if (currentPlayer == players[PlayerIndex.One])
-        {
-            currentPlayer = players[PlayerIndex.Two];
-            currentPlayerEnum = PlayerIndex.Two;
-            playerText.text = "Player: " + currentPlayer.name; 
-        }
-        else 
-        {
-            currentPlayer = players[PlayerIndex.One];
-            currentPlayerEnum = PlayerIndex.One;
-            playerText.text = "Player: " + currentPlayer.name; 
-        }
+        playerText.text = "Player: " + currentPlayer.name; 
     }
 
     /// <summary>
