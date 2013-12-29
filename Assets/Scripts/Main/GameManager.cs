@@ -30,7 +30,6 @@ public class GameManager
     public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
     public Player CurrentPlayer { get; set; }
-    public PlayerIndex CurrentPlayerEnum { get; set; }
     public bool NeedMoving { get; set; }
     public GameObject LastClickedUnitGO { get; set; }
     public Tile LastClickedUnitTile { get; set; }

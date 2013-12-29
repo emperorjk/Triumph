@@ -81,6 +81,8 @@ public class Movement
                     // Set the destionation Tile to the ClickedUnit
                     Tile destinationTile = highlight.transform.parent.gameObject.GetComponent<Tile>();
                     destinationTile.unitGameObject = LastClickedUnitGO.GetComponent<UnitGameObject>();
+                    // The tile reference in the unitGameObject also needs updating.
+                    destinationTile.unitGameObject.tile = destinationTile;
 
                     GameManager.Instance.NeedMoving = true;
                 }
