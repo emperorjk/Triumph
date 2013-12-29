@@ -10,30 +10,13 @@ public class Movement
     private List<GameObject> highLightObjects = new List<GameObject>();
 
     private RaycastHit _touchBox;
-    private Vector2 destionationLocation;
+    private GameObject LastClickedUnitGO;
+    private Tile LastClickedUnitTile;
     private Vector2 startPosition;
+    private Vector2 destionationLocation;
 
-    private bool moveUnit = false;
     private float startTime;
     private float duration = 2f;
-
-    public void ShowMovement(UnitGameObject unit)
-    {
-        list = GameManager.Instance.GetAllTilesWithinRange(unit.tile.coordinate, unit.unitGame.moveRange);
-
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in list)
-        {
-            foreach (KeyValuePair<int, Tile> tile in item.Value)
-            {
-                if (tile.Value.CanUnitBePlacedOn())
-                {
-                    GameObject highlightGO = tile.Value.transform.FindChild("Highlight").gameObject;
-                    highlightGO.SetActive(true);
-                    highLightObjects.Add(highlightGO);
-                }
-            }
-        }
-    }
 
     public void ShowMovementHighLight(Player player)
     {
@@ -47,12 +30,30 @@ public class Movement
                 {
                     if (!b.hasMoved)
                     {
-                        GameManager.Instance.LastClickedUnitTile = b.unitGameObject.tile;
-                        GameManager.Instance.LastClickedUnitGO = b.unitGameObject.gameObject;
+                        LastClickedUnitTile = b.unitGameObject.tile;
+                        LastClickedUnitGO = b.unitGameObject.gameObject;
 
                         ShowMovement(b.unitGameObject);
                         GameManager.Instance.IsHightlightOn = true;
                     }
+                }
+            }
+        }
+    }
+
+    public void ShowMovement(UnitGameObject unit)
+    {
+        list = GameManager.Instance.GetAllTilesWithinRange(unit.tile.coordinate, unit.unitGame.moveRange);
+
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in list)
+        {
+            foreach (KeyValuePair<int, Tile> tile in item.Value)
+            {
+                if (tile.Value.CanUnitBePlacedOn())
+                {
+                    GameObject highlightGO = tile.Value.transform.FindChild("highlight_move").gameObject;
+                    highlightGO.SetActive(true);
+                    highLightObjects.Add(highlightGO);
                 }
             }
         }
@@ -68,8 +69,20 @@ public class Movement
             {
                 if (_touchBox.collider == highlight.collider)
                 {
+                    startTime = Time.time;
+
+                    // Set the start and destionation position
+                    startPosition = new Vector2(LastClickedUnitTile.transform.position.x, LastClickedUnitTile.transform.position.y);
                     destionationLocation = highlight.transform.position;
-                    MoveUnit();
+
+                    // Set the current Tile to null
+                    LastClickedUnitTile.unitGameObject = null;
+
+                    // Set the destionation Tile to the ClickedUnit
+                    Tile destinationTile = highlight.transform.parent.gameObject.GetComponent<Tile>();
+                    destinationTile.unitGameObject = LastClickedUnitGO.GetComponent<UnitGameObject>();
+
+                    GameManager.Instance.NeedMoving = true;
                 }
             }
         }
@@ -78,6 +91,7 @@ public class Movement
         {
             highlights.SetActive(false);
         }
+
         // recreate list, otherwise list gets filled with duplicates
         highLightObjects = new List<GameObject>();
 
@@ -88,18 +102,14 @@ public class Movement
         ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
     }
 
-    public void MoveUnit()
+    public void Move()
     {
-        startTime = Time.time;
-        //startPosition = new Vector2(LastClickedUnit.transform.position.x, LastClickedUnit.transform.position.y);
+        Debug.Log("Moving..");
+        LastClickedUnitGO.transform.position = Vector2.Lerp(startPosition, destionationLocation, (Time.time - startTime) / duration);
 
-        //LastClickedUnit.ColumnId += 2;
-        //LastClickedUnit.transform. = highlight.transform.localPosition;
-
-        if (moveUnit)
+        if ((Time.time - startTime) / duration >= 1f)
         {
-            //LastClickedUnitGameObject.transform.position = Vector2.Lerp(startPosition, destionationLocation, (Time.time - startTime) / duration);
-            // stop this after movement is done
+            GameManager.Instance.NeedMoving = false;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// Main gameloop
 public class GameLoop : MonoBehaviour 
 {
     public GameObject doneButton;
@@ -31,6 +32,11 @@ public class GameLoop : MonoBehaviour
             {
                 _movement.CollisionWithHightlight();
             }
+        }
+
+        if (_manager.NeedMoving)
+        {
+            _movement.Move();
         }
 
         ButtonClick.DoneButton(doneButton, _manager);
