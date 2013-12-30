@@ -21,8 +21,10 @@ public class GameLoop : MonoBehaviour
 
     void Update()
     {
+        ActivateDoneButton();
+
         // If user clicks, check if highlight is on and show the highlights or check if user needs to move
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !_manager.NeedMoving)
         {
             if (!_manager.IsHightlightOn)
             {
@@ -38,7 +40,29 @@ public class GameLoop : MonoBehaviour
         {
             _movement.Move();
         }
+    }
 
-        ButtonClick.DoneButton(doneButton, _manager);
+    void ActivateDoneButton()
+    {
+        // for development KeyCode.Y testing DoneButton
+        if (Input.touchCount == 2 || Input.GetKeyDown(KeyCode.Y))
+        {
+            if (!_manager.IsDoneButtonActive)
+            {
+                _manager.IsDoneButtonActive = true;
+                doneButton.SetActive(true);
+            }
+            else
+            {
+                _manager.IsDoneButtonActive = false;
+                doneButton.SetActive(false);
+            }
+        }
+
+        // for development KeyCode.T next player
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            _manager.NextPlayer();
+        }
     }
 }
