@@ -125,6 +125,8 @@ public class GameManager
 
     public void NextPlayer()
     {
+        ClearMovement();
+
         // calculate all of the buildings that are being captured.
         CaptureBuildings.CalculateCapturing();
 
@@ -140,10 +142,22 @@ public class GameManager
         
         // Change the currentplayer to the next player. Works with all amount of players.
         int indexplayer = players.IndexOfKey(CurrentPlayer.index) + 1;
-        if(indexplayer >= players.Count) { indexplayer = 0; }
+        if(indexplayer >= players.Count) 
+        { 
+            indexplayer = 0; 
+        }
         CurrentPlayer = players.Values[indexplayer];
-
         playerText.text = "Player: " + CurrentPlayer.name; 
+    }
+
+    void ClearMovement()
+    {
+        foreach (UnitBase unit in CurrentPlayer.ownedUnits)
+        {
+            unit.unitGameObject.renderer.material.color = Color.white;
+            unit.hasMoved = false;
+            unit.hasAttacked = false;
+        }
     }
 
     /// <summary>

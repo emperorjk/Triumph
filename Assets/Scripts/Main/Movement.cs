@@ -75,6 +75,8 @@ public class Movement
                     startPosition = new Vector2(LastClickedUnitTile.transform.position.x, LastClickedUnitTile.transform.position.y);
                     destionationLocation = highlight.transform.position;
 
+                    LastClickedUnitTile.unitGameObject.unitGame.hasMoved = true;
+
                     // Set the current Tile to null
                     LastClickedUnitTile.unitGameObject = null;
 
@@ -106,11 +108,12 @@ public class Movement
 
     public void Move()
     {
-        Debug.Log("Moving..");
         LastClickedUnitGO.transform.position = Vector2.Lerp(startPosition, destionationLocation, (Time.time - startTime) / duration);
 
         if ((Time.time - startTime) / duration >= 1f)
         {
+            // set color to gray so player knows unit has moved
+            LastClickedUnitGO.renderer.material.color = Color.gray;
             GameManager.Instance.NeedMoving = false;
             LastClickedUnitGO = null;
             LastClickedUnitTile = null;
