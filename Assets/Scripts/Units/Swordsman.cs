@@ -7,21 +7,9 @@ using UnityEngine;
 public class Swordsman : UnitBase
 {
     public Swordsman(UnitGameObject game) 
-        : base(game, 10, 1.0f, 1, 1, 2)
+        : base(game, 10, 1.0f, 1, 1, 2, 150)
     {
 
-    }
-
-    public override Sprite sprite
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-        protected set
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

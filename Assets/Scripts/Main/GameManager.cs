@@ -29,8 +29,10 @@ public class GameManager
     public bool IsAudioOn { get; set; }
     public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
+    public bool IsProductionOverlayActive { get; set; }
     public Player CurrentPlayer { get; set; }
     public bool NeedMoving { get; set; }
+    public Tile LastClickedBuildingTile { get; set; }
     public GameObject LastClickedUnitGO { get; set; }
     public Tile LastClickedUnitTile { get; set; }
     public bool IsHightlightOn { get; set; }
@@ -48,6 +50,7 @@ public class GameManager
     private void Init()
     {	
 		IsAudioOn = true;
+        IsProductionOverlayActive = false;
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
         players = new SortedList<PlayerIndex, Player>();
         players.Add(PlayerIndex.One, new Player("Player 1", PlayerIndex.One));

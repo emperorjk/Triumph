@@ -10,10 +10,6 @@ public abstract class BuildingsBase {
         this.capturePoints = capturePoints;
         this.currentCapturePoints = 0;
     }
-    /// <summary>
-    /// Returns the sprite. Might change to texture or texture 2d if needed. For now this works.
-    /// </summary>
-    public abstract Sprite sprite { get; protected set; }
     public BuildingGameObject buildingGameObject { get; private set; }
     public int income { get; set; }
     public int currentCapturePoints { get; private set; }
@@ -31,14 +27,5 @@ public abstract class BuildingsBase {
     public bool HasCaptured() { return currentCapturePoints >= capturePoints; }
     public void resetCurrentCapturePoints() { this.currentCapturePoints = 0; }
     public abstract BuildingTypes type { get; }
-    /// <summary>
-    /// Returns the production overlay. Don't know if this needs to be a Texture or Texture2D.
-    /// </summary>
-    public abstract Texture productionOverlay { get; }
-
-    public void ShowProductionOverlay()
-    {
-        // spawn below the screen and move it up by x amount of units. Get the texture via the above property.
-    }
-
+    public abstract bool CanProduce { get; }
 }

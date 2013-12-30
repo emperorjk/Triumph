@@ -14,18 +14,6 @@ public class Water : EnvironmentBase
         get { return EnvironmentTypes.Water; }
     }
 
-    public override Sprite sprite
-    {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        protected set
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
     public override bool IsWalkable
     {
         get { return false; }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class UnitBase {
 
-    protected UnitBase(UnitGameObject game, int health, float damage, int attackRange, int baseAttackRange, int moveRange)
+    protected UnitBase(UnitGameObject game, int health, float damage, int attackRange, int baseAttackRange, int moveRange, int cost)
     {
         this.unitGameObject = game;
         this.hasMoved = false;
@@ -14,6 +14,7 @@ public abstract class UnitBase {
         this.attackRange = attackRange;
         this.baseAttackRange = baseAttackRange;
         this.moveRange = moveRange;
+        this.cost = cost;
     }
     public bool hasMoved { get; set; }
     public bool hasAttacked { get; set; }
@@ -23,28 +24,6 @@ public abstract class UnitBase {
     public int attackRange { get; set; }
     public int baseAttackRange { get; set; }
     public int moveRange { get; set; }
-
-    /// <summary>
-    /// Returns the sprite. Might change to texture or texture 2d if needed. For now this works.
-    /// </summary>
-    public abstract Sprite sprite { get; protected set; }
+    public int cost { get; private set; }
     public UnitGameObject unitGameObject { get; private set; }
-
-    /// <summary>
-    /// Show the possible unit move locations. I think this can be done in the base class since we have acces to all
-    /// of the properties. e.g. range and hasMoved etc.
-    /// </summary>
-    public void ShowMovement()
-    {
-        
-    }
-
-    /// <summary>
-    /// Show the possible attack locations. I think this can be done in the base class since we have acces to all
-    /// of the properties. e.g. range and hasMoved etc.
-    /// </summary>
-    public void ShowAttack()
-    {
-
-    }
 }

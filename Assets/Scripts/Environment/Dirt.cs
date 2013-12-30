@@ -10,18 +10,6 @@ public class Dirt : EnvironmentBase
 
     }
 
-    public override Sprite sprite
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-        protected set
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public override bool IsWalkable
     {
         get { return true; }

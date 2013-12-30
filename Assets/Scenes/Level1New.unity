@@ -22830,6 +22830,14 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 106bd095f9577b9429d02d3bf93ccee0, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 106bd095f9577b9429d02d3bf93ccee0, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 106bd095f9577b9429d02d3bf93ccee0, type: 2}
   m_RootGameObject: {fileID: 1995295858}
