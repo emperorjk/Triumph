@@ -112,7 +112,11 @@ public class Movement
 
         if ((Time.time - startTime) / duration >= 1f)
         {
-            // set color to gray so player knows unit has moved
+            // Set the unit transform.parent to the new tile which is has moved to. This way the position resets to 0,0,0 of the unit and it is always perfectly 
+            // placed onto the tile which it is on. It also changes the objects in the hierarchie window under the new tile object.
+            LastClickedUnitGO.transform.parent = LastClickedUnitGO.GetComponent<UnitGameObject>().tile.transform;
+
+            // set color to gray so player knows unit has             
             LastClickedUnitGO.renderer.material.color = Color.gray;
             GameManager.Instance.NeedMoving = false;
             LastClickedUnitGO = null;
