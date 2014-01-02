@@ -43,8 +43,13 @@ public class Tile : MonoBehaviour
         GameManager.Instance.AddTile(this);
     }
 
-    public bool CanUnitBePlacedOn()
+    public bool HasBuilding()
     {
-        return unitGameObject == null;
+        return buildingGameObject != null;
+    }
+
+    public bool HasUnit()
+    {
+        return unitGameObject != null;
     }
 }

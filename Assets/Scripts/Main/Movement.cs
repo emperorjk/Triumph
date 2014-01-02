@@ -49,7 +49,7 @@ public class Movement
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
-                if (tile.Value.CanUnitBePlacedOn())
+                if (!tile.Value.HasUnit())
                 {
                     GameObject highlightGO = tile.Value.transform.FindChild("highlight_move").gameObject;
                     highlightGO.SetActive(true);
@@ -112,9 +112,16 @@ public class Movement
 
         if ((Time.time - startTime) / duration >= 1f)
         {
+            Tile unitMovedTo = LastClickedUnitGO.GetComponent<UnitGameObject>().tile;
+            // If teams are implemented this if statement has to change.
+            if (unitMovedTo.HasBuilding() && unitMovedTo.buildingGameObject.index != GameManager.Instance.CurrentPlayer.index)
+            {
+                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(unitMovedTo.buildingGameObject.buildingGame);
+            }
+
             // Set the unit transform.parent to the new tile which is has moved to. This way the position resets to 0,0,0 of the unit and it is always perfectly 
             // placed onto the tile which it is on. It also changes the objects in the hierarchie window under the new tile object.
-            LastClickedUnitGO.transform.parent = LastClickedUnitGO.GetComponent<UnitGameObject>().tile.transform;
+            LastClickedUnitGO.transform.parent = unitMovedTo.transform;
 
             // set color to gray so player knows unit has             
             LastClickedUnitGO.renderer.material.color = Color.gray;
