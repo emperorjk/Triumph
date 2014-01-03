@@ -40,7 +40,7 @@ public class GameManager
 
     // The Player object can still be retrieved via the PlayerIndex enum.
     private SortedList<PlayerIndex, Player> players;
-    private int currentTurn = 1;
+    public int currentTurn = 1;
     private TextMesh currentTurnText;
     private TextMesh playerText;
 
@@ -151,7 +151,7 @@ public class GameManager
             int indexplayer = players.IndexOfKey(CurrentPlayer.index) + 1;
             if (indexplayer >= players.Count) { indexplayer = 0; }
             CurrentPlayer = players.Values[indexplayer];
-            if (CurrentPlayer.index != PlayerIndex.Neutral) { foundPlayer = true; }
+            foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
         }        
         playerText.text = "Player: " + CurrentPlayer.name; 
     }

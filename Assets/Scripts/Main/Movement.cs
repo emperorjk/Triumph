@@ -26,14 +26,12 @@ public class Movement
         {
             foreach (UnitBase b in player.ownedUnits)
             {
-                Debug.Log("for loop units.");
                 if (_touchBox.collider == b.unitGameObject.collider)
                 {
                     if (!b.hasMoved)
                     {
                         LastClickedUnitTile = b.unitGameObject.tile;
                         LastClickedUnitGO = b.unitGameObject.gameObject;
-                        Debug.Log("Shoing highlighst");
                         ShowMovement(b.unitGameObject);
                         GameManager.Instance.IsHightlightOn = true;
                     }
@@ -68,10 +66,8 @@ public class Movement
         {
             foreach (GameObject highlight in highLightObjects)
             {
-                Debug.Log("looping hightligts");
                 if (_touchBox.collider == highlight.collider)
                 {
-                    Debug.Log("Found collider hightlihst");
                     startTime = Time.time;
 
                     // Set the start and destionation position
@@ -116,16 +112,15 @@ public class Movement
 
         if ((Time.time - startTime) / duration >= 1f)
         {
-            Tile unitMovedTo = LastClickedUnitGO.GetComponent<UnitGameObject>().tile;
-            // If teams are implemented this if statement has to change.
-            if (unitMovedTo.HasBuilding() && unitMovedTo.buildingGameObject.index != GameManager.Instance.CurrentPlayer.index)
+            Tile tileUnitMovedTo = LastClickedUnitGO.GetComponent<UnitGameObject>().tile;
+            if (tileUnitMovedTo.HasBuilding())
             {
-                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(unitMovedTo.buildingGameObject.buildingGame);
+                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(tileUnitMovedTo.buildingGameObject.buildingGame);
             }
 
             // Set the unit transform.parent to the new tile which is has moved to. This way the position resets to 0,0,0 of the unit and it is always perfectly 
             // placed onto the tile which it is on. It also changes the objects in the hierarchie window under the new tile object.
-            LastClickedUnitGO.transform.parent = unitMovedTo.transform;
+            LastClickedUnitGO.transform.parent = tileUnitMovedTo.transform;
 
             // set color to gray so player knows unit has             
             LastClickedUnitGO.renderer.material.color = Color.gray;
