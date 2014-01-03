@@ -53,6 +53,7 @@ public class GameManager
         IsProductionOverlayActive = false;
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
         players = new SortedList<PlayerIndex, Player>();
+        players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral));
         players.Add(PlayerIndex.One, new Player("Player 1", PlayerIndex.One));
         players.Add(PlayerIndex.Two, new Player("Player 2", PlayerIndex.Two));
 
@@ -133,8 +134,8 @@ public class GameManager
         // calculate all of the buildings that are being captured.
         CaptureBuildings.CalculateCapturing();
 
-        // Apply the income
-        foreach (KeyValuePair<PlayerIndex, Player> player in players)
+        // Apply the income but not for the neutral player.
+        foreach (KeyValuePair<PlayerIndex, Player> player in players.Except(players.Where(x => x.Value.index != PlayerIndex.Neutral)))
         {
             int income = player.Value.GetCurrentIncome();
             player.Value.IncreaseGoldBy(income);
@@ -143,13 +144,15 @@ public class GameManager
         currentTurn++;
         currentTurnText.text = "Turn: " + currentTurn.ToString();
         
-        // Change the currentplayer to the next player. Works with all amount of players.
-        int indexplayer = players.IndexOfKey(CurrentPlayer.index) + 1;
-        if(indexplayer >= players.Count) 
-        { 
-            indexplayer = 0; 
-        }
-        CurrentPlayer = players.Values[indexplayer];
+        // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
+        bool foundPlayer = false;
+        while(!foundPlayer)
+        {
+            int indexplayer = players.IndexOfKey(CurrentPlayer.index) + 1;
+            if (indexplayer >= players.Count) { indexplayer = 0; }
+            CurrentPlayer = players.Values[indexplayer];
+            if (CurrentPlayer.index != PlayerIndex.Neutral) { foundPlayer = true; }
+        }        
         playerText.text = "Player: " + CurrentPlayer.name; 
     }
 

@@ -21,18 +21,19 @@ public class Movement
     public void ShowMovementHighLight(Player player)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        foreach (UnitBase b in player.ownedUnits)
+        
+        if (Physics.Raycast(ray, out _touchBox))
         {
-            if (Physics.Raycast(ray, out _touchBox))
+            foreach (UnitBase b in player.ownedUnits)
             {
+                Debug.Log("for loop units.");
                 if (_touchBox.collider == b.unitGameObject.collider)
                 {
                     if (!b.hasMoved)
                     {
                         LastClickedUnitTile = b.unitGameObject.tile;
                         LastClickedUnitGO = b.unitGameObject.gameObject;
-
+                        Debug.Log("Shoing highlighst");
                         ShowMovement(b.unitGameObject);
                         GameManager.Instance.IsHightlightOn = true;
                     }
@@ -49,7 +50,7 @@ public class Movement
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
-                if (!tile.Value.HasUnit())
+                if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
                 {
                     GameObject highlightGO = tile.Value.transform.FindChild("highlight_move").gameObject;
                     highlightGO.SetActive(true);
@@ -67,8 +68,10 @@ public class Movement
         {
             foreach (GameObject highlight in highLightObjects)
             {
+                Debug.Log("looping hightligts");
                 if (_touchBox.collider == highlight.collider)
                 {
+                    Debug.Log("Found collider hightlihst");
                     startTime = Time.time;
 
                     // Set the start and destionation position
@@ -97,13 +100,14 @@ public class Movement
         }
 
         // recreate list, otherwise list gets filled with duplicates
-        highLightObjects = new List<GameObject>();
+        highLightObjects.Clear();
 
         // disable current highlight
         GameManager.Instance.IsHightlightOn = false;
 
         // Call this method because we want to activate the highlight if user clicks on another unit
-        ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
+        // Is this needed? For me it doesn't change anything when running the game.
+        //ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
     }
 
     public void Move()

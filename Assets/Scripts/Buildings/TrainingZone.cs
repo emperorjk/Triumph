@@ -6,7 +6,7 @@ public class TrainingZone : BuildingsBase{
     // dit is de capture point. Deze naam vond ik toepasselijker - joey
     
     public TrainingZone(BuildingGameObject game) 
-        : base(game, 50, 20)
+        : base(game, 50, 40)
     {
 
     }
