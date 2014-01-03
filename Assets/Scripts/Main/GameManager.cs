@@ -40,7 +40,7 @@ public class GameManager
 
     // The Player object can still be retrieved via the PlayerIndex enum.
     private SortedList<PlayerIndex, Player> players;
-    public int currentTurn = 1;
+    private int currentTurn = 1;
     private TextMesh currentTurnText;
     private TextMesh playerText;
 
