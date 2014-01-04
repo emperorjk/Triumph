@@ -38,6 +38,11 @@ public class GameManager
     public bool IsHightlightOn { get; set; }
     public CaptureBuildings CaptureBuildings { get; private set; }
 
+    // Lists need to be accesed in GameManager because when NextPlayer method gets called we want to deactivate
+    // the highlights also.
+    public List<GameObject> highLightObjects = new List<GameObject>();
+    public List<GameObject> attackHighLightObjects = new List<GameObject>();
+
     // The Player object can still be retrieved via the PlayerIndex enum.
     private SortedList<PlayerIndex, Player> players;
     private int currentTurn = 1;
@@ -129,7 +134,7 @@ public class GameManager
 
     public void NextPlayer()
     {
-        ClearMovement();
+        ClearMovementAndHighLights();
 
         // calculate all of the buildings that are being captured.
         CaptureBuildings.CalculateCapturing();
@@ -156,13 +161,23 @@ public class GameManager
         playerText.text = "Player: " + CurrentPlayer.name; 
     }
 
-    void ClearMovement()
+    void ClearMovementAndHighLights()
     {
         foreach (UnitBase unit in CurrentPlayer.ownedUnits)
         {
             unit.unitGameObject.renderer.material.color = Color.white;
             unit.hasMoved = false;
             unit.hasAttacked = false;
+        }
+
+        foreach (GameObject highlights in GameManager.Instance.highLightObjects)
+        {
+            highlights.SetActive(false);
+        }
+
+        foreach (GameObject attackHighlight in GameManager.Instance.attackHighLightObjects)
+        {
+            attackHighlight.SetActive(false);
         }
     }
 

@@ -32,7 +32,7 @@ public class GameLoop : MonoBehaviour
             }
             else if (_manager.IsHightlightOn)
             {
-                _movement.CollisionWithHightlight();
+                _movement.CollisionWithHighlight();
             }
         }
 

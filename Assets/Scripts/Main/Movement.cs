@@ -7,7 +7,7 @@ using UnityEngine;
 public class Movement
 {
     private Dictionary<int, Dictionary<int, Tile>> list;
-    private List<GameObject> highLightObjects = new List<GameObject>();
+    private Attack attack = new Attack();
 
     private RaycastHit _touchBox;
     private GameObject LastClickedUnitGO;
@@ -52,19 +52,20 @@ public class Movement
                 {
                     GameObject highlightGO = tile.Value.transform.FindChild("highlight_move").gameObject;
                     highlightGO.SetActive(true);
-                    highLightObjects.Add(highlightGO);
+                    GameManager.Instance.highLightObjects.Add(highlightGO);
                 }
+               attack.ShowAttack(tile.Value);
             }
         }
     }
 
-    public void CollisionWithHightlight()
+    public void CollisionWithHighlight()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out _touchBox))
         {
-            foreach (GameObject highlight in highLightObjects)
+            foreach (GameObject highlight in GameManager.Instance.highLightObjects)
             {
                 if (_touchBox.collider == highlight.collider)
                 {
@@ -90,20 +91,29 @@ public class Movement
             }
         }
 
-        foreach (GameObject highlights in highLightObjects)
-        {
-            highlights.SetActive(false);
-        }
+        DeactivateHighLights();
 
         // recreate list, otherwise list gets filled with duplicates
-        highLightObjects.Clear();
+        GameManager.Instance.highLightObjects.Clear();
 
         // disable current highlight
         GameManager.Instance.IsHightlightOn = false;
 
         // Call this method because we want to activate the highlight if user clicks on another unit
-        // Is this needed? For me it doesn't change anything when running the game.
-        //ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
+        ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
+    }
+
+    private void DeactivateHighLights()
+    {
+        foreach (GameObject highlights in GameManager.Instance.highLightObjects)
+        {
+            highlights.SetActive(false);
+        }
+
+        foreach (GameObject attackHighlight in GameManager.Instance.attackHighLightObjects)
+        {
+            attackHighlight.SetActive(false);
+        }
     }
 
     public void Move()
