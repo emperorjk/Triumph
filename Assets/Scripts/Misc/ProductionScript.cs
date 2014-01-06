@@ -26,6 +26,7 @@ public class ProductionScript : MonoBehaviour {
                         // Create a new instance of the unit.
                         if(GameManager.Instance.CurrentPlayer.CanBuy(unitToSpawn.unitGame.cost))
                         {
+                            // TO-DO: update gold textbox.
                             // The position in the prefab should be 0,0,0. So when the parent is set to a tile it should spawn directly on a tile.
                             // The same happens now with pre spawned units. Its position is 0,0,0 yet its parent is placed on a certain position.
                             UnitGameObject game = (UnitGameObject)Instantiate(unitToSpawn);

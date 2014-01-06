@@ -48,6 +48,7 @@ public class GameManager
     private int currentTurn = 1;
     private TextMesh currentTurnText;
     private TextMesh playerText;
+    private TextMesh currentGold;
 
     /// <summary>
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
@@ -130,6 +131,9 @@ public class GameManager
 
         currentTurnText = GameObject.Find("Turn").gameObject.GetComponent<TextMesh>();
         currentTurnText.text = "Turn: " + currentTurn.ToString();
+
+        currentGold = GameObject.Find("CurrentGold").gameObject.GetComponent<TextMesh>();
+        currentGold.text = "Current gold: " + CurrentPlayer.gold;
     }
 
     public void NextPlayer()
@@ -140,12 +144,15 @@ public class GameManager
         CaptureBuildings.CalculateCapturing();
 
         // Apply the income but not for the neutral player.
-        foreach (KeyValuePair<PlayerIndex, Player> player in players.Except(players.Where(x => x.Value.index != PlayerIndex.Neutral)))
+        CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
+        /*
+        foreach (KeyValuePair<PlayerIndex, Player> player in players.Except(players.Where(x => x.Value.index == CurrentPlayer.index || x.Value.index == PlayerIndex.Neutral)))
         {
+            Debug.Log(player.Value.index);
             int income = player.Value.GetCurrentIncome();
             player.Value.IncreaseGoldBy(income);
         }
-
+        */
         currentTurn++;
         currentTurnText.text = "Turn: " + currentTurn.ToString();
         
@@ -158,7 +165,8 @@ public class GameManager
             CurrentPlayer = players.Values[indexplayer];
             foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
         }        
-        playerText.text = "Player: " + CurrentPlayer.name; 
+        playerText.text = "Player: " + CurrentPlayer.name;
+        currentGold.text = "Current gold: " + CurrentPlayer.gold;
     }
 
     void ClearMovementAndHighLights()
