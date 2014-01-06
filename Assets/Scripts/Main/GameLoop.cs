@@ -21,12 +21,6 @@ public class GameLoop : MonoBehaviour
 
     void Update()
     {
-        // for testing unit spawn factory
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            UnitGameObject obj = CreatorFactoryUnit.CreateUnit(GameManager.Instance.GetTile(new TileCoordinates(2, 5)), PlayerIndex.One, UnitTypes.Swordsman);       
-        }
-
         ActivateDoneButton();
 
         // If user clicks, check if highlight is on and show the highlights or check if user needs to move

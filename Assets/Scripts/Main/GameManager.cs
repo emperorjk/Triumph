@@ -142,19 +142,7 @@ public class GameManager
 
         // calculate all of the buildings that are being captured.
         CaptureBuildings.CalculateCapturing();
-
-        // Apply the income but not for the neutral player.
         CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
-        /*
-        foreach (KeyValuePair<PlayerIndex, Player> player in players.Except(players.Where(x => x.Value.index == CurrentPlayer.index || x.Value.index == PlayerIndex.Neutral)))
-        {
-            Debug.Log(player.Value.index);
-            int income = player.Value.GetCurrentIncome();
-            player.Value.IncreaseGoldBy(income);
-        }
-        */
-        currentTurn++;
-        currentTurnText.text = "Turn: " + currentTurn.ToString();
         
         // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
         bool foundPlayer = false;
@@ -164,9 +152,17 @@ public class GameManager
             if (indexplayer >= players.Count) { indexplayer = 0; }
             CurrentPlayer = players.Values[indexplayer];
             foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
-        }        
+        }
+        
+        UpdateTextboxes();
+    }
+
+    public void UpdateTextboxes()
+    {
         playerText.text = "Player: " + CurrentPlayer.name;
         currentGold.text = "Current gold: " + CurrentPlayer.gold;
+        currentTurn++;
+        currentTurnText.text = "Turn: " + currentTurn.ToString();
     }
 
     void ClearMovementAndHighLights()

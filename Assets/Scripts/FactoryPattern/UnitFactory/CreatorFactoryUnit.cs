@@ -6,6 +6,15 @@ using UnityEngine;
 
 public class CreatorFactoryUnit
 {
+    private static UnitGameObject ConfigUnitAndTile(Tile tile, GameObject obj)
+    {
+        UnitGameObject unit = ((GameObject)GameObject.Instantiate(obj)).GetComponent<UnitGameObject>();
+        tile.unitGameObject = unit;
+        unit.transform.position = tile.transform.position;
+        unit.transform.parent = tile.transform;
+        return unit;
+    }
+
     public static UnitGameObject CreateUnit(Tile tile, PlayerIndex index, UnitTypes type)
     {
         if(tile.HasUnit())
@@ -28,11 +37,7 @@ public class CreatorFactoryUnit
             SwordsmanFactory fac = new SwordsmanFactory();
             obj = fac.CreateUnit(index);
         }
-        UnitGameObject unit = ((GameObject)GameObject.Instantiate(obj)).GetComponent<UnitGameObject>();
-        tile.unitGameObject = unit;
-        unit.transform.position = tile.transform.position;
-        unit.transform.parent = tile.transform;
-        return unit;
+        return ConfigUnitAndTile(tile, obj);
     }
 
     public static UnitGameObject CreateHeroUnit(Tile tile, PlayerIndex index, UnitTypes type)
@@ -57,9 +62,6 @@ public class CreatorFactoryUnit
             SwordsmanFactory fac = new SwordsmanFactory();
             obj = fac.CreateHeroUnit(index);
         }
-        UnitGameObject unit = ((GameObject)GameObject.Instantiate(obj)).GetComponent<UnitGameObject>();
-        tile.unitGameObject = unit;
-        unit.transform.parent = tile.transform;
-        return unit;
+        return ConfigUnitAndTile(tile, obj);
     }
 }

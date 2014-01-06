@@ -6,6 +6,15 @@ using UnityEngine;
 
 public class CreatorFactoryBuilding
 {
+    private static BuildingGameObject ConfigBuildingAndTile(Tile tile, GameObject obj)
+    {
+        BuildingGameObject building = ((GameObject)GameObject.Instantiate(obj)).GetComponent<BuildingGameObject>();
+        tile.buildingGameObject = building;
+        building.transform.position = tile.transform.position;
+        building.transform.parent = tile.transform;
+        return building;
+    }
+
     public static BuildingGameObject CreateBuilding(Tile tile, PlayerIndex index, BuildingTypes type)
     {
         if(tile.HasBuilding())
@@ -18,12 +27,6 @@ public class CreatorFactoryBuilding
             TrainingzoneFactory fac = new TrainingzoneFactory();
             obj = fac.CreateBuilding(index);
         }
-
-        BuildingGameObject building = ((GameObject)GameObject.Instantiate(obj)).GetComponent<BuildingGameObject>();
-        
-        tile.buildingGameObject = building;
-        building.transform.position = tile.transform.position;
-        building.transform.parent = tile.transform;
-        return building;
+        return ConfigBuildingAndTile(tile, obj);
     }
 }
