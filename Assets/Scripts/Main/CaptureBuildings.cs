@@ -51,15 +51,22 @@ public class CaptureBuildings
             {
                 int health = unitOnBuilding.unitGame.health;
                 building.IncreaseCapturePointsBy(health);
+                Debug.Log(building.currentCapturePoints);
                 // TO-DO: update the textbox or similair to display progress.
                 if (building.HasCaptured())
                 {
+                    Debug.Log("captured");
                     // TO-DO: change the sprites to the new owner color sprite. 
                     buildingsToBeRemoved.Add(building);
-                    building.resetCurrentCapturePoints();
                     GameManager.Instance.GetPlayer(building.buildingGameObject.index).RemoveBuilding(building);
-                    GameManager.Instance.GetPlayer(unitOnBuilding.index).AddBuilding(building);
-                    building.buildingGameObject.index = unitOnBuilding.index;
+
+                    GameObject.DestroyImmediate(building.buildingGameObject.gameObject);
+                    BuildingGameObject b = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.tile, unitOnBuilding.index, building.buildingGameObject.type);
+
+                    // this can be deleted when buildingfactory is done.
+                    //building.resetCurrentCapturePoints();
+                    //GameManager.Instance.GetPlayer(unitOnBuilding.index).AddBuilding(building);
+                    //building.buildingGameObject.index = unitOnBuilding.index;
                 }
             }
             else

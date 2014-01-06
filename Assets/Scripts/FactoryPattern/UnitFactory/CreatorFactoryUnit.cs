@@ -30,6 +30,7 @@ public class CreatorFactoryUnit
         }
         UnitGameObject unit = ((GameObject)GameObject.Instantiate(obj)).GetComponent<UnitGameObject>();
         tile.unitGameObject = unit;
+        unit.transform.position = tile.transform.position;
         unit.transform.parent = tile.transform;
         return unit;
     }

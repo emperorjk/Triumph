@@ -24,7 +24,7 @@ public class GameLoop : MonoBehaviour
         // for testing unit spawn factory
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            UnitGameObject obj = CreatorFactoryUnit.CreateUnit(GameManager.Instance.GetTile(new TileCoordinates(1, 1)), PlayerIndex.One, UnitTypes.Swordsman);       
+            UnitGameObject obj = CreatorFactoryUnit.CreateUnit(GameManager.Instance.GetTile(new TileCoordinates(2, 5)), PlayerIndex.One, UnitTypes.Swordsman);       
         }
 
         ActivateDoneButton();
