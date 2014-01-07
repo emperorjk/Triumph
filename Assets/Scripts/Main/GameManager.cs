@@ -61,10 +61,10 @@ public class GameManager
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
         players = new SortedList<PlayerIndex, Player>();
         players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral));
-        players.Add(PlayerIndex.One, new Player("Player 1", PlayerIndex.One));
-        players.Add(PlayerIndex.Two, new Player("Player 2", PlayerIndex.Two));
+        players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue));
+        players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red));
 
-        CurrentPlayer = players[PlayerIndex.One];
+        CurrentPlayer = players[PlayerIndex.Blue];
         CaptureBuildings = new CaptureBuildings();
     }
 

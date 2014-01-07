@@ -8,11 +8,11 @@ public class TrainingzoneFactory : IBuildingGameObject
     public override GameObject CreateBuilding(PlayerIndex index)
     {
         GameObject obj = null;
-        if (PlayerIndex.One == index)
+        if (PlayerIndex.Blue == index)
         {
             obj = Resources.Load<GameObject>(DirToUnitFolder + "TrainingZoneBluePrefab");
         }
-        else if (PlayerIndex.Two == index)
+        else if (PlayerIndex.Red == index)
         {
             obj = Resources.Load<GameObject>(DirToUnitFolder + "TrainingZoneRedPrefab");
         }

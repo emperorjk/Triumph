@@ -8,11 +8,11 @@ public class SwordsmanFactory : IUnitGameObject
     public override GameObject CreateUnit(PlayerIndex index)
     {
         GameObject obj = null;
-        if (PlayerIndex.One == index)
+        if (PlayerIndex.Blue == index)
         {
             obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanBluePrefab");
         }
-        else if (PlayerIndex.Two == index)
+        else if (PlayerIndex.Red == index)
         {
             obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanRedPrefab");
         }
@@ -22,11 +22,11 @@ public class SwordsmanFactory : IUnitGameObject
     public override GameObject CreateHeroUnit(PlayerIndex index)
     {
         GameObject obj = null;
-        if (PlayerIndex.One == index)
+        if (PlayerIndex.Blue == index)
         {
             obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanHeroBluePrefab");
         }
-        else if (PlayerIndex.Two == index)
+        else if (PlayerIndex.Red == index)
         {
             obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanHeroRedPrefab");
         }
