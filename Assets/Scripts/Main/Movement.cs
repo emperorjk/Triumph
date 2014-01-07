@@ -44,8 +44,8 @@ public class Movement
 
     public void ShowHighlights(UnitGameObject unit)
     {
-        movementList = GameManager.Instance.GetAllTilesWithinRange(unit.tile.coordinate, unit.unitGame.moveRange);
-        attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(unit.tile.coordinate, unit.unitGame.GetAttackRange);
+        movementList = GameManager.Instance.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.moveRange);
+        attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.GetAttackRange);
 
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementList)
         {
@@ -53,10 +53,8 @@ public class Movement
             {
                 if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
                 {
-                    // in tile zetten
-                    GameObject highlightGO = tile.Value.transform.FindChild("highlight_move").gameObject;
-                    highlightGO.SetActive(true);
-                    GameManager.Instance.highLightObjects.Add(highlightGO);
+                    tile.Value.HighlightMove.SetActive(true);
+                    GameManager.Instance.highLightObjects.Add(tile.Value.HighlightMove);
                 }
             }
         }
@@ -134,7 +132,7 @@ public class Movement
 
             if (LastClickedUnitTile.unitGameObject.unitGame.CanAttackAfterMove)
             {
-                attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange);
+                attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.Coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange);
                 attack.ShowAttack(attackHighlightList);
                 LastClickedUnitGO.renderer.material.color = Color.white;
                 GameManager.Instance.UnitCanAttack = true;

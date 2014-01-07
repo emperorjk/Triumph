@@ -35,12 +35,34 @@ public class Tile : MonoBehaviour
     public BuildingGameObject buildingGameObject;
     public UnitGameObject unitGameObject;
 
-    public TileCoordinates coordinate { get; private set; }
+    public GameObject HighlightMove { get; private set; }
+    public GameObject HighlightAttack { get; private set; }
+    public TileCoordinates Coordinate { get; private set; }
 
     void Awake()
     {
-        coordinate = new TileCoordinates(ColumnId, RowId);
+        Coordinate = new TileCoordinates(ColumnId, RowId);
         GameManager.Instance.AddTile(this);
+
+        InitHighlights();
+    }
+
+    private void InitHighlights()
+    {
+        GameObject highlightAttack = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_attack")));
+        GameObject highlightMove = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_move")));
+
+        // Setting the parent for the Unity Hierarchy and the position to the correct place
+        highlightAttack.transform.parent = this.transform;
+        highlightAttack.transform.position = this.transform.position;
+        highlightMove.transform.parent = this.transform;
+        highlightMove.transform.position = this.transform.position;
+
+        highlightAttack.name = "highlight_attack";
+        highlightMove.name = "highlight_move";
+
+        HighlightAttack = this.gameObject.transform.FindChild("highlight_attack").gameObject;
+        HighlightMove = this.gameObject.transform.FindChild("highlight_move").gameObject;
     }
 
     public bool HasBuilding()

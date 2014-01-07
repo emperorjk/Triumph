@@ -75,12 +75,12 @@ public class GameManager
     public void AddTile(Tile tile)
     {
         // Check if the second dictionary exists in the list. If not then create a new dictionary and insert this in the tiles dictionary.
-        if(!tiles.ContainsKey(tile.coordinate.ColumnId))
+        if (!tiles.ContainsKey(tile.Coordinate.ColumnId))
         {
-            tiles.Add(tile.coordinate.ColumnId, new Dictionary<int, Tile>());
+            tiles.Add(tile.Coordinate.ColumnId, new Dictionary<int, Tile>());
         }
         // Last insert the tile object into the correct spot in the dictionarys. Since we now know that both dictionary at these keys exist.
-        tiles[tile.coordinate.ColumnId].Add(tile.coordinate.RowId, tile);
+        tiles[tile.Coordinate.ColumnId].Add(tile.Coordinate.RowId, tile);
     }
 
     /// <summary>
