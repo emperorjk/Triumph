@@ -12,6 +12,7 @@ public class CreatorFactoryUnit
         tile.unitGameObject = unit;
         unit.transform.position = tile.transform.position;
         unit.transform.parent = tile.transform;
+        tile.unitGameObject = unit;
         return unit;
     }
 

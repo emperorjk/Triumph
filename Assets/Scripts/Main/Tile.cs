@@ -37,7 +37,7 @@ public class Tile : MonoBehaviour
 
     public TileCoordinates coordinate { get; private set; }
 
-    void Start()
+    void Awake()
     {
         coordinate = new TileCoordinates(ColumnId, RowId);
         GameManager.Instance.AddTile(this);

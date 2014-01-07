@@ -11,7 +11,7 @@ public class EnvironmentGameObject : MonoBehaviour
     public EnvironmentBase environmentGame { get; private set; }
     public Tile tile { get; set; }
 
-	void Start () {
+	void Awake () {
         // for now ugly code
         if (type.Equals(EnvironmentTypes.Big_Rocks)) { environmentGame = new Big_Rocks(this); }
         else if (type.Equals(EnvironmentTypes.Bridge)) { environmentGame = new Bridge(this); }
