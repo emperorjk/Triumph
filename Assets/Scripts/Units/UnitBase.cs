@@ -16,6 +16,35 @@ public abstract class UnitBase {
         this.moveRange = moveRange;
         this.cost = cost;
     }
+    public abstract int GetAttackRange { get; }
+    public abstract bool CanAttackAfterMove { get; }
+    
+    public void DecreaseHealth(int damage) 
+    {
+        this.health -= damage;
+        
+        if (this.health <= 0) 
+        {
+            Die();    
+        }
+    }
+
+    public void IncreaseHealth(int recovery)
+    {
+        this.health += recovery;
+    }
+
+    /// <summary>
+    /// Set unitGameObject to null to delete the reference
+    /// Destroy the GameObject
+    /// </summary>
+    public void Die() 
+    {
+        unitGameObject.tile.unitGameObject = null;
+        GameManager.Instance.CurrentPlayer.RemoveUnit(this);
+        GameObject.Destroy(unitGameObject.gameObject);
+    }
+
     public bool hasMoved { get; set; }
     public bool hasAttacked { get; set; }
     public bool isHero { get; set; }

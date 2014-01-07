@@ -26,6 +26,11 @@ public class GameLoop : MonoBehaviour
         // If user clicks, check if highlight is on and show the highlights or check if user needs to move
         if (Input.GetMouseButtonDown(0) && !_manager.NeedMoving)
         {
+            if (GameManager.Instance.UnitCanAttack)
+            {
+                
+            }
+
             if (!_manager.IsHightlightOn)
             {
                 _movement.ShowMovementHighLight(_manager.CurrentPlayer);

@@ -6,21 +6,52 @@ using UnityEngine;
 
 public class Attack
 {
+    private RaycastHit _touchBox;
+
     // Show attackhighlight, gets called in the ShowMovement method in Movement class
     // because when unit clicks on unit we also need to show attackhighlight.
-    public void ShowAttack(Tile tile)
+    public void ShowAttack(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
     {
-        if (tile.unitGameObject != null)
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
         {
-            if (GameManager.Instance.CurrentPlayer != GameManager.Instance.GetPlayer(tile.unitGameObject.index))
+            foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
-                // Show enemy highlight
-                GameObject attackHighlightGO = tile.transform.FindChild("highlight_attack").gameObject;
-                
-                attackHighlightGO.SetActive(true);
-                GameManager.Instance.attackHighLightObjects.Add(attackHighlightGO);
+                    if (tile.Value.unitGameObject != null && GameManager.Instance.CurrentPlayer.index != tile.Value.unitGameObject.index)
+                    {
+                        GameObject attackHighlightGO = tile.Value.transform.FindChild("highlight_attack").gameObject;
+                        attackHighlightGO.SetActive(true);
+                        GameManager.Instance.attackHighLightObjects.Add(attackHighlightGO);
+                        break;
+                    }
             }
         }
     }
-}
 
+    public bool CollisionWithAttackHighlight(Tile tile)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out _touchBox))
+        {
+            foreach (GameObject attackHighlight in GameManager.Instance.attackHighLightObjects)
+            {
+                if (_touchBox.collider == attackHighlight.collider)
+                {
+                    // Als range persoon aanvallen, anders niet
+                    if (!tile.unitGameObject.unitGame.CanAttackAfterMove)
+                    {
+                        Tile enemyUnitTile = attackHighlight.transform.parent.GetComponent<Tile>();
+                        // method decrease health, increase health, isDead
+                        enemyUnitTile.unitGameObject.unitGame.DecreaseHealth((int)tile.unitGameObject.unitGame.damage * 4);
+                        
+                        //Debug.Log(enemyUnitTile.unitGameObject.unitGame.health);
+
+
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}

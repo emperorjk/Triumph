@@ -37,6 +37,7 @@ public class GameManager
     public Tile LastClickedUnitTile { get; set; }
     public bool IsHightlightOn { get; set; }
     public CaptureBuildings CaptureBuildings { get; private set; }
+    public bool UnitCanAttack { get; set; }
 
     // Lists need to be accesed in GameManager because when NextPlayer method gets called we want to deactivate
     // the highlights also.

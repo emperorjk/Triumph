@@ -11,5 +11,15 @@ public class Swordsman : UnitBase
     {
 
     }
+
+    public override bool CanAttackAfterMove
+    {
+        get { return true; }
+    }
+
+    public override int GetAttackRange
+    {
+        get { return attackRange + moveRange; }
+    }
 }
 

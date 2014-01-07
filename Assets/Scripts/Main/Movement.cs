@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class Movement
 {
-    private Dictionary<int, Dictionary<int, Tile>> list;
+    private Dictionary<int, Dictionary<int, Tile>> movementList;
+    private Dictionary<int, Dictionary<int, Tile>> attackHighlightList;
     private Attack attack = new Attack();
 
     private RaycastHit _touchBox;
@@ -32,31 +33,34 @@ public class Movement
                     {
                         LastClickedUnitTile = b.unitGameObject.tile;
                         LastClickedUnitGO = b.unitGameObject.gameObject;
-                        ShowMovement(b.unitGameObject);
+                        ShowHighlights(b.unitGameObject);
                         GameManager.Instance.IsHightlightOn = true;
+                        break;
                     }
                 }
             }
         }
     }
 
-    public void ShowMovement(UnitGameObject unit)
+    public void ShowHighlights(UnitGameObject unit)
     {
-        list = GameManager.Instance.GetAllTilesWithinRange(unit.tile.coordinate, unit.unitGame.moveRange);
+        movementList = GameManager.Instance.GetAllTilesWithinRange(unit.tile.coordinate, unit.unitGame.moveRange);
+        attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(unit.tile.coordinate, unit.unitGame.GetAttackRange);
 
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in list)
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementList)
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
                 if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
                 {
+                    // in tile zetten
                     GameObject highlightGO = tile.Value.transform.FindChild("highlight_move").gameObject;
                     highlightGO.SetActive(true);
                     GameManager.Instance.highLightObjects.Add(highlightGO);
                 }
-               attack.ShowAttack(tile.Value);
             }
         }
+        attack.ShowAttack(attackHighlightList);
     }
 
     public void CollisionWithHighlight()
@@ -77,9 +81,6 @@ public class Movement
 
                     LastClickedUnitTile.unitGameObject.unitGame.hasMoved = true;
 
-                    // Set the current Tile to null
-                    LastClickedUnitTile.unitGameObject = null;
-
                     // Set the destionation Tile to the ClickedUnit
                     Tile destinationTile = highlight.transform.parent.gameObject.GetComponent<Tile>();
                     destinationTile.unitGameObject = LastClickedUnitGO.GetComponent<UnitGameObject>();
@@ -87,33 +88,28 @@ public class Movement
 
                     // Start moving in update loop
                     GameManager.Instance.NeedMoving = true;
+
+                    break;
                 }
             }
         }
 
+        // if CollisionWithAttackHighlight returns false know unit cannot attack before movement
+        if (!attack.CollisionWithAttackHighlight(LastClickedUnitTile)) 
+        {
+            Debug.Log("Attack as not archer");
+        }
+
         DeactivateHighLights();
 
-        // recreate list, otherwise list gets filled with duplicates
+        // Clear list, otherwise list gets filled with duplicates
         GameManager.Instance.highLightObjects.Clear();
 
-        // disable current highlight
+        // Disable current highlight
         GameManager.Instance.IsHightlightOn = false;
 
         // Call this method because we want to activate the highlight if user clicks on another unit
         ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
-    }
-
-    private void DeactivateHighLights()
-    {
-        foreach (GameObject highlights in GameManager.Instance.highLightObjects)
-        {
-            highlights.SetActive(false);
-        }
-
-        foreach (GameObject attackHighlight in GameManager.Instance.attackHighLightObjects)
-        {
-            attackHighlight.SetActive(false);
-        }
     }
 
     public void Move()
@@ -132,11 +128,34 @@ public class Movement
             // placed onto the tile which it is on. It also changes the objects in the hierarchie window under the new tile object.
             LastClickedUnitGO.transform.parent = tileUnitMovedTo.transform;
 
-            // set color to gray so player knows unit has             
+            // Set color to gray so player knows unit has moved  
             LastClickedUnitGO.renderer.material.color = Color.gray;
             GameManager.Instance.NeedMoving = false;
+
+            if (LastClickedUnitTile.unitGameObject.unitGame.CanAttackAfterMove)
+            {
+                attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange);
+                attack.ShowAttack(attackHighlightList);
+                LastClickedUnitGO.renderer.material.color = Color.white;
+                GameManager.Instance.UnitCanAttack = true;
+            }
+
             LastClickedUnitGO = null;
+            LastClickedUnitTile.unitGameObject = null;
             LastClickedUnitTile = null;
+        }
+    }
+
+    private void DeactivateHighLights()
+    {
+        foreach (GameObject highlights in GameManager.Instance.highLightObjects)
+        {
+            highlights.SetActive(false);
+        }
+
+        foreach (GameObject attackHighlight in GameManager.Instance.attackHighLightObjects)
+        {
+            attackHighlight.SetActive(false);
         }
     }
 }
