@@ -17,4 +17,9 @@ public class Headquarters : BuildingsBase{
     {
         get { return false; }
     }
+
+    public override float DamageToCapturingUnit
+    {
+        get { return 0; }
+    }
 }

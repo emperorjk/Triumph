@@ -17,4 +17,9 @@ public class BarracksRange : BuildingsBase {
     {
         get { return true; }
     }
+
+    public override float DamageToCapturingUnit
+    {
+        get { return 0; }
+    }
 }

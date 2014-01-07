@@ -18,14 +18,21 @@ public abstract class BuildingsBase {
     { 
         this.currentCapturePoints += increaseBy;
         if (this.currentCapturePoints >= this.capturePoints) { this.currentCapturePoints = this.capturePoints; }
+        buildingGameObject.UpdateCapturePointsText();
     }
     public void DecreaseCapturePointsBy(int decreaseBy) 
     { 
         this.currentCapturePoints -= decreaseBy;
         if (this.currentCapturePoints <= 0) { this.currentCapturePoints = 0; }
+        buildingGameObject.UpdateCapturePointsText();
     }
     public bool HasCaptured() { return currentCapturePoints >= capturePoints; }
-    public void resetCurrentCapturePoints() { this.currentCapturePoints = 0; }
+    public void resetCurrentCapturePoints() 
+    { 
+        this.currentCapturePoints = 0;
+        buildingGameObject.UpdateCapturePointsText();
+    }
     public abstract BuildingTypes type { get; }
     public abstract bool CanProduce { get; }
+    public abstract float DamageToCapturingUnit { get; }
 }

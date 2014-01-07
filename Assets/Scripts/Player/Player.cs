@@ -36,7 +36,10 @@ public class Player {
 
     public void RemoveUnit(UnitBase unit)
     {
-        if (ownedUnits.Contains(unit)) { Debug.Log("Delete"); ownedUnits.Remove(unit); }
+        if (ownedUnits.Contains(unit)) 
+        {
+            ownedUnits.Remove(unit); 
+        }
     }
 
     public void IncreaseGoldBy(int increaseBy) { gold += increaseBy; }

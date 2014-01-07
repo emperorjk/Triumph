@@ -43,11 +43,6 @@ public class Attack
                         Tile enemyUnitTile = attackHighlight.transform.parent.GetComponent<Tile>();
                         // method decrease health, increase health, isDead
                         enemyUnitTile.unitGameObject.unitGame.DecreaseHealth((int)tile.unitGameObject.unitGame.damage * 4);
-                        // this is not clean. Is nicer when there is a isDead method to check if the unit has died. Then call the Die method.
-                        if (enemyUnitTile.unitGameObject != null)
-                        {
-                            enemyUnitTile.unitGameObject.UpdateCapturePointsText();
-                        }
                         //Debug.Log(enemyUnitTile.unitGameObject.unitGame.health);
 
 

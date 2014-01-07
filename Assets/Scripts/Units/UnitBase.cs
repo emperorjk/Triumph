@@ -23,7 +23,7 @@ public abstract class UnitBase {
     public void DecreaseHealth(int damage) 
     {
         this.currentHealth -= damage;
-        
+        this.unitGameObject.UpdateCapturePointsText();
         if (this.currentHealth <= 0) 
         {
             Die();    
@@ -35,6 +35,7 @@ public abstract class UnitBase {
         this.currentHealth += recovery;
         // If we later have some sort of healing make sure that it cannot go over its initial full health.
         if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
+        this.unitGameObject.UpdateCapturePointsText();
     }
 
     /// <summary>
@@ -44,7 +45,7 @@ public abstract class UnitBase {
     public void Die() 
     {
         unitGameObject.tile.unitGameObject = null;
-        GameManager.Instance.CurrentPlayer.RemoveUnit(this);
+        GameManager.Instance.GetPlayer(unitGameObject.index).RemoveUnit(this);
         GameObject.Destroy(unitGameObject.gameObject);
     }
 
