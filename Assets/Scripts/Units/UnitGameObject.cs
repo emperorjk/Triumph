@@ -13,13 +13,16 @@ public class UnitGameObject : MonoBehaviour
     public bool isHero;
     public UnitBase unitGame { get; private set; }
     public Tile tile { get; set; }
-	void Start () {
+	void Awake () {
         // for now ugly code
         if (type.Equals(UnitTypes.Archer)) { unitGame = new Archer(this); }
         else if (type.Equals(UnitTypes.Knight)) { unitGame = new Knight(this); }
         else if (type.Equals(UnitTypes.Swordsman)) { unitGame = new Swordsman(this); }
         unitGame.isHero = isHero;
-        tile = this.transform.parent.GetComponent<Tile>();
+        if (this.transform.parent != null)
+        {
+            tile = this.transform.parent.GetComponent<Tile>();
+        }
         GameManager.Instance.GetPlayer(index).AddUnit(unitGame);
 	}
 }
