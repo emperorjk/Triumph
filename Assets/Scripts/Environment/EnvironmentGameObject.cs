@@ -22,5 +22,6 @@ public class EnvironmentGameObject : MonoBehaviour
         else if (type.Equals(EnvironmentTypes.Water)) { environmentGame = new Water(this); }
         else if (type.Equals(EnvironmentTypes.Dirt)) { environmentGame = new Dirt(this); }
         tile = GetComponent<Tile>();
+        tile.environmentGameObject = this;
 	}
 }

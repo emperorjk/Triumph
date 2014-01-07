@@ -22,6 +22,7 @@ public class UnitGameObject : MonoBehaviour
         if (this.transform.parent != null)
         {
             tile = this.transform.parent.GetComponent<Tile>();
+            tile.unitGameObject = this;
         }
         GameManager.Instance.GetPlayer(index).AddUnit(unitGame);
 	}

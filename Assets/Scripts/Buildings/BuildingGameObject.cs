@@ -23,6 +23,7 @@ public class BuildingGameObject : MonoBehaviour
         if(this.transform.parent != null)
         {
             tile = this.transform.parent.GetComponent<Tile>();
+            tile.buildingGameObject = this;
         }
         GameManager.Instance.GetPlayer(index).AddBuilding(buildingGame);
 	}

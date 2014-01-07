@@ -83,7 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColumnId: 1
   RowId: 1
-  environmentGameObject: {fileID: 11400002}
+  environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
 --- !u!114 &11400002

@@ -12,7 +12,7 @@ public class CreatorFactoryBuilding
         tile.buildingGameObject = building;
         building.transform.position = tile.transform.position;
         building.transform.parent = tile.transform;
-        tile.buildingGameObject = building;
+        building.tile = tile;
         return building;
     }
 
