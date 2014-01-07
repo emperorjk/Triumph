@@ -17,12 +17,12 @@ public abstract class BuildingsBase {
     public void IncreaseCapturePointsBy(int increaseBy) 
     { 
         this.currentCapturePoints += increaseBy;
-        if (this.currentCapturePoints > this.capturePoints) { this.currentCapturePoints = this.capturePoints; }
+        if (this.currentCapturePoints >= this.capturePoints) { this.currentCapturePoints = this.capturePoints; }
     }
     public void DecreaseCapturePointsBy(int decreaseBy) 
     { 
         this.currentCapturePoints -= decreaseBy;
-        if (this.currentCapturePoints < 0) { this.currentCapturePoints = 0; }
+        if (this.currentCapturePoints <= 0) { this.currentCapturePoints = 0; }
     }
     public bool HasCaptured() { return currentCapturePoints >= capturePoints; }
     public void resetCurrentCapturePoints() { this.currentCapturePoints = 0; }

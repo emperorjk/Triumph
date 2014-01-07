@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
   m_Layer: 0
-  m_Name: SwordsmanBluePrefab
+  m_Name: KnightRedHeroPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,9 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8c7a3ef077c134d9003b45faa0df20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 1
-  type: 2
-  isHero: 0
+  index: 2
+  type: 1
+  isHero: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -147,7 +147,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_SortingLayerID: 4045587811
-  m_Sprite: {fileID: 21300000, guid: 91b535391840b2b41b5efc6d87761234, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8c3c7fb969d5c6648a72edbd55aed76f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

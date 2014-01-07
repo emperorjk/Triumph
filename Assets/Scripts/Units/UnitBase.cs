@@ -9,6 +9,7 @@ public abstract class UnitBase {
         this.hasMoved = false;
         this.hasAttacked = false;
         this.isHero = false;
+        this.currentHealth = health;
         this.health = health;
         this.damage = damage;
         this.attackRange = attackRange;
@@ -21,9 +22,9 @@ public abstract class UnitBase {
     
     public void DecreaseHealth(int damage) 
     {
-        this.health -= damage;
+        this.currentHealth -= damage;
         
-        if (this.health <= 0) 
+        if (this.currentHealth <= 0) 
         {
             Die();    
         }
@@ -31,7 +32,9 @@ public abstract class UnitBase {
 
     public void IncreaseHealth(int recovery)
     {
-        this.health += recovery;
+        this.currentHealth += recovery;
+        // If we later have some sort of healing make sure that it cannot go over its initial full health.
+        if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
     }
 
     /// <summary>
@@ -48,7 +51,8 @@ public abstract class UnitBase {
     public bool hasMoved { get; set; }
     public bool hasAttacked { get; set; }
     public bool isHero { get; set; }
-    public int health { get; set; }
+    public int health { get; private set; }
+    public int currentHealth { get; set; }
     public float damage { get; set; }
     public int attackRange { get; set; }
     public int baseAttackRange { get; set; }

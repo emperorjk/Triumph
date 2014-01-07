@@ -12,6 +12,8 @@ public class BuildingGameObject : MonoBehaviour
     public BuildingTypes type;
     public BuildingsBase buildingGame { get; private set; }
     public Tile tile { get; set; }
+    public GameObject capturePointsText { get; private set; }
+
 	void Awake () {
         // for now ugly code
         if (type.Equals(BuildingTypes.BarracksCavalry)) { buildingGame = new BarracksCavalry(this); }
@@ -25,6 +27,25 @@ public class BuildingGameObject : MonoBehaviour
             tile = this.transform.parent.GetComponent<Tile>();
             tile.buildingGameObject = this;
         }
+        capturePointsText = transform.FindChild("CapturePoints").gameObject;
+        UpdateCapturePointsText();
+        // Set the sorting layer to GUI. The same used for the hightlights. Eventough you cannot set it via unity inspector you can still set it via code. :D
+        capturePointsText.renderer.sortingLayerName = "GUI";
         GameManager.Instance.GetPlayer(index).AddBuilding(buildingGame);
 	}
+
+    public void UpdateCapturePointsText()
+    {
+        TextMesh text = capturePointsText.GetComponent<TextMesh>();
+        text.text = buildingGame.currentCapturePoints + "/" + buildingGame.capturePoints;
+
+        if(buildingGame.currentCapturePoints <= 0)
+        {
+            capturePointsText.renderer.enabled = false;
+        }
+        else
+        {
+            capturePointsText.renderer.enabled = true;
+        }
+    }
 }
