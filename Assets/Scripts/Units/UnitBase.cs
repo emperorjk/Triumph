@@ -24,6 +24,7 @@ public abstract class UnitBase {
     {
         this.currentHealth -= damage;
         this.unitGameObject.UpdateCapturePointsText();
+
         if (this.currentHealth <= 0) 
         {
             Die();    

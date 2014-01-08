@@ -7,27 +7,25 @@ using UnityEngine;
 public class Attack
 {
     private RaycastHit _touchBox;
+    private List<GameObject> closeAttackHighlights;
 
-    // Show attackhighlight, gets called in the ShowMovement method in Movement class
-    // because when unit clicks on unit we also need to show attackhighlight.
-    public void ShowAttack(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
+    public void ShowAttackHighlight(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
     {
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
-                    if (tile.Value.unitGameObject != null && GameManager.Instance.CurrentPlayer.index != tile.Value.unitGameObject.index)
-                    {
-                        GameObject attackHighlightGO = tile.Value.transform.FindChild("highlight_attack").gameObject;
-                        attackHighlightGO.SetActive(true);
-                        GameManager.Instance.attackHighLightObjects.Add(attackHighlightGO);
-                        break;
-                    }
+                if (tile.Value.unitGameObject != null && GameManager.Instance.CurrentPlayer.index != tile.Value.unitGameObject.index)
+                {
+                    tile.Value.HighlightAttack.SetActive(true);
+                    GameManager.Instance.attackHighLightObjects.Add(tile.Value.HighlightAttack);
+                    break;
+                }
             }
         }
     }
 
-    public bool CollisionWithAttackHighlight(Tile tile)
+    public void CollisionAttackRange(Tile tile)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -37,20 +35,53 @@ public class Attack
             {
                 if (_touchBox.collider == attackHighlight.collider)
                 {
-                    // Als range persoon aanvallen, anders niet
+                    // Only range people can attack with tiles between them
                     if (!tile.unitGameObject.unitGame.CanAttackAfterMove)
                     {
                         Tile enemyUnitTile = attackHighlight.transform.parent.GetComponent<Tile>();
-                        // method decrease health, increase health, isDead
-                        enemyUnitTile.unitGameObject.unitGame.DecreaseHealth((int)tile.unitGameObject.unitGame.damage * 4);
-                        //Debug.Log(enemyUnitTile.unitGameObject.unitGame.health);
-
-
-                        return true;
+                        enemyUnitTile.unitGameObject.unitGame.DecreaseHealth((int)tile.unitGameObject.unitGame.damage * 5);
+                        tile.unitGameObject.unitGame.hasAttacked = true;
+                        tile.unitGameObject.renderer.material.color = Color.gray;
                     }
                 }
             }
         }
-        return false;
+    }
+
+    public void CollisionAttackMelee(Dictionary<int, Dictionary<int, Tile>> attackHighlightList, Tile tile)
+    {
+        closeAttackHighlights = new List<GameObject>();
+
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
+        {
+            foreach (KeyValuePair<int, Tile> t in item.Value)
+            {
+                if (t.Value.unitGameObject != null)
+                {
+                    closeAttackHighlights.Add(t.Value.HighlightAttack); 
+                }
+            }
+        }
+        AttackNearbyEnemies(tile);
+    }
+
+    public void AttackNearbyEnemies(Tile tile)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out _touchBox))
+        {
+            foreach (GameObject attackHighlight in closeAttackHighlights)
+            {
+                if (_touchBox.collider == attackHighlight.collider)
+                {
+                    Tile enemyUnitTile = attackHighlight.transform.parent.GetComponent<Tile>();
+                    enemyUnitTile.unitGameObject.unitGame.DecreaseHealth((int)tile.unitGameObject.unitGame.damage * 5);
+                    tile.unitGameObject.unitGame.hasAttacked = true;
+                    tile.unitGameObject.transform.gameObject.renderer.material.color = Color.gray;
+                    GameManager.Instance.UnitCanAttack = false;
+                }
+            }
+        }
     }
 }

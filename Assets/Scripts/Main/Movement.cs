@@ -13,13 +13,19 @@ public class Movement
     private RaycastHit _touchBox;
     private GameObject LastClickedUnitGO;
     private Tile LastClickedUnitTile;
+    private UnitGameObject LastClickedUnitTileAttackNearby;
     private Vector2 startPosition;
     private Vector2 destionationLocation;
 
     private float startTime;
     private float duration = 2f;
 
-    public void ShowMovementHighLight(Player player)
+    /// <summary>
+    /// Loops through all units from the player and checks if they can move.
+    /// If unit can move we call ShowHighlight method for showing highlights.
+    /// </summary>
+    /// <param name="player"></param>
+    public void ShowMovementUnit(Player player)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         
@@ -29,9 +35,10 @@ public class Movement
             {
                 if (_touchBox.collider == b.unitGameObject.collider)
                 {
-                    if (!b.hasMoved)
+                    if (!b.hasMoved && !b.hasAttacked)
                     {
                         LastClickedUnitTile = b.unitGameObject.tile;
+                        LastClickedUnitTileAttackNearby = LastClickedUnitTile.unitGameObject;
                         LastClickedUnitGO = b.unitGameObject.gameObject;
                         ShowHighlights(b.unitGameObject);
                         GameManager.Instance.IsHightlightOn = true;
@@ -42,6 +49,11 @@ public class Movement
         }
     }
 
+    /// <summary>
+    /// Method for showing / enable highlights. Attack and movement highlights are created first.
+    /// We also call the ShowAttack method for showing attack highlights.
+    /// </summary>
+    /// <param name="unit"></param>
     public void ShowHighlights(UnitGameObject unit)
     {
         movementList = GameManager.Instance.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.moveRange);
@@ -58,9 +70,13 @@ public class Movement
                 }
             }
         }
-        attack.ShowAttack(attackHighlightList);
+        attack.ShowAttackHighlight(attackHighlightList);
     }
 
+    /// <summary>
+    /// Check if user has clicked on a highlight collider, if user has clicked on highlight
+    /// unit will move.
+    /// </summary>
     public void CollisionWithHighlight()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -91,23 +107,18 @@ public class Movement
                 }
             }
         }
+      
+        attack.CollisionAttackRange(LastClickedUnitTile);
 
-        // if CollisionWithAttackHighlight returns false know unit cannot attack before movement
-        if (!attack.CollisionWithAttackHighlight(LastClickedUnitTile)) 
+        if (!LastClickedUnitTile.unitGameObject.unitGame.hasAttacked)
         {
-            Debug.Log("Attack as not archer");
+            attack.CollisionAttackMelee(GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.Coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange), LastClickedUnitTile);
         }
 
         DeactivateHighLights();
 
-        // Clear list, otherwise list gets filled with duplicates
-        GameManager.Instance.highLightObjects.Clear();
-
-        // Disable current highlight
-        GameManager.Instance.IsHightlightOn = false;
-
         // Call this method because we want to activate the highlight if user clicks on another unit
-        ShowMovementHighLight(GameManager.Instance.CurrentPlayer);
+        ShowMovementUnit(GameManager.Instance.CurrentPlayer);
     }
 
     public void Move()
@@ -125,16 +136,17 @@ public class Movement
             // Set the unit transform.parent to the new tile which is has moved to. This way the position resets to 0,0,0 of the unit and it is always perfectly 
             // placed onto the tile which it is on. It also changes the objects in the hierarchie window under the new tile object.
             LastClickedUnitGO.transform.parent = tileUnitMovedTo.transform;
-
-            // Set color to gray so player knows unit has moved  
-            LastClickedUnitGO.renderer.material.color = Color.gray;
             GameManager.Instance.NeedMoving = false;
+            
+            if(LastClickedUnitTile.unitGameObject.unitGame.hasMoved)
+            {
+                LastClickedUnitGO.renderer.material.color = Color.gray;
+            }
 
-            if (LastClickedUnitTile.unitGameObject.unitGame.CanAttackAfterMove)
+            if (LastClickedUnitTile.unitGameObject.unitGame.CanAttackAfterMove )
             {
                 attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.Coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange);
-                attack.ShowAttack(attackHighlightList);
-                LastClickedUnitGO.renderer.material.color = Color.white;
+                attack.ShowAttackHighlight(attackHighlightList);
                 GameManager.Instance.UnitCanAttack = true;
             }
 
@@ -144,6 +156,16 @@ public class Movement
         }
     }
 
+    public void AttackCloseEnemy()
+    {
+        attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTileAttackNearby.tile.Coordinate, LastClickedUnitTileAttackNearby.unitGame.attackRange);
+        attack.CollisionAttackMelee(attackHighlightList, LastClickedUnitTileAttackNearby.transform.parent.gameObject.GetComponent<Tile>());
+        DeactivateHighLights();
+    }
+
+    /// <summary>
+    /// Deactivate highlight and set them to non-active. Clear the two lists with highlight.
+    /// </summary>
     private void DeactivateHighLights()
     {
         foreach (GameObject highlights in GameManager.Instance.highLightObjects)
@@ -155,5 +177,11 @@ public class Movement
         {
             attackHighlight.SetActive(false);
         }
+
+        // Clear list, otherwise list gets filled with duplicates
+        GameManager.Instance.highLightObjects.Clear();
+        GameManager.Instance.attackHighLightObjects.Clear();
+
+        GameManager.Instance.IsHightlightOn = false;
     }
 }
