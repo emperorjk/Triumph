@@ -10,7 +10,7 @@ public class BarracksRange : BuildingsBase {
     }
     public override BuildingTypes type
     {
-        get { return BuildingTypes.BarracksRange; }
+        get { return buildingGameObject.type; }
     }
 
     public override bool CanProduce

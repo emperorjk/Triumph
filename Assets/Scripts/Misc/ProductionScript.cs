@@ -8,30 +8,36 @@ public class ProductionScript : MonoBehaviour {
 
     // Define the type of unit.
     public UnitTypes type;
-    // Drag the appropiate unit prefab to spawn. If this script is put on the production overlay of the Knight. Than the Knight prefab should be dragged on here.
-    // Propably not needed anymore. Need to find a solution for this.
-    public UnitGameObject unitToSpawn;
+    public ProductionOverlayMain parentProduction { get; set; }
+    public bool CanClick { get; set; }
 	
-	void Update () {
+    void Update () {
         
-        if(GameManager.Instance.IsProductionOverlayActive)
+        if(CanClick && Input.GetMouseButtonDown(0) && parentProduction.IsProductionOverlayActive && !parentProduction.BuildingClickedProduction.tile.HasUnit())
         {
-            if(Input.GetMouseButtonDown(0))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit touchBox;
+            if (Physics.Raycast(ray, out touchBox))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit touchBox;
-                if (Physics.Raycast(ray, out touchBox))
+                if (touchBox.collider == this.collider)
                 {
-                    if (touchBox.collider == this.collider)
+                    BuildingGameObject buildingToProduceFrom = parentProduction.BuildingClickedProduction;
+                    // Kind of ugly yet could not find better solution. The unit is created before we check if it can be bought.
+                    // Set it inactive immediatly and then check for enough gold. If not then destroy else decrease the gold and set it active.
+                    UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.tile, buildingToProduceFrom.index, type);
+                    unit.gameObject.SetActive(false);
+
+                    if(GameManager.Instance.CurrentPlayer.CanBuy(unit.unitGame.cost))
                     {
-                        // Create a new instance of the unit.
-                        if(GameManager.Instance.CurrentPlayer.CanBuy(unitToSpawn.unitGame.cost))
-                        {
-                            Tile lastClickedBuildingTile = GameManager.Instance.LastClickedBuildingTile;
-                            CreatorFactoryUnit.CreateUnit(lastClickedBuildingTile, lastClickedBuildingTile.buildingGameObject.index, type);
-                            GameManager.Instance.CurrentPlayer.DecreaseGoldBy(unitToSpawn.unitGame.cost);
-                            GameManager.Instance.UpdateTextboxes();
-                        }
+                        unit.gameObject.SetActive(true);
+                        GameManager.Instance.CurrentPlayer.DecreaseGoldBy(unit.unitGame.cost);
+                        GameManager.Instance.UpdateTextboxes();
+                        CanClick = false;
+                        parentProduction.DestroyAndStopOverlay();
+                    }
+                    else
+                    {
+                        GameManager.Instance.DestroyUnitGameObjects(unit);
                     }
                 }
             }

@@ -29,13 +29,12 @@ public class GameManager
     public bool IsAudioOn { get; set; }
     public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
-    public bool IsProductionOverlayActive { get; set; }
     public Player CurrentPlayer { get; set; }
     public bool NeedMoving { get; set; }
-    public Tile LastClickedBuildingTile { get; set; }
     public GameObject LastClickedUnitGO { get; set; }
     public Tile LastClickedUnitTile { get; set; }
     public bool IsHightlightOn { get; set; }
+    public ProductionOverlayMain productionOverlayMain { get; private set; }
     public CaptureBuildings CaptureBuildings { get; private set; }
     public bool UnitCanAttack { get; set; }
 
@@ -57,15 +56,15 @@ public class GameManager
     private void Init()
     {	
 		IsAudioOn = true;
-        IsProductionOverlayActive = false;
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
         players = new SortedList<PlayerIndex, Player>();
         players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral));
         players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue));
         players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red));
-
         CurrentPlayer = players[PlayerIndex.Blue];
+
         CaptureBuildings = new CaptureBuildings();
+        productionOverlayMain = new ProductionOverlayMain();
     }
 
     /// <summary>
@@ -140,11 +139,11 @@ public class GameManager
     public void NextPlayer()
     {
         ClearMovementAndHighLights();
-
+        productionOverlayMain.DestroyAndStopOverlay();
         // calculate all of the buildings that are being captured.
         CaptureBuildings.CalculateCapturing();
         CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
-        
+
         // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
         bool foundPlayer = false;
         while(!foundPlayer)
@@ -261,5 +260,31 @@ public class GameManager
             size = currentColumnId <= columnId ? size += 1 : size -= 1;
         }
         return possibleLocations;
+    }
+
+    /// <summary>
+    /// This method is called whenever a unit needs to be destroyed. For example when a unit is unit is killed.
+    /// In here needs to be all of the code to remove the references that the game has to any of these objects (and childs).
+    /// </summary>
+    /// <param name="unitToDestroy">The UnitGameObject to destroy</param>
+    public void DestroyUnitGameObjects(UnitGameObject unitToDestroy)
+    {
+        unitToDestroy.tile.unitGameObject = null;
+        unitToDestroy.tile = null;
+        GameManager.Instance.GetPlayer(unitToDestroy.index).RemoveUnit(unitToDestroy.unitGame);
+        GameObject.Destroy(unitToDestroy.gameObject);
+    }
+
+    /// <summary>
+    /// This method is called whenever a building needs to be destroyed. For example when a building is captured.
+    /// In here needs to be all of the code to remove the references that the game has to any of these objects (and childs).
+    /// </summary>
+    /// <param name="unitToDestroy">The UnitGameObject to destroy</param>
+    public void DestroyBuildingGameObjects(BuildingGameObject buildingToDestroy)
+    {
+        buildingToDestroy.tile.buildingGameObject = null;
+        buildingToDestroy.tile = null;
+        this.GetPlayer(buildingToDestroy.index).RemoveBuilding(buildingToDestroy.buildingGame);
+        GameObject.Destroy(buildingToDestroy.gameObject);
     }
 }

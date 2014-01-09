@@ -10,7 +10,7 @@ public class Headquarters : BuildingsBase{
     }
     public override BuildingTypes type
     {
-        get { return BuildingTypes.Headquarters; }
+        get { return buildingGameObject.type; }
     }
 
     public override bool CanProduce

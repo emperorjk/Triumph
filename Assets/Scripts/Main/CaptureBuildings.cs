@@ -57,8 +57,7 @@ public class CaptureBuildings
                 if (building.HasCaptured())
                 {
                     buildingsToBeRemoved.Add(building);
-                    GameManager.Instance.GetPlayer(building.buildingGameObject.index).RemoveBuilding(building);
-                    GameObject.Destroy(building.buildingGameObject.gameObject);
+                    GameManager.Instance.DestroyBuildingGameObjects(building.buildingGameObject);
                     CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.tile, unitOnBuilding.index, building.buildingGameObject.type);
                 }
             }

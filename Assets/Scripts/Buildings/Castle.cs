@@ -10,7 +10,7 @@ public class Castle : BuildingsBase{
     }
     public override BuildingTypes type
     {
-        get { return BuildingTypes.Castle; }
+        get { return buildingGameObject.type; }
     }
 
     public override bool CanProduce

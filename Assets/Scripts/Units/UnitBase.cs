@@ -27,7 +27,7 @@ public abstract class UnitBase {
 
         if (this.currentHealth <= 0) 
         {
-            Die();    
+            GameManager.Instance.DestroyUnitGameObjects(unitGameObject);
         }
     }
 
@@ -37,17 +37,6 @@ public abstract class UnitBase {
         // If we later have some sort of healing make sure that it cannot go over its initial full health.
         if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
         this.unitGameObject.UpdateCapturePointsText();
-    }
-
-    /// <summary>
-    /// Set unitGameObject to null to delete the reference
-    /// Destroy the GameObject
-    /// </summary>
-    public void Die() 
-    {
-        unitGameObject.tile.unitGameObject = null;
-        GameManager.Instance.GetPlayer(unitGameObject.index).RemoveUnit(this);
-        GameObject.Destroy(unitGameObject.gameObject);
     }
 
     public bool hasMoved { get; set; }

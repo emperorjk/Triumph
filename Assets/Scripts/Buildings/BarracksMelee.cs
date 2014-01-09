@@ -11,7 +11,7 @@ public class BarracksMelee : BuildingsBase {
 
     public override BuildingTypes type
     {
-        get { return BuildingTypes.BarracksMelee; }
+        get { return buildingGameObject.type; }
     }
 
     public override bool CanProduce

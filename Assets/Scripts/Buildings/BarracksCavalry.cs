@@ -10,7 +10,7 @@ public class BarracksCavalry : BuildingsBase{
     }
     public override BuildingTypes type
     {
-        get { return BuildingTypes.BarracksCavalry; }
+        get { return buildingGameObject.type; }
     }
 
     public override bool CanProduce
