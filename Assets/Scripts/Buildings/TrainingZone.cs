@@ -24,4 +24,9 @@ public class TrainingZone : BuildingsBase{
     {
         get { return 1; }
     }
+
+    public override int FowLineOfSightRange
+    {
+        get { return 1; }
+    }
 }

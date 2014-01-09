@@ -35,6 +35,7 @@ public class Tile : MonoBehaviour
     public BuildingGameObject buildingGameObject;
     public UnitGameObject unitGameObject;
 
+    public GameObject FogOfWar { get; private set; }
     public GameObject HighlightMove { get; private set; }
     public GameObject HighlightAttack { get; private set; }
     public TileCoordinates Coordinate { get; private set; }
@@ -49,6 +50,11 @@ public class Tile : MonoBehaviour
 
     private void InitHighlights()
     {
+        FogOfWar = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Environments/FogOfWar"));
+        FogOfWar.renderer.enabled = false;
+        FogOfWar.transform.position = this.transform.position;
+        FogOfWar.transform.parent = this.transform;
+
         GameObject highlightAttack = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_attack")));
         GameObject highlightMove = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_move")));
 

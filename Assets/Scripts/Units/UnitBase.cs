@@ -19,6 +19,7 @@ public abstract class UnitBase {
     }
     public abstract int GetAttackRange { get; }
     public abstract bool CanAttackAfterMove { get; }
+    public abstract int FowLineOfSightRange { get; }
     
     public void DecreaseHealth(int damage) 
     {

@@ -21,5 +21,10 @@ public class Knight : UnitBase
     {
         get { return attackRange + moveRange; }
     }
+
+    public override int FowLineOfSightRange
+    {
+        get { return 1; }
+    }
 }
 

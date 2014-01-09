@@ -21,4 +21,9 @@ public class Archer : UnitBase
     {
         get { return attackRange; }
     }
+
+    public override int FowLineOfSightRange
+    {
+        get { return 1; }
+    }
 }

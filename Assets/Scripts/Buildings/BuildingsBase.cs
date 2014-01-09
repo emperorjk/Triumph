@@ -35,4 +35,5 @@ public abstract class BuildingsBase {
     public abstract BuildingTypes type { get; }
     public abstract bool CanProduce { get; }
     public abstract float DamageToCapturingUnit { get; }
+    public abstract int FowLineOfSightRange { get; }
 }

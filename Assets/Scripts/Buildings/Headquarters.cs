@@ -22,4 +22,9 @@ public class Headquarters : BuildingsBase{
     {
         get { return 0; }
     }
+
+    public override int FowLineOfSightRange
+    {
+        get { return 1; }
+    }
 }

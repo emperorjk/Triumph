@@ -36,6 +36,7 @@ public class GameManager
     public bool IsHightlightOn { get; set; }
     public ProductionOverlayMain productionOverlayMain { get; private set; }
     public CaptureBuildings CaptureBuildings { get; private set; }
+    public FogOfWarManager fowManager { get; private set; }
     public bool UnitCanAttack { get; set; }
 
     // Lists need to be accesed in GameManager because when NextPlayer method gets called we want to deactivate
@@ -45,7 +46,7 @@ public class GameManager
 
     // The Player object can still be retrieved via the PlayerIndex enum.
     private SortedList<PlayerIndex, Player> players;
-    private int currentTurn = 1;
+    public int currentTurn { get; private set; }
     private TextMesh currentTurnText;
     private TextMesh playerText;
     private TextMesh currentGold;
@@ -54,7 +55,8 @@ public class GameManager
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
     /// </summary>
     private void Init()
-    {	
+    {
+        currentTurn = 1;
 		IsAudioOn = true;
         tiles = new Dictionary<int, Dictionary<int, Tile>>();
         players = new SortedList<PlayerIndex, Player>();
@@ -65,6 +67,7 @@ public class GameManager
 
         CaptureBuildings = new CaptureBuildings();
         productionOverlayMain = new ProductionOverlayMain();
+        fowManager = new FogOfWarManager();
     }
 
     /// <summary>
@@ -140,7 +143,6 @@ public class GameManager
     {
         ClearMovementAndHighLights();
         productionOverlayMain.DestroyAndStopOverlay();
-        // calculate all of the buildings that are being captured.
         CaptureBuildings.CalculateCapturing();
         CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
 
@@ -153,8 +155,9 @@ public class GameManager
             CurrentPlayer = players.Values[indexplayer];
             foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
         }
-        
         UpdateTextboxes();
+        // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
+        fowManager.ShowOrHideFowPlayer();
     }
 
     public void UpdateTextboxes()
