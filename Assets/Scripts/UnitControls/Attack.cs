@@ -9,7 +9,7 @@ public class Attack
     private RaycastHit _touchBox;
     private List<GameObject> closeAttackHighlights;
 
-    public void ShowAttackHighlight(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
+    public bool ShowAttackHighlight(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
     {
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
         {
@@ -19,10 +19,14 @@ public class Attack
                 {
                     tile.Value.HighlightAttack.SetActive(true);
                     GameManager.Instance.attackHighLightObjects.Add(tile.Value.HighlightAttack);
-                    break;
                 }
             }
         }
+        if (GameManager.Instance.attackHighLightObjects.Count > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void CollisionAttackRange(Tile tile)
@@ -63,6 +67,13 @@ public class Attack
             }
         }
         AttackNearbyEnemies(tile);
+    }
+
+    public void AttackCloseEnemy(Dictionary<int, Dictionary<int, Tile>> attackHighlightList, UnitGameObject LastClickedUnitTileAttackNearby)
+    {
+        attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTileAttackNearby.tile.Coordinate, LastClickedUnitTileAttackNearby.unitGame.attackRange);
+        CollisionAttackMelee(attackHighlightList, LastClickedUnitTileAttackNearby.transform.parent.gameObject.GetComponent<Tile>());
+        GameManager.Instance.ClearHighlight();
     }
 
     public void AttackNearbyEnemies(Tile tile)

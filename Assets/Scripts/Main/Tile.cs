@@ -55,20 +55,17 @@ public class Tile : MonoBehaviour
         FogOfWar.transform.position = this.transform.position;
         FogOfWar.transform.parent = this.transform;
 
-        GameObject highlightAttack = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_attack")));
-        GameObject highlightMove = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_move")));
+        HighlightAttack = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_attack")));
+        HighlightMove = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_move")));
 
         // Setting the parent for the Unity Hierarchy and the position to the correct place
-        highlightAttack.transform.parent = this.transform;
-        highlightAttack.transform.position = this.transform.position;
-        highlightMove.transform.parent = this.transform;
-        highlightMove.transform.position = this.transform.position;
+        HighlightAttack.transform.parent = this.transform;
+        HighlightAttack.transform.position = this.transform.position;
+        HighlightMove.transform.parent = this.transform;
+        HighlightMove.transform.position = this.transform.position;
 
-        highlightAttack.name = "highlight_attack";
-        highlightMove.name = "highlight_move";
-
-        HighlightAttack = this.gameObject.transform.FindChild("highlight_attack").gameObject;
-        HighlightMove = this.gameObject.transform.FindChild("highlight_move").gameObject;
+        HighlightAttack.name = "highlight_attack";
+        HighlightMove.name = "highlight_move";
     }
 
     public bool HasBuilding()

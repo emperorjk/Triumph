@@ -9,14 +9,14 @@ public class GameLoop : MonoBehaviour
 
     private GameManager _manager;
     private RaycastHit _touchBox;
-    private Movement _movement;
+    private Highlight _highlight;
 
 	void Start () 
     {
         _manager = GameManager.Instance;
 		_manager.SetupLevel();
 
-        _movement = new Movement();
+        _highlight = new Highlight();
 	}
 
     void Update()
@@ -24,28 +24,7 @@ public class GameLoop : MonoBehaviour
         GameManager.Instance.productionOverlayMain.OnUpdate();
         ActivateDoneButton();
 
-        // If user clicks, check if highlight is on and show the highlights or check if user needs to move
-        if (Input.GetMouseButtonDown(0) && !_manager.NeedMoving)
-        {
-            if (_manager.UnitCanAttack)
-            {
-                _movement.AttackCloseEnemy();
-            }
-
-            if (!_manager.IsHightlightOn)
-            {
-                _movement.ShowMovementUnit(_manager.CurrentPlayer);
-            }
-            else if (_manager.IsHightlightOn)
-            {
-                _movement.CollisionWithHighlight();
-            }
-        }
-
-        if (_manager.NeedMoving)
-        {
-            _movement.Move();
-        }
+        _highlight.HandleHighlightInput();
     }
 
     void ActivateDoneButton()

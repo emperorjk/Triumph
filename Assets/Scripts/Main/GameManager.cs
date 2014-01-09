@@ -38,6 +38,7 @@ public class GameManager
     public CaptureBuildings CaptureBuildings { get; private set; }
     public FogOfWarManager fowManager { get; private set; }
     public bool UnitCanAttack { get; set; }
+    public float StartTime { get; set; }
 
     // Lists need to be accesed in GameManager because when NextPlayer method gets called we want to deactivate
     // the highlights also.
@@ -168,7 +169,7 @@ public class GameManager
         currentTurnText.text = "Turn: " + currentTurn.ToString();
     }
 
-    void ClearMovementAndHighLights()
+    private void ClearMovementAndHighLights()
     {
         foreach (UnitBase unit in CurrentPlayer.ownedUnits)
         {
@@ -177,15 +178,24 @@ public class GameManager
             unit.hasAttacked = false;
         }
 
-        foreach (GameObject highlights in GameManager.Instance.highLightObjects)
+        ClearHighlight();
+    }
+
+    public void ClearHighlight()
+    {
+        foreach (GameObject highlights in this.highLightObjects)
         {
             highlights.SetActive(false);
         }
 
-        foreach (GameObject attackHighlight in GameManager.Instance.attackHighLightObjects)
+        foreach (GameObject attackHighlight in this.attackHighLightObjects)
         {
             attackHighlight.SetActive(false);
         }
+
+        this.highLightObjects.Clear();
+        this.attackHighLightObjects.Clear();
+        this.IsHightlightOn = false;
     }
 
     /// <summary>
