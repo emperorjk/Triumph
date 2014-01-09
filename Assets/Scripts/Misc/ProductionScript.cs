@@ -33,7 +33,7 @@ public class ProductionScript : MonoBehaviour {
                         GameManager.Instance.CurrentPlayer.DecreaseGoldBy(unit.unitGame.cost);
                         GameManager.Instance.UpdateTextboxes();
                         CanClick = false;
-                        parentProduction.DestroyAndStopOverlay();
+                        parentProduction.InitiateMoving(true);
                     }
                     else
                     {
