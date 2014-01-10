@@ -50,13 +50,13 @@ public class Tile : MonoBehaviour
 
     private void InitHighlights()
     {
-        FogOfWar = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Environments/FogOfWar"));
+        FogOfWar = (GameObject)GameObject.Instantiate(Resources.Load(FileLocations.fogOfWar));
         FogOfWar.renderer.enabled = false;
         FogOfWar.transform.position = this.transform.position;
         FogOfWar.transform.parent = this.transform;
 
-        HighlightAttack = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_attack")));
-        HighlightMove = ((GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Level/highlight_move")));
+        HighlightAttack = ((GameObject)GameObject.Instantiate(Resources.Load(FileLocations.highlightAttack)));
+        HighlightMove = ((GameObject)GameObject.Instantiate(Resources.Load(FileLocations.highlightMove)));
 
         // Setting the parent for the Unity Hierarchy and the position to the correct place
         HighlightAttack.transform.parent = this.transform;

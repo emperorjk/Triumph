@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class IUnitGameObject
 {
-    public string DirToUnitFolder { get { return "Prefabs/Units/"; } }
+    public string DirToUnitFolder { get { return FileLocations.prefabUnits; } }
     public abstract GameObject CreateUnit(PlayerIndex index);
     public abstract GameObject CreateHeroUnit(PlayerIndex index);
 }

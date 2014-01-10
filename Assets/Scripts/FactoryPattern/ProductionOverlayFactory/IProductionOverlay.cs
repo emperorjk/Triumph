@@ -6,6 +6,6 @@ using UnityEngine;
 
 public abstract class IProductionOverlay
 {
-    public string DirToUnitFolder { get { return "Prefabs/Units/UnitProduction/"; } }
+    public string DirToUnitFolder { get { return FileLocations.prefabUnitProduction; } }
     public abstract GameObject CreateProductionOverlay();
 }
