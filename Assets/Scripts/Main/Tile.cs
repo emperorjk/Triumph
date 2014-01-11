@@ -16,6 +16,11 @@ public class TileCoordinates
         ColumnId = _ColumnId;
         RowId = _RowId;
     }
+
+    public override string ToString()
+    {
+        return "ColumnId: " + ColumnId + ". RowId: " + RowId + ".";
+    }
 }
 
 /// <summary>

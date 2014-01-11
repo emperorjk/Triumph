@@ -59,11 +59,11 @@ TagManager:
     userID: 3
     uniqueID: 4045587811
     locked: 0
-  - name: GUI
-    userID: 4
-    uniqueID: 134467815
-    locked: 0
   - name: FogOfWar
     userID: 5
     uniqueID: 2617036737
+    locked: 0
+  - name: GUI
+    userID: 4
+    uniqueID: 134467815
     locked: 0

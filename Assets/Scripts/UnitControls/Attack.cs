@@ -15,7 +15,7 @@ public class Attack
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
-                if (tile.Value.unitGameObject != null && GameManager.Instance.CurrentPlayer.index != tile.Value.unitGameObject.index)
+                if (tile.Value.HasUnit() && GameManager.Instance.CurrentPlayer.index != tile.Value.unitGameObject.index)
                 {
                     tile.Value.HighlightAttack.SetActive(true);
                     GameManager.Instance.attackHighLightObjects.Add(tile.Value.HighlightAttack);
@@ -60,7 +60,7 @@ public class Attack
         {
             foreach (KeyValuePair<int, Tile> t in item.Value)
             {
-                if (t.Value.unitGameObject != null)
+                if (t.Value.HasUnit())
                 {
                     closeAttackHighlights.Add(t.Value.HighlightAttack); 
                 }
@@ -72,7 +72,7 @@ public class Attack
     public void AttackCloseEnemy(Dictionary<int, Dictionary<int, Tile>> attackHighlightList, UnitGameObject LastClickedUnitTileAttackNearby)
     {
         attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTileAttackNearby.tile.Coordinate, LastClickedUnitTileAttackNearby.unitGame.attackRange);
-        CollisionAttackMelee(attackHighlightList, LastClickedUnitTileAttackNearby.transform.parent.gameObject.GetComponent<Tile>());
+        CollisionAttackMelee(attackHighlightList, LastClickedUnitTileAttackNearby.tile);
         GameManager.Instance.ClearHighlight();
     }
 
