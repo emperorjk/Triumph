@@ -7,7 +7,7 @@ using UnityEngine;
 public class Attack
 {
     private RaycastHit _touchBox;
-    private List<GameObject> closeAttackHighlights;
+    private List<GameObject> closeAttackHighlights = new List<GameObject>();
 
     public bool ShowAttackHighlight(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
     {
@@ -47,7 +47,8 @@ public class Attack
                         tile.unitGameObject.unitGame.hasAttacked = true;
                         tile.unitGameObject.renderer.material.color = Color.gray;
 
-                        tile.unitGameObject.unitGame.PlaySound("attack");
+                        tile.unitGameObject.unitGame.PlaySound(Sounds.typeAttack);
+                        break;
                     }
                 }
             }
@@ -56,7 +57,7 @@ public class Attack
 
     public void CollisionAttackMelee(Dictionary<int, Dictionary<int, Tile>> attackHighlightList, Tile tile)
     {
-        closeAttackHighlights = new List<GameObject>();
+        closeAttackHighlights.Clear();
 
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
         {
@@ -69,13 +70,6 @@ public class Attack
             }
         }
         AttackNearbyEnemies(tile);
-    }
-
-    public void AttackCloseEnemy(Dictionary<int, Dictionary<int, Tile>> attackHighlightList, UnitGameObject LastClickedUnitTileAttackNearby)
-    {
-        attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTileAttackNearby.tile.Coordinate, LastClickedUnitTileAttackNearby.unitGame.attackRange);
-        CollisionAttackMelee(attackHighlightList, LastClickedUnitTileAttackNearby.tile);
-        GameManager.Instance.ClearHighlight();
     }
 
     public void AttackNearbyEnemies(Tile tile)
@@ -94,9 +88,10 @@ public class Attack
                     tile.unitGameObject.transform.gameObject.renderer.material.color = Color.gray;
                     GameManager.Instance.UnitCanAttack = false;
 
-                    tile.unitGameObject.unitGame.PlaySound("attack");
+                    tile.unitGameObject.unitGame.PlaySound(Sounds.typeAttack);
+                    break;
                 }
             }
-        }
+        }        
     }
 }

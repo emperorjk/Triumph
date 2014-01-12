@@ -64,8 +64,8 @@ public class Knight : UnitBase
                 {
                     GameManager.Instance.Sounds.PlaySound(Sounds.knightSelect2);
                 }
+
                 break;
         }
     }
 }
-

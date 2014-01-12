@@ -13,9 +13,7 @@ public class Highlight
     private Dictionary<int, Dictionary<int, Tile>> movementList;
     private Dictionary<int, Dictionary<int, Tile>> attackHighlightList;
 
-    private GameObject LastClickedUnitGO;
     private Tile LastClickedUnitTile;
-    private UnitGameObject LastClickedUnitTileAttackNearby;
     private Vector2 startPosition;
     private Vector2 destionationLocation;
     private RaycastHit _touchBox;
@@ -29,15 +27,9 @@ public class Highlight
 
     public void HandleHighlightInput()
     {
-         if (Input.GetMouseButtonDown(0) && !_manager.NeedMoving)
+        if (Input.GetMouseButtonDown(0) && !_manager.NeedMoving)
         {
-             // If this unit can attack after moving we call this method
-            if (_manager.UnitCanAttack)
-            {
-                _attack.AttackCloseEnemy(attackHighlightList, LastClickedUnitTileAttackNearby);
-            }
-
-            // If highlight is turned on we want to check if user clicked on it or not
+            // If highlight is turned on we want to check if user clicked on a highlight or not
             if (!_manager.IsHightlightOn)
             {
                 ClickedUnitCollider(_manager.CurrentPlayer);
@@ -46,12 +38,18 @@ public class Highlight
             {
                 CollisionWithHighlight();
             }
+
+            if (_manager.UnitCanAttack)
+            {
+                _manager.ClearHighlight();
+                _manager.UnitCanAttack = false;
+            }
         }
 
         // If user clicked on a highlight we want to call the Move method from this update loop
         if (_manager.NeedMoving)
         {
-            _movement.Move(LastClickedUnitGO, LastClickedUnitTile, startPosition, destionationLocation, _attack, attackHighlightList);
+            _movement.Move(LastClickedUnitTile, startPosition, destionationLocation, _attack, attackHighlightList);
         }
     }
 
@@ -65,11 +63,9 @@ public class Highlight
             {
                 if (_touchBox.collider == b.unitGameObject.collider)
                 {
-                    if (!b.hasMoved && !b.hasAttacked)
+                    if (!b.hasAttacked && (!b.hasMoved || b.CanAttackAfterMove)) 
                     {
                         LastClickedUnitTile = b.unitGameObject.tile;
-                        LastClickedUnitTileAttackNearby = LastClickedUnitTile.unitGameObject;
-                        LastClickedUnitGO = b.unitGameObject.gameObject;
                         ShowHighlights(b.unitGameObject);
                         _manager.IsHightlightOn = true;
                         break;
@@ -81,23 +77,31 @@ public class Highlight
 
     public void ShowHighlights(UnitGameObject unit)
     {
-        movementList = _manager.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.moveRange);
-        attackHighlightList = _manager.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.GetAttackRange);
+        LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeSelect);
 
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementList)
+        if (!unit.unitGame.hasMoved)
         {
-            foreach (KeyValuePair<int, Tile> tile in item.Value)
-            {
-                if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
-                {
-                    tile.Value.HighlightMove.SetActive(true);
-                    _manager.highLightObjects.Add(tile.Value.HighlightMove);
+            movementList = _manager.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.moveRange);
 
-                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound("select");
+            attackHighlightList = _manager.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.GetAttackRange);        
+            foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementList)
+            {
+                foreach (KeyValuePair<int, Tile> tile in item.Value)
+                {
+                    if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
+                    {
+                        tile.Value.HighlightMove.SetActive(true);
+                        _manager.highLightObjects.Add(tile.Value.HighlightMove);
+                    }
                 }
             }
+            _attack.ShowAttackHighlight(attackHighlightList);
         }
-        _attack.ShowAttackHighlight(attackHighlightList);
+        else if(unit.unitGame.CanAttackAfterMove)
+        {
+            attackHighlightList = _manager.GetAllTilesWithinRange(unit.tile.Coordinate, unit.unitGame.attackRange);        
+            _attack.ShowAttackHighlight(attackHighlightList);
+        }        
     }
 
     public void CollisionWithHighlight()
@@ -126,7 +130,7 @@ public class Highlight
                     // Start moving in update loop
                     _manager.NeedMoving = true;
 
-                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound("move");
+                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeMove);
 
                     break;
                 }

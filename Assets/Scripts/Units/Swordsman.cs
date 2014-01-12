@@ -64,8 +64,8 @@ public class Swordsman : UnitBase
                 {
                     GameManager.Instance.Sounds.PlaySound(Sounds.swordsmanSelect2);
                 }
+
                 break;
         }
     }
 }
-

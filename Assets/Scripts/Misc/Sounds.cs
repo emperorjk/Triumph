@@ -27,6 +27,10 @@ public class Sounds
     public static string swordsmanSelect1 = "swordsman_what1";
     public static string swordsmanSelect2 = "swordsman_what2";
 
+    public static string typeSelect = "select";
+    public static string typeAttack = "attack";
+    public static string typeMove = "move";
+
     private AudioSource audioSource;
 
     public Sounds()
@@ -46,7 +50,6 @@ public class Sounds
         {
             audioSource.Play();
         }
-
     }
 
     public void PauseSound(AudioSource source)

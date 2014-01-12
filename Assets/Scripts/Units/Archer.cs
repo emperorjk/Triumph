@@ -65,6 +65,7 @@ public class Archer : UnitBase
                 {
                     GameManager.Instance.Sounds.PlaySound(Sounds.archerSelect2);
                 }
+
                 break;
         }
     }
