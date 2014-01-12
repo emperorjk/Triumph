@@ -39,6 +39,7 @@ public class GameManager
     public FogOfWarManager fowManager { get; private set; }
     public bool UnitCanAttack { get; set; }
     public float StartTime { get; set; }
+    public Sounds Sounds;
 
     // Lists need to be accesed in GameManager because when NextPlayer method gets called we want to deactivate
     // the highlights also.
@@ -69,6 +70,7 @@ public class GameManager
         CaptureBuildings = new CaptureBuildings();
         productionOverlayMain = new ProductionOverlayMain();
         fowManager = new FogOfWarManager();
+        Sounds = new Sounds();
     }
 
     /// <summary>

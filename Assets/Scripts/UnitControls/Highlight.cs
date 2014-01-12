@@ -92,6 +92,8 @@ public class Highlight
                 {
                     tile.Value.HighlightMove.SetActive(true);
                     _manager.highLightObjects.Add(tile.Value.HighlightMove);
+
+                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound("select");
                 }
             }
         }
@@ -123,6 +125,9 @@ public class Highlight
 
                     // Start moving in update loop
                     _manager.NeedMoving = true;
+
+                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound("move");
+
                     break;
                 }
             }

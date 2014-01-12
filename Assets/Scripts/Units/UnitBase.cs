@@ -20,6 +20,7 @@ public abstract class UnitBase {
     public abstract int GetAttackRange { get; }
     public abstract bool CanAttackAfterMove { get; }
     public abstract int FowLineOfSightRange { get; }
+    public abstract void PlaySound(string audio);
     
     public void DecreaseHealth(int damage) 
     {
