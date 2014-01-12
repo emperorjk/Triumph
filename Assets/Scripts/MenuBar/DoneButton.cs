@@ -13,13 +13,21 @@ public class DoneButton : MonoBehaviour
         transform.position = newPosition;
     }
 
-    void OnMouseDown()
+    void Update()
     {
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButtonDown(0))
         {
-            GameManager.Instance.NextPlayer();
-            GameManager.Instance.IsDoneButtonActive = false;
-            this.gameObject.SetActive(false);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit _touchBox;
+            if (Physics.Raycast(ray, out _touchBox))
+            {
+                if (_touchBox.collider == this.collider)
+                {
+                    GameManager.Instance.NextPlayer();
+                    GameManager.Instance.IsDoneButtonActive = false;
+                    this.gameObject.SetActive(false);
+                }
+            }
         }
-    } 
+    }
 }
