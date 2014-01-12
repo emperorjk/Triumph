@@ -17,7 +17,7 @@ public class GameLoop : MonoBehaviour
     // The margin used for the gamebar. So you can move just a little above the level in order to display the top row of tiles without the gamebar getting in the way.
     private float margin = 1.27f;
     // The speed at which the camera movement is done.
-    private float speedCameraMovement = 4f;
+    private float speedCameraMovement = 5f;
 
     // Values used to determine the min and maximum x and y values of the game. (So where the tiles are placed.)
     private float minX;
@@ -99,34 +99,12 @@ public class GameLoop : MonoBehaviour
     private void MoveCamera(Vector2 deltaposition)
     {
         Camera cam = Camera.main;
-        Vector3 desiredLocation = new Vector3(-deltaposition.x * speedCameraMovement * Time.deltaTime, -deltaposition.y * speedCameraMovement * Time.deltaTime, 0);
-
-        bool canMove = true;
-
-        if(cam.transform.position.x + desiredLocation.x < minX)
-        {
-            canMove = false;
-        }
-
-        if (cam.transform.position.x + desiredLocation.x > maxX)
-        {
-            canMove = false;
-        }
-
-        if (cam.transform.position.y + desiredLocation.y > minY + margin)
-        {
-            canMove = false;
-        }
-
-        if (cam.transform.position.y + desiredLocation.y < maxY)
-        {
-            canMove = false;
-        }
-        
-        if (canMove)
-        {
-            cam.transform.Translate(desiredLocation);
-        }
+        Vector3 distanceToMove = new Vector3(-deltaposition.x * speedCameraMovement * Time.deltaTime, -deltaposition.y * speedCameraMovement * Time.deltaTime, 0);
+        Vector3 positionMovingTo = cam.transform.position + distanceToMove;
+        positionMovingTo.x = Mathf.Clamp(positionMovingTo.x, minX, maxX);
+        // The minY and maxY need to be switched around. Since y axis in the level is always negative.
+        positionMovingTo.y = Mathf.Clamp(positionMovingTo.y, maxY, minY + margin);
+        cam.transform.position = positionMovingTo;
     }
 
 
