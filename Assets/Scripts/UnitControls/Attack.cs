@@ -47,7 +47,7 @@ public class Attack
                         tile.unitGameObject.unitGame.hasAttacked = true;
                         tile.unitGameObject.renderer.material.color = Color.gray;
 
-                        //tile.unitGameObject.unitGame.PlaySound(Sounds.typeAttack);
+                        tile.unitGameObject.unitGame.PlaySound(Sounds.typeAttack);
                         break;
                     }
                 }
@@ -88,7 +88,7 @@ public class Attack
                     tile.unitGameObject.transform.gameObject.renderer.material.color = Color.gray;
                     GameManager.Instance.UnitCanAttack = false;
 
-                    //tile.unitGameObject.unitGame.PlaySound(Sounds.typeAttack);
+                    tile.unitGameObject.unitGame.PlaySound(Sounds.typeAttack);
                     break;
                 }
             }

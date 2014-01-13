@@ -43,8 +43,11 @@ public class Sounds
 
     public void PlaySound(string source)
     {
-        audioSource.clip = audioclips.First(x => x.name.Equals(source));
-        audioSource.Play();
+        if(!audioSource.isPlaying)
+        {
+            audioSource.clip = audioclips.First(x => x.name.Equals(source));
+            audioSource.Play();
+        }
     }
 
     public void PauseSound(AudioSource source)
