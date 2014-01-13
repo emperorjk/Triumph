@@ -44,12 +44,20 @@ public class Sounds
     public void PlaySound(string source)
     {
         AudioClip clip = Resources.Load<AudioClip>(FileLocations.soundsFolder + source);
+        
+        if (clip == null)
+        {
+            Application.LoadLevel(0);
+        }
+        
+        /*
         audioSource.clip = clip;
 
         if (!audioSource.isPlaying) 
         {
             audioSource.Play();
         }
+        */
     }
 
     public void PauseSound(AudioSource source)

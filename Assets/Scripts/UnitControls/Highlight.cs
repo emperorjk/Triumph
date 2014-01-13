@@ -130,7 +130,7 @@ public class Highlight
                     // Start moving in update loop
                     _manager.NeedMoving = true;
 
-                    //LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeMove);
+                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeMove);
 
                     break;
                 }
