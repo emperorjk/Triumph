@@ -31,33 +31,20 @@ public class Sounds
     public static string typeAttack = "attack";
     public static string typeMove = "move";
 
+    public List<AudioClip> audioclips;
+
     private AudioSource audioSource;
 
-    public Sounds()
+    public void Init()
     {
-        GameObject camera = GameObject.Find("Main Camera");
-        camera.gameObject.AddComponent<AudioSource>();
-
-        audioSource = camera.GetComponent<AudioSource>();
+        audioSource = Camera.main.gameObject.AddComponent<AudioSource>();
+        audioclips = Resources.LoadAll<AudioClip>("Sounds/").ToList();
     }
 
     public void PlaySound(string source)
     {
-        AudioClip clip = Resources.Load<AudioClip>(FileLocations.soundsFolder + source);
-        
-        if (clip == null)
-        {
-            Application.LoadLevel(0);
-        }
-        
-        /*
-        audioSource.clip = clip;
-
-        if (!audioSource.isPlaying) 
-        {
-            audioSource.Play();
-        }
-        */
+        audioSource.clip = audioclips.First(x => x.name.Equals(source));
+        audioSource.Play();
     }
 
     public void PauseSound(AudioSource source)

@@ -36,33 +36,33 @@ public class Knight : UnitBase
             case "move":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.knightMove1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.knightMove1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.knightMove2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.knightMove2);
                 }
 
                 break;
             case "attack":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.knightAttack1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.knightAttack1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.knightAttack2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.knightAttack2);
                 }
 
                 break;
             case "select":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.knightSelect1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.knightSelect1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.knightSelect2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.knightSelect2);
                 }
 
                 break;

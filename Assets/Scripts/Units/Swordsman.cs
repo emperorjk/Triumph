@@ -36,33 +36,33 @@ public class Swordsman : UnitBase
             case "move":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.swordsmanMove1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.swordsmanMove1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.swordsmanMove2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.swordsmanMove2);
                 }
 
                 break;
             case "attack":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.swordsmanAttack1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.swordsmanAttack1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.swordsmanAttack2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.swordsmanAttack2);
                 }
 
                 break;
             case "select":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.swordsmanSelect1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.swordsmanSelect1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.swordsmanSelect2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.swordsmanSelect2);
                 }
 
                 break;

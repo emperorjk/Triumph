@@ -77,7 +77,7 @@ public class Highlight
 
     public void ShowHighlights(UnitGameObject unit)
     {
-        //LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeSelect);
+        LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeSelect);
 
         if (!unit.unitGame.hasMoved)
         {

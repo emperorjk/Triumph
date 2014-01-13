@@ -37,33 +37,33 @@ public class Archer : UnitBase
             case "move":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.archerMove1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.archerMove1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.archerMove2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.archerMove2);
                 }
                 
                 break;
             case "attack":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.archerAttack1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.archerAttack1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.archerAttack2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.archerAttack2);
                 }
                 
                 break;
             case "select":
                 if (ran.Next(2) == 0)
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.archerSelect1);
+                    GameManager.Instance.sounds.PlaySound(Sounds.archerSelect1);
                 }
                 else
                 {
-                    GameManager.Instance.Sounds.PlaySound(Sounds.archerSelect2);
+                    GameManager.Instance.sounds.PlaySound(Sounds.archerSelect2);
                 }
 
                 break;
