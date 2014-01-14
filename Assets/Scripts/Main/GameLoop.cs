@@ -24,6 +24,8 @@ public class GameLoop : MonoBehaviour
     private float maxX;
     private float minY;
     private float maxY;
+    private int lastScreenWidth;
+    private int lastScreenHeight;
 
 	void Start () 
     {
@@ -32,7 +34,7 @@ public class GameLoop : MonoBehaviour
 
         _highlight = new Highlight();
         CalculateLevelArea();
-        
+        MoveCamera(new Vector2(0, 0));
         // Set all of the renderers that are childs of the camera to be on the GUI sorting layer.
         foreach (Renderer item in Camera.main.GetComponentsInChildren<Renderer>())
         {
@@ -53,6 +55,12 @@ public class GameLoop : MonoBehaviour
 
     private void CameraMovementInput()
     {
+        if(lastScreenWidth != Screen.width || lastScreenHeight != Screen.height)
+        {
+            CalculateLevelArea();
+            MoveCamera(new Vector2(0, 0));
+        }
+
         // This first bit is just used for the keyboard controls.
         float xx = 0;
         float yy = 0;
@@ -114,6 +122,9 @@ public class GameLoop : MonoBehaviour
     /// </summary>
     private void CalculateLevelArea()
     {
+        lastScreenWidth = Screen.width;
+        lastScreenHeight = Screen.height;
+
         Dictionary<int, Tile> qq = _manager.tiles[_manager.tiles.Count];
         Tile first = _manager.tiles[1][1];
         Tile last = qq[qq.Count];
