@@ -28,45 +28,8 @@ public class Archer : UnitBase
     }
 
 
-    public override void PlaySound(string audio)
+    public override void PlaySound(UnitSoundType soundType)
     {
-        System.Random ran = new System.Random();
-
-        switch (audio)
-        { 
-            case "move":
-                if (ran.Next(2) == 0)
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.archerMove1);
-                }
-                else
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.archerMove2);
-                }
-                
-                break;
-            case "attack":
-                if (ran.Next(2) == 0)
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.archerAttack1);
-                }
-                else
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.archerAttack2);
-                }
-                
-                break;
-            case "select":
-                if (ran.Next(2) == 0)
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.archerSelect1);
-                }
-                else
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.archerSelect2);
-                }
-
-                break;
-        }
+        GameManager.Instance.sounds.PlaySound(this.unitGameObject.type, soundType);
     }
 }

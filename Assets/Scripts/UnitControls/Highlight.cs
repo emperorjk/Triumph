@@ -77,7 +77,7 @@ public class Highlight
 
     public void ShowHighlights(UnitGameObject unit)
     {
-        LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeSelect);
+        LastClickedUnitTile.unitGameObject.unitGame.PlaySound(UnitSoundType.Select);
 
         if (!unit.unitGame.hasMoved)
         {
@@ -130,7 +130,7 @@ public class Highlight
                     // Start moving in update loop
                     _manager.NeedMoving = true;
 
-                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound(Sounds.typeMove);
+                    LastClickedUnitTile.unitGameObject.unitGame.PlaySound(UnitSoundType.Move);
 
                     break;
                 }

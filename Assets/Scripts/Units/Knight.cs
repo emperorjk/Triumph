@@ -27,45 +27,8 @@ public class Knight : UnitBase
         get { return 1; }
     }
 
-    public override void PlaySound(string audio)
+    public override void PlaySound(UnitSoundType soundType)
     {
-        System.Random ran = new System.Random();
-
-        switch (audio)
-        {
-            case "move":
-                if (ran.Next(2) == 0)
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.knightMove1);
-                }
-                else
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.knightMove2);
-                }
-
-                break;
-            case "attack":
-                if (ran.Next(2) == 0)
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.knightAttack1);
-                }
-                else
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.knightAttack2);
-                }
-
-                break;
-            case "select":
-                if (ran.Next(2) == 0)
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.knightSelect1);
-                }
-                else
-                {
-                    GameManager.Instance.sounds.PlaySound(Sounds.knightSelect2);
-                }
-
-                break;
-        }
+        GameManager.Instance.sounds.PlaySound(this.unitGameObject.type, soundType);
     }
 }

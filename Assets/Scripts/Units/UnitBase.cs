@@ -17,10 +17,11 @@ public abstract class UnitBase {
         this.moveRange = moveRange;
         this.cost = cost;
     }
+
     public abstract int GetAttackRange { get; }
     public abstract bool CanAttackAfterMove { get; }
     public abstract int FowLineOfSightRange { get; }
-    public abstract void PlaySound(string audio);
+    public abstract void PlaySound(UnitSoundType soundType);
     
     public void DecreaseHealth(int damage) 
     {
