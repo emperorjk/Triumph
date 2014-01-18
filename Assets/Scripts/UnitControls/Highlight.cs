@@ -12,6 +12,7 @@ public class Highlight
 
     private Dictionary<int, Dictionary<int, Tile>> movementList;
     private Dictionary<int, Dictionary<int, Tile>> attackHighlightList;
+    private List<Node> nodeList;
 
     private Tile LastClickedUnitTile;
     private Vector2 startPosition;
@@ -49,7 +50,9 @@ public class Highlight
         // If user clicked on a highlight we want to call the Move method from this update loop
         if (_manager.NeedMoving)
         {
-            _movement.Move(LastClickedUnitTile, startPosition, destionationLocation, _attack, attackHighlightList);
+           // _movement.Move(LastClickedUnitTile, startPosition, destionationLocation, _attack, attackHighlightList);
+            _movement.Move(nodeList, LastClickedUnitTile, startPosition);
+           
         }
     }
 
@@ -124,6 +127,10 @@ public class Highlight
 
                     // Set the destionation Tile
                     Tile destinationTile = highlight.transform.parent.gameObject.GetComponent<Tile>();
+
+                    // calculate shortest path
+                    nodeList = _movement.CalculateShortestPath(LastClickedUnitTile, destinationTile);
+
                     destinationTile.unitGameObject = LastClickedUnitTile.unitGameObject;
                     destinationTile.unitGameObject.tile = destinationTile;
 

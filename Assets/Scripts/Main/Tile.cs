@@ -39,15 +39,16 @@ public class Tile : MonoBehaviour
     public EnvironmentGameObject environmentGameObject;
     public BuildingGameObject buildingGameObject;
     public UnitGameObject unitGameObject;
-
     public GameObject FogOfWar { get; private set; }
     public GameObject HighlightMove { get; private set; }
     public GameObject HighlightAttack { get; private set; }
     public TileCoordinates Coordinate { get; private set; }
+    public Vector2 Vector2 { get; private set; }
 
     void Awake()
     {
         Coordinate = new TileCoordinates(ColumnId, RowId);
+        Vector2 = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         GameManager.Instance.AddTile(this);
 
         InitHighlights();
