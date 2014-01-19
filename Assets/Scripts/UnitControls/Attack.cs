@@ -9,7 +9,7 @@ public class Attack
     private RaycastHit _touchBox;
     private List<GameObject> closeAttackHighlights = new List<GameObject>();
 
-    public bool ShowAttackHighlight(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
+    public int ShowAttackHighlight(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
     {
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
         {
@@ -24,9 +24,9 @@ public class Attack
         }
         if (GameManager.Instance.attackHighLightObjects.Count > 0)
         {
-            return true;
+            return GameManager.Instance.attackHighLightObjects.Count;
         }
-        return false;
+        return -1;
     }
 
     public void CollisionAttackRange(Tile tile)
@@ -89,6 +89,10 @@ public class Attack
                     GameManager.Instance.UnitCanAttack = false;
 
                     tile.unitGameObject.unitGame.PlaySound(UnitSoundType.Attack);
+
+                    tile.unitGameObject = null;
+                    tile = null;
+
                     break;
                 }
             }

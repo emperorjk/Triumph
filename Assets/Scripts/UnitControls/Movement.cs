@@ -7,18 +7,21 @@ using UnityEngine;
 public class Movement
 {
     private RaycastHit _touchBox;
-    private float duration = 2f;
     private CompareNodes compare = new CompareNodes();
+    private List<Node> nodeList;
+    private float duration = 1f;
 
-    /*
-    public void Move(Tile LastClickedUnitTile, Vector2 startPosition, Vector2 destionationLocation, Attack attack, Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
-    {        
-        LastClickedUnitTile.unitGameObject.gameObject.transform.position = Vector2.Lerp(startPosition, destionationLocation, (Time.time - GameManager.Instance.StartTime) / duration);
+    public void Move(Tile LastClickedUnitTile, Attack attack, Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
+    {
+        LastClickedUnitTile.unitGameObject.gameObject.transform.position = Vector2.Lerp(LastClickedUnitTile.unitGameObject.gameObject.transform.position, nodeList.Last().tile.Vector2, (Time.time - GameManager.Instance.StartTime) / duration);
 
         if ((Time.time - GameManager.Instance.StartTime) / duration >= 1f)
         {
-            // Stop calling this method
-            GameManager.Instance.NeedMoving = false;
+            nodeList.Remove(nodeList.Last());
+            GameManager.Instance.StartTime = Time.time;
+        }
+        if (nodeList.Count <= 0)
+        {
             Tile destionationTile = LastClickedUnitTile.unitGameObject.gameObject.GetComponent<UnitGameObject>().tile;
 
             if (destionationTile.HasBuilding())
@@ -29,40 +32,38 @@ public class Movement
             // Set the unit transform.parent to the new tile which is has moved to. This way the position resets to 0,0,0 of the unit and it is always perfectly 
             // placed onto the tile which it is on. It also changes the objects in the hierarchie window under the new tile object.
             LastClickedUnitTile.unitGameObject.gameObject.transform.parent = destionationTile.transform;
-            
-            if(LastClickedUnitTile.unitGameObject.unitGame.hasMoved)
-            {
-                LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.gray;
-            }
 
-            if (LastClickedUnitTile.unitGameObject.unitGame.CanAttackAfterMove)
+            if (LastClickedUnitTile.unitGameObject.unitGame.hasMoved)
             {
-                attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.Coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange);
-                
-                // if this unit can attack after movement and has an enemy standing next to him we know this UnitCanAttack
-                if (attack.ShowAttackHighlight(attackHighlightList))
+                if (LastClickedUnitTile.unitGameObject.unitGame.CanAttackAfterMove)
                 {
-                    LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.white;
-                    GameManager.Instance.UnitCanAttack = true;
+                    attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.Coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange);
+
+                    // if this unit can attack after movement and has an enemy standing next to him we know this UnitCanAttack
+                    if (attack.ShowAttackHighlight(attackHighlightList) > 0)
+                    {
+                        LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.white;
+                        GameManager.Instance.UnitCanAttack = true;
+                    }
+                    else
+                    {
+                        LastClickedUnitTile.unitGameObject.unitGame.hasMoved = true;
+                        LastClickedUnitTile.unitGameObject.unitGame.hasAttacked = true;
+                        LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.gray;
+                        LastClickedUnitTile.unitGameObject = null;
+                        LastClickedUnitTile = null;
+                    }
                 }
-            }
+                else 
+                {
+                    LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.gray;
+                    LastClickedUnitTile.unitGameObject = null;
+                    LastClickedUnitTile = null;
+                }
+            }          
 
-            LastClickedUnitTile.unitGameObject = null;
-            LastClickedUnitTile = null;
+            GameManager.Instance.NeedMoving = false;
         }
-    }
-     */
-
-    public void Move(List<Node> nodeList, Tile LastClickedUnitTile, Vector2 startPosition)
-    {
-        /*
-        foreach (Node n in nodeList.Reverse<Node>())
-        {
-            LastClickedUnitTile.unitGameObject.gameObject.transform.position = Vector2.Lerp(startPosition, n.vector2, (Time.time - GameManager.Instance.StartTime) / duration);
-            startPosition = n.vector2;
-        }
-        GameManager.Instance.NeedMoving = false;
-         */
     }
 
     /// <summary>
@@ -96,8 +97,7 @@ public class Movement
                 openList.Clear();
                 closedList.Clear();
 
-                Debug.Log(path.Count);
-
+                nodeList = path;
                 return path;
             }
             
@@ -109,10 +109,11 @@ public class Movement
                 int x = (i % 3) - 1;
                 int y = (i / 3) - 1;
 
-                if ((x == 0 && y != 0) || (x != 0 && y == 0))
+                // This line prevents diagonal movement
+                if (!((x == 0 && y != 0) || (x != 0 && y == 0)))
                 {
+                    continue;
                 }
-                else { continue; }
 
                 Tile t = GameManager.Instance.GetTile(new TileCoordinates(x + current.tile.ColumnId, y + current.tile.RowId));
 
@@ -120,7 +121,7 @@ public class Movement
                 {
                     continue;
                 }
-                else if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasBuilding() || t.HasUnit())
+                else if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
                 {
                     continue;
                 }
