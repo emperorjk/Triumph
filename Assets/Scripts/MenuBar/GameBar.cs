@@ -13,12 +13,12 @@ public class GameBar : MonoBehaviour {
     private Rect gamebarSize;
     public float verticalGameBarSize = 50f;
     public float minSizeBar = 175f;
+    public float maxSizeBar = 240;
 
     // Update function for the GUI
     void OnGUI()
     {
         gamebarSize = new Rect(0, 0, Screen.width, verticalGameBarSize);
-        
         if(GUI.changed || !GUI.changed)
         {
             // If you want to change the style of the buttons, labels, etc. Look for GameBarGUISkin in Unity and edit the style in there.
@@ -26,18 +26,19 @@ public class GameBar : MonoBehaviour {
 
             // The commented code should do the same as the line below, but the second rect needs some values i cant figure out. UV coordinates or some stuff.
             //GUI.DrawTextureWithTexCoords(gamebarSize, gamebarTexture, new Rect(0f, 0f, 1f, 1f));
+
             TileTexture(gamebarTexture, new Rect(0, 0, gamebarTexture.width, gamebarTexture.height), gamebarSize, ScaleMode.StretchToFill);
             
             GUI.BeginGroup(gamebarSize);
 
             float margin = 100;
-            float cellSize = Mathf.Clamp(Screen.width / 5, minSizeBar, float.PositiveInfinity);
+            float cellSize = Mathf.Clamp(gamebarSize.width / 5, minSizeBar, maxSizeBar);
 
             // TO-DO stop using .top and instead use xMin etc. And general improvements / cleanups to the code.
             Rect player = new Rect(margin, gamebarSize.height / 2 - 20, cellSize, gamebarSize.height);
             Rect gold = new Rect(player.width + margin, player.top, player.width + cellSize, player.height);
             Rect turn = new Rect(gold.width + margin, gold.top, gold.width + cellSize, gold.height);
-
+            
             Rect settings = new Rect(turn.width + margin, 0, settingsTexture.width, settingsTexture.height - 12);
             Rect speaker = new Rect(turn.width + cellSize, 0, speakerOnTexture.width, speakerOnTexture.height - 12);
 

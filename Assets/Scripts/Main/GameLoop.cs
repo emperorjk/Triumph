@@ -15,7 +15,7 @@ public class GameLoop : MonoBehaviour
 
 
     // The margin used for the gamebar. So you can move just a little above the level in order to display the top row of tiles without the gamebar getting in the way.
-    private float margin = 1.27f;
+    public float margin = 1.7f;
     // The speed at which the camera movement is done.
     private float speedCameraMovement = 5f;
 

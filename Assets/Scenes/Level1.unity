@@ -10422,6 +10422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneButton: {fileID: 1105435784}
+  margin: 1.26999998
 --- !u!114 &1180005484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10440,6 +10441,7 @@ MonoBehaviour:
   speakerOffTexture: {fileID: 2800000, guid: b421766b73a78734a8c802127ce9cf0c, type: 3}
   verticalGameBarSize: 50
   minSizeBar: 175
+  maxSizeBar: 210
 --- !u!1 &1194676874
 GameObject:
   m_ObjectHideFlags: 0
