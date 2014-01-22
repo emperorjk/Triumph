@@ -8485,7 +8485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &991402963
 Transform:
   m_ObjectHideFlags: 0
@@ -10333,6 +10333,7 @@ GameObject:
   - 124: {fileID: 1180005479}
   - 81: {fileID: 1180005478}
   - 114: {fileID: 1180005483}
+  - 114: {fileID: 1180005484}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10421,6 +10422,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneButton: {fileID: 1105435784}
+--- !u!114 &1180005484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1180005477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891aa22b9c1bf0d4691759fed6a29b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customSkin: {fileID: 11400000, guid: 70f900896e462e940adabb67e073a499, type: 2}
+  gamebarTexture: {fileID: 2800000, guid: 10010cbc3b6eaf64fb7779c62683e771, type: 3}
+  settingsTexture: {fileID: 2800000, guid: 7c632cb8fe4ce8348965470b3a3ee7de, type: 3}
+  speakerOnTexture: {fileID: 2800000, guid: 323dca4a9d189534285d39a745434cff, type: 3}
+  speakerOffTexture: {fileID: 2800000, guid: b421766b73a78734a8c802127ce9cf0c, type: 3}
+  verticalGameBarSize: 50
+  minSizeBar: 175
 --- !u!1 &1194676874
 GameObject:
   m_ObjectHideFlags: 0
@@ -14373,6 +14392,10 @@ Prefab:
     - target: {fileID: 6500004, guid: 7de3332151fa07640b79772ba78654cf, type: 2}
       propertyPath: m_Size.y
       value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 7de3332151fa07640b79772ba78654cf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7de3332151fa07640b79772ba78654cf, type: 2}

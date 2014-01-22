@@ -31,8 +31,10 @@ public class GameManager
     public bool IsDoneButtonActive { get; set; }
     public Player CurrentPlayer { get; set; }
     public bool NeedMoving { get; set; }
-    public GameObject LastClickedUnitGO { get; set; }
-    public Tile LastClickedUnitTile { get; set; }
+	
+    // Do these two still need to be here? They both have 0 references.
+    //public GameObject LastClickedUnitGO { get; set; }
+    //public Tile LastClickedUnitTile { get; set; }
     public bool IsHightlightOn { get; set; }
     public ProductionOverlayMain productionOverlayMain { get; private set; }
     public CaptureBuildings CaptureBuildings { get; private set; }
@@ -132,6 +134,8 @@ public class GameManager
     public void SetupLevel()
     {
         // getting the TextMesh components and setting the player name + current turn
+        // Disabled since we no longer use this system. Yet kept here for backup.
+        /*
         playerText = GameObject.Find("PlayerName").gameObject.GetComponent<TextMesh>();
         playerText.text = "Player: " + CurrentPlayer.name;
 
@@ -140,7 +144,7 @@ public class GameManager
 
         currentGold = GameObject.Find("CurrentGold").gameObject.GetComponent<TextMesh>();
         currentGold.text = "Current gold: " + CurrentPlayer.gold;
-
+        */
         sounds.Init();
     }
 
@@ -167,10 +171,13 @@ public class GameManager
 
     public void UpdateTextboxes()
     {
+        // Disabled since this is no longer needed. Yet kept here for backup.
+        /*
         playerText.text = "Player: " + CurrentPlayer.name;
         currentGold.text = "Current gold: " + CurrentPlayer.gold;
         currentTurn++;
         currentTurnText.text = "Turn: " + currentTurn.ToString();
+         * */
     }
 
     private void ClearMovementAndHighLights()
