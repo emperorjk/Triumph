@@ -18,10 +18,10 @@ public class UnitGameObject : MonoBehaviour
 
 	void Awake () {
         // for now ugly code
-        if (type.Equals(UnitTypes.Archer)) { unitGame = new Archer(this); }
-        else if (type.Equals(UnitTypes.Knight)) { unitGame = new Knight(this); }
-        else if (type.Equals(UnitTypes.Swordsman)) { unitGame = new Swordsman(this); }
-        unitGame.isHero = isHero;
+        if (type.Equals(UnitTypes.Archer)) { unitGame = new Archer(this, isHero); }
+        else if (type.Equals(UnitTypes.Knight)) { unitGame = new Knight(this, isHero); }
+        else if (type.Equals(UnitTypes.Swordsman)) { unitGame = new Swordsman(this, isHero); }
+
         if (this.transform.parent != null)
         {
             tile = this.transform.parent.GetComponent<Tile>();

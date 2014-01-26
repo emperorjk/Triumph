@@ -6,6 +6,6 @@ using UnityEngine;
 
 public abstract class IBuildingGameObject
 {
-    public string DirToUnitFolder { get { return FileLocations.prefabBuildings; } }
+    public string DirToBuildingFolder { get { return FileLocations.prefabBuildings; } }
     public abstract GameObject CreateBuilding(PlayerIndex index);
 }

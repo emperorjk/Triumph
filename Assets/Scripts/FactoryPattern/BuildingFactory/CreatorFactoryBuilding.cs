@@ -18,10 +18,6 @@ public class CreatorFactoryBuilding
 
     public static BuildingGameObject CreateBuilding(Tile tile, PlayerIndex index, BuildingTypes type)
     {
-        if(tile.HasBuilding())
-        {
-            //throw new ArgumentException("The given tile already has a building on it. Cannot spawn a building.", "tile");
-        }
         GameObject obj = null;
         if (type == BuildingTypes.TrainingZone)
         {

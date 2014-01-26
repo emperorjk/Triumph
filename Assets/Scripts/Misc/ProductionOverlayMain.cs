@@ -23,6 +23,34 @@ public class ProductionOverlayMain
     public ProductionOverlayMain()
     {
         NeedsMoving = false;
+        EventHandler.register<OnBuildingClick>(OnBuildingClick);
+    }
+
+    // Use a destructor when the object is destroyed unregister it from the list. This is called when the garbace collector removes the object from memory.
+    // For monobehaviours use void OnDestroy() forexample.
+    ~ProductionOverlayMain()
+    {
+        EventHandler.unregister<OnBuildingClick>(OnBuildingClick);
+    }
+
+    /// <summary>
+    /// This method is executed when an clicked on building event is fired.
+    /// </summary>
+    /// <param name="evt"></param>
+    private void OnBuildingClick(OnBuildingClick evt)
+    {
+        if(evt.building != null)
+        {
+            if (!IsProductionOverlayActive && evt.building.buildingGame.CanProduce)
+            {
+                BuildingClickedProduction = evt.building;
+                CurrentOverlay = CreatorFactoryProductionOverlay.CreateProductionOverlay(BuildingClickedProduction.type);
+                CurrentOverlay.transform.parent = Camera.main.transform;
+                foreach (ProductionScript item in CurrentOverlay.GetComponentsInChildren<ProductionScript>()) { item.parentProduction = this; }
+                InitiateMoving(false);
+                IsProductionOverlayActive = true;
+            }
+        }
     }
 
     /// <summary>
@@ -32,33 +60,10 @@ public class ProductionOverlayMain
     {
         if (Input.GetMouseButtonDown(0))
         {
-            bool foundBuilding = false;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit touchBox;
-            if (Physics.Raycast(ray, out touchBox) && !IsProductionOverlayActive)
-            {
-                // Go through all of the buildings that can produce units.
-                foreach (BuildingsBase building in GameManager.Instance.CurrentPlayer.ownedBuildings.Where(x => x.CanProduce))
-                {
-                    if (touchBox.collider == building.buildingGameObject.collider)
-                    {
-                        foundBuilding = true;
-                        BuildingClickedProduction = building.buildingGameObject;
-                        CurrentOverlay = CreatorFactoryProductionOverlay.CreateProductionOverlay(BuildingClickedProduction.type);
-                        // Add the overlay as a child to the camera so when camera moving is implemented it follows along.
-                        CurrentOverlay.transform.parent = Camera.main.transform;
-                        foreach (ProductionScript item in CurrentOverlay.GetComponentsInChildren<ProductionScript>()) { item.parentProduction = this; }
-                        InitiateMoving(false);
-                        IsProductionOverlayActive = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!NeedsMoving && !foundBuilding && IsProductionOverlayActive && !CurrentOverlay.GetComponentsInChildren<ProductionScript>().Any(x => x.collider == touchBox.collider))
-            {
-                // If there was not clicked on an building. The overlay is already active and there was not clicked on any overlay that was active destroy the overlay.
-                //DestroyAndStopOverlay();
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out touchBox);
+            if (!NeedsMoving && BuildingClickedProduction != null && IsProductionOverlayActive && !CurrentOverlay.GetComponentsInChildren<ProductionScript>().Any(x => x.collider == touchBox.collider))
+            {                
                 InitiateMoving(true);
             }
         }

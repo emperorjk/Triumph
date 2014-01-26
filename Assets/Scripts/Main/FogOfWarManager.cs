@@ -26,6 +26,8 @@ public class FogOfWarManager
     public void HideFowWithinLineOfSight(UnitGameObject unit)
     {
         ShowOrHideFowWithinRange(unit.tile, unit.unitGame.FowLineOfSightRange, false);
+
+        CheckLineForAllObjects(unit.index, false);
     }
 
     /// <summary>
@@ -35,6 +37,8 @@ public class FogOfWarManager
     public void HideFowWithinLineOfSight(BuildingGameObject building)
     {
         ShowOrHideFowWithinRange(building.tile, building.buildingGame.FowLineOfSightRange, false);
+
+        CheckLineForAllObjects(building.index, false);
     }
 
     /// <summary>
@@ -44,6 +48,8 @@ public class FogOfWarManager
     public void ShowFowWithinLineOfSight(UnitGameObject unit)
     {
         ShowOrHideFowWithinRange(unit.tile, unit.unitGame.FowLineOfSightRange, true);
+
+        CheckLineForAllObjects(unit.index, true);
     }
 
     /// <summary>
@@ -53,6 +59,27 @@ public class FogOfWarManager
     public void ShowFowWithinLineOfSight(BuildingGameObject building)
     {
         ShowOrHideFowWithinRange(building.tile, building.buildingGame.FowLineOfSightRange, true);
+
+        CheckLineForAllObjects(building.index, true);
+    }
+
+    /// <summary>
+    /// This methods updates all of the fog of war for the given player. Loops through all of the buildings and units in order to update the fog of war.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="showFog"></param>
+    private void CheckLineForAllObjects(PlayerIndex index, bool showFog)
+    {
+        Player player = _manager.GetPlayer(index);
+        foreach (UnitBase item in player.ownedUnits)
+        {
+            ShowOrHideFowWithinRange(item.unitGameObject.tile, item.FowLineOfSightRange, showFog);
+        }
+
+        foreach (BuildingsBase item in player.ownedBuildings)
+        {
+            ShowOrHideFowWithinRange(item.buildingGameObject.tile, item.FowLineOfSightRange, showFog);
+        }
     }
 
     /// <summary>

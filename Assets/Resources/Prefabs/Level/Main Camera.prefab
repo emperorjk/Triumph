@@ -69,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100008
 GameObject:
   m_ObjectHideFlags: 1
@@ -98,6 +98,7 @@ GameObject:
   - 212: {fileID: 21200000}
   - 65: {fileID: 6500004}
   - 114: {fileID: 11400012}
+  - 114: {fileID: 11400014}
   m_Layer: 0
   m_Name: DoneButton
   m_TagString: Untagged
@@ -118,6 +119,7 @@ GameObject:
   - 124: {fileID: 12400000}
   - 81: {fileID: 8100000}
   - 114: {fileID: 11400004}
+  - 114: {fileID: 11400016}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -310,7 +312,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.2431564, y: -8.34075069, z: -10}
+  m_LocalPosition: {x: 14.2587423, y: -6.04370737, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -823,6 +825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneButton: {fileID: 100010}
+  margin: 1.70000005
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -867,6 +870,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813c1d6245cf9634eb1344b5de9eea44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813c1d6245cf9634eb1344b5de9eea44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891aa22b9c1bf0d4691759fed6a29b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customSkin: {fileID: 11400000, guid: 70f900896e462e940adabb67e073a499, type: 2}
+  gamebarTexture: {fileID: 2800000, guid: 10010cbc3b6eaf64fb7779c62683e771, type: 3}
+  settingsTexture: {fileID: 2800000, guid: 7c632cb8fe4ce8348965470b3a3ee7de, type: 3}
+  speakerOnTexture: {fileID: 2800000, guid: 323dca4a9d189534285d39a745434cff, type: 3}
+  speakerOffTexture: {fileID: 2800000, guid: b421766b73a78734a8c802127ce9cf0c, type: 3}
+  verticalGameBarSize: 50
+  minSizeBar: 175
+  maxSizeBar: 210
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -892,7 +925,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_SortingLayerID: 134467815
   m_Sprite: {fileID: 21300000, guid: 2c45bbc9ebf445344975fc12c53c7bf3, type: 3}

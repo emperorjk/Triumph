@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Knight : UnitBase
 {
-    public Knight(UnitGameObject game) 
-        : base(game, 10, 1.5f, 1, 1, 3, 250)
+    public Knight(UnitGameObject game, bool isHero)
+        : base(game, 10, 1.5f, 1, 3, 250, isHero)
     {
         
     }
@@ -17,7 +17,7 @@ public class Knight : UnitBase
         get { return true; }
     }
 
-    public override int GetAttackRange
+    public override int GetAttackMoveRange
     {
         get { return attackRange + moveRange; }
     }

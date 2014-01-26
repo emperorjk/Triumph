@@ -6,64 +6,62 @@ using UnityEngine;
 
 public class Movement
 {
-    private RaycastHit _touchBox;
+    public float StartTimeMoving { get; set; }
+    public bool needsMoving { get; set; }
     private CompareNodes compare = new CompareNodes();
-    private List<Node> nodeList;
-    private float duration = 1f;
+    public List<Node> nodeList;
+    private float movingDuration = 1f;
 
-    public void Move(Tile LastClickedUnitTile, Attack attack, Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
+    public void Moving(UnitGameObject unitMoving, Attack attack)
     {
-        LastClickedUnitTile.unitGameObject.gameObject.transform.position = Vector2.Lerp(LastClickedUnitTile.unitGameObject.gameObject.transform.position, nodeList.Last().tile.Vector2, (Time.time - GameManager.Instance.StartTime) / duration);
-
-        if ((Time.time - GameManager.Instance.StartTime) / duration >= 1f)
+        unitMoving.transform.position = Vector2.Lerp(unitMoving.tile.Vector2, nodeList.Last().tile.Vector2, GetTimePassed());
+        if (GetTimePassed() >= 1f)
         {
+            // Show fow for the unit.
+            GameManager.Instance.fowManager.ShowFowWithinLineOfSight(unitMoving);
+            // Remove the references from the old tile.
+            unitMoving.tile.unitGameObject = null;
+            unitMoving.tile = null;
+            // Remove the last tile from the list.
+            Tile newPosition = nodeList.Last().tile;
             nodeList.Remove(nodeList.Last());
-            GameManager.Instance.StartTime = Time.time;
+            // Assign the references using the new tile.
+            newPosition.unitGameObject = unitMoving;
+            unitMoving.tile = newPosition;
+            // Set the parent and position of the unit to the new tile.
+            unitMoving.transform.parent = newPosition.transform;
+            unitMoving.transform.position = newPosition.transform.position;
+            // Hide the fow for the unit. It will use the new tile location.
+            GameManager.Instance.fowManager.HideFowWithinLineOfSight(unitMoving);
+            StartTimeMoving = Time.time;
         }
-        if (nodeList.Count <= 0)
-        {
-            Tile destionationTile = LastClickedUnitTile.unitGameObject.gameObject.GetComponent<UnitGameObject>().tile;
 
-            if (destionationTile.HasBuilding())
+        if(nodeList.Count <= 0)
+        {
+            GameManager.Instance.highlight.ClearNewHighlights();
+            Tile endDestinationTile = unitMoving.tile;
+            
+            if (endDestinationTile.HasBuilding())
             {
-                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(destionationTile.buildingGameObject.buildingGame);
+                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.buildingGame);
             }
 
-            // Set the unit transform.parent to the new tile which is has moved to. This way the position resets to 0,0,0 of the unit and it is always perfectly 
-            // placed onto the tile which it is on. It also changes the objects in the hierarchie window under the new tile object.
-            LastClickedUnitTile.unitGameObject.gameObject.transform.parent = destionationTile.transform;
-
-            if (LastClickedUnitTile.unitGameObject.unitGame.hasMoved)
+            if(unitMoving.unitGame.CanAttackAfterMove && attack.ShowAttackHighlights(unitMoving, unitMoving.unitGame.attackRange) > 0)
             {
-                if (LastClickedUnitTile.unitGameObject.unitGame.CanAttackAfterMove)
-                {
-                    attackHighlightList = GameManager.Instance.GetAllTilesWithinRange(LastClickedUnitTile.unitGameObject.tile.Coordinate, LastClickedUnitTile.unitGameObject.unitGame.attackRange);
-
-                    // if this unit can attack after movement and has an enemy standing next to him we know this UnitCanAttack
-                    if (attack.ShowAttackHighlight(attackHighlightList) > 0)
-                    {
-                        LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.white;
-                        GameManager.Instance.UnitCanAttack = true;
-                    }
-                    else
-                    {
-                        LastClickedUnitTile.unitGameObject.unitGame.hasMoved = true;
-                        LastClickedUnitTile.unitGameObject.unitGame.hasAttacked = true;
-                        LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.gray;
-                        LastClickedUnitTile.unitGameObject = null;
-                        LastClickedUnitTile = null;
-                    }
-                }
-                else 
-                {
-                    LastClickedUnitTile.unitGameObject.gameObject.renderer.material.color = Color.gray;
-                    LastClickedUnitTile.unitGameObject = null;
-                    LastClickedUnitTile = null;
-                }
-            }          
-
-            GameManager.Instance.NeedMoving = false;
+                unitMoving.unitGame.hasMoved = true;
+            }
+            else
+            {
+                unitMoving.unitGame.hasMoved = true;
+                unitMoving.unitGame.hasAttacked = true;
+            }
+            needsMoving = false;
         }
+    }
+
+    private float GetTimePassed()
+    {
+        return (Time.time - StartTimeMoving) / movingDuration;
     }
 
     /// <summary>
@@ -79,7 +77,6 @@ public class Movement
         Node current = new Node(start.Vector2, start, null, 0, 0);
 
         openList.Add(current);
-
         while(openList.Count > 0)
         {
             openList.Sort(compare);
@@ -97,13 +94,11 @@ public class Movement
                 openList.Clear();
                 closedList.Clear();
 
-                nodeList = path;
                 return path;
             }
             
             openList.Remove(current);
             closedList.Add(current);
-
             for (int i = 0; i < 9; i++)
             {
                 int x = (i % 3) - 1;
@@ -141,6 +136,7 @@ public class Movement
                 }
             }
         }
+
        // No paths found
         return null;
     }

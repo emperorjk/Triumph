@@ -8,11 +8,8 @@ using System.Collections.Generic;
 public class GameLoop : MonoBehaviour 
 {
     public GameObject doneButton;
-
     private GameManager _manager;
-    private RaycastHit _touchBox;
     private Highlight _highlight;
-
 
     // The margin used for the gamebar. So you can move just a little above the level in order to display the top row of tiles without the gamebar getting in the way.
     public float margin = 1.7f;
@@ -32,7 +29,7 @@ public class GameLoop : MonoBehaviour
         _manager = GameManager.Instance;
 		_manager.SetupLevel();
 
-        _highlight = new Highlight();
+        _highlight = GameManager.Instance.highlight;
         CalculateLevelArea();
         MoveCamera(new Vector2(0, 0));
         // Set all of the renderers that are childs of the camera to be on the GUI sorting layer.
@@ -44,14 +41,66 @@ public class GameLoop : MonoBehaviour
 
     void Update()
     {
+        CheckObjectsClick();
         CameraMovementInput();
 
         GameManager.Instance.productionOverlayMain.OnUpdate();
         CheckDoneButton();
 
-        _highlight.HandleHighlightInput();
-
+        _highlight.OnUpdate();
     }
+    
+    /// <summary>
+    /// Check if there has been a click. Ifso then raycast and check if there has been clicked on a specific game object. Ifso fire an event with the click object as a parameter.
+    /// </summary>
+    private void CheckObjectsClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnUnitClick ouc = new OnUnitClick();
+            OnBuildingClick obc = new OnBuildingClick();
+            OnHighlightClick ohc = new OnHighlightClick();
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                foreach (UnitBase unit in GameManager.Instance.CurrentPlayer.ownedUnits)
+                {
+                    if (unit.unitGameObject.collider == hit.collider)
+                    {
+                        ouc.unit = unit.unitGameObject;
+                        break;
+                    }
+                }   
+                foreach (BuildingsBase building in GameManager.Instance.CurrentPlayer.ownedBuildings)
+                {
+                    if (building.buildingGameObject.collider == hit.collider)
+                    {
+                        obc.building = building.buildingGameObject;
+                        break;
+                    }
+                }
+                foreach (HighlightObject highlight in _highlight.highlightObjects)
+                {
+                    if (highlight.collider == hit.collider)
+                    {
+                        ohc.highlight = highlight;
+                        break;
+                    }
+                }
+            }
+            
+            if(ouc.unit == null && ohc.highlight == null && !_manager.highlight._movement.needsMoving || (_manager.highlight.isHighlightOn && ouc.unit != null))
+            {
+                _manager.highlight.ClearNewHighlights();
+            }
+            EventHandler.dispatch(ouc);
+            EventHandler.dispatch(obc);
+            EventHandler.dispatch(ohc);
+        }
+    }
+
 
     private void CameraMovementInput()
     {

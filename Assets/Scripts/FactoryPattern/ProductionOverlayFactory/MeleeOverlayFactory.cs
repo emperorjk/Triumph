@@ -8,7 +8,7 @@ public class MeleeOverlayFactory : IProductionOverlay
     public override GameObject CreateProductionOverlay()
     {
         GameObject obj = null;
-        obj = Resources.Load<GameObject>(DirToUnitFolder + "ProductionMeleePrefab");
+        obj = Resources.Load<GameObject>(DirToProductionOverlayFolder + "ProductionMeleePrefab");
         return obj;
     }
 }

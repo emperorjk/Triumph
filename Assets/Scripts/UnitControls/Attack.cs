@@ -5,97 +5,82 @@ using System.Text;
 using UnityEngine;
 
 public class Attack
-{
-    private RaycastHit _touchBox;
-    private List<GameObject> closeAttackHighlights = new List<GameObject>();
-
-    public int ShowAttackHighlight(Dictionary<int, Dictionary<int, Tile>> attackHighlightList)
+{    
+    public Attack()
     {
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
+        EventHandler.register<OnHighlightClick>(BattlePreparation);
+    }
+
+    /// <summary>
+    /// Show the attack highlights for the specified unit with the specified range.
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <param name="range"></param>
+    /// <returns></returns>
+    public int ShowAttackHighlights(UnitGameObject unit, int range)
+    {
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in GameManager.Instance.GetAllTilesWithinRange(unit.tile.Coordinate, range))
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
-                if (tile.Value.HasUnit() && GameManager.Instance.CurrentPlayer.index != tile.Value.unitGameObject.index)
+                if (tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index)
                 {
-                    tile.Value.HighlightAttack.SetActive(true);
-                    GameManager.Instance.attackHighLightObjects.Add(tile.Value.HighlightAttack);
+                    tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
+                    GameManager.Instance.highlight.highlightObjects.Add(tile.Value.highlight);
                 }
             }
         }
-        if (GameManager.Instance.attackHighLightObjects.Count > 0)
-        {
-            return GameManager.Instance.attackHighLightObjects.Count;
-        }
-        return -1;
+        int count = GameManager.Instance.highlight.highlightObjects.Count;
+        GameManager.Instance.highlight.isHighlightOn = count > 0;
+        return count;
     }
 
-    public void CollisionAttackRange(Tile tile)
+    /// <summary>
+    /// Get called whenever an OnHighlightClick is fired. If it is possible it will attack an enemy unit.
+    /// </summary>
+    /// <param name="evt"></param>
+    public void BattlePreparation(OnHighlightClick evt)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out _touchBox))
+        if(evt.highlight != null)
         {
-            foreach (GameObject attackHighlight in GameManager.Instance.attackHighLightObjects)
+            HighlightObject highlight = evt.highlight;
+            if (GameManager.Instance.highlight.isHighlightOn && !GameManager.Instance.highlight._movement.needsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
             {
-                if (_touchBox.collider == attackHighlight.collider)
+                UnitGameObject attackingUnit = GameManager.Instance.highlight._unitSelected;
+                UnitGameObject defendingUnit = highlight.tile.unitGameObject;
+                if (!attackingUnit.unitGame.hasAttacked)
                 {
-                    // Only range people can attack with tiles between them
-                    if (!tile.unitGameObject.unitGame.CanAttackAfterMove)
+                    if (!attackingUnit.unitGame.hasMoved || (attackingUnit.unitGame.hasMoved && attackingUnit.unitGame.CanAttackAfterMove))
                     {
-                        Tile enemyUnitTile = attackHighlight.transform.parent.GetComponent<Tile>();
-                        enemyUnitTile.unitGameObject.unitGame.DecreaseHealth((int)tile.unitGameObject.unitGame.damage * 5);
-                        tile.unitGameObject.unitGame.hasAttacked = true;
-                        tile.unitGameObject.renderer.material.color = Color.gray;
-
-                        tile.unitGameObject.unitGame.PlaySound(UnitSoundType.Attack);
-                        break;
+                        BattleSimulation(attackingUnit, defendingUnit);
                     }
                 }
             }
         }
     }
 
-    public void CollisionAttackMelee(Dictionary<int, Dictionary<int, Tile>> attackHighlightList, Tile tile)
+    /// <summary>
+    /// The method which does all the complicated battle simulation. From calculating damage to dealing damage and so forth.
+    /// </summary>
+    /// <param name="attacker"></param>
+    /// <param name="defender"></param>
+    private void BattleSimulation(UnitGameObject attacker, UnitGameObject defender)
     {
-        closeAttackHighlights.Clear();
-
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in attackHighlightList)
+        // NOTE!!!!!!!
+        // Because are sprites are a certain size. The location of the tiles is always in increments of 2 or negative 2. So tile(1,1) is on 0,0,0. tile(2,1) is on 2,0,0. 
+        // tile(1,2) is on 0,-2,0 etc.
+        // Because of these increments, 2 unity meters equals to 1 range. When we say attackrange of 1 you can attack units directly beside you.
+        // So thats why we devide the distance between the two units by 2 in order to get the correct distance.
+        // If we later have different sprite sizes and/or different increments this needs to change.
+        // This works for all ranges.
+        float distanceBetweenUnits = Vector2.Distance(attacker.transform.position, defender.transform.position) / 2;
+        if (distanceBetweenUnits <= attacker.unitGame.attackRange)
         {
-            foreach (KeyValuePair<int, Tile> t in item.Value)
-            {
-                if (t.Value.HasUnit())
-                {
-                    closeAttackHighlights.Add(t.Value.HighlightAttack); 
-                }
-            }
+            attacker.unitGame.hasMoved = true;
+            attacker.unitGame.hasAttacked = true;
+            defender.unitGame.DecreaseHealth(3);
+            attacker.unitGame.PlaySound(UnitSoundType.Attack);
+            GameManager.Instance.highlight.ClearNewHighlights();
         }
-        AttackNearbyEnemies(tile);
-    }
-
-    public void AttackNearbyEnemies(Tile tile)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out _touchBox))
-        {
-            foreach (GameObject attackHighlight in closeAttackHighlights)
-            {
-                if (_touchBox.collider == attackHighlight.collider)
-                {
-                    Tile enemyUnitTile = attackHighlight.transform.parent.GetComponent<Tile>();
-                    enemyUnitTile.unitGameObject.unitGame.DecreaseHealth((int)tile.unitGameObject.unitGame.damage * 5);
-                    tile.unitGameObject.unitGame.hasAttacked = true;
-                    tile.unitGameObject.transform.gameObject.renderer.material.color = Color.gray;
-                    GameManager.Instance.UnitCanAttack = false;
-
-                    tile.unitGameObject.unitGame.PlaySound(UnitSoundType.Attack);
-
-                    tile.unitGameObject = null;
-                    tile = null;
-
-                    break;
-                }
-            }
-        }        
     }
 }

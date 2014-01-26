@@ -40,8 +40,7 @@ public class Tile : MonoBehaviour
     public BuildingGameObject buildingGameObject;
     public UnitGameObject unitGameObject;
     public GameObject FogOfWar { get; private set; }
-    public GameObject HighlightMove { get; private set; }
-    public GameObject HighlightAttack { get; private set; }
+    public HighlightObject highlight { get; private set; }
     public TileCoordinates Coordinate { get; private set; }
     public Vector2 Vector2 { get; private set; }
 
@@ -61,17 +60,11 @@ public class Tile : MonoBehaviour
         FogOfWar.transform.position = this.transform.position;
         FogOfWar.transform.parent = this.transform;
 
-        HighlightAttack = ((GameObject)GameObject.Instantiate(Resources.Load(FileLocations.highlightAttack)));
-        HighlightMove = ((GameObject)GameObject.Instantiate(Resources.Load(FileLocations.highlightMove)));
-
-        // Setting the parent for the Unity Hierarchy and the position to the correct place
-        HighlightAttack.transform.parent = this.transform;
-        HighlightAttack.transform.position = this.transform.position;
-        HighlightMove.transform.parent = this.transform;
-        HighlightMove.transform.position = this.transform.position;
-
-        HighlightAttack.name = "highlight_attack";
-        HighlightMove.name = "highlight_move";
+        GameObject highlight = ((GameObject)GameObject.Instantiate(Resources.Load(FileLocations.highlight)));
+        highlight.transform.parent = this.transform;
+        highlight.transform.position = this.transform.position;
+        this.highlight = highlight.GetComponent<HighlightObject>();
+        this.highlight.ChangeHighlight(HighlightTypes.highlight_none);        
     }
 
     public bool HasBuilding()

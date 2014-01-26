@@ -30,30 +30,14 @@ public class GameManager
     public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
     public Player CurrentPlayer { get; set; }
-    public bool NeedMoving { get; set; }
-	
-    // Do these two still need to be here? They both have 0 references.
-    //public GameObject LastClickedUnitGO { get; set; }
-    //public Tile LastClickedUnitTile { get; set; }
-    public bool IsHightlightOn { get; set; }
     public ProductionOverlayMain productionOverlayMain { get; private set; }
     public CaptureBuildings CaptureBuildings { get; private set; }
     public FogOfWarManager fowManager { get; private set; }
-    public bool UnitCanAttack { get; set; }
-    public float StartTime { get; set; }
-    public UnitSounds sounds;
+    public UnitSounds sounds { get; private set; }
+    public Highlight highlight { get; private set; }
 
-    // Lists need to be accesed in GameManager because when NextPlayer method gets called we want to deactivate
-    // the highlights also.
-    public List<GameObject> highLightObjects = new List<GameObject>();
-    public List<GameObject> attackHighLightObjects = new List<GameObject>();
-
-    // The Player object can still be retrieved via the PlayerIndex enum.
     private SortedList<PlayerIndex, Player> players;
     public int currentTurn { get; private set; }
-    private TextMesh currentTurnText;
-    private TextMesh playerText;
-    private TextMesh currentGold;
 
     /// <summary>
     /// Use this method as a constructor which is called once when the GameManager singleton is called for the first time.
@@ -73,7 +57,54 @@ public class GameManager
         productionOverlayMain = new ProductionOverlayMain();
         fowManager = new FogOfWarManager();
         sounds = new UnitSounds();
+        highlight = new Highlight();
     }
+
+    /// <summary>
+    /// Perhaps a more cleaner system where a class holds all of the level specific data. For now this method needs to be called whenever a level scene is loaded. If loaded from
+    /// the menu errors will come forth.
+    /// </summary>
+    public void SetupLevel()
+    {
+        sounds.Init();
+    }
+
+    /// <summary>
+    /// Returns the player object by the given PlayerIndex enum.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public Player GetPlayer(PlayerIndex index)
+    {
+        if(!Enum.IsDefined(typeof(PlayerIndex), index))
+        {
+            throw new KeyNotFoundException("The given playerIndex was not found. Give me a correct PlayerIndex or suffer the consequences.");
+        }
+        return players[index];
+    }
+
+    public void NextPlayer()
+    {
+        productionOverlayMain.DestroyAndStopOverlay();
+        highlight.ClearMovementAndHighLights();
+        CaptureBuildings.CalculateCapturing();
+        CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
+
+        // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
+        bool foundPlayer = false;
+        while(!foundPlayer)
+        {
+            int indexplayer = players.IndexOfKey(CurrentPlayer.index) + 1;
+            if (indexplayer >= players.Count) { indexplayer = 0; }
+            CurrentPlayer = players.Values[indexplayer];
+            foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
+        }
+        currentTurn++;
+        // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
+        fowManager.ShowOrHideFowPlayer();
+    }
+
+    #region Tile code
 
     /// <summary>
     /// Add a tile to the list. This methods should only be called one when a Tile GameObject is loaded when the scene starts.
@@ -105,108 +136,12 @@ public class GameManager
     /// <returns></returns>
     public Tile GetTile(TileCoordinates coor)
     {
-        if(tiles.ContainsKey(coor.ColumnId) && tiles[coor.ColumnId].ContainsKey(coor.RowId))
+        if (tiles.ContainsKey(coor.ColumnId) && tiles[coor.ColumnId].ContainsKey(coor.RowId))
         {
             return tiles[coor.ColumnId][coor.RowId];
         }
 
         return null;
-    }
-
-    /// <summary>
-    /// Returns the player object by the given PlayerIndex enum.
-    /// </summary>
-    /// <param name="index"></param>
-    /// <returns></returns>
-    public Player GetPlayer(PlayerIndex index)
-    {
-        if(!Enum.IsDefined(typeof(PlayerIndex), index))
-        {
-            throw new KeyNotFoundException("The given playerIndex was not found. Give me a correct PlayerIndex or suffer the consequences.");
-        }
-        return players[index];
-    }
-	
-	/// <summary>
-    /// Perhaps a more cleaner system where a class holds all of the level specific data. For now this method needs to be called whenever a level scene is loaded. If loaded from
-    /// the menu errors will come forth.
-    /// </summary>
-    public void SetupLevel()
-    {
-        // getting the TextMesh components and setting the player name + current turn
-        // Disabled since we no longer use this system. Yet kept here for backup.
-        /*
-        playerText = GameObject.Find("PlayerName").gameObject.GetComponent<TextMesh>();
-        playerText.text = "Player: " + CurrentPlayer.name;
-
-        currentTurnText = GameObject.Find("Turn").gameObject.GetComponent<TextMesh>();
-        currentTurnText.text = "Turn: " + currentTurn.ToString();
-
-        currentGold = GameObject.Find("CurrentGold").gameObject.GetComponent<TextMesh>();
-        currentGold.text = "Current gold: " + CurrentPlayer.gold;
-        */
-        sounds.Init();
-    }
-
-    public void NextPlayer()
-    {
-        ClearMovementAndHighLights();
-        productionOverlayMain.DestroyAndStopOverlay();
-        CaptureBuildings.CalculateCapturing();
-        CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
-
-        // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
-        bool foundPlayer = false;
-        while(!foundPlayer)
-        {
-            int indexplayer = players.IndexOfKey(CurrentPlayer.index) + 1;
-            if (indexplayer >= players.Count) { indexplayer = 0; }
-            CurrentPlayer = players.Values[indexplayer];
-            foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
-        }
-        UpdateTextboxes();
-        // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
-        fowManager.ShowOrHideFowPlayer();
-    }
-
-    public void UpdateTextboxes()
-    {
-        // Disabled since this is no longer needed. Yet kept here for backup.
-        /*
-        playerText.text = "Player: " + CurrentPlayer.name;
-        currentGold.text = "Current gold: " + CurrentPlayer.gold;
-        currentTurn++;
-        currentTurnText.text = "Turn: " + currentTurn.ToString();
-         * */
-    }
-
-    private void ClearMovementAndHighLights()
-    {
-        foreach (UnitBase unit in CurrentPlayer.ownedUnits)
-        {
-            unit.unitGameObject.renderer.material.color = Color.white;
-            unit.hasMoved = false;
-            unit.hasAttacked = false;
-        }
-
-        ClearHighlight();
-    }
-
-    public void ClearHighlight()
-    {
-        foreach (GameObject highlights in this.highLightObjects)
-        {
-            highlights.SetActive(false);
-        }
-
-        foreach (GameObject attackHighlight in this.attackHighLightObjects)
-        {
-            attackHighlight.SetActive(false);
-        }
-
-        this.highLightObjects.Clear();
-        this.attackHighLightObjects.Clear();
-        this.IsHightlightOn = false;
     }
 
     /// <summary>
@@ -286,6 +221,9 @@ public class GameManager
         return possibleLocations;
     }
 
+    #endregion
+
+    #region Destroying gameobjects
     /// <summary>
     /// This method is called whenever a unit needs to be destroyed. For example when a unit is unit is killed.
     /// In here needs to be all of the code to remove the references that the game has to any of these objects (and childs).
@@ -311,4 +249,6 @@ public class GameManager
         this.GetPlayer(buildingToDestroy.index).RemoveBuilding(buildingToDestroy.buildingGame);
         GameObject.Destroy(buildingToDestroy.gameObject);
     }
+
+    #endregion
 }

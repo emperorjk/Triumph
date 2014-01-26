@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Swordsman : UnitBase
 {
-    public Swordsman(UnitGameObject game) 
-        : base(game, 10, 1.0f, 1, 1, 2, 150)
+    public Swordsman(UnitGameObject game, bool isHero) 
+        : base(game, 10, 1.0f, 1, 2, 150, isHero)
     {
 
     }
@@ -17,7 +17,7 @@ public class Swordsman : UnitBase
         get { return true; }
     }
 
-    public override int GetAttackRange
+    public override int GetAttackMoveRange
     {
         get { return attackRange + moveRange; }
     }

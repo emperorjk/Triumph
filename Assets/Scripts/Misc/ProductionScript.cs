@@ -31,7 +31,6 @@ public class ProductionScript : MonoBehaviour {
                     {
                         unit.gameObject.SetActive(true);
                         GameManager.Instance.CurrentPlayer.DecreaseGoldBy(unit.unitGame.cost);
-                        GameManager.Instance.UpdateTextboxes();
                         CanClick = false;
                         parentProduction.InitiateMoving(true);
                     }

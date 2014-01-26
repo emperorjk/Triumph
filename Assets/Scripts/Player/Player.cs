@@ -58,10 +58,6 @@ public class Player {
 
     public int GetCurrentIncome()
     {
-        // This should work. Haven't tested it yet.
         return ownedBuildings.Sum(x => x.income);
-        //int temp = 0;
-        //foreach (BuildingsBase b in ownedBuildings) { temp += b.income; }
-        //return temp;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class OnClickAudio : MonoBehaviour 
 {
-
+    /*
     void OnMouseDown()
     {
         if (Input.GetMouseButtonDown(0)) 
@@ -24,4 +24,5 @@ public class OnClickAudio : MonoBehaviour
             }
         }
     }
+     * */
 }

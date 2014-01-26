@@ -11,7 +11,7 @@ public abstract class BuildingsBase {
         this.currentCapturePoints = 0;
     }
     public BuildingGameObject buildingGameObject { get; private set; }
-    public int income { get; set; }
+    public int income { get; private set; }
     public int currentCapturePoints { get; private set; }
     public int capturePoints { get; private set; }
     public void IncreaseCapturePointsBy(int increaseBy) 

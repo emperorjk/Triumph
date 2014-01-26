@@ -8,7 +8,7 @@ public class CavalryOverlayFactory : IProductionOverlay
     public override GameObject CreateProductionOverlay()
     {
         GameObject obj = null;
-        obj = Resources.Load<GameObject>(DirToUnitFolder + "ProductionCavalryPrefab");
+        obj = Resources.Load<GameObject>(DirToProductionOverlayFolder + "ProductionCavalryPrefab");
         return obj;
     }
 }

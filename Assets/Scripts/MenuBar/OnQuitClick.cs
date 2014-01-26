@@ -3,6 +3,7 @@ using System.Collections;
 
 public class OnQuitClick : MonoBehaviour 
 {
+    /*
     void OnMouseDown()
     {
         if (collider.name == "Yes")
@@ -16,4 +17,5 @@ public class OnQuitClick : MonoBehaviour
             GameManager.Instance.IsQuitMenuOn = false;
         }
     }
+     * */
 }

@@ -33,7 +33,6 @@ public class CaptureBuildings
         else if (buildings.Contains(building) && unitOnBuilding.index == building.buildingGameObject.index)
         {
             building.resetCurrentCapturePoints();
-            //building.buildingGameObject.UpdateCapturePointsText();
             buildings.Remove(building);
         }
     }

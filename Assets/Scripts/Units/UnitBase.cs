@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class UnitBase {
 
-    protected UnitBase(UnitGameObject game, int health, float damage, int attackRange, int baseAttackRange, int moveRange, int cost)
+    protected UnitBase(UnitGameObject game, int health, float damage, int attackRange, int moveRange, int cost, bool isHero)
     {
         this.unitGameObject = game;
         this.hasMoved = false;
@@ -13,12 +13,12 @@ public abstract class UnitBase {
         this.health = health;
         this.damage = damage;
         this.attackRange = attackRange;
-        this.baseAttackRange = baseAttackRange;
         this.moveRange = moveRange;
         this.cost = cost;
+        this.isHero = isHero;
     }
 
-    public abstract int GetAttackRange { get; }
+    public abstract int GetAttackMoveRange { get; }
     public abstract bool CanAttackAfterMove { get; }
     public abstract int FowLineOfSightRange { get; }
     public abstract void PlaySound(UnitSoundType soundType);
@@ -38,19 +38,42 @@ public abstract class UnitBase {
     {
         this.currentHealth += recovery;
         // If we later have some sort of healing make sure that it cannot go over its initial full health.
-        if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
+        this.currentHealth = Mathf.Clamp(this.currentHealth, 0, this.health);
+        //if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
         this.unitGameObject.UpdateCapturePointsText();
     }
 
-    public bool hasMoved { get; set; }
-    public bool hasAttacked { get; set; }
-    public bool isHero { get; set; }
+    private void UpdateUnitColor()
+    {
+        unitGameObject.gameObject.renderer.material.color = hasMoved && hasAttacked ? Color.gray : Color.white;
+    }
+
+    public bool hasMoved {
+        get { return moved; } 
+        set 
+        {
+            moved = value;
+            UpdateUnitColor(); 
+        } 
+    }
+    public bool hasAttacked
+    {
+        get { return attacked; }
+        set
+        {
+            attacked = value;
+            UpdateUnitColor();
+        }
+    }
+    private bool moved = false;
+    private bool attacked = false;
+
+    public bool isHero { get; private set; }
     public int health { get; private set; }
-    public int currentHealth { get; set; }
-    public float damage { get; set; }
-    public int attackRange { get; set; }
-    public int baseAttackRange { get; set; }
-    public int moveRange { get; set; }
+    public int currentHealth { get; private set; }
+    public float damage { get; private set; }
+    public int attackRange { get; private set; }
+    public int moveRange { get; private set; }
     public int cost { get; private set; }
     public UnitGameObject unitGameObject { get; private set; }
 }

@@ -8,7 +8,7 @@ public class RangeOverlayFactory : IProductionOverlay
     public override GameObject CreateProductionOverlay()
     {
         GameObject obj = null;
-        obj = Resources.Load<GameObject>(DirToUnitFolder + "ProductionRangePrefab");
+        obj = Resources.Load<GameObject>(DirToProductionOverlayFolder + "ProductionRangePrefab");
         return obj;
     }
 }
