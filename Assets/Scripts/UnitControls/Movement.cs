@@ -8,9 +8,11 @@ public class Movement
 {
     public float StartTimeMoving { get; set; }
     public bool needsMoving { get; set; }
-    private CompareNodes compare = new CompareNodes();
     public List<Node> nodeList;
+
+    private CompareNodes compare = new CompareNodes();
     private float movingDuration = 1f;
+    private int maxValueCounter = 0;
 
     public void Moving(UnitGameObject unitMoving, Attack attack)
     {
@@ -75,6 +77,7 @@ public class Movement
         List<Node> openList = new List<Node>();
         List<Node> closedList = new List<Node>();
         Node current = new Node(start.Vector2, start, null, 0, 0);
+        maxValueCounter = 0;
 
         openList.Add(current);
         while(openList.Count > 0)
@@ -134,6 +137,9 @@ public class Movement
                 {
                     openList.Add(node);
                 }
+                
+                maxValueCounter++;
+                if (maxValueCounter > 100) return null;
             }
         }
 

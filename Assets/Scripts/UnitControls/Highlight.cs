@@ -7,6 +7,10 @@ using UnityEngine;
 public class Highlight
 {
     private GameManager _manager;
+    private TextMesh _notificationText;
+    private bool _notificationTextActivated = false;
+    private float startTime = 1f;
+
     public Movement _movement;
     public Attack _attack;
     public List<HighlightObject> highlightObjects { get; private set; }
@@ -20,6 +24,7 @@ public class Highlight
         _attack = new Attack();
         isHighlightOn = false;
         highlightObjects = new List<HighlightObject>();
+        _notificationText = GameObject.Find("NotificationText").GetComponent<TextMesh>();
         EventHandler.register<OnUnitClick>(ShowHighlight);
         EventHandler.register<OnHighlightClick>(ClickedOnHightLight);
     }
@@ -28,7 +33,22 @@ public class Highlight
     {
         if (_movement.needsMoving)
         {
-            _movement.Moving(_unitSelected, _attack);
+            if (_movement.nodeList != null)
+            {
+                _movement.Moving(_unitSelected, _attack);
+            }
+        }
+
+        // Reset notification text after some time.
+        if (_notificationTextActivated)
+        {
+            startTime -= Time.deltaTime;
+
+            if (startTime <= 0)
+            {
+                _notificationTextActivated = false;
+                _notificationText.text = "";
+            }
         }
     }
 
@@ -54,21 +74,10 @@ public class Highlight
                         {
                             if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
                             {
-                                // For testing purposes. Allows easy switching between using the A* to check if the tile is reachable.
-                                // Checking all of the paths is not working. Alot of infinity loops. I think.
-                                bool shouldCalculatePath = false;
-                                if(!shouldCalculatePath)
+                                if (_movement.CalculateShortestPath(_unitSelected.tile, tile.Value) != null)
                                 {
                                     tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_move);
                                     highlightObjects.Add(tile.Value.highlight);
-                                }
-                                else
-                                {
-                                    if (_movement.CalculateShortestPath(_unitSelected.tile, tile.Value) != null)
-                                    {
-                                        tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_move);
-                                        highlightObjects.Add(tile.Value.highlight);
-                                    }
                                 }
                             }  
                         }
@@ -102,6 +111,12 @@ public class Highlight
                     _movement.needsMoving = true;
                     _unitSelected.unitGame.PlaySound(UnitSoundType.Move);
                     ClearNewHighlights();
+                }
+                else if (highlight.highlightTypeActive == HighlightTypes.highlight_attack)
+                {
+                    startTime = 1f;
+                    _notificationText.text = "Move to this unit to attack!";
+                    _notificationTextActivated = true;
                 }
             }
         }
