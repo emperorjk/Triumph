@@ -12,7 +12,6 @@ public class Movement
 
     private CompareNodes compare = new CompareNodes();
     private float movingDuration = 1f;
-    private int maxValueCounter = 0;
 
     public void Moving(UnitGameObject unitMoving, Attack attack)
     {
@@ -30,6 +29,7 @@ public class Movement
             // Assign the references using the new tile.
             newPosition.unitGameObject = unitMoving;
             unitMoving.tile = newPosition;
+            unitMoving.tile.Vector2 = newPosition.Vector2;
             // Set the parent and position of the unit to the new tile.
             unitMoving.transform.parent = newPosition.transform;
             unitMoving.transform.position = newPosition.transform.position;
@@ -48,7 +48,7 @@ public class Movement
                 GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.buildingGame);
             }
 
-            if(unitMoving.unitGame.CanAttackAfterMove && attack.ShowAttackHighlights(unitMoving, unitMoving.unitGame.attackRange) > 0)
+            if(unitMoving.unitGame.CanAttackAfterMove && attack.ShowAttackHighlights(unitMoving, unitMoving.unitGame.attackRange, this) > 0)
             {
                 unitMoving.unitGame.hasMoved = true;
             }
@@ -77,7 +77,7 @@ public class Movement
         List<Node> openList = new List<Node>();
         List<Node> closedList = new List<Node>();
         Node current = new Node(start.Vector2, start, null, 0, 0);
-        maxValueCounter = 0;
+        int maxValueCounter = 0;
 
         openList.Add(current);
         while(openList.Count > 0)
@@ -139,7 +139,11 @@ public class Movement
                 }
                 
                 maxValueCounter++;
-                if (maxValueCounter > 100) return null;
+                if (maxValueCounter > 100) 
+                {
+                    Debug.Log("> 100");
+                    return null;
+                } 
             }
         }
 

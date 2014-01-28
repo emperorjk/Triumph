@@ -74,7 +74,9 @@ public class Highlight
                         {
                             if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
                             {
-                                if (_movement.CalculateShortestPath(_unitSelected.tile, tile.Value) != null)
+                                List<Node> path = _movement.CalculateShortestPath(_unitSelected.tile, tile.Value);
+                               
+                                if (path != null && path.Count <= _unitSelected.unitGame.moveRange)
                                 {
                                     tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_move);
                                     highlightObjects.Add(tile.Value.highlight);
@@ -82,11 +84,11 @@ public class Highlight
                             }  
                         }
                     }
-                    _attack.ShowAttackHighlights(_unitSelected, _unitSelected.unitGame.GetAttackMoveRange);
+                    _attack.ShowAttackHighlights(_unitSelected, _unitSelected.unitGame.GetAttackMoveRange, _movement);
                 }
                 else if (_unitSelected.unitGame.CanAttackAfterMove && !_unitSelected.unitGame.hasAttacked)
                 {
-                    _attack.ShowAttackHighlights(_unitSelected, _unitSelected.unitGame.attackRange);
+                    _attack.ShowAttackHighlights(_unitSelected, _unitSelected.unitGame.attackRange, _movement);
                 }
             }
         }

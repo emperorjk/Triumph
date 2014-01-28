@@ -17,7 +17,7 @@ public class Attack
     /// <param name="unit"></param>
     /// <param name="range"></param>
     /// <returns></returns>
-    public int ShowAttackHighlights(UnitGameObject unit, int range)
+    public int ShowAttackHighlights(UnitGameObject unit, int range, Movement _movement)
     {
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in GameManager.Instance.GetAllTilesWithinRange(unit.tile.Coordinate, range))
         {
