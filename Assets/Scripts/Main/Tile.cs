@@ -43,6 +43,8 @@ public class Tile : MonoBehaviour
     public HighlightObject highlight { get; private set; }
     public TileCoordinates Coordinate { get; private set; }
     public Vector2 Vector2 { get; set; }
+    // False is facing right and true is facing left
+    public bool facingDirection { get; set; }
 
     void Awake()
     {

@@ -98,6 +98,9 @@ public class Attack
             attacker.unitGame.PlaySound(UnitSoundType.Attack);
             GameManager.Instance.highlight.ClearNewHighlights();
 
+            // Check if units are faces the wrong way
+            FacingDirectionUnits(attacker, defender);
+
             // Start playing animation, loop in highlight class to stop animation after x amount of time.
             attacker.gameObject.GetComponent<Animator>().enabled = true;
             defender.gameObject.GetComponent<Animator>().enabled = true;
@@ -109,6 +112,34 @@ public class Attack
             animInfo.defender = defender;
             animInfo.defaultSpriteAttacker = attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
             animInfo.defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
+        }
+    }
+
+    void FacingDirectionUnits(UnitGameObject attacker, UnitGameObject defender)
+    {
+        if (attacker.tile.ColumnId < defender.tile.ColumnId)
+        {
+            // Attacker is facing right
+            if (!attacker.tile.facingDirection)
+            {
+                // Defender is facing right
+                if (!defender.tile.facingDirection)
+                {
+                    defender.gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), 180f , Space.Self);
+                    defender.tile.facingDirection = true;
+                }
+            }
+        }
+        else if (attacker.tile.ColumnId > defender.tile.ColumnId)
+        {
+            if (!attacker.tile.facingDirection)
+            {
+                if (!defender.tile.facingDirection)
+                {
+                    attacker.gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), 180f, Space.Self);
+                    attacker.tile.facingDirection = true;
+                }
+            }
         }
     }
 }
