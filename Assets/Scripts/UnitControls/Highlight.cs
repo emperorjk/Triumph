@@ -7,9 +7,6 @@ using UnityEngine;
 public class Highlight
 {
     private GameManager _manager;
-    private TextMesh _notificationText;
-    private bool _notificationTextActivated = false;
-    private float startTime = 1f;
     private float fightTime = 1f;
 
     public Movement _movement;
@@ -26,7 +23,6 @@ public class Highlight
         _attack = new Attack();
         isHighlightOn = false;
         highlightObjects = new List<HighlightObject>();
-        _notificationText = GameObject.Find("NotificationText").GetComponent<TextMesh>();
         EventHandler.register<OnUnitClick>(ShowHighlight);
         EventHandler.register<OnHighlightClick>(ClickedOnHightLight);
     }
@@ -38,18 +34,6 @@ public class Highlight
             if (_movement.nodeList != null)
             {
                 _movement.Moving(_unitSelected, _attack);
-            }
-        }
-
-        // Reset notification text after some time.
-        if (_notificationTextActivated)
-        {
-            startTime -= Time.deltaTime;
-
-            if (startTime <= 0)
-            {
-                _notificationTextActivated = false;
-                _notificationText.text = "";
             }
         }
 
@@ -136,9 +120,7 @@ public class Highlight
                 }
                 else if (highlight.highlightTypeActive == HighlightTypes.highlight_attack)
                 {
-                    startTime = 1f;
-                    _notificationText.text = "Move to this unit to attack!";
-                    _notificationTextActivated = true;
+                    Notificator.Notify("Move to this unit to attack!", 1f);
                 }
             }
         }

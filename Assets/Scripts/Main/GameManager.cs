@@ -143,6 +143,29 @@ public class GameManager
 
         return null;
     }
+	
+	/// <summary>
+    /// Returns whether or not vector2 a is within the Triumph range of vector2 b. So the tile distance.
+    /// </summary>
+    /// <param name="a">The first position from which to calculate the distance from.</param>
+    /// <param name="b">The second position from which to calculate the distance from.</param>
+    /// <param name="range">The range from which you want to check.</param>
+    /// <returns></returns>
+    public bool IsTileWithinRange(Vector2 a, Vector2 b, int range)
+    {
+        // NOTE!!!!!!!
+        // Because are sprites are a certain size. The location of the tiles is always in increments of 2 or negative 2. So tile(1,1) is on 0,0,0. tile(2,1) is on 2,0,0. 
+        // tile(1,2) is on 0,-2,0 etc.
+        // Because of these increments, 2 unity meters equals to 1 range. When we say attackrange of 1 you can attack units directly beside you.
+        // So thats why we devide the distance between the two units by 2 in order to get the correct distance.
+        // If we later have different sprite sizes and/or different increments this needs to change.
+        // This works for all ranges.
+
+        float distance = Vector2.Distance(a, b);
+        float tileDistance = distance / 2;
+
+        return tileDistance <= range;
+    }
 
     /// <summary>
     /// This method returns all the tiles that are within a certain range calculated from the Tile which you specify.

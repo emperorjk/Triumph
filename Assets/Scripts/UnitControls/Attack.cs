@@ -82,15 +82,7 @@ public class Attack
     /// <param name="defender"></param>
     private void BattleSimulation(UnitGameObject attacker, UnitGameObject defender)
     {
-        // NOTE!!!!!!!
-        // Because are sprites are a certain size. The location of the tiles is always in increments of 2 or negative 2. So tile(1,1) is on 0,0,0. tile(2,1) is on 2,0,0. 
-        // tile(1,2) is on 0,-2,0 etc.
-        // Because of these increments, 2 unity meters equals to 1 range. When we say attackrange of 1 you can attack units directly beside you.
-        // So thats why we devide the distance between the two units by 2 in order to get the correct distance.
-        // If we later have different sprite sizes and/or different increments this needs to change.
-        // This works for all ranges.
-        float distanceBetweenUnits = Vector2.Distance(attacker.transform.position, defender.transform.position) / 2;
-        if (distanceBetweenUnits <= attacker.unitGame.attackRange)
+        if (GameManager.Instance.IsTileWithinRange(attacker.transform.position, defender.transform.position, attacker.unitGame.attackRange))
         {
             attacker.unitGame.hasMoved = true;
             attacker.unitGame.hasAttacked = true;

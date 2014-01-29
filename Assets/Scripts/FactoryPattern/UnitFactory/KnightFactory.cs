@@ -24,11 +24,11 @@ public class KnightFactory : IUnitGameObject
         GameObject obj = null;
         if (PlayerIndex.Blue == index)
         {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "KnightHeroBluePrefab");
+            obj = Resources.Load<GameObject>(DirToUnitFolder + "KnightBlueHeroPrefab");
         }
         else if (PlayerIndex.Red == index)
         {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "KnightHeroRedPrefab");
+            obj = Resources.Load<GameObject>(DirToUnitFolder + "KnightRedHeroPrefab");
         }
         return obj;
     }

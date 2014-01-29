@@ -57,7 +57,11 @@ public class CaptureBuildings
                 {
                     buildingsToBeRemoved.Add(building);
                     GameManager.Instance.DestroyBuildingGameObjects(building.buildingGameObject);
-                    CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.tile, unitOnBuilding.index, building.buildingGameObject.type);
+                    BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.tile, unitOnBuilding.index, building.buildingGameObject.type);
+                    if(newBuilding.type == BuildingTypes.TrainingZone)
+                    {
+                        OnTrainingzoneCapturedHero(unitOnBuilding);
+                    }
                 }
             }
             else
@@ -75,5 +79,26 @@ public class CaptureBuildings
             buildings.Remove(item); 
         }
         buildingsToBeRemoved.Clear();
+    }
+
+
+    /// <summary>
+    /// When a unit captured an trainingzone, train him to his hero form.
+    /// </summary>
+    /// <param name="unitToHero">The unit to train to an hero.</param>
+    private void OnTrainingzoneCapturedHero(UnitGameObject unitToHero)
+    {
+        if(!unitToHero.isHero)
+        {
+            Tile tiletoSpawn = unitToHero.tile;
+            PlayerIndex index = unitToHero.index;
+            UnitTypes type = unitToHero.type;
+
+            // TODO: either here in code or in the prefab, depending on how we want to implement certain conversions apply the buffs to the hero.
+            // The damage and range can go in prefab. But how about health? Does the hero gain full health or depending on the normal units health.
+
+            GameManager.Instance.DestroyUnitGameObjects(unitToHero);
+            UnitGameObject hero = CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
+        }
     }
 }
