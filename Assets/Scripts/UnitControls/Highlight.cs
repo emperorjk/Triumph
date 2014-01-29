@@ -63,10 +63,11 @@ public class Highlight
             if (!isHighlightOn && !_movement.needsMoving)
             {
                 _unitSelected = evt.unit;
-                _unitSelected.unitGame.PlaySound(UnitSoundType.Select);
                 isHighlightOn = true;
                 if (!_unitSelected.unitGame.hasMoved)
                 {
+                    _unitSelected.unitGame.PlaySound(UnitSoundType.Select);
+
                     Dictionary<int, Dictionary<int, Tile>> movementListt = _manager.GetAllTilesWithinRange(_unitSelected.tile.Coordinate, _unitSelected.unitGame.moveRange);
                     foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementListt)
                     {
