@@ -72,7 +72,7 @@ public class Movement
     /// <param name="start"></param>
     /// <param name="goal"></param>
     /// <returns></returns>
-    public List<Node> CalculateShortestPath(Tile start, Tile goal)
+    public List<Node> CalculateShortestPath(Tile start, Tile goal, bool attackCalculate)
     {
         List<Node> openList = new List<Node>();
         List<Node> closedList = new List<Node>();
@@ -115,13 +115,27 @@ public class Movement
 
                 Tile t = GameManager.Instance.GetTile(new TileCoordinates(x + current.tile.ColumnId, y + current.tile.RowId));
 
-                if (t == null) 
+                if (t == null)
                 {
                     continue;
                 }
-                else if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
+                else if (attackCalculate)
                 {
-                    continue;
+                    // if T is not equal to goal we want to check if isWalkable and HasUnit. Otherwise we cannot move to goal because that one has an unit.
+                    if (!t.Equals(goal))
+                    {
+                        if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
+                        {
+                            continue;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
+                    {
+                        continue;
+                    }
                 }
 
                 double gCost = current.gCost + GetCost(current.vector2, t.Vector2);
@@ -139,11 +153,7 @@ public class Movement
                 }
                 
                 maxValueCounter++;
-                if (maxValueCounter > 100) 
-                {
-                    Debug.Log("> 100");
-                    return null;
-                } 
+                if (maxValueCounter > 100) return null;
             }
         }
 

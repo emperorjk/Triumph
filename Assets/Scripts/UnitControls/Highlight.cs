@@ -74,7 +74,7 @@ public class Highlight
                         {
                             if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
                             {
-                                List<Node> path = _movement.CalculateShortestPath(_unitSelected.tile, tile.Value);
+                                List<Node> path = _movement.CalculateShortestPath(_unitSelected.tile, tile.Value, false);
                                
                                 if (path != null && path.Count <= _unitSelected.unitGame.moveRange)
                                 {
@@ -108,7 +108,7 @@ public class Highlight
                 if (highlight.highlightTypeActive == HighlightTypes.highlight_move)
                 {
                     _unitSelected.unitGame.hasMoved = true;
-                    _movement.nodeList = _movement.CalculateShortestPath(_unitSelected.tile, highlight.tile);
+                    _movement.nodeList = _movement.CalculateShortestPath(_unitSelected.tile, highlight.tile, false);
                     _movement.StartTimeMoving = Time.time;
                     _movement.needsMoving = true;
                     _unitSelected.unitGame.PlaySound(UnitSoundType.Move);

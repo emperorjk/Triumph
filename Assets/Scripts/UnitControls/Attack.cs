@@ -25,8 +25,22 @@ public class Attack
             {
                 if (tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index)
                 {
-                    tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                    GameManager.Instance.highlight.highlightObjects.Add(tile.Value.highlight);
+                    // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
+                    if (!tile.Value.unitGameObject.unitGame.CanAttackAfterMove)
+                    {
+                        tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
+                        GameManager.Instance.highlight.highlightObjects.Add(tile.Value.highlight);
+                    }
+                    else
+                    {
+                        List<Node> path = _movement.CalculateShortestPath(unit.tile, tile.Value, true);
+
+                        if (path != null && path.Count <= unit.unitGame.GetAttackMoveRange)
+                        {
+                            tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
+                            GameManager.Instance.highlight.highlightObjects.Add(tile.Value.highlight);
+                        }
+                    }                   
                 }
             }
         }
