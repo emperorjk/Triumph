@@ -5,7 +5,9 @@ using System.Text;
 using UnityEngine;
 
 public class Attack
-{    
+{
+    public AnimationInfo animInfo;
+
     public Attack()
     {
         EventHandler.register<OnHighlightClick>(BattlePreparation);
@@ -95,6 +97,18 @@ public class Attack
             defender.unitGame.DecreaseHealth(3);
             attacker.unitGame.PlaySound(UnitSoundType.Attack);
             GameManager.Instance.highlight.ClearNewHighlights();
+
+            // Start playing animation, loop in highlight class to stop animation after x amount of time.
+            attacker.gameObject.GetComponent<Animator>().enabled = true;
+            defender.gameObject.GetComponent<Animator>().enabled = true;
+            GameManager.Instance.highlight.AnimateFight = true;
+
+            // Save animation info
+            animInfo = new AnimationInfo();
+            animInfo.attacker = attacker;
+            animInfo.defender = defender;
+            animInfo.defaultSpriteAttacker = attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
+            animInfo.defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
         }
     }
 }

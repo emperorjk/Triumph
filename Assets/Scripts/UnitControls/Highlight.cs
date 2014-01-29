@@ -10,12 +10,14 @@ public class Highlight
     private TextMesh _notificationText;
     private bool _notificationTextActivated = false;
     private float startTime = 1f;
+    private float fightTime = 1f;
 
     public Movement _movement;
     public Attack _attack;
     public List<HighlightObject> highlightObjects { get; private set; }
     public UnitGameObject _unitSelected { get; set; }
     public bool isHighlightOn { get; set; }
+    public bool AnimateFight { get; set; }
 
     public Highlight()
     {
@@ -50,6 +52,23 @@ public class Highlight
                 _notificationText.text = "";
             }
         }
+
+        if (AnimateFight)
+        {
+            fightTime -= Time.deltaTime;
+
+            if (fightTime <= 0)
+            {
+                _attack.animInfo.defender.gameObject.GetComponent<Animator>().enabled = false;
+                _attack.animInfo.attacker.gameObject.GetComponent<Animator>().enabled = false;
+                _attack.animInfo.defender.gameObject.GetComponent<SpriteRenderer>().sprite = _attack.animInfo.defaultSpriteDefender;
+                _attack.animInfo.attacker.gameObject.GetComponent<SpriteRenderer>().sprite = _attack.animInfo.defaultSpriteAttacker;
+
+                AnimateFight = false;
+                fightTime = 1f;
+            }
+        }
+
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a1f90d0d622afe746940f9c88bb7d6fd
+guid: f4cf4a31bf3ef7843aa73ec0b4c415f9
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -45,7 +45,7 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: knights_red_attack_0
+    - name: archers_red_heroic_attack_0
       rect:
         serializedVersion: 2
         x: 0
@@ -54,7 +54,7 @@ TextureImporter:
         height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: knights_red_attack_1
+    - name: archers_red_heroic_attack_1
       rect:
         serializedVersion: 2
         x: 256
@@ -63,7 +63,7 @@ TextureImporter:
         height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: knights_red_attack_2
+    - name: archers_red_heroic_attack_2
       rect:
         serializedVersion: 2
         x: 512
@@ -72,7 +72,7 @@ TextureImporter:
         height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: knights_red_attack_3
+    - name: archers_red_heroic_attack_3
       rect:
         serializedVersion: 2
         x: 768
@@ -81,7 +81,7 @@ TextureImporter:
         height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: knights_red_attack_4
+    - name: archers_red_heroic_attack_4
       rect:
         serializedVersion: 2
         x: 1024
@@ -90,7 +90,7 @@ TextureImporter:
         height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: knights_red_attack_5
+    - name: archers_red_heroic_attack_5
       rect:
         serializedVersion: 2
         x: 1280
