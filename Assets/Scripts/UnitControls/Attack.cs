@@ -109,6 +109,22 @@ public class Attack
 
     void FacingDirectionUnits(UnitGameObject attacker, UnitGameObject defender)
     {
+        
+        Vector3 attDirection = defender.transform.position - attacker.transform.position;
+        Vector3 defDirection = attacker.transform.position - defender.transform.position;
+
+        Quaternion aq = new Quaternion(0, (attDirection.x >= 0 ? 0 : 180), 0, 0);
+        Quaternion dq = new Quaternion(0, (defDirection.x >= 0 ? 0 : 180), 0, 0);
+        attacker.transform.rotation = aq;
+        defender.transform.rotation = dq;
+
+        attacker.transform.FindChild("UnitHealth").rotation = aq;
+        defender.transform.FindChild("UnitHealth").rotation = dq;
+
+        //attacker.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
+        //defender.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
+
+        /*
         if (attacker.tile.ColumnId < defender.tile.ColumnId)
         {
             // Attacker is facing right
@@ -133,5 +149,6 @@ public class Attack
                 }
             }
         }
+         */
     }
 }
