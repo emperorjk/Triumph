@@ -56,7 +56,7 @@ public class CaptureBuildings
                 if (building.HasCaptured())
                 {
                     buildingsToBeRemoved.Add(building);
-                    GameManager.Instance.DestroyBuildingGameObjects(building.buildingGameObject);
+                    building.buildingGameObject.DestroyBuildingGameObjects();
                     BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.tile, unitOnBuilding.index, building.buildingGameObject.type);
                     if(newBuilding.type == BuildingTypes.TrainingZone)
                     {
@@ -96,8 +96,7 @@ public class CaptureBuildings
 
             // TODO: either here in code or in the prefab, depending on how we want to implement certain conversions apply the buffs to the hero.
             // The damage and range can go in prefab. But how about health? Does the hero gain full health or depending on the normal units health.
-
-            GameManager.Instance.DestroyUnitGameObjects(unitToHero);
+            unitToHero.DestroyUnitGameObjects();
             UnitGameObject hero = CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
         }
     }

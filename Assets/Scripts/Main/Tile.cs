@@ -50,7 +50,7 @@ public class Tile : MonoBehaviour
     {
         Coordinate = new TileCoordinates(ColumnId, RowId);
         Vector2 = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
-        GameManager.Instance.AddTile(this);
+        TileHelper.AddTile(this);
 
         InitHighlights();
     }

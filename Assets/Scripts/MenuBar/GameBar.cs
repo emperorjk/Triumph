@@ -44,7 +44,7 @@ public class GameBar : MonoBehaviour {
 
             GUI.Label(player, "Player: " + GameManager.Instance.CurrentPlayer.name);
             GUI.Label(gold, "Current gold: " + GameManager.Instance.CurrentPlayer.gold);
-            GUI.Label(turn, "Turn: " + GameManager.Instance.currentTurn);
+            GUI.Label(turn, "Turn: " + GameManager.Instance.CurrentTurn);
 
             if(GUI.Button(settings, settingsTexture))
             {

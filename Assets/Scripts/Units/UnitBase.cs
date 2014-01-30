@@ -30,7 +30,7 @@ public abstract class UnitBase {
 
         if (this.currentHealth <= 0) 
         {
-            GameManager.Instance.DestroyUnitGameObjects(unitGameObject);
+            this.unitGameObject.DestroyUnitGameObjects();
         }
     }
 

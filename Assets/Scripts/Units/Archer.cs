@@ -30,6 +30,6 @@ public class Archer : UnitBase
 
     public override void PlaySound(UnitSoundType soundType)
     {
-        GameManager.Instance.sounds.PlaySound(this.unitGameObject.type, soundType);
+        GameManager.Instance.Sounds.PlaySound(this.unitGameObject.type, soundType);
     }
 }

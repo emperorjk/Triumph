@@ -31,7 +31,7 @@ public class BuildingGameObject : MonoBehaviour
         UpdateCapturePointsText();
         // Set the sorting layer to GUI. The same used for the hightlights. Eventough you cannot set it via unity inspector you can still set it via code. :D
         capturePointsText.renderer.sortingLayerName = "GUI";
-        GameManager.Instance.GetPlayer(index).AddBuilding(buildingGame);
+        GameManager.Instance.Players[index].AddBuilding(buildingGame);
 	}
 
     public void UpdateCapturePointsText()
@@ -47,5 +47,13 @@ public class BuildingGameObject : MonoBehaviour
         {
             capturePointsText.renderer.enabled = true;
         }
+    }
+
+    public void DestroyBuildingGameObjects()
+    {
+        this.tile.buildingGameObject = null;
+        this.tile = null;
+        GameManager.Instance.Players[this.index].RemoveBuilding(this.buildingGame);
+        GameObject.Destroy(this.gameObject);
     }
 }

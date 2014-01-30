@@ -70,7 +70,7 @@ public class FogOfWarManager
     /// <param name="showFog"></param>
     private void CheckLineForAllObjects(PlayerIndex index, bool showFog)
     {
-        Player player = _manager.GetPlayer(index);
+        Player player = _manager.Players[index];
         foreach (UnitBase item in player.ownedUnits)
         {
             ShowOrHideFowWithinRange(item.unitGameObject.tile, item.FowLineOfSightRange, showFog);
@@ -122,7 +122,7 @@ public class FogOfWarManager
         {
             tile.FogOfWar.renderer.enabled = showOrhide;
 
-            Dictionary<int, Dictionary<int, Tile>> tilesInRange = _manager.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight);
+            Dictionary<int, Dictionary<int, Tile>> tilesInRange = TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight);
 
             foreach (KeyValuePair<int, Dictionary<int, Tile>> item in tilesInRange)
             {
@@ -141,7 +141,7 @@ public class FogOfWarManager
     private bool GetIsDay()
     {
         bool result = false;
-        int number = _manager.currentTurn % 5;
+        int number = _manager.CurrentTurn % 5;
         if (number >= 1 && number <= 3)
         {
             result = true;
@@ -161,7 +161,7 @@ public class FogOfWarManager
     private void ShowOrHideFow(bool showFow)
     {
         isFowActive = showFow;
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in _manager.tiles)
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in _manager.Tiles)
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {

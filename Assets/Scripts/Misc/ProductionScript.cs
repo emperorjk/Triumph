@@ -36,7 +36,7 @@ public class ProductionScript : MonoBehaviour {
                     }
                     else
                     {
-                        GameManager.Instance.DestroyUnitGameObjects(unit);
+                        unit.DestroyUnitGameObjects();
                     }
                 }
             }

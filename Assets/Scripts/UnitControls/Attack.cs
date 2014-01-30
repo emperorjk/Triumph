@@ -21,7 +21,7 @@ public class Attack
     /// <returns></returns>
     public int ShowAttackHighlights(UnitGameObject unit, int range, Movement _movement)
     {
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in GameManager.Instance.GetAllTilesWithinRange(unit.tile.Coordinate, range))
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in TileHelper.GetAllTilesWithinRange(unit.tile.Coordinate, range))
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
@@ -31,7 +31,7 @@ public class Attack
                     if (!tile.Value.unitGameObject.unitGame.CanAttackAfterMove)
                     {
                         tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                        GameManager.Instance.highlight.highlightObjects.Add(tile.Value.highlight);
+                        GameManager.Instance.Highlight.highlightObjects.Add(tile.Value.highlight);
                     }
                     else
                     {
@@ -40,14 +40,14 @@ public class Attack
                         if (path != null && path.Count <= unit.unitGame.GetAttackMoveRange)
                         {
                             tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                            GameManager.Instance.highlight.highlightObjects.Add(tile.Value.highlight);
+                            GameManager.Instance.Highlight.highlightObjects.Add(tile.Value.highlight);
                         }
                     }                   
                 }
             }
         }
-        int count = GameManager.Instance.highlight.highlightObjects.Count;
-        GameManager.Instance.highlight.isHighlightOn = count > 0;
+        int count = GameManager.Instance.Highlight.highlightObjects.Count;
+        GameManager.Instance.Highlight.isHighlightOn = count > 0;
         return count;
     }
 
@@ -60,9 +60,9 @@ public class Attack
         if(evt.highlight != null)
         {
             HighlightObject highlight = evt.highlight;
-            if (GameManager.Instance.highlight.isHighlightOn && !GameManager.Instance.highlight._movement.needsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
+            if (GameManager.Instance.Highlight.isHighlightOn && !GameManager.Instance.Highlight._movement.needsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
             {
-                UnitGameObject attackingUnit = GameManager.Instance.highlight._unitSelected;
+                UnitGameObject attackingUnit = GameManager.Instance.Highlight._unitSelected;
                 UnitGameObject defendingUnit = highlight.tile.unitGameObject;
                 if (!attackingUnit.unitGame.hasAttacked)
                 {
@@ -82,13 +82,13 @@ public class Attack
     /// <param name="defender"></param>
     private void BattleSimulation(UnitGameObject attacker, UnitGameObject defender)
     {
-        if (GameManager.Instance.IsTileWithinRange(attacker.transform.position, defender.transform.position, attacker.unitGame.attackRange))
+        if (TileHelper.IsTileWithinRange(attacker.transform.position, defender.transform.position, attacker.unitGame.attackRange))
         {
             attacker.unitGame.hasMoved = true;
             attacker.unitGame.hasAttacked = true;
             defender.unitGame.DecreaseHealth(3);
             attacker.unitGame.PlaySound(UnitSoundType.Attack);
-            GameManager.Instance.highlight.ClearNewHighlights();
+            GameManager.Instance.Highlight.ClearNewHighlights();
 
             // Check if units are faces the wrong way
             FacingDirectionUnits(attacker, defender);
@@ -96,7 +96,7 @@ public class Attack
             // Start playing animation, loop in highlight class to stop animation after x amount of time.
             attacker.gameObject.GetComponent<Animator>().enabled = true;
             defender.gameObject.GetComponent<Animator>().enabled = true;
-            GameManager.Instance.highlight.AnimateFight = true;
+            GameManager.Instance.Highlight.AnimateFight = true;
 
             // Save animation info
             animInfo = new AnimationInfo();
@@ -121,34 +121,7 @@ public class Attack
         attacker.transform.FindChild("UnitHealth").rotation = aq;
         defender.transform.FindChild("UnitHealth").rotation = dq;
 
-        //attacker.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
-        //defender.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
-
-        /*
-        if (attacker.tile.ColumnId < defender.tile.ColumnId)
-        {
-            // Attacker is facing right
-            if (!attacker.tile.facingDirection)
-            {
-                // Defender is facing right
-                if (!defender.tile.facingDirection)
-                {
-                    defender.gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), 180f , Space.Self);
-                    defender.tile.facingDirection = true;
-                }
-            }
-        }
-        else if (attacker.tile.ColumnId > defender.tile.ColumnId)
-        {
-            if (!attacker.tile.facingDirection)
-            {
-                if (!defender.tile.facingDirection)
-                {
-                    attacker.gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), 180f, Space.Self);
-                    attacker.tile.facingDirection = true;
-                }
-            }
-        }
-         */
+        attacker.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
+        defender.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
     }
 }

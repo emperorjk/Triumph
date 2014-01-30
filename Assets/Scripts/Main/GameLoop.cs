@@ -27,9 +27,8 @@ public class GameLoop : MonoBehaviour
 	void Start () 
     {
         _manager = GameManager.Instance;
-		_manager.SetupLevel();
 
-        _highlight = GameManager.Instance.highlight;
+        _highlight = GameManager.Instance.Highlight;
         CalculateLevelArea();
         MoveCamera(new Vector2(0, 0));
         // Set all of the renderers that are childs of the camera to be on the GUI sorting layer.
@@ -44,7 +43,7 @@ public class GameLoop : MonoBehaviour
         CheckObjectsClick();
         CameraMovementInput();
 
-        GameManager.Instance.productionOverlayMain.OnUpdate();
+        GameManager.Instance.ProductionOverlayMain.OnUpdate();
         CheckDoneButton();
 
         _highlight.OnUpdate();
@@ -91,9 +90,9 @@ public class GameLoop : MonoBehaviour
                 }
             }
             
-            if(ouc.unit == null && ohc.highlight == null && !_manager.highlight._movement.needsMoving || (_manager.highlight.isHighlightOn && ouc.unit != null))
+            if(ouc.unit == null && ohc.highlight == null && !_manager.Highlight._movement.needsMoving || (_manager.Highlight.isHighlightOn && ouc.unit != null))
             {
-                _manager.highlight.ClearNewHighlights();
+                _manager.Highlight.ClearNewHighlights();
             }
             EventHandler.dispatch(ouc);
             EventHandler.dispatch(obc);
@@ -174,8 +173,8 @@ public class GameLoop : MonoBehaviour
         lastScreenWidth = Screen.width;
         lastScreenHeight = Screen.height;
 
-        Dictionary<int, Tile> qq = _manager.tiles[_manager.tiles.Count];
-        Tile first = _manager.tiles[1][1];
+        Dictionary<int, Tile> qq = _manager.Tiles[_manager.Tiles.Count];
+        Tile first = _manager.Tiles[1][1];
         Tile last = qq[qq.Count];
 
         Vector3 firstTilePosition = first.transform.position;

@@ -19,7 +19,7 @@ public class Movement
         if (GetTimePassed() >= 1f)
         {
             // Show fow for the unit.
-            GameManager.Instance.fowManager.ShowFowWithinLineOfSight(unitMoving);
+            GameManager.Instance.FowManager.ShowFowWithinLineOfSight(unitMoving);
             // Remove the references from the old tile.
             unitMoving.tile.unitGameObject = null;
             unitMoving.tile = null;
@@ -34,13 +34,13 @@ public class Movement
             unitMoving.transform.parent = newPosition.transform;
             unitMoving.transform.position = newPosition.transform.position;
             // Hide the fow for the unit. It will use the new tile location.
-            GameManager.Instance.fowManager.HideFowWithinLineOfSight(unitMoving);
+            GameManager.Instance.FowManager.HideFowWithinLineOfSight(unitMoving);
             StartTimeMoving = Time.time;
         }
 
         if(nodeList.Count <= 0)
         {
-            GameManager.Instance.highlight.ClearNewHighlights();
+            GameManager.Instance.Highlight.ClearNewHighlights();
             Tile endDestinationTile = unitMoving.tile;
             
             if (endDestinationTile.HasBuilding())
@@ -113,7 +113,7 @@ public class Movement
                     continue;
                 }
 
-                Tile t = GameManager.Instance.GetTile(new TileCoordinates(x + current.tile.ColumnId, y + current.tile.RowId));
+                Tile t = TileHelper.GetTile(new TileCoordinates(x + current.tile.ColumnId, y + current.tile.RowId));
 
                 if (t == null)
                 {

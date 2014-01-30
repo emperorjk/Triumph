@@ -71,7 +71,7 @@ public class Highlight
                 {
                     _unitSelected.unitGame.PlaySound(UnitSoundType.Select);
 
-                    Dictionary<int, Dictionary<int, Tile>> movementListt = _manager.GetAllTilesWithinRange(_unitSelected.tile.Coordinate, _unitSelected.unitGame.moveRange);
+                    Dictionary<int, Dictionary<int, Tile>> movementListt = TileHelper.GetAllTilesWithinRange(_unitSelected.tile.Coordinate, _unitSelected.unitGame.moveRange);
                     foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementListt)
                     {
                         foreach (KeyValuePair<int, Tile> tile in item.Value)

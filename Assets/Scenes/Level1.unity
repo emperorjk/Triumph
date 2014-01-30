@@ -10350,11 +10350,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400012, guid: 7de3332151fa07640b79772ba78654cf, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 14.2587423
+      value: 12.7081213
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 7de3332151fa07640b79772ba78654cf, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -6.04370737
+      value: -4.67999983
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 7de3332151fa07640b79772ba78654cf, type: 2}
       propertyPath: m_LocalPosition.z
@@ -10395,6 +10395,7 @@ GameObject:
   - 81: {fileID: 1180005478}
   - 114: {fileID: 1180005483}
   - 114: {fileID: 1180005484}
+  - 114: {fileID: 1180005485}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10463,7 +10464,7 @@ Transform:
   m_PrefabInternal: {fileID: 1178436563}
   m_GameObject: {fileID: 1180005477}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.2587423, y: -6.04370737, z: -10}
+  m_LocalPosition: {x: 12.7081213, y: -4.67999983, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1105435787}
@@ -10505,6 +10506,18 @@ MonoBehaviour:
   verticalGameBarSize: 50
   minSizeBar: 175
   maxSizeBar: 210
+--- !u!114 &1180005485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400018, guid: 7de3332151fa07640b79772ba78654cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1178436563}
+  m_GameObject: {fileID: 1180005477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3598a4e1eae8d408e34539a5f1e6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1194676874
 GameObject:
   m_ObjectHideFlags: 0
