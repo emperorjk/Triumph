@@ -109,7 +109,6 @@ public class Attack
 
     void FacingDirectionUnits(UnitGameObject attacker, UnitGameObject defender)
     {
-        
         Vector3 attDirection = defender.transform.position - attacker.transform.position;
         Vector3 defDirection = attacker.transform.position - defender.transform.position;
 
@@ -118,10 +117,11 @@ public class Attack
         attacker.transform.rotation = aq;
         defender.transform.rotation = dq;
 
-        attacker.transform.FindChild("UnitHealth").rotation = aq;
-        defender.transform.FindChild("UnitHealth").rotation = dq;
+        attacker.transform.FindChild("UnitHealth").Rotate(new Vector3(0, (attDirection.x >= 0 ? 0 : 180), 0));
+        defender.transform.FindChild("UnitHealth").Rotate(new Vector3(0, (defDirection.x >= 0 ? 0 : 180), 0));
 
-        attacker.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
-        defender.transform.FindChild("UnitHealth").Rotate(new Vector3(0, 0, 0));
+        // While attacking don't show the UnitHealth
+        attacker.transform.FindChild("UnitHealth").renderer.enabled = false;
+        defender.transform.FindChild("UnitHealth").renderer.enabled = false;
     }
 }

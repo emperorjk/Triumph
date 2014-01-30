@@ -33,8 +33,11 @@ public class AnimationInfo
                 GameManager.Instance.AnimateFight = false;
 
                 // Decrease damage after animation. We need to change this later.
-                defender.unitGame.DecreaseHealth((int)attacker.unitGame.damage);
-                attacker.unitGame.DecreaseHealth((int)defender.unitGame.damage);
+                defender.unitGame.DecreaseHealth((int)attacker.unitGame.damage * 3);
+                attacker.unitGame.DecreaseHealth((int)defender.unitGame.damage * 3);
+
+                attacker.transform.FindChild("UnitHealth").renderer.enabled = true;
+                defender.transform.FindChild("UnitHealth").renderer.enabled = true;
                 FightTime = 1f;
             }
         }
