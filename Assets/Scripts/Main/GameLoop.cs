@@ -27,8 +27,8 @@ public class GameLoop : MonoBehaviour
 	void Start () 
     {
         _manager = GameManager.Instance;
-
         _highlight = GameManager.Instance.Highlight;
+
         CalculateLevelArea();
         MoveCamera(new Vector2(0, 0));
         // Set all of the renderers that are childs of the camera to be on the GUI sorting layer.
@@ -47,6 +47,7 @@ public class GameLoop : MonoBehaviour
         CheckDoneButton();
 
         _highlight.OnUpdate();
+        _manager.AnimInfo.OnUpdate();
     }
     
     /// <summary>
@@ -64,7 +65,7 @@ public class GameLoop : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                foreach (UnitBase unit in GameManager.Instance.CurrentPlayer.ownedUnits)
+                foreach (UnitBase unit in _manager.CurrentPlayer.ownedUnits)
                 {
                     if (unit.unitGameObject.collider == hit.collider)
                     {
@@ -72,7 +73,7 @@ public class GameLoop : MonoBehaviour
                         break;
                     }
                 }   
-                foreach (BuildingsBase building in GameManager.Instance.CurrentPlayer.ownedBuildings)
+                foreach (BuildingsBase building in _manager.CurrentPlayer.ownedBuildings)
                 {
                     if (building.buildingGameObject.collider == hit.collider)
                     {
@@ -80,7 +81,7 @@ public class GameLoop : MonoBehaviour
                         break;
                     }
                 }
-                foreach (HighlightObject highlight in _highlight.highlightObjects)
+                foreach (HighlightObject highlight in _highlight.HighlightObjects)
                 {
                     if (highlight.collider == hit.collider)
                     {
@@ -90,7 +91,7 @@ public class GameLoop : MonoBehaviour
                 }
             }
             
-            if(ouc.unit == null && ohc.highlight == null && !_manager.Highlight._movement.needsMoving || (_manager.Highlight.isHighlightOn && ouc.unit != null))
+            if(ouc.unit == null && ohc.highlight == null && !_manager.Movement.needsMoving || (_manager.Highlight.IsHighlightOn && ouc.unit != null))
             {
                 _manager.Highlight.ClearNewHighlights();
             }

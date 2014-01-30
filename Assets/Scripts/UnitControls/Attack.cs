@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Attack
 {
-    public AnimationInfo animInfo;
-
     public Attack()
     {
         EventHandler.register<OnHighlightClick>(BattlePreparation);
@@ -19,7 +17,7 @@ public class Attack
     /// <param name="unit"></param>
     /// <param name="range"></param>
     /// <returns></returns>
-    public int ShowAttackHighlights(UnitGameObject unit, int range, Movement _movement)
+    public int ShowAttackHighlights(UnitGameObject unit, int range)
     {
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in TileHelper.GetAllTilesWithinRange(unit.tile.Coordinate, range))
         {
@@ -31,23 +29,23 @@ public class Attack
                     if (!tile.Value.unitGameObject.unitGame.CanAttackAfterMove)
                     {
                         tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                        GameManager.Instance.Highlight.highlightObjects.Add(tile.Value.highlight);
+                        GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);
                     }
                     else
                     {
-                        List<Node> path = _movement.CalculateShortestPath(unit.tile, tile.Value, true);
+                        List<Node> path = GameManager.Instance.Movement.CalculateShortestPath(unit.tile, tile.Value, true);
 
                         if (path != null && path.Count <= unit.unitGame.GetAttackMoveRange)
                         {
                             tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                            GameManager.Instance.Highlight.highlightObjects.Add(tile.Value.highlight);
+                            GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);
                         }
                     }                   
                 }
             }
         }
-        int count = GameManager.Instance.Highlight.highlightObjects.Count;
-        GameManager.Instance.Highlight.isHighlightOn = count > 0;
+        int count = GameManager.Instance.Highlight.HighlightObjects.Count;
+        GameManager.Instance.Highlight.IsHighlightOn = count > 0;
         return count;
     }
 
@@ -60,9 +58,9 @@ public class Attack
         if(evt.highlight != null)
         {
             HighlightObject highlight = evt.highlight;
-            if (GameManager.Instance.Highlight.isHighlightOn && !GameManager.Instance.Highlight._movement.needsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
+            if (GameManager.Instance.Highlight.IsHighlightOn && !GameManager.Instance.Movement.needsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
             {
-                UnitGameObject attackingUnit = GameManager.Instance.Highlight._unitSelected;
+                UnitGameObject attackingUnit = GameManager.Instance.Highlight.UnitSelected;
                 UnitGameObject defendingUnit = highlight.tile.unitGameObject;
                 if (!attackingUnit.unitGame.hasAttacked)
                 {
@@ -86,7 +84,6 @@ public class Attack
         {
             attacker.unitGame.hasMoved = true;
             attacker.unitGame.hasAttacked = true;
-            defender.unitGame.DecreaseHealth(3);
             attacker.unitGame.PlaySound(UnitSoundType.Attack);
             GameManager.Instance.Highlight.ClearNewHighlights();
 
@@ -96,14 +93,13 @@ public class Attack
             // Start playing animation, loop in highlight class to stop animation after x amount of time.
             attacker.gameObject.GetComponent<Animator>().enabled = true;
             defender.gameObject.GetComponent<Animator>().enabled = true;
-            GameManager.Instance.Highlight.AnimateFight = true;
+            GameManager.Instance.AnimateFight = true;
 
             // Save animation info
-            animInfo = new AnimationInfo();
-            animInfo.attacker = attacker;
-            animInfo.defender = defender;
-            animInfo.defaultSpriteAttacker = attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
-            animInfo.defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
+            GameManager.Instance.AnimInfo.attacker = attacker;
+            GameManager.Instance.AnimInfo.defender = defender;
+            GameManager.Instance.AnimInfo.defaultSpriteAttacker = attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
+            GameManager.Instance.AnimInfo.defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
         }
     }
 

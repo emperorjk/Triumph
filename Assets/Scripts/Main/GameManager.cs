@@ -25,18 +25,22 @@ public class GameManager
     }
     #endregion
 
-    public Dictionary<int, Dictionary<int, Tile>> Tiles { get; set; }
-    public Player CurrentPlayer { get; set; }
+    public Dictionary<int, Dictionary<int, Tile>> Tiles { get; private set; }
+    public Player CurrentPlayer { get; private set; }
     public ProductionOverlayMain ProductionOverlayMain { get; private set; }
     public CaptureBuildings CaptureBuildings { get; private set; }
     public FogOfWarManager FowManager { get; private set; }
     public UnitSounds Sounds { get; private set; }
     public Highlight Highlight { get; private set; }
-    public SortedList<PlayerIndex, Player> Players { get; set; }
+    public Attack Attack { get; private set; }
+    public Movement Movement { get; private set; }
+    public AnimationInfo AnimInfo { get; set; }
+    public SortedList<PlayerIndex, Player> Players { get; private set; }
     public int CurrentTurn { get; private set; }
     public bool IsAudioOn { get; set; }
     public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
+    public bool AnimateFight { get; set; }
 
     public void Init()
     {
@@ -56,6 +60,9 @@ public class GameManager
         Sounds = new UnitSounds();
         Sounds.Init();
         Highlight = new Highlight();
+        Attack = new Attack();
+        Movement = new Movement();
+        AnimInfo = new AnimationInfo();
     }
 
     public void NextPlayer()

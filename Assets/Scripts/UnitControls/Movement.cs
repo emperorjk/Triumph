@@ -48,7 +48,7 @@ public class Movement
                 GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.buildingGame);
             }
 
-            if(unitMoving.unitGame.CanAttackAfterMove && attack.ShowAttackHighlights(unitMoving, unitMoving.unitGame.attackRange, this) > 0)
+            if(unitMoving.unitGame.CanAttackAfterMove && attack.ShowAttackHighlights(unitMoving, unitMoving.unitGame.attackRange) > 0)
             {
                 unitMoving.unitGame.hasMoved = true;
             }
