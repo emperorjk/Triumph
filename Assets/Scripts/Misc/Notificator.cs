@@ -57,7 +57,7 @@ public class Notificator : MonoBehaviour {
     public static void Notify(string textToDisplay, float timeToDisplay)
     {
         // Make sure we only add the new notification to the list when it is not an empty list and the time to display is greater than 0.
-        if(!textToDisplay.Equals("") && timeToDisplay > 0)
+        if(_notifications.Where(x => x.text == textToDisplay).Count() <= 0 && !textToDisplay.Equals("") && timeToDisplay > 0)
         {
             Notification notification = new Notification(textToDisplay, timeToDisplay);
             _notifications.AddLast(notification);
