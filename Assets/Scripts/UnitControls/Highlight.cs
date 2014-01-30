@@ -94,10 +94,6 @@ public class Highlight
                     UnitSelected.unitGame.PlaySound(UnitSoundType.Move);
                     ClearNewHighlights();
                 }
-                else if (highlight.highlightTypeActive == HighlightTypes.highlight_attack)
-                {
-                    Notificator.Notify("Move to this unit to attack!", 1f);
-                }
             }
         }
     }

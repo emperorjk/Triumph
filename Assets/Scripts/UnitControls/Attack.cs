@@ -101,6 +101,10 @@ public class Attack
             GameManager.Instance.AnimInfo.defaultSpriteAttacker = attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
             GameManager.Instance.AnimInfo.defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
         }
+        else
+        {
+            Notificator.Notify("Move to this unit to attack!", 1f);
+        }
     }
 
     void FacingDirectionUnits(UnitGameObject attacker, UnitGameObject defender)
