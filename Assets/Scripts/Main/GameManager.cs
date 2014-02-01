@@ -73,22 +73,25 @@ public class GameManager
 
     public void NextPlayer()
     {
-        ProductionOverlayMain.DestroyAndStopOverlay();
-        Highlight.ClearMovementAndHighLights();
-        CaptureBuildings.CalculateCapturing();
-        CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
-
-        // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
-        bool foundPlayer = false;
-        while(!foundPlayer)
+        if(!this.AnimInfo.IsAnimateFight && !this.Movement.needsMoving)
         {
-            int indexplayer = Players.IndexOfKey(CurrentPlayer.index) + 1;
-            if (indexplayer >= Players.Count) { indexplayer = 0; }
-            CurrentPlayer = Players.Values[indexplayer];
-            foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
+            ProductionOverlayMain.DestroyAndStopOverlay();
+            Highlight.ClearMovementAndHighLights();
+            CaptureBuildings.CalculateCapturing();
+            CurrentPlayer.IncreaseGoldBy(CurrentPlayer.GetCurrentIncome());
+
+            // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
+            bool foundPlayer = false;
+            while (!foundPlayer)
+            {
+                int indexplayer = Players.IndexOfKey(CurrentPlayer.index) + 1;
+                if (indexplayer >= Players.Count) { indexplayer = 0; }
+                CurrentPlayer = Players.Values[indexplayer];
+                foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
+            }
+            CurrentTurn++;
+            // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
+            FowManager.ShowOrHideFowPlayer();
         }
-        CurrentTurn++;
-        // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
-        FowManager.ShowOrHideFowPlayer();
     }
 }
