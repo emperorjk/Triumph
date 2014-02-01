@@ -27,16 +27,16 @@ public class ProductionScript : MonoBehaviour {
                     UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.tile, buildingToProduceFrom.index, type);
                     unit.gameObject.SetActive(false);
 
-                    if(GameManager.Instance.CurrentPlayer.CanBuy(unit.unitGame.cost))
+                    if(GameManager.Instance.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
                     {
                         unit.gameObject.SetActive(true);
-                        GameManager.Instance.CurrentPlayer.DecreaseGoldBy(unit.unitGame.cost);
+                        GameManager.Instance.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
                         CanClick = false;
                         parentProduction.InitiateMoving(true);
                     }
                     else
                     {
-                        unit.DestroyUnitGameObjects();
+                        unit.DestroyUnit();
                     }
                 }
             }

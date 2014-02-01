@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 // This "fake" class holds all of the structs which are used for events.
 
@@ -29,5 +30,19 @@ public struct OnHighlightClick
     public OnHighlightClick(HighlightObject _highlight)
     {
         highlight = _highlight;
+    }
+}
+
+public struct OnAnimFight
+{
+    public UnitGameObject attacker;
+    public UnitGameObject defender;
+    public bool needsAnimating;
+
+    public OnAnimFight(UnitGameObject _attacker, UnitGameObject _defender, bool _needsAnimating)
+    {
+        attacker = _attacker;
+        defender = _defender;
+        needsAnimating = _needsAnimating;
     }
 }

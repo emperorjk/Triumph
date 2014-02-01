@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Movement
+public class Movement : IGameloop
 {
     public float StartTimeMoving { get; set; }
     public bool needsMoving { get; set; }
@@ -13,23 +13,56 @@ public class Movement
     private CompareNodes compare = new CompareNodes();
     private float movingDuration = 1f;
 
-    public void Moving(UnitGameObject unitMoving, Attack attack)
+    public void OnAwake()
     {
-        unitMoving.transform.position = Vector2.Lerp(unitMoving.tile.Vector2, nodeList.Last().tile.Vector2, GetTimePassed());
+
+    }
+
+    public void OnStart()
+    {
+
+    }
+
+    public void OnUpdate()
+    {
+        if (needsMoving && nodeList != null)
+        {
+            Moving(GameManager.Instance.Highlight.UnitSelected);
+        }
+    }
+
+    public void OnFixedUpdate()
+    {
+
+    }
+
+    public void OnLateUpdate()
+    {
+
+    }
+
+    public void OnDestroy()
+    {
+
+    }
+
+    public void Moving(UnitGameObject unitMoving)
+    {
+        unitMoving.transform.position = Vector2.Lerp(unitMoving.Tile.Vector2, nodeList.Last().tile.Vector2, GetTimePassed());
         if (GetTimePassed() >= 1f)
         {
             // Show fow for the unit.
             GameManager.Instance.FowManager.ShowFowWithinLineOfSight(unitMoving);
             // Remove the references from the old tile.
-            unitMoving.tile.unitGameObject = null;
-            unitMoving.tile = null;
+            unitMoving.Tile.unitGameObject = null;
+            unitMoving.Tile = null;
             // Remove the last tile from the list.
             Tile newPosition = nodeList.Last().tile;
             nodeList.Remove(nodeList.Last());
             // Assign the references using the new tile.
             newPosition.unitGameObject = unitMoving;
-            unitMoving.tile = newPosition;
-            unitMoving.tile.Vector2 = newPosition.Vector2;
+            unitMoving.Tile = newPosition;
+            unitMoving.Tile.Vector2 = newPosition.Vector2;
             // Set the parent and position of the unit to the new tile.
             unitMoving.transform.parent = newPosition.transform;
             unitMoving.transform.position = newPosition.transform.position;
@@ -40,24 +73,25 @@ public class Movement
 
         if(nodeList.Count <= 0)
         {
-            GameManager.Instance.Highlight.ClearNewHighlights();
-            Tile endDestinationTile = unitMoving.tile;
+            GameManager.Instance.Highlight.ClearHighlights();
+            Tile endDestinationTile = unitMoving.Tile;
             
             if (endDestinationTile.HasBuilding())
             {
                 GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.buildingGame);
             }
 
-            if(unitMoving.unitGame.CanAttackAfterMove && attack.ShowAttackHighlights(unitMoving, unitMoving.unitGame.attackRange) > 0)
+            if(unitMoving.UnitGame.CanAttackAfterMove && GameManager.Instance.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
             {
-                unitMoving.unitGame.hasMoved = true;
+                unitMoving.UnitGame.hasMoved = true;
             }
             else
             {
-                unitMoving.unitGame.hasMoved = true;
-                unitMoving.unitGame.hasAttacked = true;
+                unitMoving.UnitGame.hasMoved = true;
+                unitMoving.UnitGame.hasAttacked = true;
             }
             needsMoving = false;
+            unitMoving.UnitGame.UpdateUnitColor();
         }
     }
 

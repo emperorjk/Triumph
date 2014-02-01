@@ -48,16 +48,16 @@ public class CaptureBuildings
 
             if (unitOnBuilding != null)
             {
-                int health = unitOnBuilding.unitGame.currentHealth;
+                int health = unitOnBuilding.UnitGame.CurrentHealth;
                 building.IncreaseCapturePointsBy(health);
 
-                unitOnBuilding.unitGame.DecreaseHealth((int)building.DamageToCapturingUnit);
+                unitOnBuilding.UnitGame.DecreaseHealth((int)building.DamageToCapturingUnit);
 
                 if (building.HasCaptured())
                 {
                     buildingsToBeRemoved.Add(building);
-                    building.buildingGameObject.DestroyBuildingGameObjects();
-                    BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.tile, unitOnBuilding.index, building.buildingGameObject.type);
+                    building.buildingGameObject.DestroyBuilding();
+                    BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile, unitOnBuilding.index, building.buildingGameObject.type);
                     if(newBuilding.type == BuildingTypes.TrainingZone)
                     {
                         OnTrainingzoneCapturedHero(unitOnBuilding);
@@ -90,13 +90,13 @@ public class CaptureBuildings
     {
         if(!unitToHero.isHero)
         {
-            Tile tiletoSpawn = unitToHero.tile;
+            Tile tiletoSpawn = unitToHero.Tile;
             PlayerIndex index = unitToHero.index;
             UnitTypes type = unitToHero.type;
 
             // TODO: either here in code or in the prefab, depending on how we want to implement certain conversions apply the buffs to the hero.
             // The damage and range can go in prefab. But how about health? Does the hero gain full health or depending on the normal units health.
-            unitToHero.DestroyUnitGameObjects();
+            unitToHero.DestroyUnit();
             UnitGameObject hero = CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
         }
     }

@@ -15,7 +15,17 @@ public class GameBar : MonoBehaviour {
     public float minSizeBar = 175f;
     public float maxSizeBar = 240;
 
-    // Update function for the GUI
+     void OnGUI()
+    {
+        GUI.skin = customSkin;
+        Rect player = new Rect(40, 10, 300, 40);
+        GUI.Label(player, "Player: " + GameManager.Instance.CurrentPlayer.name);
+
+        Rect gold = new Rect(40, 40, 300, 40);
+        GUI.Label(gold, "Current gold: " + GameManager.Instance.CurrentPlayer.gold);
+    }
+
+    /*
     void OnGUI()
     {
         gamebarSize = new Rect(0, 0, Screen.width, verticalGameBarSize);
@@ -84,4 +94,6 @@ public class GameBar : MonoBehaviour {
             }
         }
     }
+     * 
+     * */
 }

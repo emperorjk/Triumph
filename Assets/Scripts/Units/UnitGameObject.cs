@@ -11,48 +11,48 @@ public class UnitGameObject : MonoBehaviour
     public PlayerIndex index;
     public UnitTypes type;
     public bool isHero;
-    public UnitBase unitGame { get; private set; }
-    public Tile tile { get; set; }
+    public UnitBase UnitGame { get; private set; }
+    public Tile Tile { get; set; }
 
-    public GameObject unitHealthText { get; private set; }
+    public GameObject UnitHealthText { get; private set; }
 
 	void Awake () {
         // for now ugly code
-        if (type.Equals(UnitTypes.Archer)) { unitGame = new Archer(this, isHero); }
-        else if (type.Equals(UnitTypes.Knight)) { unitGame = new Knight(this, isHero); }
-        else if (type.Equals(UnitTypes.Swordsman)) { unitGame = new Swordsman(this, isHero); }
+        if (type.Equals(UnitTypes.Archer)) { UnitGame = new Archer(this, isHero); }
+        else if (type.Equals(UnitTypes.Knight)) { UnitGame = new Knight(this, isHero); }
+        else if (type.Equals(UnitTypes.Swordsman)) { UnitGame = new Swordsman(this, isHero); }
 
         if (this.transform.parent != null)
         {
-            tile = this.transform.parent.GetComponent<Tile>();
-            tile.unitGameObject = this;
+            Tile = this.transform.parent.GetComponent<Tile>();
+            Tile.unitGameObject = this;
         }
-        unitHealthText = transform.FindChild("UnitHealth").gameObject;
+        UnitHealthText = transform.FindChild("UnitHealth").gameObject;
         UpdateCapturePointsText();
         // Set the sorting layer to GUI. The same used for the hightlights. Eventhough you cannot set it via unity inspector you can still set it via code. :D
-        unitHealthText.renderer.sortingLayerName = "GUI";
-        GameManager.Instance.Players[index].AddUnit(unitGame);
+        UnitHealthText.renderer.sortingLayerName = "GUI";
+        GameManager.Instance.Players[index].AddUnit(UnitGame);
 	}
 
     public void UpdateCapturePointsText()
     {
-        TextMesh text = unitHealthText.GetComponent<TextMesh>();
-        text.text = unitGame.currentHealth.ToString();
+        TextMesh text = UnitHealthText.GetComponent<TextMesh>();
+        text.text = UnitGame.CurrentHealth.ToString();
 
-        if (unitGame.currentHealth < unitGame.health)
+        if (UnitGame.CurrentHealth < UnitGame.MaxHealth)
         {
-            unitHealthText.renderer.enabled = true;
+            UnitHealthText.renderer.enabled = true;
         }
         else
         {
-            unitHealthText.renderer.enabled = false;
+            UnitHealthText.renderer.enabled = false;
         }
     }
-    public void DestroyUnitGameObjects()
+    public void DestroyUnit()
     {
-        this.tile.unitGameObject = null;
-        this.tile = null;
-        GameManager.Instance.Players[(this.index)].RemoveUnit(this.unitGame);
+        this.Tile.unitGameObject = null;
+        this.Tile = null;
+        GameManager.Instance.Players[(this.index)].RemoveUnit(this.UnitGame);
         GameObject.Destroy(this.gameObject);
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 
-public class ProductionOverlayMain
+public class ProductionOverlayMain : IGameloop
 {
     /// <summary>
     /// The building variable used for the production of units.
@@ -26,9 +26,41 @@ public class ProductionOverlayMain
         EventHandler.register<OnBuildingClick>(OnBuildingClick);
     }
 
-    // Use a destructor when the object is destroyed unregister it from the list. This is called when the garbace collector removes the object from memory.
-    // For monobehaviours use void OnDestroy() forexample.
-    ~ProductionOverlayMain()
+    public void OnAwake()
+    {
+
+    }
+
+    public void OnStart()
+    {
+        
+    }
+
+    public void OnUpdate()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit touchBox;
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out touchBox);
+            if (!NeedsMoving && BuildingClickedProduction != null && IsProductionOverlayActive && !CurrentOverlay.GetComponentsInChildren<ProductionScript>().Any(x => x.collider == touchBox.collider))
+            {
+                InitiateMoving(true);
+            }
+        }
+        PositionOverlay();
+    }
+
+    public void OnFixedUpdate()
+    {
+
+    }
+
+    public void OnLateUpdate()
+    {
+
+    }
+
+    public void OnDestroy()
     {
         EventHandler.unregister<OnBuildingClick>(OnBuildingClick);
     }
@@ -51,23 +83,6 @@ public class ProductionOverlayMain
                 IsProductionOverlayActive = true;
             }
         }
-    }
-
-    /// <summary>
-    /// This method is called from inside the gameloop.
-    /// </summary>
-    public void OnUpdate()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit touchBox;
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out touchBox);
-            if (!NeedsMoving && BuildingClickedProduction != null && IsProductionOverlayActive && !CurrentOverlay.GetComponentsInChildren<ProductionScript>().Any(x => x.collider == touchBox.collider))
-            {                
-                InitiateMoving(true);
-            }
-        }
-        PositionOverlay();
     }
 
     public void InitiateMoving(bool EndOfMoveDestroyed)

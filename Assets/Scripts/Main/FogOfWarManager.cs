@@ -25,7 +25,7 @@ public class FogOfWarManager
     /// <param name="unit">The unit which to disable the fow around.</param>
     public void HideFowWithinLineOfSight(UnitGameObject unit)
     {
-        ShowOrHideFowWithinRange(unit.tile, unit.unitGame.FowLineOfSightRange, false);
+        ShowOrHideFowWithinRange(unit.Tile, unit.UnitGame.FowLineOfSightRange, false);
 
         CheckLineForAllObjects(unit.index, false);
     }
@@ -47,7 +47,7 @@ public class FogOfWarManager
     /// <param name="unit">The unit which to enable the fow around.</param>
     public void ShowFowWithinLineOfSight(UnitGameObject unit)
     {
-        ShowOrHideFowWithinRange(unit.tile, unit.unitGame.FowLineOfSightRange, true);
+        ShowOrHideFowWithinRange(unit.Tile, unit.UnitGame.FowLineOfSightRange, true);
 
         CheckLineForAllObjects(unit.index, true);
     }
@@ -73,7 +73,7 @@ public class FogOfWarManager
         Player player = _manager.Players[index];
         foreach (UnitBase item in player.ownedUnits)
         {
-            ShowOrHideFowWithinRange(item.unitGameObject.tile, item.FowLineOfSightRange, showFog);
+            ShowOrHideFowWithinRange(item.UnitGameObject.Tile, item.FowLineOfSightRange, showFog);
         }
 
         foreach (BuildingsBase item in player.ownedBuildings)
@@ -101,7 +101,7 @@ public class FogOfWarManager
 
             foreach (UnitBase unit in _manager.CurrentPlayer.ownedUnits)
             {
-                HideFowWithinLineOfSight(unit.unitGameObject);
+                HideFowWithinLineOfSight(unit.UnitGameObject);
             }
        }
         else if (isFowActive && isDay)

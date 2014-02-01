@@ -5,16 +5,16 @@ public abstract class UnitBase {
 
     protected UnitBase(UnitGameObject game, int health, float damage, int attackRange, int moveRange, int cost, bool isHero)
     {
-        this.unitGameObject = game;
+        this.UnitGameObject = game;
         this.hasMoved = false;
         this.hasAttacked = false;
         this.isHero = false;
-        this.currentHealth = health;
-        this.health = health;
-        this.damage = damage;
-        this.attackRange = attackRange;
-        this.moveRange = moveRange;
-        this.cost = cost;
+        this.CurrentHealth = health;
+        this.MaxHealth = health;
+        this.Damage = damage;
+        this.AttackRange = attackRange;
+        this.MoveRange = moveRange;
+        this.Cost = cost;
         this.isHero = isHero;
     }
 
@@ -25,55 +25,55 @@ public abstract class UnitBase {
     
     public void DecreaseHealth(int damage) 
     {
-        this.currentHealth -= damage;
-        this.unitGameObject.UpdateCapturePointsText();
+        this.CurrentHealth -= damage;
+        this.UnitGameObject.UpdateCapturePointsText();
 
-        if (this.currentHealth <= 0) 
+        if (this.CurrentHealth <= 0) 
         {
-            this.unitGameObject.DestroyUnitGameObjects();
+            this.UnitGameObject.DestroyUnit();
         }
     }
 
     public void IncreaseHealth(int recovery)
     {
-        this.currentHealth += recovery;
+        this.CurrentHealth += recovery;
         // If we later have some sort of healing make sure that it cannot go over its initial full health.
-        this.currentHealth = Mathf.Clamp(this.currentHealth, 0, this.health);
+        this.CurrentHealth = Mathf.Clamp(this.CurrentHealth, 0, this.MaxHealth);
         //if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
-        this.unitGameObject.UpdateCapturePointsText();
+        this.UnitGameObject.UpdateCapturePointsText();
     }
 
-    private void UpdateUnitColor()
+    public void UpdateUnitColor()
     {
-        unitGameObject.gameObject.renderer.material.color = hasMoved && hasAttacked ? Color.gray : Color.white;
+        UnitGameObject.gameObject.renderer.material.color = hasMoved && hasAttacked ? Color.gray : Color.white;
     }
 
     public bool hasMoved {
-        get { return moved; } 
+        get { return _moved; } 
         set 
         {
-            moved = value;
-            UpdateUnitColor(); 
+            _moved = value;
+            //UpdateUnitColor(); 
         } 
     }
     public bool hasAttacked
     {
-        get { return attacked; }
+        get { return _attacked; }
         set
         {
-            attacked = value;
-            UpdateUnitColor();
+            _attacked = value;
+            //UpdateUnitColor();
         }
     }
-    private bool moved = false;
-    private bool attacked = false;
+    private bool _moved = false;
+    private bool _attacked = false;
 
     public bool isHero { get; private set; }
-    public int health { get; private set; }
-    public int currentHealth { get; private set; }
-    public float damage { get; private set; }
-    public int attackRange { get; private set; }
-    public int moveRange { get; private set; }
-    public int cost { get; private set; }
-    public UnitGameObject unitGameObject { get; private set; }
+    public int MaxHealth { get; private set; }
+    public int CurrentHealth { get; private set; }
+    public float Damage { get; private set; }
+    public int AttackRange { get; private set; }
+    public int MoveRange { get; private set; }
+    public int Cost { get; private set; }
+    public UnitGameObject UnitGameObject { get; private set; }
 }

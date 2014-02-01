@@ -49,7 +49,7 @@ public class BuildingGameObject : MonoBehaviour
         }
     }
 
-    public void DestroyBuildingGameObjects()
+    public void DestroyBuilding()
     {
         this.tile.buildingGameObject = null;
         this.tile = null;

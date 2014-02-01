@@ -9,6 +9,7 @@ public class Attack
     public Attack()
     {
         EventHandler.register<OnHighlightClick>(BattlePreparation);
+        EventHandler.register<OnAnimFight>(BattleSimulation);
     }
 
     /// <summary>
@@ -19,23 +20,23 @@ public class Attack
     /// <returns></returns>
     public int ShowAttackHighlights(UnitGameObject unit, int range)
     {
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in TileHelper.GetAllTilesWithinRange(unit.tile.Coordinate, range))
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in TileHelper.GetAllTilesWithinRange(unit.Tile.Coordinate, range))
         {
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
                 if (tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index)
                 {
                     // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
-                    if (!tile.Value.unitGameObject.unitGame.CanAttackAfterMove)
+                    if (!tile.Value.unitGameObject.UnitGame.CanAttackAfterMove)
                     {
                         tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
                         GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);
                     }
                     else
                     {
-                        List<Node> path = GameManager.Instance.Movement.CalculateShortestPath(unit.tile, tile.Value, true);
+                        List<Node> path = GameManager.Instance.Movement.CalculateShortestPath(unit.Tile, tile.Value, true);
 
-                        if (path != null && path.Count <= unit.unitGame.GetAttackMoveRange)
+                        if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange)
                         {
                             tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
                             GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);
@@ -62,11 +63,32 @@ public class Attack
             {
                 UnitGameObject attackingUnit = GameManager.Instance.Highlight.UnitSelected;
                 UnitGameObject defendingUnit = highlight.tile.unitGameObject;
-                if (!attackingUnit.unitGame.hasAttacked)
+                if (!attackingUnit.UnitGame.hasAttacked)
                 {
-                    if (!attackingUnit.unitGame.hasMoved || (attackingUnit.unitGame.hasMoved && attackingUnit.unitGame.CanAttackAfterMove))
+                    if (!attackingUnit.UnitGame.hasMoved || (attackingUnit.UnitGame.hasMoved && attackingUnit.UnitGame.CanAttackAfterMove))
                     {
-                        BattleSimulation(attackingUnit, defendingUnit);
+                        if (TileHelper.IsTileWithinRange(attackingUnit.transform.position, defendingUnit.transform.position, attackingUnit.UnitGame.AttackRange))
+                        {
+                            attackingUnit.UnitGame.hasAttacked = true;
+                            attackingUnit.UnitGame.hasMoved = true;
+                            attackingUnit.UnitGame.PlaySound(UnitSoundType.Attack);
+
+                            GameManager.Instance.Highlight.ClearHighlights();
+
+                            // Check if units are faces the wrong way
+                            FacingDirectionUnits(attackingUnit, defendingUnit);
+
+                            // Dispatch the animation fight event. But set the needsanimating to true.
+                            OnAnimFight fight = new OnAnimFight();
+                            fight.attacker = attackingUnit;
+                            fight.defender = defendingUnit;
+                            fight.needsAnimating = true;
+                            EventHandler.dispatch<OnAnimFight>(fight);
+                        }
+                        else
+                        {
+                            Notificator.Notify("Move to this unit to attack!", 1f);
+                        }
                     }
                 }
             }
@@ -75,39 +97,26 @@ public class Attack
 
     /// <summary>
     /// The method which does all the complicated battle simulation. From calculating damage to dealing damage and so forth.
+    /// Gets called when the event OnAnimFight is fired. When the needsAnimating property is false it will execute this code.
     /// </summary>
     /// <param name="attacker"></param>
     /// <param name="defender"></param>
-    private void BattleSimulation(UnitGameObject attacker, UnitGameObject defender)
+    private void BattleSimulation(OnAnimFight evt)
     {
-        if (TileHelper.IsTileWithinRange(attacker.transform.position, defender.transform.position, attacker.unitGame.attackRange))
+        if(evt.attacker != null && evt.defender != null && !evt.needsAnimating)
         {
-            attacker.unitGame.hasMoved = true;
-            attacker.unitGame.hasAttacked = true;
-            attacker.unitGame.PlaySound(UnitSoundType.Attack);
-            GameManager.Instance.Highlight.ClearNewHighlights();
+            UnitGameObject attacker = evt.attacker;
+            UnitGameObject defender = evt.defender;
 
-            // Check if units are faces the wrong way
-            FacingDirectionUnits(attacker, defender);
+            attacker.UnitGame.UpdateUnitColor();
 
-            // Start playing animation, loop in highlight class to stop animation after x amount of time.
-            attacker.gameObject.GetComponent<Animator>().enabled = true;
-            defender.gameObject.GetComponent<Animator>().enabled = true;
-            GameManager.Instance.AnimateFight = true;
-
-            // Save animation info
-            GameManager.Instance.AnimInfo.attacker = attacker;
-            GameManager.Instance.AnimInfo.defender = defender;
-            GameManager.Instance.AnimInfo.defaultSpriteAttacker = attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
-            GameManager.Instance.AnimInfo.defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
-        }
-        else
-        {
-            Notificator.Notify("Move to this unit to attack!", 1f);
+            // Decrease damage after animation. We need to change this later.
+            defender.UnitGame.DecreaseHealth((int)attacker.UnitGame.Damage * 3);
+            attacker.UnitGame.DecreaseHealth((int)defender.UnitGame.Damage * 3);
         }
     }
 
-    void FacingDirectionUnits(UnitGameObject attacker, UnitGameObject defender)
+    private void FacingDirectionUnits(UnitGameObject attacker, UnitGameObject defender)
     {
         Vector3 attDirection = defender.transform.position - attacker.transform.position;
         Vector3 defDirection = attacker.transform.position - defender.transform.position;
@@ -117,11 +126,11 @@ public class Attack
         attacker.transform.rotation = aq;
         defender.transform.rotation = dq;
 
-        attacker.transform.FindChild("UnitHealth").Rotate(new Vector3(0, (attDirection.x >= 0 ? 0 : 180), 0));
-        defender.transform.FindChild("UnitHealth").Rotate(new Vector3(0, (defDirection.x >= 0 ? 0 : 180), 0));
+        attacker.UnitHealthText.transform.Rotate(new Vector3(0, (attDirection.x >= 0 ? 0 : 180), 0));
+        defender.UnitHealthText.transform.Rotate(new Vector3(0, (defDirection.x >= 0 ? 0 : 180), 0));
 
         // While attacking don't show the UnitHealth
-        attacker.transform.FindChild("UnitHealth").renderer.enabled = false;
-        defender.transform.FindChild("UnitHealth").renderer.enabled = false;
+        attacker.UnitHealthText.renderer.enabled = false;
+        defender.UnitHealthText.renderer.enabled = false;
     }
 }

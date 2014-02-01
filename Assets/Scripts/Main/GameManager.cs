@@ -25,22 +25,25 @@ public class GameManager
     }
     #endregion
 
+
+    // Objects
     public Dictionary<int, Dictionary<int, Tile>> Tiles { get; private set; }
     public Player CurrentPlayer { get; private set; }
-    public ProductionOverlayMain ProductionOverlayMain { get; private set; }
-    public CaptureBuildings CaptureBuildings { get; private set; }
-    public FogOfWarManager FowManager { get; private set; }
-    public UnitSounds Sounds { get; private set; }
-    public Highlight Highlight { get; private set; }
-    public Attack Attack { get; private set; }
-    public Movement Movement { get; private set; }
-    public AnimationInfo AnimInfo { get; set; }
     public SortedList<PlayerIndex, Player> Players { get; private set; }
+    public ProductionOverlayMain ProductionOverlayMain { get; set; }
+    public CaptureBuildings CaptureBuildings { get; set; }
+    public FogOfWarManager FowManager { get; set; }
+    public UnitSounds UnitSounds { get; set; }
+    public Highlight Highlight { get; set; }
+    public Attack Attack { get; set; }
+    public Movement Movement { get; set; }
+    public AnimationInfo AnimInfo { get; set; }
+
+    // Variables
     public int CurrentTurn { get; private set; }
     public bool IsAudioOn { get; set; }
     public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
-    public bool AnimateFight { get; set; }
 
     public void Init()
     {
@@ -54,15 +57,18 @@ public class GameManager
         Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red));
         CurrentPlayer = Players[PlayerIndex.Blue];
 
-        CaptureBuildings = new CaptureBuildings();
+
+        // Create all ingame objects that implement the IGameloop interface.
         ProductionOverlayMain = new ProductionOverlayMain();
-        FowManager = new FogOfWarManager();
-        Sounds = new UnitSounds();
-        Sounds.Init();
-        Highlight = new Highlight();
-        Attack = new Attack();
         Movement = new Movement();
         AnimInfo = new AnimationInfo();
+
+        // Create ingame objects. None IGameloop classes.
+        CaptureBuildings = new CaptureBuildings();
+        FowManager = new FogOfWarManager();
+        UnitSounds = new UnitSounds();
+        Highlight = new Highlight();
+        Attack = new Attack();
     }
 
     public void NextPlayer()

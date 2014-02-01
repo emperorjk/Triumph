@@ -9,7 +9,7 @@ public class UnitSounds
     private AudioSource audioSource;
     private Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>> soundsDictionary = new Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>>();
 
-    public void Init()
+    public UnitSounds()
     {
         audioSource = Camera.main.gameObject.AddComponent<AudioSource>();
 

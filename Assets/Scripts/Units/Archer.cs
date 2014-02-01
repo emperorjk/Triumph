@@ -19,7 +19,7 @@ public class Archer : UnitBase
 
     public override int GetAttackMoveRange
     {
-        get { return attackRange; }
+        get { return AttackRange; }
     }
 
     public override int FowLineOfSightRange
@@ -30,6 +30,6 @@ public class Archer : UnitBase
 
     public override void PlaySound(UnitSoundType soundType)
     {
-        GameManager.Instance.Sounds.PlaySound(this.unitGameObject.type, soundType);
+        GameManager.Instance.UnitSounds.PlaySound(this.UnitGameObject.type, soundType);
     }
 }
