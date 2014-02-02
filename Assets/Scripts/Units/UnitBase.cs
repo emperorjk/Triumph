@@ -72,8 +72,25 @@ public abstract class UnitBase {
     public int MaxHealth { get; private set; }
     public int CurrentHealth { get; private set; }
     public float Damage { get; private set; }
-    public int AttackRange { get; private set; }
-    public int MoveRange { get; private set; }
+    public int AttackRange { 
+        get
+    {
+        return GameManager.Instance.FowManager.isFowActive ? 1 : _AttackRange;
+    }
+        private set { _AttackRange = value; }
+    }
+
+    private int _AttackRange;
+    public int MoveRange 
+    {
+        get 
+        {
+            return GameManager.Instance.FowManager.isFowActive ? Mathf.Clamp(_MoveRange - 1, 1 , int.MaxValue) : _MoveRange;
+        }
+        private set { _MoveRange = value; }
+    }
+
+    private int _MoveRange;
     public int Cost { get; private set; }
     public UnitGameObject UnitGameObject { get; private set; }
 }

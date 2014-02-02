@@ -19,48 +19,14 @@ public class FogOfWarManager
         isFowActive = false;
     }
 
-    /// <summary>
-    /// Allows you to hide the fow from a given UnitGameObject. It gets the FowLineOfSightRange from the unitBase in order to get the range.
-    /// </summary>
-    /// <param name="unit">The unit which to disable the fow around.</param>
-    public void HideFowWithinLineOfSight(UnitGameObject unit)
+    public void HideFowWithinLineOfSight(PlayerIndex index)
     {
-        ShowOrHideFowWithinRange(unit.Tile, unit.UnitGame.FowLineOfSightRange, false);
-
-        CheckLineForAllObjects(unit.index, false);
+        CheckLineForAllObjects(index, false);
     }
 
-    /// <summary>
-    /// Allows you to hide the fow from a given BuildingGameObject. It gets the FowLineOfSightRange from the buildingBase in order to get the range.
-    /// </summary>
-    /// <param name="unit">The building from which to disable the fow around.</param>
-    public void HideFowWithinLineOfSight(BuildingGameObject building)
+    public void ShowFowWithinLineOfSight(PlayerIndex index)
     {
-        ShowOrHideFowWithinRange(building.tile, building.buildingGame.FowLineOfSightRange, false);
-
-        CheckLineForAllObjects(building.index, false);
-    }
-
-    /// <summary>
-    /// Allows you to show the fow from a given UnitGameObject. It gets the FowLineOfSightRange from the unitBase in order to get the range.
-    /// </summary>
-    /// <param name="unit">The unit which to enable the fow around.</param>
-    public void ShowFowWithinLineOfSight(UnitGameObject unit)
-    {
-        ShowOrHideFowWithinRange(unit.Tile, unit.UnitGame.FowLineOfSightRange, true);
-
-        CheckLineForAllObjects(unit.index, true);
-    }
-
-    /// <summary>
-    /// Allows you to show the fow from a given BuildingGameObject. It gets the FowLineOfSightRange from the buildingBase in order to get the range.
-    /// </summary>
-    /// <param name="building">The building from which to enable the fow around.</param>
-    public void ShowFowWithinLineOfSight(BuildingGameObject building)
-    {
-        ShowOrHideFowWithinRange(building.tile, building.buildingGame.FowLineOfSightRange, true);
-
-        CheckLineForAllObjects(building.index, true);
+        CheckLineForAllObjects(index, true);
     }
 
     /// <summary>
@@ -94,15 +60,7 @@ public class FogOfWarManager
         {
             ShowOrHideFow(true);
 
-            foreach (BuildingsBase building in _manager.CurrentPlayer.ownedBuildings)
-            {
-                HideFowWithinLineOfSight(building.buildingGameObject);
-            }
-
-            foreach (UnitBase unit in _manager.CurrentPlayer.ownedUnits)
-            {
-                HideFowWithinLineOfSight(unit.UnitGameObject);
-            }
+            CheckLineForAllObjects(_manager.CurrentPlayer.index, false);
        }
         else if (isFowActive && isDay)
         {

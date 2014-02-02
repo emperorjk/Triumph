@@ -52,7 +52,7 @@ public class Movement : IGameloop
         if (GetTimePassed() >= 1f)
         {
             // Show fow for the unit.
-            GameManager.Instance.FowManager.ShowFowWithinLineOfSight(unitMoving);
+            GameManager.Instance.FowManager.ShowFowWithinLineOfSight(unitMoving.index);
             // Remove the references from the old tile.
             unitMoving.Tile.unitGameObject = null;
             unitMoving.Tile = null;
@@ -67,7 +67,7 @@ public class Movement : IGameloop
             unitMoving.transform.parent = newPosition.transform;
             unitMoving.transform.position = newPosition.transform.position;
             // Hide the fow for the unit. It will use the new tile location.
-            GameManager.Instance.FowManager.HideFowWithinLineOfSight(unitMoving);
+            GameManager.Instance.FowManager.HideFowWithinLineOfSight(unitMoving.index);
             StartTimeMoving = Time.time;
         }
 
