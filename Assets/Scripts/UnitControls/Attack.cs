@@ -59,7 +59,7 @@ public class Attack
         if(evt.highlight != null)
         {
             HighlightObject highlight = evt.highlight;
-            if (GameManager.Instance.Highlight.IsHighlightOn && !GameManager.Instance.Movement.needsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
+            if (GameManager.Instance.Highlight.IsHighlightOn && !GameManager.Instance.Movement.NeedsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
             {
                 UnitGameObject attackingUnit = GameManager.Instance.Highlight.UnitSelected;
                 UnitGameObject defendingUnit = highlight.tile.unitGameObject;
@@ -112,7 +112,9 @@ public class Attack
 
             // Decrease damage after animation. We need to change this later.
             defender.UnitGame.DecreaseHealth((int)attacker.UnitGame.Damage * 3);
-            attacker.UnitGame.DecreaseHealth((int)defender.UnitGame.Damage * 3);
+
+            if (defender.UnitGame.AttackRange >= attacker.UnitGame.AttackRange)
+                attacker.UnitGame.DecreaseHealth((int)defender.UnitGame.Damage * 3);
         }
     }
 

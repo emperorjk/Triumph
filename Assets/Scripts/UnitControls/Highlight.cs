@@ -28,7 +28,7 @@ public class Highlight
     {
         if(evt.unit != null)
         {
-            if (!IsHighlightOn && !_manager.Movement.needsMoving && !_manager.AnimInfo.IsAnimateFight)
+            if (!IsHighlightOn && !_manager.Movement.NeedsMoving && !_manager.AnimInfo.IsAnimateFight)
             {
                 UnitSelected = evt.unit;
                 IsHighlightOn = true;
@@ -79,7 +79,8 @@ public class Highlight
                     UnitSelected.UnitGame.hasMoved = true;
                     _manager.Movement.nodeList = _manager.Movement.CalculateShortestPath(UnitSelected.Tile, highlight.tile, false);
                     _manager.Movement.StartTimeMoving = Time.time;
-                    _manager.Movement.needsMoving = true;
+                    _manager.Movement.NeedsMoving = true;
+                    _manager.Movement.FacingDirectionMovement(UnitSelected, _manager.Movement.nodeList[0].tile);
                     UnitSelected.UnitGame.PlaySound(UnitSoundType.Move);
                     ClearHighlights();
                 }

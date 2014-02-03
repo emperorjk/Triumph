@@ -73,7 +73,7 @@ public class GameManager
 
     public void NextPlayer()
     {
-        if(!this.AnimInfo.IsAnimateFight && !this.Movement.needsMoving)
+        if(!this.AnimInfo.IsAnimateFight && !this.Movement.NeedsMoving)
         {
             ProductionOverlayMain.DestroyAndStopOverlay();
             Highlight.ClearMovementAndHighLights();

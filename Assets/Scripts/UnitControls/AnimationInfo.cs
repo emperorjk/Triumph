@@ -30,7 +30,9 @@ public class AnimationInfo : IGameloop
             defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
 
             attacker.gameObject.GetComponent<Animator>().enabled = true;
-            defender.gameObject.GetComponent<Animator>().enabled = true;
+
+            if (defender.UnitGame.AttackRange >= attacker.UnitGame.AttackRange)
+                defender.gameObject.GetComponent<Animator>().enabled = true;
 
             IsAnimateFight = true;
         }

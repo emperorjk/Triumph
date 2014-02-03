@@ -7,7 +7,7 @@ using UnityEngine;
 public class Movement : IGameloop
 {
     public float StartTimeMoving { get; set; }
-    public bool needsMoving { get; set; }
+    public bool NeedsMoving { get; set; }
     public List<Node> nodeList;
 
     private CompareNodes compare = new CompareNodes();
@@ -25,7 +25,7 @@ public class Movement : IGameloop
 
     public void OnUpdate()
     {
-        if (needsMoving && nodeList != null)
+        if (NeedsMoving && nodeList != null)
         {
             Moving(GameManager.Instance.Highlight.UnitSelected);
         }
@@ -49,6 +49,7 @@ public class Movement : IGameloop
     public void Moving(UnitGameObject unitMoving)
     {
         unitMoving.transform.position = Vector2.Lerp(unitMoving.Tile.Vector2, nodeList.Last().tile.Vector2, GetTimePassed());
+        
         if (GetTimePassed() >= 1f)
         {
             // Show fow for the unit.
@@ -90,9 +91,17 @@ public class Movement : IGameloop
                 unitMoving.UnitGame.hasMoved = true;
                 unitMoving.UnitGame.hasAttacked = true;
             }
-            needsMoving = false;
+            NeedsMoving = false;
             unitMoving.UnitGame.UpdateUnitColor();
         }
+    }
+
+    public void FacingDirectionMovement(UnitGameObject moveUnit, Tile destination)
+    {
+        Vector3 direction = moveUnit.transform.position - destination.transform.position;
+
+        Quaternion quaternion = new Quaternion(0, (direction.x > 0 ? 180 : 0), 0, 0);
+        moveUnit.transform.rotation = quaternion;
     }
 
     private float GetTimePassed()

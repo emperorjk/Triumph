@@ -116,7 +116,7 @@ public class GameLoop : MonoBehaviour
                 }
             }
             
-            if(ouc.unit == null && ohc.highlight == null && !_manager.Movement.needsMoving || (_manager.Highlight.IsHighlightOn && ouc.unit != null))
+            if(ouc.unit == null && ohc.highlight == null && !_manager.Movement.NeedsMoving || (_manager.Highlight.IsHighlightOn && ouc.unit != null))
             {
                 _manager.Highlight.ClearHighlights();
             }
