@@ -28,7 +28,7 @@ public class SwordsmanFactory : IUnitGameObject
         }
         else if (PlayerIndex.Red == index)
         {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanBlueHeroPrefab");
+            obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanRedHeroPrefab");
         }
         return obj;
     }
