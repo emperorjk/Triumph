@@ -32,6 +32,9 @@ public class UnitSounds
         System.Random ran = new System.Random();
         int randomNumber = ran.Next(audioClipArray.Length);
 
+        if(audioSource == null)
+            audioSource = Camera.main.gameObject.AddComponent<AudioSource>();
+
         if (!audioSource.isPlaying) 
         {
             audioSource.clip = audioClipArray[randomNumber];
