@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class AnimationInfo : IGameloop
+public class AnimationInfo : MonoBehaviour
 {
     public UnitGameObject defender { get; set; }
     public UnitGameObject attacker { get; set; }
@@ -14,7 +14,7 @@ public class AnimationInfo : IGameloop
 
     public bool IsAnimateFight { get; set; }
 
-    public AnimationInfo()
+    void Awake()
     {
         FightTime = 1f;
         EventHandler.register<OnAnimFight>(OnFightAnim);
@@ -38,17 +38,8 @@ public class AnimationInfo : IGameloop
         }
     }
 
-    public void OnAwake()
-    {
-        
-    }
-
-    public void OnStart()
-    {
-        
-    }
-
-    public void OnUpdate()
+    
+    void Update()
     {
         if (IsAnimateFight)
         {
@@ -79,17 +70,7 @@ public class AnimationInfo : IGameloop
         }
     }
 
-    public void OnFixedUpdate()
-    {
-        
-    }
-
-    public void OnLateUpdate()
-    {
-        
-    }
-
-    public void OnDestroy()
+    void OnDestroy()
     {
         EventHandler.unregister<OnAnimFight>(OnFightAnim);
     }

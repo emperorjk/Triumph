@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Movement : IGameloop
+public class Movement : MonoBehaviour
 {
     public float StartTimeMoving { get; set; }
     public bool NeedsMoving { get; set; }
@@ -13,37 +13,12 @@ public class Movement : IGameloop
     private CompareNodes compare = new CompareNodes();
     private float movingDuration = 1f;
 
-    public void OnAwake()
-    {
-
-    }
-
-    public void OnStart()
-    {
-
-    }
-
-    public void OnUpdate()
+    void Update()
     {
         if (NeedsMoving && nodeList != null)
         {
             Moving(GameManager.Instance.Highlight.UnitSelected);
         }
-    }
-
-    public void OnFixedUpdate()
-    {
-
-    }
-
-    public void OnLateUpdate()
-    {
-
-    }
-
-    public void OnDestroy()
-    {
-
     }
 
     public void Moving(UnitGameObject unitMoving)
@@ -53,7 +28,7 @@ public class Movement : IGameloop
         if (GetTimePassed() >= 1f)
         {
             // Show fow for the unit.
-            GameManager.Instance.FowManager.ShowFowWithinLineOfSight(unitMoving.index);
+            GameManager.Instance.Fow.ShowFowWithinLineOfSight(unitMoving.index);
             // Remove the references from the old tile.
             unitMoving.Tile.unitGameObject = null;
             unitMoving.Tile = null;
@@ -68,7 +43,7 @@ public class Movement : IGameloop
             unitMoving.transform.parent = newPosition.transform;
             unitMoving.transform.position = newPosition.transform.position;
             // Hide the fow for the unit. It will use the new tile location.
-            GameManager.Instance.FowManager.HideFowWithinLineOfSight(unitMoving.index);
+            GameManager.Instance.Fow.HideFowWithinLineOfSight(unitMoving.index);
             StartTimeMoving = Time.time;
         }
 

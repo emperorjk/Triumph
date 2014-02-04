@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Highlight
+public class Highlight : MonoBehaviour
 {
     public List<HighlightObject> HighlightObjects { get; private set; }
     public UnitGameObject UnitSelected { get; set; }
     public bool IsHighlightOn { get; set; }
     private GameManager _manager;
 
-    public Highlight()
+    void Awake ()
     {
         _manager = GameManager.Instance;
         IsHighlightOn = false;

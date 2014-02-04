@@ -18,7 +18,6 @@ public class GameManager
             if (instance == null) 
             { 
                 instance = new GameManager();
-                instance.Init();
             }
             return instance;
         }
@@ -32,7 +31,7 @@ public class GameManager
     public SortedList<PlayerIndex, Player> Players { get; private set; }
     public ProductionOverlayMain ProductionOverlayMain { get; set; }
     public CaptureBuildings CaptureBuildings { get; set; }
-    public FogOfWarManager FowManager { get; set; }
+    public FogOfWar Fow { get; set; }
     public UnitSounds UnitSounds { get; set; }
     public Highlight Highlight { get; set; }
     public Attack Attack { get; set; }
@@ -57,18 +56,15 @@ public class GameManager
         Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red));
         CurrentPlayer = Players[PlayerIndex.Blue];
 
+        ProductionOverlayMain = GameObject.Find("_Scripts").GetComponent<ProductionOverlayMain>();
+        Movement = GameObject.Find("_Scripts").GetComponent<Movement>();
+        AnimInfo = GameObject.Find("_Scripts").GetComponent<AnimationInfo>();
+        CaptureBuildings = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+        Fow = GameObject.Find("_Scripts").GetComponent<FogOfWar>();
+        Highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
+        Attack = GameObject.Find("_Scripts").GetComponent<Attack>();
 
-        // Create all ingame objects that implement the IGameloop interface.
-        ProductionOverlayMain = new ProductionOverlayMain();
-        Movement = new Movement();
-        AnimInfo = new AnimationInfo();
-
-        // Create ingame objects. None IGameloop classes.
-        CaptureBuildings = new CaptureBuildings();
-        FowManager = new FogOfWarManager();
         UnitSounds = new UnitSounds();
-        Highlight = new Highlight();
-        Attack = new Attack();
     }
 
     public void NextPlayer()
@@ -91,7 +87,7 @@ public class GameManager
             }
             CurrentTurn++;
             // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
-            FowManager.ShowOrHideFowPlayer();
+            Fow.ShowOrHideFowPlayer();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class CameraControls : IGameloop
+public class CameraControls : MonoBehaviour
 {
     // The margin used for the gamebar. So you can move just a little above the level in order to display the top row of tiles without the gamebar getting in the way.
     public float margin = 0f;
@@ -19,45 +19,22 @@ public class CameraControls : IGameloop
     private int lastScreenWidth;
     private int lastScreenHeight;
 
-
-    public CameraControls()
-    {
-        CalculateLevelArea();
-        MoveCamera(new Vector2(0, 0));
-    }
-
-    public void OnAwake()
-    {
-        
-    }
-
-    public void OnStart()
+   
+    void Start()
     {
         // Set all of the renderers that are childs of the camera to be on the GUI sorting layer.
         foreach (Renderer item in Camera.main.GetComponentsInChildren<Renderer>())
         {
             item.sortingLayerName = "GUI";
         }
+
+        CalculateLevelArea();
+        MoveCamera(new Vector2(0, 0));
     }
 
-    public void OnUpdate()
+    void Update()
     {
         CameraMovementInput();
-    }
-
-    public void OnFixedUpdate()
-    {
-        
-    }
-
-    public void OnLateUpdate()
-    {
-        
-    }
-
-    public void OnDestroy()
-    {
-        
     }
 
     private void CameraMovementInput()

@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 
-public class ProductionOverlayMain : IGameloop
+public class ProductionOverlayMain : MonoBehaviour
 {
     /// <summary>
     /// The building variable used for the production of units.
@@ -26,17 +26,7 @@ public class ProductionOverlayMain : IGameloop
         EventHandler.register<OnBuildingClick>(OnBuildingClick);
     }
 
-    public void OnAwake()
-    {
-
-    }
-
-    public void OnStart()
-    {
-        
-    }
-
-    public void OnUpdate()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -48,16 +38,6 @@ public class ProductionOverlayMain : IGameloop
             }
         }
         PositionOverlay();
-    }
-
-    public void OnFixedUpdate()
-    {
-
-    }
-
-    public void OnLateUpdate()
-    {
-
     }
 
     public void OnDestroy()

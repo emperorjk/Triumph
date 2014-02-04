@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Attack
+public class Attack : MonoBehaviour
 {
-    public Attack()
+    void Awake ()
     {
         EventHandler.register<OnHighlightClick>(BattlePreparation);
         EventHandler.register<OnAnimFight>(BattleSimulation);
@@ -63,6 +63,8 @@ public class Attack
             {
                 UnitGameObject attackingUnit = GameManager.Instance.Highlight.UnitSelected;
                 UnitGameObject defendingUnit = highlight.tile.unitGameObject;
+
+
                 if (!attackingUnit.UnitGame.hasAttacked)
                 {
                     if (!attackingUnit.UnitGame.hasMoved || (attackingUnit.UnitGame.hasMoved && attackingUnit.UnitGame.CanAttackAfterMove))

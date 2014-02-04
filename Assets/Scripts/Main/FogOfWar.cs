@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 
-public class FogOfWarManager
+public class FogOfWar : MonoBehaviour
 {
     /// <summary>
     /// Returns true is the fow is shown, e.g. it is active. False otherwise.
@@ -13,7 +13,7 @@ public class FogOfWarManager
     public bool isFowActive { get; private set; }
     private GameManager _manager;
 
-    public FogOfWarManager()
+    public FogOfWar()
     {
         _manager = GameManager.Instance;
         isFowActive = false;

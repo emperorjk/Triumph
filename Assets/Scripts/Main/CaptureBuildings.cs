@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class CaptureBuildings
+public class CaptureBuildings : MonoBehaviour
 {
     private List<BuildingsBase> buildings;
     private List<BuildingsBase> buildingsToBeRemoved;
@@ -14,7 +14,7 @@ public class CaptureBuildings
     /// </summary>
     private int decreaseCapturePointsBy = 2;
 
-    public CaptureBuildings()
+    void Awake ()
     {
         buildings = new List<BuildingsBase>();
         buildingsToBeRemoved = new List<BuildingsBase>();

@@ -19,7 +19,7 @@ public class Swordsman : UnitBase
 
     public override int GetAttackMoveRange
     {
-        get { return GameManager.Instance.FowManager.isFowActive ? AttackRange : AttackRange + MoveRange; }
+        get { return GameManager.Instance.Fow.isFowActive ? AttackRange : AttackRange + MoveRange; }
     }
 
     public override int FowLineOfSightRange

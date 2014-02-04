@@ -9,70 +9,17 @@ public class GameLoop : MonoBehaviour
 {
     public GameObject doneButton;
     private GameManager _manager;
-    private CameraControls _cameraControls;
-
-    private List<IGameloop> _gameloopObjects;
 
 	void Awake () 
     {
-        _gameloopObjects = new List<IGameloop>();
         _manager = GameManager.Instance;
-        _cameraControls = new CameraControls();
-
-
-        // Add all of the classes which implements the IGameloop interface to the list.
-        _gameloopObjects.Add(_cameraControls);
-        _gameloopObjects.Add(_manager.ProductionOverlayMain);
-        _gameloopObjects.Add(_manager.Movement);
-        _gameloopObjects.Add(_manager.AnimInfo);
-        
-        foreach (IGameloop item in _gameloopObjects)
-        {
-            item.OnAwake();
-        }
+        _manager.Init();
 	}
-
-    void Start()
-    {
-        foreach (IGameloop item in _gameloopObjects)
-        {
-            item.OnStart();
-        }
-    }
 
     void Update()
     {
         CheckObjectsClick();
         CheckDoneButton();
-
-        foreach (IGameloop item in _gameloopObjects)
-        {
-            item.OnUpdate();
-        }
-    }
-
-    void FixedUpdate()
-    {
-        foreach (IGameloop item in _gameloopObjects)
-        {
-            item.OnFixedUpdate();
-        }
-    }
-    
-    void LateUpdate()
-    {
-        foreach (IGameloop item in _gameloopObjects)
-        {
-            item.OnLateUpdate();
-        }
-    }
-
-    void OnDestroy()
-    {
-        foreach (IGameloop item in _gameloopObjects)
-        {
-            item.OnDestroy();
-        }
     }
 
     /// <summary>
