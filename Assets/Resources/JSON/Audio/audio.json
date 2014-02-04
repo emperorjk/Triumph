@@ -1,5 +1,1 @@
-{
-	"masterVolume" : 0.8,
-	"soundsVolume" : 0.7,
-	"backgroundVolume" : 0.6
-}
+{"masterVolume":"0.8", "mute":"true"}

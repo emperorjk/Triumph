@@ -1,16 +1,20 @@
-﻿using System;
+﻿using SimpleJSON;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class UnitSounds
+public class AudioManager
 {
     private AudioSource audioSource;
     private Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>> soundsDictionary = new Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>>();
 
-    public UnitSounds()
+    public AudioManager()
     {
+        ReadJSONAudio();
+
         audioSource = Camera.main.gameObject.AddComponent<AudioSource>();
 
         foreach (UnitTypes unitType in Enum.GetValues(typeof(UnitTypes)))
@@ -22,6 +26,38 @@ public class UnitSounds
                 dictionary.Add(unitSoundType, Resources.LoadAll<AudioClip>(FileLocations.soundsFolder + unitType.ToString() + "/" + unitSoundType.ToString()).ToArray());
             }
             soundsDictionary.Add(unitType, dictionary);
+        }
+    }
+
+    private void ReadJSONAudio()
+    {
+        JSONNode jsonUnit = JSON.Parse(Resources.Load<TextAsset>("JSON/Audio/audio").text);
+
+        float masterVolume = jsonUnit["masterVolume"].AsFloat;
+        bool isMuted = jsonUnit["mute"].AsBool;
+
+        AudioListener.volume = masterVolume;
+
+        if (isMuted)
+        {
+            AudioListener.volume = 0f;
+        }
+    }
+
+    public static void MuteAudio(bool mute)
+    {
+        JSONNode node = JSON.Parse(Resources.Load<TextAsset>("JSON/Audio/audio").text);
+        node["mute"].AsBool = mute;
+
+        File.WriteAllText(Environment.CurrentDirectory + "/Assets/Resources/JSON/Audio" + @"\audio.json", node.ToString());
+
+        if (mute)
+        {
+            AudioListener.volume = 0f;
+        }
+        else 
+        {
+            AudioListener.volume = node["masterVolume"].AsFloat;
         }
     }
 

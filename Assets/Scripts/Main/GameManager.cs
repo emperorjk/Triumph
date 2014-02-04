@@ -25,7 +25,6 @@ public class GameManager
     }
     #endregion
 
-
     // Objects
     public Dictionary<int, Dictionary<int, Tile>> Tiles { get; private set; }
     public Player CurrentPlayer { get; private set; }
@@ -33,7 +32,7 @@ public class GameManager
     public ProductionOverlayMain ProductionOverlayMain { get; set; }
     public CaptureBuildings CaptureBuildings { get; set; }
     public FogOfWar Fow { get; set; }
-    public UnitSounds UnitSounds { get; set; }
+    public AudioManager UnitSounds { get; set; }
     public Highlight Highlight { get; set; }
     public Attack Attack { get; set; }
     public Movement Movement { get; set; }
@@ -41,15 +40,12 @@ public class GameManager
 
     // Variables
     public int CurrentTurn { get; private set; }
-    public bool IsAudioOn { get; set; }
-    public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
 
     private void InitPlayer()
     {
         Tiles = new Dictionary<int, Dictionary<int, Tile>>();
         CurrentTurn = 1;
-        IsAudioOn = true;
         Players = new SortedList<PlayerIndex, Player>();
         Players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral));
         Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue));
@@ -67,7 +63,8 @@ public class GameManager
         Fow = scriptsGameObject.GetComponent<FogOfWar>();
         Highlight = scriptsGameObject.GetComponent<Highlight>();
         Attack = scriptsGameObject.GetComponent<Attack>();
-        UnitSounds = new UnitSounds();
+
+        UnitSounds = new AudioManager();
     }
 
     public void NextPlayer()

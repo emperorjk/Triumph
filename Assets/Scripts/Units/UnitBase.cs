@@ -122,7 +122,7 @@ public class UnitBase {
     {
         if (this.CurrentHealth <= 0)
         {
-            GameObject loot = ((GameObject)GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.lootFolder)));
+            GameObject loot = ((GameObject)GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.lootPrefab)));
             this.UnitGameObject.Tile.Loot = loot.GetComponent<Loot>();
             this.UnitGameObject.Tile.Loot.SetLoot(this.CurrentLoot);
             loot.transform.position = this.UnitGameObject.Tile.gameObject.transform.position;

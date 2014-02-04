@@ -20,6 +20,15 @@ public class GameLoop : MonoBehaviour
     {
         CheckObjectsClick();
         CheckDoneButton();
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            AudioManager.MuteAudio(true);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            AudioManager.MuteAudio(false);
+        }
     }
 
     /// <summary>
