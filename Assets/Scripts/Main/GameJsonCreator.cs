@@ -9,7 +9,7 @@ public class GameJsonCreator
 {
     public static UnitBase CreateUnit(UnitGameObject ug, bool isHero, UnitTypes type)
     {
-        string jsonString = Resources.Load<TextAsset>("Json/Units/" + type.ToString()).text;
+        string jsonString = Resources.Load<TextAsset>("JSON/Units/" + type.ToString()).text;
         JSONNode jsonUnit = JSON.Parse(jsonString);
 
         int attackRange = jsonUnit["attackRange"].AsInt;
@@ -40,7 +40,7 @@ public class GameJsonCreator
 
     public static BuildingsBase CreateBuilding(BuildingGameObject bg, BuildingTypes type)
     {
-        string jsonString = Resources.Load<TextAsset>("Json/Buildings/" + type.ToString()).text;
+        string jsonString = Resources.Load<TextAsset>("JSON/Buildings/" + type.ToString()).text;
         JSONNode jsonBuilding = JSON.Parse(jsonString);
 
         int income = jsonBuilding["income"].AsInt;
@@ -70,7 +70,7 @@ public class GameJsonCreator
 
     public static EnvironmentBase CreateEnvironment(EnvironmentGameObject eg, EnvironmentTypes type)
     {
-        string jsonString = Resources.Load<TextAsset>("Json/Environments/" + type.ToString()).text;
+        string jsonString = Resources.Load<TextAsset>("JSON/Environments/" + type.ToString()).text;
         JSONNode jsonEnvironment = JSON.Parse(jsonString);
 
         bool isWalkable = jsonEnvironment["isWalkable"].AsBool;
