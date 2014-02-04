@@ -51,7 +51,11 @@ public class Movement : MonoBehaviour
         {
             GameManager.Instance.Highlight.ClearHighlights();
             Tile endDestinationTile = unitMoving.Tile;
-            endDestinationTile.GetLoot();
+
+            if (endDestinationTile.HasLoot())
+            {
+                endDestinationTile.Loot.PickUpLoot(GameManager.Instance.CurrentPlayer);
+            } 
            
             if (endDestinationTile.HasBuilding())
             {

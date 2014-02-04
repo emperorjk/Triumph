@@ -78,12 +78,8 @@ public class Tile : MonoBehaviour
         return unitGameObject != null;
     }
 
-    public void GetLoot()
+    public bool HasLoot()
     {
-        if (Loot != null)
-        { 
-            Loot.PickUpLoot(GameManager.Instance.CurrentPlayer);
-            Destroy(Loot.gameObject);
-        }
+        return Loot != null;
     }
 }
