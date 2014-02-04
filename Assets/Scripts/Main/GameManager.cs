@@ -18,6 +18,7 @@ public class GameManager
             if (instance == null) 
             { 
                 instance = new GameManager();
+                instance.InitPlayer();
             }
             return instance;
         }
@@ -44,26 +45,28 @@ public class GameManager
     public bool IsQuitMenuOn { get; set; }
     public bool IsDoneButtonActive { get; set; }
 
-    public void Init()
+    private void InitPlayer()
     {
         Tiles = new Dictionary<int, Dictionary<int, Tile>>();
-        
         CurrentTurn = 1;
-		IsAudioOn = true;
+        IsAudioOn = true;
         Players = new SortedList<PlayerIndex, Player>();
         Players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral));
         Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue));
         Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red));
         CurrentPlayer = Players[PlayerIndex.Blue];
+    }
 
-        ProductionOverlayMain = GameObject.Find("_Scripts").GetComponent<ProductionOverlayMain>();
-        Movement = GameObject.Find("_Scripts").GetComponent<Movement>();
-        AnimInfo = GameObject.Find("_Scripts").GetComponent<AnimationInfo>();
-        CaptureBuildings = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
-        Fow = GameObject.Find("_Scripts").GetComponent<FogOfWar>();
-        Highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
-        Attack = GameObject.Find("_Scripts").GetComponent<Attack>();
-
+    public void Init()
+    {
+        GameObject scriptsGameObject = GameObject.Find("_Scripts");
+        ProductionOverlayMain = scriptsGameObject.GetComponent<ProductionOverlayMain>();
+        Movement = scriptsGameObject.GetComponent<Movement>();
+        AnimInfo = scriptsGameObject.GetComponent<AnimationInfo>();
+        CaptureBuildings = scriptsGameObject.GetComponent<CaptureBuildings>();
+        Fow = scriptsGameObject.GetComponent<FogOfWar>();
+        Highlight = scriptsGameObject.GetComponent<Highlight>();
+        Attack = scriptsGameObject.GetComponent<Attack>();
         UnitSounds = new UnitSounds();
     }
 

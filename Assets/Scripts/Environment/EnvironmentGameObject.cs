@@ -12,14 +12,7 @@ public class EnvironmentGameObject : MonoBehaviour
     public Tile tile { get; set; }
 
 	void Awake () {
-        if (type.Equals(EnvironmentTypes.Big_Rocks)) { environmentGame = new Big_Rocks(this); }
-        else if (type.Equals(EnvironmentTypes.Bridge)) { environmentGame = new Bridge(this); }
-        else if (type.Equals(EnvironmentTypes.Forrest)) { environmentGame = new Forrest(this); }
-        else if (type.Equals(EnvironmentTypes.Grass)) { environmentGame = new Grass(this); }
-        else if (type.Equals(EnvironmentTypes.Road)) { environmentGame = new Road(this); }
-        else if (type.Equals(EnvironmentTypes.Small_Rocks)) { environmentGame = new Small_Rocks(this); }
-        else if (type.Equals(EnvironmentTypes.Water)) { environmentGame = new Water(this); }
-        else if (type.Equals(EnvironmentTypes.Dirt)) { environmentGame = new Dirt(this); }
+        this.environmentGame = GameJsonCreator.CreateEnvironment(this, type);
         tile = GetComponent<Tile>();
         tile.environmentGameObject = this;
 	}

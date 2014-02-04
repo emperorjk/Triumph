@@ -1,0 +1,8 @@
+{
+	"isWalkable" : true,
+	"unitModifiers" :[
+		{ "Archer" : 2 },
+		{ "Knight" : 2.4 },
+		{ "Swordsman" : 1.3 }
+	]
+}

@@ -52,7 +52,7 @@ public class CaptureBuildings : MonoBehaviour
                 building.IncreaseCapturePointsBy(health);
 
                 unitOnBuilding.UnitGame.DecreaseHealth((int)building.DamageToCapturingUnit);
-
+                unitOnBuilding.UnitGame.CheckAlive();
                 if (building.HasCaptured())
                 {
                     buildingsToBeRemoved.Add(building);
@@ -97,7 +97,8 @@ public class CaptureBuildings : MonoBehaviour
             // TODO: either here in code or in the prefab, depending on how we want to implement certain conversions apply the buffs to the hero.
             // The damage and range can go in prefab. But how about health? Does the hero gain full health or depending on the normal units health.
             unitToHero.DestroyUnit();
-            UnitGameObject hero = CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
+            //UnitGameObject hero = CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
+            CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
         }
     }
 }

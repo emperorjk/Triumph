@@ -1,18 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public abstract class BuildingsBase {
+public class BuildingsBase {
 
-    protected BuildingsBase(BuildingGameObject game, int income, int capturePoints)
+    public BuildingsBase(BuildingGameObject game, int income, int capturePoints, bool canProduce, float damageToCapturingUnit, int fowLos, int attackRange, float damage, Dictionary<UnitTypes, float> modifiers)
     {
         this.buildingGameObject = game;
         this.income = income;
         this.capturePoints = capturePoints;
         this.currentCapturePoints = 0;
+        this.CanProduce = canProduce;
+        this.DamageToCapturingUnit = damageToCapturingUnit;
+        this.FowLineOfSightRange = fowLos;
+        this.attackRange = attackRange;
+        this.damage = damage;
+        this.modifiers = modifiers;
     }
     public BuildingGameObject buildingGameObject { get; private set; }
     public int income { get; private set; }
     public int currentCapturePoints { get; private set; }
+    public bool CanProduce { get; set; }
+    public float DamageToCapturingUnit { get; set; }
+    public int FowLineOfSightRange { get; set; }
+    private Dictionary<UnitTypes, float> modifiers { get; set; }
+    public float GetModifier(UnitTypes type) { return modifiers[type]; }
     public int capturePoints { get; private set; }
     public void IncreaseCapturePointsBy(int increaseBy) 
     { 
@@ -32,8 +44,7 @@ public abstract class BuildingsBase {
         this.currentCapturePoints = 0;
         buildingGameObject.UpdateCapturePointsText();
     }
-    public abstract BuildingTypes type { get; }
-    public abstract bool CanProduce { get; }
-    public abstract float DamageToCapturingUnit { get; }
-    public abstract int FowLineOfSightRange { get; }
+
+    public int attackRange { get; set; }
+    public float damage { get; set; }
 }

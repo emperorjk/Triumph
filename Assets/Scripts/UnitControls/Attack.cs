@@ -111,12 +111,19 @@ public class Attack : MonoBehaviour
             UnitGameObject defender = evt.defender;
 
             attacker.UnitGame.UpdateUnitColor();
-
-            // Decrease damage after animation. We need to change this later.
-            defender.UnitGame.DecreaseHealth((int)attacker.UnitGame.Damage * 3);
-
+            float attackerDamage = (attacker.UnitGame.Damage * attacker.UnitGame.GetModifier() * attacker.UnitGame.GetBaseModifier(defender.type) * attacker.UnitGame.GetStrength());
+            float defenderDamage = (defender.UnitGame.Damage * defender.UnitGame.GetModifier() * defender.UnitGame.GetBaseModifier(attacker.type) * defender.UnitGame.GetStrength());
+            defender.UnitGame.DecreaseHealth((int)attackerDamage);
+            
             if (defender.UnitGame.AttackRange >= attacker.UnitGame.AttackRange)
-                attacker.UnitGame.DecreaseHealth((int)defender.UnitGame.Damage * 3);
+            {
+                attacker.UnitGame.DecreaseHealth((int)defenderDamage);
+            }
+
+            Debug.Log(attackerDamage);
+            Debug.Log(defenderDamage);
+            attacker.UnitGame.CheckAlive();
+            defender.UnitGame.CheckAlive();
         }
     }
 

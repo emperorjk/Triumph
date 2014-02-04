@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 
-public abstract class EnvironmentBase
+public class EnvironmentBase
 {
-    protected EnvironmentBase(EnvironmentGameObject game)
+    public EnvironmentBase(EnvironmentGameObject game, bool isWalkable, Dictionary<UnitTypes, float> modifiers)
     {
         this.environmentGameObject = game;
+        this.IsWalkable = isWalkable;
+        this.modifiers = modifiers;
     }
-    public abstract bool IsWalkable { get; }
-    public abstract EnvironmentTypes type { get; }
     public EnvironmentGameObject environmentGameObject { get; private set; }
+    public bool IsWalkable { get; set; }
+    private Dictionary<UnitTypes, float> modifiers { get; set; }
+    public float GetModifier(UnitTypes type) { return modifiers[type]; }
 }

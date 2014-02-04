@@ -17,10 +17,7 @@ public class UnitGameObject : MonoBehaviour
     public GameObject UnitHealthText { get; private set; }
 
 	void Awake () {
-        // for now ugly code
-        if (type.Equals(UnitTypes.Archer)) { UnitGame = new Archer(this, isHero); }
-        else if (type.Equals(UnitTypes.Knight)) { UnitGame = new Knight(this, isHero); }
-        else if (type.Equals(UnitTypes.Swordsman)) { UnitGame = new Swordsman(this, isHero); }
+        this.UnitGame = GameJsonCreator.CreateUnit(this, isHero, type);
 
         if (this.transform.parent != null)
         {

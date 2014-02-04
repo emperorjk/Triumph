@@ -1,0 +1,14 @@
+{
+	"income" : 40,
+	"capturePoints" : 20,
+	"canProduce" : false,
+	"damageToCapturingUnit" : 1,
+	"fowLos" : 1,
+	"attackRange" : 0,
+	"damage" : 1,
+	"unitModifiers" :[
+		{ "Archer" : 3 },
+		{ "Knight" : 1 },
+		{ "Swordsman" : 1}
+	]
+}
