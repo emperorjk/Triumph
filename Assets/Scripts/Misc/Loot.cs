@@ -31,7 +31,7 @@ public class Loot : MonoBehaviour
     }
 
     public void PickUpLoot(Player player)
-    { 
+    {
         player.IncreaseGoldBy(AmountLoot);
         Destroy(this.gameObject);
     }

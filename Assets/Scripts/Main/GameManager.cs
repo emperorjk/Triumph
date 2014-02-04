@@ -88,6 +88,14 @@ public class GameManager
                 CurrentPlayer = Players.Values[indexplayer];
                 foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
             }
+
+            // After end turn we want to loop through loots and IncreaseTurn so that loot will destroy after x amount turns.
+            Loot[] loots = GameObject.FindObjectsOfType(typeof(Loot)) as Loot[];
+            foreach (Loot l in loots)
+            {
+                l.IncreaseTurn();
+            }
+
             CurrentTurn++;
             // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
             Fow.ShowOrHideFowPlayer();

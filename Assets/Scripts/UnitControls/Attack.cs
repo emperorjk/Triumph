@@ -109,21 +109,27 @@ public class Attack : MonoBehaviour
         {
             UnitGameObject attacker = evt.attacker;
             UnitGameObject defender = evt.defender;
-
             attacker.UnitGame.UpdateUnitColor();
-            float attackerDamage = (attacker.UnitGame.Damage * attacker.UnitGame.GetModifier() * attacker.UnitGame.GetBaseModifier(defender.type) * attacker.UnitGame.GetStrength());
-            float defenderDamage = (defender.UnitGame.Damage * defender.UnitGame.GetModifier() * defender.UnitGame.GetBaseModifier(attacker.type) * defender.UnitGame.GetStrength());
-            defender.UnitGame.DecreaseHealth((int)attackerDamage);
+
+            float attackerDamage = (attacker.UnitGame.Damage * attacker.UnitGame.GetModifier() * attacker.UnitGame.GetBaseModifier(defender.type) * 3 * attacker.UnitGame.GetStrength());
+            float defenderDamage = (defender.UnitGame.Damage * defender.UnitGame.GetModifier() * defender.UnitGame.GetBaseModifier(attacker.type) * 3 * defender.UnitGame.GetStrength());
+
+            defender.UnitGame.DecreaseHealth((int)Math.Ceiling(attackerDamage));
             
             if (defender.UnitGame.AttackRange >= attacker.UnitGame.AttackRange)
             {
-                attacker.UnitGame.DecreaseHealth((int)defenderDamage);
+                attacker.UnitGame.DecreaseHealth((int)Math.Ceiling(defenderDamage));
             }
 
-            Debug.Log(attackerDamage);
-            Debug.Log(defenderDamage);
-            attacker.UnitGame.CheckAlive();
-            defender.UnitGame.CheckAlive();
+
+            if (!attacker.UnitGame.CheckAlive()) 
+            {
+                defender.UnitGame.AddLoot(10);   
+            }
+            if (!defender.UnitGame.CheckAlive())
+            {
+                attacker.UnitGame.AddLoot(10);
+            }
         }
     }
 

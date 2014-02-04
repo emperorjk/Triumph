@@ -76,11 +76,12 @@ public class UnitBase {
         }
     }
     public bool CanAttackAfterMove { get; set; }
-
     public int CurrentLoot { get; private set; }
-    public int DropLoot()
+
+    public int DeliverLoot()
     {
         int amount = 0;
+
         if(CurrentLoot > BaseLoot)
         {
             amount = CurrentLoot - BaseLoot;
@@ -88,7 +89,11 @@ public class UnitBase {
         }
         return amount;
     }
-    public void AddLoot(int loot) { CurrentLoot += loot; }
+
+    public void AddLoot(int loot) 
+    { 
+        CurrentLoot += loot; 
+    }
 
     public int BaseLoot { get; private set; }
 
@@ -113,13 +118,21 @@ public class UnitBase {
         this.UnitGameObject.UpdateCapturePointsText();
     }
 
-    public void CheckAlive()
+    public bool CheckAlive()
     {
         if (this.CurrentHealth <= 0)
         {
-            // TO-DO drop all loot. (CurrentLoot)
+            GameObject loot = ((GameObject)GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.lootFolder)));
+            this.UnitGameObject.Tile.Loot = loot.GetComponent<Loot>();
+            this.UnitGameObject.Tile.Loot.SetLoot(this.CurrentLoot);
+            loot.transform.position = this.UnitGameObject.Tile.gameObject.transform.position;
+
             this.UnitGameObject.DestroyUnit();
+
+            return false;
         }
+
+        return true;
     }
 
     public void UpdateUnitColor()

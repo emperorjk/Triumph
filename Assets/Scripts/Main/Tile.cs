@@ -43,6 +43,7 @@ public class Tile : MonoBehaviour
     public HighlightObject highlight { get; private set; }
     public TileCoordinates Coordinate { get; private set; }
     public Vector2 Vector2 { get; set; }
+    public Loot Loot { get; set; }
 
     void Awake()
     {
@@ -75,5 +76,14 @@ public class Tile : MonoBehaviour
     public bool HasUnit()
     {
         return unitGameObject != null;
+    }
+
+    public void GetLoot()
+    {
+        if (Loot != null)
+        { 
+            Loot.PickUpLoot(GameManager.Instance.CurrentPlayer);
+            Destroy(Loot.gameObject);
+        }
     }
 }

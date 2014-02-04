@@ -51,7 +51,8 @@ public class Movement : MonoBehaviour
         {
             GameManager.Instance.Highlight.ClearHighlights();
             Tile endDestinationTile = unitMoving.Tile;
-            
+            endDestinationTile.GetLoot();
+           
             if (endDestinationTile.HasBuilding())
             {
                 GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.buildingGame);

@@ -15,4 +15,5 @@ public class FileLocations
     public const string speakerOff = "Textures/IngameMenu/Materials/speaker_off";
     public const string speakerOn = "Textures/IngameMenu/Materials/speaker_on";
     public const string soundsFolder = "Sounds/";
+    public const string lootFolder = "Prefabs/Misc/Loot";
 }
