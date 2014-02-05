@@ -10,6 +10,13 @@ public class GameLoop : MonoBehaviour
     public GameObject doneButton;
     private GameManager _manager;
 
+    // Min swipe distance downwards.
+    private float minSwipeDistance = 50f;
+    // The difference the fingers can go to the left or right.
+    private float swipeXVariance = 30f;
+    private bool isSwipeHappening = false;
+    private Vector2 SwipingVector;
+	
 	void Awake () 
     {
         _manager = GameManager.Instance;
@@ -18,8 +25,8 @@ public class GameLoop : MonoBehaviour
     bool test = false;
     void Update()
     {
+        DoneButton();
         CheckObjectsClick();
-        CheckDoneButton();
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -33,7 +40,7 @@ public class GameLoop : MonoBehaviour
     /// </summary>
     private void CheckObjectsClick()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !isSwipeHappening)
         {
             OnUnitClick ouc = new OnUnitClick();
             OnBuildingClick obc = new OnBuildingClick();
@@ -79,13 +86,33 @@ public class GameLoop : MonoBehaviour
         }
     }
 
-    void CheckDoneButton()
+    void DoneButton()
     {
-        // for development KeyCode.Y testing DoneButton
-        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began && Input.touches[0].tapCount == 2 || Input.GetKeyDown(KeyCode.Y))
+        if (Input.touchCount == 2)
         {
-            _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
-            doneButton.SetActive(_manager.IsDoneButtonActive);
+            foreach (Touch touch in Input.touches)
+            {
+                if(touch.phase == TouchPhase.Began && !isSwipeHappening)
+                {
+                    SwipingVector = touch.position;
+                    isSwipeHappening = true;
+                }
+                else if(touch.phase == TouchPhase.Moved && isSwipeHappening)
+                {
+                    Vector2 delta = touch.position - SwipingVector;
+                    if(delta.magnitude > minSwipeDistance && delta.y < 0 && Mathf.Abs(delta.x) < swipeXVariance)
+                    {
+                        isSwipeHappening = false;
+                        _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
+                        doneButton.SetActive(_manager.IsDoneButtonActive);
+                    }
+                }
+                else if (touch.phase == TouchPhase.Ended && isSwipeHappening)
+                {
+                    SwipingVector = Vector2.zero;
+                    isSwipeHappening = false;
+                }
+            }
         }
 
         // for development KeyCode.T next player
