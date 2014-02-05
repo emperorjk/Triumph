@@ -35,6 +35,11 @@ public class GameLoop : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        _manager.OnGameloopDestroy();
+    }
+
     /// <summary>
     /// Check if there has been a click. Ifso then raycast and check if there has been clicked on a specific game object. Ifso fire an event with the click object as a parameter.
     /// </summary>
@@ -50,7 +55,7 @@ public class GameLoop : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                foreach (UnitBase unit in _manager.CurrentPlayer.ownedUnits)
+                foreach (Unit unit in _manager.CurrentPlayer.ownedUnits)
                 {
                     if (unit.UnitGameObject.collider == hit.collider)
                     {
@@ -58,7 +63,7 @@ public class GameLoop : MonoBehaviour
                         break;
                     }
                 }   
-                foreach (BuildingsBase building in _manager.CurrentPlayer.ownedBuildings)
+                foreach (Building building in _manager.CurrentPlayer.ownedBuildings)
                 {
                     if (building.buildingGameObject.collider == hit.collider)
                     {

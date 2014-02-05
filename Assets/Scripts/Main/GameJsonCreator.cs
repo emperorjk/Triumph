@@ -7,7 +7,7 @@ using SimpleJSON;
 
 public class GameJsonCreator
 {
-    public static UnitBase CreateUnit(UnitGameObject ug, bool isHero, UnitTypes type)
+    public static Unit CreateUnit(UnitGameObject ug, bool isHero, UnitTypes type)
     {
         string jsonString = Resources.Load<TextAsset>("JSON/Units/" + type.ToString()).text;
         JSONNode jsonUnit = JSON.Parse(jsonString);
@@ -35,10 +35,10 @@ public class GameJsonCreator
             }
         }
 
-        return new UnitBase(ug, isHero, attackRange, moveRange, canAttackAfterMove, maxHealth, damage, cost, fowLos, baseLoot, modifiers);
+        return new Unit(ug, isHero, attackRange, moveRange, canAttackAfterMove, maxHealth, damage, cost, fowLos, baseLoot, modifiers);
     }
 
-    public static BuildingsBase CreateBuilding(BuildingGameObject bg, BuildingTypes type)
+    public static Building CreateBuilding(BuildingGameObject bg, BuildingTypes type)
     {
         string jsonString = Resources.Load<TextAsset>("JSON/Buildings/" + type.ToString()).text;
         JSONNode jsonBuilding = JSON.Parse(jsonString);
@@ -65,10 +65,10 @@ public class GameJsonCreator
             }
         }
 
-        return new BuildingsBase(bg, income, capturePoints, canProduce, damageToCapturingUnit, fowLos, attackRange, damage, modifiers);
+        return new Building(bg, income, capturePoints, canProduce, damageToCapturingUnit, fowLos, attackRange, damage, modifiers);
     }
 
-    public static EnvironmentBase CreateEnvironment(EnvironmentGameObject eg, EnvironmentTypes type)
+    public static Environment CreateEnvironment(EnvironmentGameObject eg, EnvironmentTypes type)
     {
         string jsonString = Resources.Load<TextAsset>("JSON/Environments/" + type.ToString()).text;
         JSONNode jsonEnvironment = JSON.Parse(jsonString);
@@ -90,6 +90,6 @@ public class GameJsonCreator
             }
         }
         
-        return new EnvironmentBase(eg, isWalkable, modifiers);
+        return new Environment(eg, isWalkable, modifiers);
     }
 }

@@ -8,7 +8,7 @@ using System;
 public class EnvironmentGameObject : MonoBehaviour
 {
     public EnvironmentTypes type;
-    public EnvironmentBase environmentGame { get; private set; }
+    public Environment environmentGame { get; private set; }
     public Tile tile { get; set; }
 
 	void Awake () {

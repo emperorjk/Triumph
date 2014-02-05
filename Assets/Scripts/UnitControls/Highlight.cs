@@ -20,6 +20,12 @@ public class Highlight : MonoBehaviour
         EventHandler.register<OnHighlightClick>(ClickedOnHightLight);
     }
 
+    void OnDestroy()
+    {
+        EventHandler.unregister<OnUnitClick>(ShowHighlight);
+        EventHandler.unregister<OnHighlightClick>(ClickedOnHightLight);
+    }
+
     /// <summary>
     /// Gets called whenever an OnUnitClick event is fired.
     /// </summary>
@@ -93,7 +99,7 @@ public class Highlight : MonoBehaviour
     /// </summary>
     public void ClearMovementAndHighLights()
     {
-        foreach (UnitBase unit in GameManager.Instance.CurrentPlayer.ownedUnits)
+        foreach (Unit unit in GameManager.Instance.CurrentPlayer.ownedUnits)
         {
             unit.hasMoved = false;
             unit.hasAttacked = false;

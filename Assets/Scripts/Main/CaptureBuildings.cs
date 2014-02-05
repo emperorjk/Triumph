@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class CaptureBuildings : MonoBehaviour
 {
-    private List<BuildingsBase> buildings;
-    private List<BuildingsBase> buildingsToBeRemoved;
+    public List<Building> BuildingsBeingCaptured { get; private set; }
+    private List<Building> buildingsToBeRemoved;
     /// <summary>
     /// Decrease the capture per turn if the building no longer has a unit on it. This can be placed in the UnitBase if certain buildings decrease faster than other buildings.
     /// </summary>
@@ -16,24 +16,24 @@ public class CaptureBuildings : MonoBehaviour
 
     void Awake ()
     {
-        buildings = new List<BuildingsBase>();
-        buildingsToBeRemoved = new List<BuildingsBase>();
+        BuildingsBeingCaptured = new List<Building>();
+        buildingsToBeRemoved = new List<Building>();
     }
 
     /// <summary>
     /// Call this method whenever a unit has moved onto an enemy or neutral building.
     /// </summary>
     /// <param name="building"></param>
-    public void AddBuildingToCaptureList(BuildingsBase building) {
-        UnitGameObject unitOnBuilding = building.buildingGameObject.tile.unitGameObject;
-        if (!buildings.Contains(building) && unitOnBuilding.index != building.buildingGameObject.index) 
+    public void AddBuildingToCaptureList(Building building) {
+        UnitGameObject unitOnBuilding = building.buildingGameObject.Tile.unitGameObject;
+        if (!BuildingsBeingCaptured.Contains(building) && unitOnBuilding.index != building.buildingGameObject.index) 
         {
-            buildings.Add(building);
+            BuildingsBeingCaptured.Add(building);
         }
-        else if (buildings.Contains(building) && unitOnBuilding.index == building.buildingGameObject.index)
+        else if (BuildingsBeingCaptured.Contains(building) && unitOnBuilding.index == building.buildingGameObject.index)
         {
             building.resetCurrentCapturePoints();
-            buildings.Remove(building);
+            BuildingsBeingCaptured.Remove(building);
         }
     }
 
@@ -42,9 +42,9 @@ public class CaptureBuildings : MonoBehaviour
     /// </summary>
     public void CalculateCapturing()
     {
-        foreach (BuildingsBase building in buildings)
+        foreach (Building building in BuildingsBeingCaptured)
         {
-            UnitGameObject unitOnBuilding = building.buildingGameObject.tile.unitGameObject;
+            UnitGameObject unitOnBuilding = building.buildingGameObject.Tile.unitGameObject;
 
             if (unitOnBuilding != null)
             {
@@ -52,7 +52,12 @@ public class CaptureBuildings : MonoBehaviour
                 building.IncreaseCapturePointsBy(health);
 
                 unitOnBuilding.UnitGame.DecreaseHealth((int)building.DamageToCapturingUnit);
-                unitOnBuilding.UnitGame.CheckAlive();
+                
+                if(!unitOnBuilding.UnitGame.IsAlive())
+                {
+                    unitOnBuilding.UnitGame.OnDeath();
+                }
+                
                 if (building.HasCaptured())
                 {
                     if (building.buildingGameObject.type != BuildingTypes.Headquarters)
@@ -95,9 +100,9 @@ public class CaptureBuildings : MonoBehaviour
                 }
             }
         }
-        foreach (BuildingsBase item in buildingsToBeRemoved) 
+        foreach (Building item in buildingsToBeRemoved) 
         {
-            buildings.Remove(item); 
+            BuildingsBeingCaptured.Remove(item); 
         }
         buildingsToBeRemoved.Clear();
     }

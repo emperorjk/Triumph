@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BuildingsBase {
+public class Building {
 
-    public BuildingsBase(BuildingGameObject game, int income, int capturePoints, bool canProduce, float damageToCapturingUnit, int fowLos, int attackRange, float damage, Dictionary<UnitTypes, float> modifiers)
+    public Building(BuildingGameObject game, int income, int capturePoints, bool canProduce, float damageToCapturingUnit, int fowLos, int attackRange, float damage, Dictionary<UnitTypes, float> modifiers)
     {
         this.buildingGameObject = game;
         this.income = income;

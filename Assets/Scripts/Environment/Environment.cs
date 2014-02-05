@@ -3,9 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 
-public class EnvironmentBase
+public class Environment
 {
-    public EnvironmentBase(EnvironmentGameObject game, bool isWalkable, Dictionary<UnitTypes, float> modifiers)
+    public Environment(EnvironmentGameObject game, bool isWalkable, Dictionary<UnitTypes, float> modifiers)
     {
         this.environmentGameObject = game;
         this.IsWalkable = isWalkable;

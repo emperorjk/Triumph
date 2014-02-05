@@ -37,14 +37,37 @@ public class FogOfWar : MonoBehaviour
     private void CheckLineForAllObjects(PlayerIndex index, bool showFog)
     {
         Player player = _manager.Players[index];
-        foreach (UnitBase item in player.ownedUnits)
+        foreach (Unit item in player.ownedUnits)
         {
             ShowOrHideFowWithinRange(item.UnitGameObject.Tile, item.FowLineOfSightRange, showFog);
+            item.UnitGameObject.UpdateHealthText();
         }
 
-        foreach (BuildingsBase item in player.ownedBuildings)
+        foreach (Building item in player.ownedBuildings)
         {
-            ShowOrHideFowWithinRange(item.buildingGameObject.tile, item.FowLineOfSightRange, showFog);
+            ShowOrHideFowWithinRange(item.buildingGameObject.Tile, item.FowLineOfSightRange, showFog);
+        }
+
+        UnitBuilingHealthCapturePoints(index);
+    }
+
+    private void UnitBuilingHealthCapturePoints(PlayerIndex index)
+    {
+        if(isFowActive)
+        {
+            foreach (Player player in _manager.Players.Where(x => x.Value.index != index && x.Value.index != PlayerIndex.Neutral).Select(x => x.Value))
+            {
+                foreach (Unit unit in player.ownedUnits)
+                {
+                    unit.UnitGameObject.UpdateHealthText();
+                }
+            }
+
+            foreach (Building building in GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured)
+            {
+                building.buildingGameObject.UpdateCapturePointsText();
+            }
+
         }
     }
 
@@ -124,6 +147,14 @@ public class FogOfWar : MonoBehaviour
             foreach (KeyValuePair<int, Tile> tile in item.Value)
             {
                 tile.Value.FogOfWar.renderer.enabled = showFow;
+                if(tile.Value.HasUnit())
+                {
+                    tile.Value.unitGameObject.UpdateHealthText();
+                }
+                if(tile.Value.HasBuilding())
+                {
+                    tile.Value.buildingGameObject.UpdateCapturePointsText();
+                }
             }
         }
     }

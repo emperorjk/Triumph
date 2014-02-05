@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitBase {
+public class Unit {
 
-    public UnitBase(UnitGameObject game, bool isHero, int attackRange, int moveRange, bool canAttackAfterMove, int maxHealth,
+    public Unit(UnitGameObject game, bool isHero, int attackRange, int moveRange, bool canAttackAfterMove, int maxHealth,
         float damage, int cost, int fowLos, int baseLoot, Dictionary<UnitTypes, float> modifiers)
     {
         this.UnitGameObject = game;
@@ -106,7 +106,7 @@ public class UnitBase {
     public void DecreaseHealth(int damage) 
     {
         this.CurrentHealth -= damage;
-        this.UnitGameObject.UpdateCapturePointsText();
+        this.UnitGameObject.UpdateHealthText();
     }
 
     public void IncreaseHealth(int recovery)
@@ -115,17 +115,12 @@ public class UnitBase {
         // If we later have some sort of healing make sure that it cannot go over its initial full health.
         this.CurrentHealth = Mathf.Clamp(this.CurrentHealth, 0, this.MaxHealth);
         //if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
-        this.UnitGameObject.UpdateCapturePointsText();
+        this.UnitGameObject.UpdateHealthText();
     }
 
-    public bool CheckAlive()
+    public bool IsAlive()
     {
-        if (this.CurrentHealth <= 0)
-        {
-            return false;
-        }
-
-        return true;
+        return this.CurrentHealth > 0;
     }
 
     public void OnDeath()
@@ -133,6 +128,7 @@ public class UnitBase {
         GameObject loot = ((GameObject)GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.lootPrefab)));
         this.UnitGameObject.Tile.Loot = loot.GetComponent<Loot>();
         this.UnitGameObject.Tile.Loot.SetLoot(this.CurrentLoot);
+        loot.GetComponent<Loot>().tile = this.UnitGameObject.Tile;
         loot.transform.position = this.UnitGameObject.Tile.gameObject.transform.position;
 
         this.UnitGameObject.DestroyUnit();
@@ -160,7 +156,7 @@ public class UnitBase {
             {
                 return 1f;
             }
-            return UnitGameObject.Tile.buildingGameObject.buildingGame.GetModifier(UnitGameObject.type);
+            return UnitGameObject.Tile.buildingGameObject.BuildingGame.GetModifier(UnitGameObject.type);
         }
         else
         {

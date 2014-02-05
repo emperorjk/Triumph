@@ -12,6 +12,12 @@ public class Attack : MonoBehaviour
         EventHandler.register<OnAnimFight>(BattleSimulation);
     }
 
+    void OnDestroy()
+    {
+        EventHandler.unregister<OnHighlightClick>(BattlePreparation);
+        EventHandler.unregister<OnAnimFight>(BattleSimulation);
+    }
+
     /// <summary>
     /// Show the attack highlights for the specified unit with the specified range.
     /// </summary>
@@ -127,17 +133,17 @@ public class Attack : MonoBehaviour
 
     private void CheckUnitsHealth(UnitGameObject attacker, UnitGameObject defender)
     {
-        if (!attacker.UnitGame.CheckAlive() && !defender.UnitGame.CheckAlive())
+        if (!attacker.UnitGame.IsAlive() && !defender.UnitGame.IsAlive())
         {
             defender.UnitGame.OnDeath();
             attacker.UnitGame.OnDeath();
         }
-        else if (!attacker.UnitGame.CheckAlive())
+        else if (!attacker.UnitGame.IsAlive())
         {
             attacker.UnitGame.OnDeath();
             defender.UnitGame.AddLoot(10);
         }
-        else if (!defender.UnitGame.CheckAlive())
+        else if (!defender.UnitGame.IsAlive())
         {
             defender.UnitGame.OnDeath();
             attacker.UnitGame.AddLoot(10);

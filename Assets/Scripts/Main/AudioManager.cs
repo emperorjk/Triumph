@@ -49,7 +49,7 @@ public class AudioManager
         JSONNode node = JSON.Parse(Resources.Load<TextAsset>("JSON/Audio/audio").text);
         node["mute"].AsBool = mute;
 
-        File.WriteAllText(Environment.CurrentDirectory + "/Assets/Resources/JSON/Audio" + @"\audio.json", node.ToString());
+        File.WriteAllText(System.Environment.CurrentDirectory + "/Assets/Resources/JSON/Audio" + @"\audio.json", node.ToString());
 
         if (mute)
         {

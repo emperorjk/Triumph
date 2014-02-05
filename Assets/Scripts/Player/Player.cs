@@ -8,33 +8,33 @@ public class Player {
     public PlayerIndex index { get; private set; }
     public string name { get; private set; }
     public int gold { get; private set; }
-    public IList<BuildingsBase> ownedBuildings { get; private set; }
-    public IList<UnitBase> ownedUnits { get; private set; }
+    public IList<Building> ownedBuildings { get; private set; }
+    public IList<Unit> ownedUnits { get; private set; }
     
     public Player(string name, PlayerIndex index)
     {
         this.name = name;
         this.index = index;
-        ownedBuildings = new List<BuildingsBase>();
-        ownedUnits = new List<UnitBase>();
+        ownedBuildings = new List<Building>();
+        ownedUnits = new List<Unit>();
     }
 
-    public void AddBuilding(BuildingsBase building)
+    public void AddBuilding(Building building)
     {
         if(!ownedBuildings.Contains(building)) { ownedBuildings.Add(building); }
     }
 
-    public void RemoveBuilding(BuildingsBase building)
+    public void RemoveBuilding(Building building)
     {
         if (ownedBuildings.Contains(building)) { ownedBuildings.Remove(building); }
     }
 
-    public void AddUnit(UnitBase unit)
+    public void AddUnit(Unit unit)
     {
         if (!ownedUnits.Contains(unit)) { ownedUnits.Add(unit); }
     }
 
-    public void RemoveUnit(UnitBase unit)
+    public void RemoveUnit(Unit unit)
     {
         if (ownedUnits.Contains(unit)) 
         {

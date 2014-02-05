@@ -13,7 +13,7 @@ public class ProductionScript : MonoBehaviour {
 	
     void Update () {
         
-        if(CanClick && Input.GetMouseButtonDown(0) && parentProduction.IsProductionOverlayActive && !parentProduction.BuildingClickedProduction.tile.HasUnit())
+        if(CanClick && Input.GetMouseButtonDown(0) && parentProduction.IsProductionOverlayActive && !parentProduction.BuildingClickedProduction.Tile.HasUnit())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit touchBox;
@@ -24,7 +24,7 @@ public class ProductionScript : MonoBehaviour {
                     BuildingGameObject buildingToProduceFrom = parentProduction.BuildingClickedProduction;
                     // Kind of ugly yet could not find better solution. The unit is created before we check if it can be bought.
                     // Set it inactive immediatly and then check for enough gold. If not then destroy else decrease the gold and set it active.
-                    UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.tile, buildingToProduceFrom.index, type);
+                    UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.Tile, buildingToProduceFrom.index, type);
                     unit.gameObject.SetActive(false);
 
                     if(GameManager.Instance.CurrentPlayer.CanBuy(unit.UnitGame.Cost))

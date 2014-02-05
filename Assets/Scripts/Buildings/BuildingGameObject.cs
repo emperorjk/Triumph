@@ -10,44 +10,42 @@ public class BuildingGameObject : MonoBehaviour
 {
     public PlayerIndex index;
     public BuildingTypes type;
-    public BuildingsBase buildingGame { get; private set; }
-    public Tile tile { get; set; }
-    public GameObject capturePointsText { get; private set; }
+    public Building BuildingGame { get; private set; }
+    public Tile Tile { get; set; }
+    public GameObject CapturePointsText { get; private set; }
 
 	void Awake () {
-        this.buildingGame = GameJsonCreator.CreateBuilding(this, type);
+        this.BuildingGame = GameJsonCreator.CreateBuilding(this, type);
         if(this.transform.parent != null)
         {
-            tile = this.transform.parent.GetComponent<Tile>();
-            tile.buildingGameObject = this;
+            Tile = this.transform.parent.GetComponent<Tile>();
+            Tile.buildingGameObject = this;
         }
-        capturePointsText = transform.FindChild("CapturePoints").gameObject;
-        UpdateCapturePointsText();
+        CapturePointsText = transform.FindChild("CapturePoints").gameObject;
+        CapturePointsText.renderer.enabled = false;
         // Set the sorting layer to GUI. The same used for the hightlights. Eventough you cannot set it via unity inspector you can still set it via code. :D
-        capturePointsText.renderer.sortingLayerName = "GUI";
-        GameManager.Instance.Players[index].AddBuilding(buildingGame);
+        CapturePointsText.renderer.sortingLayerName = "GUI";
+        GameManager.Instance.Players[index].AddBuilding(BuildingGame);
 	}
 
     public void UpdateCapturePointsText()
     {
-        TextMesh text = capturePointsText.GetComponent<TextMesh>();
-        text.text = buildingGame.currentCapturePoints + "/" + buildingGame.capturePoints;
-
-        if(buildingGame.currentCapturePoints <= 0)
-        {
-            capturePointsText.renderer.enabled = false;
-        }
-        else
-        {
-            capturePointsText.renderer.enabled = true;
-        }
+        TextMesh text = CapturePointsText.GetComponent<TextMesh>();
+        text.text = BuildingGame.currentCapturePoints + "/" + BuildingGame.capturePoints;
+        CapturePointsText.renderer.enabled = (!Tile.FogOfWar.renderer.enabled && BuildingGame.currentCapturePoints > 0);
     }
 
     public void DestroyBuilding()
     {
-        this.tile.buildingGameObject = null;
-        this.tile = null;
-        GameManager.Instance.Players[this.index].RemoveBuilding(this.buildingGame);
+        this.Tile.buildingGameObject = null;
+        this.Tile = null;
+        GameManager.Instance.Players[this.index].RemoveBuilding(this.BuildingGame);
+        /*
+        if(GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured.Contains(this.BuildingGame))
+        {
+            GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured.Remove(this.BuildingGame);
+        }
+         * */
         GameObject.Destroy(this.gameObject);
     }
 }

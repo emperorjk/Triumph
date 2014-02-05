@@ -11,7 +11,7 @@ public class UnitGameObject : MonoBehaviour
     public PlayerIndex index;
     public UnitTypes type;
     public bool isHero;
-    public UnitBase UnitGame { get; private set; }
+    public Unit UnitGame { get; private set; }
     public Tile Tile { get; set; }
 
     public GameObject UnitHealthText { get; private set; }
@@ -25,26 +25,18 @@ public class UnitGameObject : MonoBehaviour
             Tile.unitGameObject = this;
         }
         UnitHealthText = transform.FindChild("UnitHealth").gameObject;
-        UpdateCapturePointsText();
         // Set the sorting layer to GUI. The same used for the hightlights. Eventhough you cannot set it via unity inspector you can still set it via code. :D
         UnitHealthText.renderer.sortingLayerName = "GUI";
         GameManager.Instance.Players[index].AddUnit(UnitGame);
 	}
 
-    public void UpdateCapturePointsText()
+    public void UpdateHealthText()
     {
         TextMesh text = UnitHealthText.GetComponent<TextMesh>();
         text.text = UnitGame.CurrentHealth.ToString();
-
-        if (UnitGame.CurrentHealth < UnitGame.MaxHealth)
-        {
-            UnitHealthText.renderer.enabled = true;
-        }
-        else
-        {
-            UnitHealthText.renderer.enabled = false;
-        }
+        UnitHealthText.renderer.enabled = (!Tile.FogOfWar.renderer.enabled && UnitGame.CurrentHealth < UnitGame.MaxHealth);
     }
+
     public void DestroyUnit()
     {
         this.Tile.unitGameObject = null;

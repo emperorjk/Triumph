@@ -20,6 +20,11 @@ public class AnimationInfo : MonoBehaviour
         EventHandler.register<OnAnimFight>(OnFightAnim);
     }
 
+    void OnDestroy()
+    {
+        EventHandler.unregister<OnAnimFight>(OnFightAnim);
+    }
+
     void OnFightAnim(OnAnimFight evt)
     {
         if(evt.attacker != null && evt.defender != null && evt.needsAnimating)
@@ -68,11 +73,6 @@ public class AnimationInfo : MonoBehaviour
                 EventHandler.dispatch<OnAnimFight>(fight);
             }
         }
-    }
-
-    void OnDestroy()
-    {
-        EventHandler.unregister<OnAnimFight>(OnFightAnim);
     }
 }
 

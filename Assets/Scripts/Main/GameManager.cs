@@ -87,7 +87,7 @@ public class GameManager
             }
 
             // After end turn we want to loop through loots and IncreaseTurn so that loot will destroy after x amount turns.
-            Loot[] loots = GameObject.FindObjectsOfType(typeof(Loot)) as Loot[];
+            Loot[] loots = GameObject.FindObjectsOfType<Loot>();
             foreach (Loot l in loots)
             {
                 l.IncreaseTurn();
@@ -97,5 +97,24 @@ public class GameManager
             // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
             Fow.ShowOrHideFowPlayer();
         }
+    }
+
+    /// <summary>
+    /// This method is called from the gameloop void OnDestroy method. In here we clear all this that needs clearing and/or reset from the gamemanager.
+    /// Make sure we set all of the values to zero so the garbace collector can remove all of these objects from memory.
+    /// Otherwise everytime we start a new level we recreate them while the previous are still in memory.
+    /// </summary>
+    public void OnGameloopDestroy()
+    {
+        CurrentTurn = 1;
+        TileHelper.ClearTilesDictionary();
+        ProductionOverlayMain = null;
+        Movement = null;
+        AnimInfo = null;
+        CaptureBuildings = null;
+        Fow = null;
+        Highlight = null;
+        Attack = null;
+        UnitSounds = null;
     }
 }

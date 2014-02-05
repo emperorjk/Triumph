@@ -40,7 +40,7 @@ public class ProductionOverlayMain : MonoBehaviour
         PositionOverlay();
     }
 
-    public void OnDestroy()
+    void OnDestroy()
     {
         EventHandler.unregister<OnBuildingClick>(OnBuildingClick);
     }
@@ -53,7 +53,7 @@ public class ProductionOverlayMain : MonoBehaviour
     {
         if(evt.building != null)
         {
-            if (!IsProductionOverlayActive && evt.building.buildingGame.CanProduce)
+            if (!IsProductionOverlayActive && evt.building.BuildingGame.CanProduce)
             {
                 BuildingClickedProduction = evt.building;
                 CurrentOverlay = CreatorFactoryProductionOverlay.CreateProductionOverlay(BuildingClickedProduction.type);

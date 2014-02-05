@@ -59,7 +59,7 @@ public class Movement : MonoBehaviour
            
             if (endDestinationTile.HasBuilding())
             {
-                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.buildingGame);
+                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.BuildingGame);
             }
 
             if(unitMoving.UnitGame.CanAttackAfterMove && GameManager.Instance.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
