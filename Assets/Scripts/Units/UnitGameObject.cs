@@ -34,7 +34,7 @@ public class UnitGameObject : MonoBehaviour
     {
         TextMesh text = UnitHealthText.GetComponent<TextMesh>();
         text.text = UnitGame.CurrentHealth.ToString();
-        UnitHealthText.renderer.enabled = (!Tile.FogOfWar.renderer.enabled && UnitGame.CurrentHealth < UnitGame.MaxHealth);
+        UnitHealthText.renderer.enabled = (!Tile.IsFowOn() && UnitGame.CurrentHealth < UnitGame.MaxHealth);
     }
 
     public void DestroyUnit()

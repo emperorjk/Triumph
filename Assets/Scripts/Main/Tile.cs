@@ -82,4 +82,9 @@ public class Tile : MonoBehaviour
     {
         return Loot != null;
     }
+
+    public bool IsFowOn()
+    {
+        return FogOfWar.renderer.enabled;
+    }
 }

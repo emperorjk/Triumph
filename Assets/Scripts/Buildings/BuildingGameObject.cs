@@ -32,7 +32,7 @@ public class BuildingGameObject : MonoBehaviour
     {
         TextMesh text = CapturePointsText.GetComponent<TextMesh>();
         text.text = BuildingGame.currentCapturePoints + "/" + BuildingGame.capturePoints;
-        CapturePointsText.renderer.enabled = (!Tile.FogOfWar.renderer.enabled && BuildingGame.currentCapturePoints > 0);
+        CapturePointsText.renderer.enabled = (!Tile.IsFowOn() && BuildingGame.currentCapturePoints > 0);
     }
 
     public void DestroyBuilding()
