@@ -55,12 +55,33 @@ public class CaptureBuildings : MonoBehaviour
                 unitOnBuilding.UnitGame.CheckAlive();
                 if (building.HasCaptured())
                 {
-                    buildingsToBeRemoved.Add(building);
-                    building.buildingGameObject.DestroyBuilding();
-                    BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile, unitOnBuilding.index, building.buildingGameObject.type);
-                    if(newBuilding.type == BuildingTypes.TrainingZone)
+                    if (building.buildingGameObject.type != BuildingTypes.Headquarters)
                     {
-                        OnTrainingzoneCapturedHero(unitOnBuilding);
+                        buildingsToBeRemoved.Add(building);
+                        building.buildingGameObject.DestroyBuilding();
+                        BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile, unitOnBuilding.index, building.buildingGameObject.type);
+                        if (newBuilding.type == BuildingTypes.TrainingZone)
+                        {
+                            OnTrainingzoneCapturedHero(unitOnBuilding);
+                        }
+                    }
+                    else
+                    { 
+                        // Captured the HQ (Dissable level and _Scripts, show background color in winning player color and display winning text)
+                        GameObject.FindGameObjectWithTag("Level").SetActive(false);
+                        GameObject.Find("_Scripts").SetActive(false);
+
+                        if (GameManager.Instance.CurrentPlayer.index == PlayerIndex.Red)
+                        {
+                            Camera.main.backgroundColor = Color.red;
+                        }
+                        else if (GameManager.Instance.CurrentPlayer.index == PlayerIndex.Blue)
+                        {
+                            Camera.main.backgroundColor = Color.blue;
+                        }
+                        
+                        GameObject.Find("NotificationText").GetComponent<TextMesh>().text = GameManager.Instance.CurrentPlayer.index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
+                        GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.endGameLocation));
                     }
                 }
             }

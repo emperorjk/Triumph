@@ -17,4 +17,5 @@ public class FileLocations
     public const string soundsFolder = "Sounds/";
     public const string lootPrefab = "Prefabs/Misc/Loot";
     public const string jsonAudio = "JSON/Audio/audio";
+    public const string endGameLocation = "Prefabs/Misc/EndGame";
 }
