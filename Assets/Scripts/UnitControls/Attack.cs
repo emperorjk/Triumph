@@ -121,15 +121,26 @@ public class Attack : MonoBehaviour
                 attacker.UnitGame.DecreaseHealth((int)Math.Ceiling(defenderDamage));
             }
 
+            CheckUnitsHealth(attacker, defender);        
+        }
+    }
 
-            if (!attacker.UnitGame.CheckAlive()) 
-            {
-                defender.UnitGame.AddLoot(10);   
-            }
-            if (!defender.UnitGame.CheckAlive())
-            {
-                attacker.UnitGame.AddLoot(10);
-            }
+    private void CheckUnitsHealth(UnitGameObject attacker, UnitGameObject defender)
+    {
+        if (!attacker.UnitGame.CheckAlive() && !defender.UnitGame.CheckAlive())
+        {
+            defender.UnitGame.OnDeath();
+            attacker.UnitGame.OnDeath();
+        }
+        else if (!attacker.UnitGame.CheckAlive())
+        {
+            attacker.UnitGame.OnDeath();
+            defender.UnitGame.AddLoot(10);
+        }
+        else if (!defender.UnitGame.CheckAlive())
+        {
+            defender.UnitGame.OnDeath();
+            attacker.UnitGame.AddLoot(10);
         }
     }
 
@@ -138,13 +149,15 @@ public class Attack : MonoBehaviour
         Vector3 attDirection = defender.transform.position - attacker.transform.position;
         Vector3 defDirection = attacker.transform.position - defender.transform.position;
 
-        Quaternion aq = new Quaternion(0, (attDirection.x >= 0 ? 0 : 180), 0, 0);
-        Quaternion dq = new Quaternion(0, (defDirection.x >= 0 ? 0 : 180), 0, 0);
-        attacker.transform.rotation = aq;
-        defender.transform.rotation = dq;
+        Quaternion attackerQ = new Quaternion(0, (attDirection.x >= 0 ? 0 : 180), 0, 0);
+        Quaternion defenderQ = new Quaternion(0, (defDirection.x >= 0 ? 0 : 180), 0, 0);
+        attacker.transform.rotation = attackerQ;
+        defender.transform.rotation = defenderQ;
 
-        attacker.UnitHealthText.transform.Rotate(new Vector3(0, (attDirection.x >= 0 ? 0 : 180), 0));
-        defender.UnitHealthText.transform.Rotate(new Vector3(0, (defDirection.x >= 0 ? 0 : 180), 0));
+        Quaternion attackerHealthQ = new Quaternion(0, 0, 0, (attacker.transform.position.y > 0 ? 0 : 180));
+        Quaternion defenderHealthQ = new Quaternion(0, 0, 0, (defender.transform.position.y > 0 ? 0 : 180));
+        attacker.UnitHealthText.transform.rotation = attackerHealthQ;
+        defender.UnitHealthText.transform.rotation = defenderHealthQ;
 
         // While attacking don't show the UnitHealth
         attacker.UnitHealthText.renderer.enabled = false;

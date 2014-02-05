@@ -15,7 +15,7 @@ public class GameLoop : MonoBehaviour
         _manager = GameManager.Instance;
         _manager.Init();
 	}
-
+    bool test = false;
     void Update()
     {
         CheckObjectsClick();
@@ -23,11 +23,8 @@ public class GameLoop : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            AudioManager.MuteAudio(true);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            AudioManager.MuteAudio(false);
+            AudioManager.MuteAudio(test);
+            test = !test;
         }
     }
 
