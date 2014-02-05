@@ -82,6 +82,9 @@ public class Movement : MonoBehaviour
 
         Quaternion quaternion = new Quaternion(0, (direction.x > 0 ? 180 : 0), 0, 0);
         moveUnit.transform.rotation = quaternion;
+
+        Quaternion attackerHealthQ = new Quaternion(0, 0, 0, (moveUnit.transform.position.y > 0 ? 0 : 180));
+        moveUnit.UnitHealthText.transform.rotation = attackerHealthQ;
     }
 
     private float GetTimePassed()
