@@ -20,6 +20,12 @@ public class CaptureBuildings : MonoBehaviour
         buildingsToBeRemoved = new List<Building>();
     }
 
+    void OnDestroy()
+    {
+        buildingsToBeRemoved.Clear();
+        buildingsToBeRemoved.Clear();
+    }
+
     /// <summary>
     /// Call this method whenever a unit has moved onto an enemy or neutral building.
     /// </summary>
@@ -42,8 +48,10 @@ public class CaptureBuildings : MonoBehaviour
     /// </summary>
     public void CalculateCapturing()
     {
-        foreach (Building building in BuildingsBeingCaptured)
+        for (int i = 0; i < BuildingsBeingCaptured.Count; i++)
         {
+            Building building = BuildingsBeingCaptured[i];
+
             UnitGameObject unitOnBuilding = building.buildingGameObject.Tile.unitGameObject;
 
             if (unitOnBuilding != null)
@@ -52,12 +60,12 @@ public class CaptureBuildings : MonoBehaviour
                 building.IncreaseCapturePointsBy(health);
 
                 unitOnBuilding.UnitGame.DecreaseHealth((int)building.DamageToCapturingUnit);
-                
-                if(!unitOnBuilding.UnitGame.IsAlive())
+
+                if (!unitOnBuilding.UnitGame.IsAlive())
                 {
                     unitOnBuilding.UnitGame.OnDeath();
                 }
-                
+
                 if (building.HasCaptured())
                 {
                     if (building.buildingGameObject.type != BuildingTypes.Headquarters)
@@ -71,21 +79,12 @@ public class CaptureBuildings : MonoBehaviour
                         }
                     }
                     else
-                    { 
+                    {
                         // Captured the HQ (Dissable level and _Scripts, show background color in winning player color and display winning text)
                         GameObject.FindGameObjectWithTag("Level").SetActive(false);
                         GameObject.Find("_Scripts").SetActive(false);
-
-                        if (GameManager.Instance.CurrentPlayer.index == PlayerIndex.Red)
-                        {
-                            Camera.main.backgroundColor = Color.red;
-                        }
-                        else if (GameManager.Instance.CurrentPlayer.index == PlayerIndex.Blue)
-                        {
-                            Camera.main.backgroundColor = Color.blue;
-                        }
-                        
-                        GameObject.Find("NotificationText").GetComponent<TextMesh>().text = GameManager.Instance.CurrentPlayer.index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
+                        Camera.main.backgroundColor = GameManager.Instance.Players[unitOnBuilding.index].PlayerColor;
+                        GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
                         GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.endGameLocation));
                     }
                 }
@@ -94,7 +93,7 @@ public class CaptureBuildings : MonoBehaviour
             {
                 // there is no longer a unit on the tile / building. Slowly decrease the capture points each turn.
                 building.DecreaseCapturePointsBy(decreaseCapturePointsBy);
-                if(building.currentCapturePoints <= 0)
+                if (building.currentCapturePoints <= 0)
                 {
                     buildingsToBeRemoved.Add(building);
                 }

@@ -23,7 +23,7 @@ public class DoneButton : MonoBehaviour
             {
                 if (_touchBox.collider == this.collider)
                 {
-                    GameManager.Instance.NextPlayer();
+                    GameManager.Instance.EndTurn();
                     GameManager.Instance.IsDoneButtonActive = false;
                     this.gameObject.SetActive(false);
                 }

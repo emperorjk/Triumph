@@ -123,7 +123,7 @@ public class GameLoop : MonoBehaviour
         // for development KeyCode.T next player
         if (Input.GetKeyDown(KeyCode.T))
         {
-            _manager.NextPlayer();
+            _manager.EndTurn();
         }
     }
 }

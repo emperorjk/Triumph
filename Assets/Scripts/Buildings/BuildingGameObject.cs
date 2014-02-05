@@ -40,12 +40,12 @@ public class BuildingGameObject : MonoBehaviour
         this.Tile.buildingGameObject = null;
         this.Tile = null;
         GameManager.Instance.Players[this.index].RemoveBuilding(this.BuildingGame);
-        /*
+        
         if(GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured.Contains(this.BuildingGame))
         {
             GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured.Remove(this.BuildingGame);
         }
-         * */
+        
         GameObject.Destroy(this.gameObject);
     }
 }

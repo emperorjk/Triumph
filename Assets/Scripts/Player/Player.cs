@@ -10,11 +10,12 @@ public class Player {
     public int gold { get; private set; }
     public IList<Building> ownedBuildings { get; private set; }
     public IList<Unit> ownedUnits { get; private set; }
-    
-    public Player(string name, PlayerIndex index)
+    public Color PlayerColor { get; private set; }
+    public Player(string name, PlayerIndex index, Color playerColor)
     {
         this.name = name;
         this.index = index;
+        this.PlayerColor = playerColor;
         ownedBuildings = new List<Building>();
         ownedUnits = new List<Unit>();
     }

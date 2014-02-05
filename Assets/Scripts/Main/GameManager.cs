@@ -45,16 +45,17 @@ public class GameManager
     private void InitPlayer()
     {
         Tiles = new Dictionary<int, Dictionary<int, Tile>>();
-        CurrentTurn = 1;
         Players = new SortedList<PlayerIndex, Player>();
-        Players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral));
-        Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue));
-        Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red));
+        Players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral, Color.gray));
+        Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue, Color.blue));
+        Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red, Color.red));
         CurrentPlayer = Players[PlayerIndex.Blue];
     }
 
     public void Init()
     {
+        CurrentTurn = 1;
+        
         GameObject scriptsGameObject = GameObject.Find("_Scripts");
         ProductionOverlayMain = scriptsGameObject.GetComponent<ProductionOverlayMain>();
         Movement = scriptsGameObject.GetComponent<Movement>();
@@ -67,7 +68,7 @@ public class GameManager
         UnitSounds = new AudioManager();
     }
 
-    public void NextPlayer()
+    public void EndTurn()
     {
         if(!this.AnimInfo.IsAnimateFight && !this.Movement.NeedsMoving)
         {
@@ -107,7 +108,17 @@ public class GameManager
     public void OnGameloopDestroy()
     {
         CurrentTurn = 1;
+        
         TileHelper.ClearTilesDictionary();
+        // Clear all stuff from the player and reinitialize the player tile and player objects by calling the InitPlayer() method.
+        foreach (Player pl in Players.Select(x => x.Value))
+        {
+            pl.ownedBuildings.Clear();
+            pl.ownedUnits.Clear();
+        }
+        Players.Clear();
+        InitPlayer();
+
         ProductionOverlayMain = null;
         Movement = null;
         AnimInfo = null;
