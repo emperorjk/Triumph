@@ -10,6 +10,7 @@ public class AudioManager
 {
     private AudioSource audioSource;
     private Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>> soundsDictionary = new Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>>();
+    private static string jsonString = null;
 
     public AudioManager()
     {
@@ -31,8 +32,34 @@ public class AudioManager
 
     private void ReadJSONAudio()
     {
-        JSONNode jsonUnit = JSON.Parse(Resources.Load<TextAsset>("JSON/Audio/audio").text);
+        SetJSONString();
+        JSONNode jsonUnit = JSON.Parse(jsonString);
 
+        // On Android devices first time they play this file does not exist. Try fails -> create new json
+        try 
+        {
+            InitSoundsFromJSON(jsonUnit);
+        }
+        catch(NullReferenceException e)
+        {
+            File.WriteAllText(Application.persistentDataPath + "/audio.json", "{\"masterVolume\":\"0.8\", \"mute\":\"false\"}");
+            SetJSONString();
+            
+            jsonUnit = JSON.Parse(jsonString);
+            InitSoundsFromJSON(jsonUnit);
+        }
+    }
+
+    private void SetJSONString()
+    {
+        using (StreamReader sr = new StreamReader(Application.persistentDataPath + "/audio.json"))
+        {
+            jsonString = sr.ReadToEnd();
+        }
+    }
+
+    private void InitSoundsFromJSON(JSONNode jsonUnit)
+    {
         float masterVolume = jsonUnit["masterVolume"].AsFloat;
         bool isMuted = jsonUnit["mute"].AsBool;
 
@@ -46,10 +73,10 @@ public class AudioManager
 
     public static void MuteAudio(bool mute)
     {
-        JSONNode node = JSON.Parse(Resources.Load<TextAsset>("JSON/Audio/audio").text);
+        JSONNode node = JSON.Parse(jsonString);
         node["mute"].AsBool = mute;
-
-        File.WriteAllText(System.Environment.CurrentDirectory + "/Assets/Resources/JSON/Audio" + @"\audio.json", node.ToString());
+        
+        File.WriteAllText(Application.persistentDataPath + "/audio.json", node.ToString());
 
         if (mute)
         {
