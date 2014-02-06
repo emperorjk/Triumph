@@ -10,7 +10,6 @@ public class AudioManager
 {
     private AudioSource audioSource;
     private Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>> soundsDictionary = new Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>>();
-    private static string jsonString = null;
 
     public AudioManager()
     {
@@ -32,29 +31,23 @@ public class AudioManager
 
     private void ReadJSONAudio()
     {
-        SetJSONString();
-        JSONNode jsonUnit = JSON.Parse(jsonString);
-
-        // On Android devices first time they play this file does not exist. Try fails -> create new json
-        try 
+        if (File.Exists(Application.persistentDataPath + "/audio.json"))
         {
-            InitSoundsFromJSON(jsonUnit);
+            InitSoundsFromJSON(JSON.Parse(GetJSONString()));
         }
-        catch(NullReferenceException e)
+        else
         {
-            File.WriteAllText(Application.persistentDataPath + "/audio.json", "{\"masterVolume\":\"0.8\", \"mute\":\"false\"}");
-            SetJSONString();
-            
-            jsonUnit = JSON.Parse(jsonString);
-            InitSoundsFromJSON(jsonUnit);
+            File.WriteAllText(Application.persistentDataPath + "/audio.json", Resources.Load<TextAsset>("JSON/Audio/audio").text);
+
+            InitSoundsFromJSON(JSON.Parse(GetJSONString()));
         }
     }
 
-    private void SetJSONString()
+    private static string GetJSONString()
     {
         using (StreamReader sr = new StreamReader(Application.persistentDataPath + "/audio.json"))
         {
-            jsonString = sr.ReadToEnd();
+            return sr.ReadToEnd();
         }
     }
 
@@ -73,7 +66,7 @@ public class AudioManager
 
     public static void MuteAudio(bool mute)
     {
-        JSONNode node = JSON.Parse(jsonString);
+        JSONNode node = JSON.Parse(GetJSONString());
         node["mute"].AsBool = mute;
         
         File.WriteAllText(Application.persistentDataPath + "/audio.json", node.ToString());
