@@ -7,13 +7,12 @@ using System.Collections.Generic;
 // Main gameloop
 public class GameLoop : MonoBehaviour 
 {
-    public GameObject doneButton;
     private GameManager _manager;
 
     // Min swipe distance downwards.
     private float minSwipeDistance = 50f;
     // The difference the fingers can go to the left or right.
-    private float swipeXVariance = 30f;
+    private float swipeVariance = 30f;
     private bool isSwipeHappening = false;
     private Vector2 SwipingVector;
 	
@@ -25,7 +24,7 @@ public class GameLoop : MonoBehaviour
     bool test = false;
     void Update()
     {
-        DoneButton();
+        UpdateSwipeActions();
         CheckObjectsClick();
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -91,7 +90,7 @@ public class GameLoop : MonoBehaviour
         }
     }
 
-    void DoneButton()
+    void UpdateSwipeActions()
     {
         if (Input.touchCount == 2)
         {
@@ -105,11 +104,39 @@ public class GameLoop : MonoBehaviour
                 else if(touch.phase == TouchPhase.Moved && isSwipeHappening)
                 {
                     Vector2 delta = touch.position - SwipingVector;
-                    if(delta.magnitude > minSwipeDistance && delta.y < 0 && Mathf.Abs(delta.x) < swipeXVariance)
+                    if (delta.magnitude > minSwipeDistance && Mathf.Abs(delta.x) < swipeVariance)
                     {
-                        isSwipeHappening = false;
-                        _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
-                        doneButton.SetActive(_manager.IsDoneButtonActive);
+                        if(delta.y < 0)
+                        {
+                            // down swipe
+                            isSwipeHappening = false;
+                            OnSwipeAction swipeDown = new OnSwipeAction(false, false, false, true);
+                            EventHandler.dispatch<OnSwipeAction>(swipeDown);
+                        }else if (delta.y > 0)
+                        {
+                            // Up swipe
+                            isSwipeHappening = false;
+                            OnSwipeAction swipeUp = new OnSwipeAction(false, false, true, false);
+                            EventHandler.dispatch<OnSwipeAction>(swipeUp);
+                        }
+                    }
+                    // Left and right swipe not working yet.
+                    else if (delta.magnitude > minSwipeDistance && Mathf.Abs(delta.y) < swipeVariance)
+                    {
+                        if(delta.x < 0)
+                        {
+                            // Swipe left
+                            //isSwipeHappening = false;
+                            //OnSwipeAction swipe = new OnSwipeAction(true, false, false, false);
+                            //EventHandler.dispatch<OnSwipeAction>(swipe);
+                        }
+                        else if (delta.x > 0)
+                        {
+                            // Swipe right
+                            //isSwipeHappening = false;
+                            //OnSwipeAction swipe = new OnSwipeAction(false, true, false, false);
+                            //EventHandler.dispatch<OnSwipeAction>(swipe);
+                        }
                     }
                 }
                 else if (touch.phase == TouchPhase.Ended && isSwipeHappening)
@@ -118,12 +145,6 @@ public class GameLoop : MonoBehaviour
                     isSwipeHappening = false;
                 }
             }
-        }
-
-        // for development KeyCode.T next player
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            _manager.EndTurn();
         }
     }
 }

@@ -46,3 +46,19 @@ public struct OnAnimFight
         needsAnimating = _needsAnimating;
     }
 }
+
+public struct OnSwipeAction
+{
+    public bool SwipeLeft;
+    public bool SwipeRight;
+    public bool SwipeUp;
+    public bool SwipeDown;
+
+    public OnSwipeAction(bool _SwipeLeft, bool _SwipeRight, bool _SwipeUp, bool _SwipDown)
+    {
+        SwipeLeft = _SwipeLeft;
+        SwipeRight = _SwipeRight;
+        SwipeUp = _SwipeUp;
+        SwipeDown = _SwipDown;
+    }
+}
