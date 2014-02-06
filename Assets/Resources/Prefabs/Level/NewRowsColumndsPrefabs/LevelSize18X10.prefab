@@ -3235,6 +3235,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400362}
+  - 114: {fileID: 11400746}
   m_Layer: 0
   m_Name: LevelSize18X10
   m_TagString: Level
@@ -12502,6 +12503,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 1
   type: 4
+--- !u!114 &11400746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ac6d84dca7648fab1a3a905dbc55b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsDeserializing: 0
+  _id: 84f37d0b-c9df-4aef-933b-b058060722ea
+  classId: 0346790f-c9bc-46bc-9422-9f12975e46e9
+  StoreAllComponents: 1
+  Components: []
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
