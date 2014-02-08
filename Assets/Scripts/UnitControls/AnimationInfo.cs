@@ -59,9 +59,9 @@ public class AnimationInfo : MonoBehaviour
                 
                 attacker.gameObject.GetComponent<SpriteRenderer>().sprite = defaultSpriteAttacker;
                 defender.gameObject.GetComponent<SpriteRenderer>().sprite = defaultSpriteDefender;
-                                
-                attacker.UnitHealthText.renderer.enabled = true;
-                defender.UnitHealthText.renderer.enabled = true;
+
+                attacker.UpdateHealthText();
+                defender.UpdateHealthText();
                 FightTime = 1f;
 
                 // Create the animation fight event. But set the needsanimating to false. Meaning that the method Attack.BattleSimulation() is called.
