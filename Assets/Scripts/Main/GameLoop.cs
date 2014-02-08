@@ -21,11 +21,17 @@ public class GameLoop : MonoBehaviour
         _manager = GameManager.Instance;
         _manager.Init();
 	}
-
+    bool test = false;
     void Update()
     {
         UpdateSwipeActions();
         CheckObjectsClick();
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            AudioManager.MuteAudio(test);
+            test = !test;
+        }
     }
 
     void OnDestroy()
