@@ -3,12 +3,12 @@
 	"moveRange" : 2,
 	"canAttackAfterMove" : true,
 	"maxHealth" : 10,
-	"damage" : 1,
+	"damage" : 1.5,
 	"cost" : 150,
 	"fowLos" : 1,
 	"baseLoot" : 10,
 	"unitModifiers" :[
-		{ "Archer" : 1.4 },
+		{ "Archer" : 1.7 },
 		{ "Knight" : 1.5 },
 		{ "Swordsman" : 1}
 	]

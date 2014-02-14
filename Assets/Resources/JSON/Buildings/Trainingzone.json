@@ -7,7 +7,7 @@
 	"attackRange" : 0,
 	"damage" : 1,
 	"unitModifiers" :[
-		{ "Archer" : 3 },
+		{ "Archer" : 2 },
 		{ "Knight" : 1 },
 		{ "Swordsman" : 1}
 	]

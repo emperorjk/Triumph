@@ -5,7 +5,7 @@ public class Loot : MonoBehaviour
 {
     private int AmountTurnsDestroy { get; set; }
     public int CurrentTurnAmount { get; set; }
-    public int AmountLoot { get; private set; }
+    public float AmountLoot { get; private set; }
     // We need a reference to the tile the loot is on in order to clear the reference on the tile object to the loot.
     public Tile tile { get; set; }
 
@@ -27,7 +27,7 @@ public class Loot : MonoBehaviour
         }
     }
 
-    public void SetLoot(int loot)
+    public void SetLoot(float loot)
     {
         AmountLoot += loot;
     }

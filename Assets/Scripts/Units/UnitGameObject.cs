@@ -33,7 +33,7 @@ public class UnitGameObject : MonoBehaviour
     public void UpdateHealthText()
     {
         TextMesh text = UnitHealthText.GetComponent<TextMesh>();
-        text.text = UnitGame.CurrentHealth.ToString();
+        text.text = ((int)Mathf.Clamp(UnitGame.CurrentHealth, 1f, UnitGame.MaxHealth)).ToString();
         UnitHealthText.renderer.enabled = (!Tile.IsFowOn() && UnitGame.CurrentHealth < UnitGame.MaxHealth);
     }
 

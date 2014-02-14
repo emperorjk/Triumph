@@ -116,15 +116,19 @@ public class Attack : MonoBehaviour
             UnitGameObject attacker = evt.attacker;
             UnitGameObject defender = evt.defender;
             attacker.UnitGame.UpdateUnitColor();
+            Unit attUnit = attacker.UnitGame;
+            Unit defUnit = defender.UnitGame;
 
-            float attackerDamage = (attacker.UnitGame.Damage * attacker.UnitGame.GetModifier() * attacker.UnitGame.GetBaseModifier(defender.type) * 3 * attacker.UnitGame.GetStrength());
-            float defenderDamage = (defender.UnitGame.Damage * defender.UnitGame.GetModifier() * defender.UnitGame.GetBaseModifier(attacker.type) * 3 * defender.UnitGame.GetStrength());
+            float damageToDefender = attUnit.Damage * attUnit.GetStrength() * attUnit.GetGroundModifier() * attUnit.GetUnitModifier(defender.type);
+            float damageToAttacker = defUnit.Damage * defUnit.GetStrength() * defUnit.GetGroundModifier() * defUnit.GetUnitModifier(attacker.type);
+            damageToDefender = Mathf.Clamp(damageToDefender, 1f, float.MaxValue);
+            damageToAttacker = Mathf.Clamp(damageToAttacker, 1f, float.MaxValue);
 
-            defender.UnitGame.DecreaseHealth((int)Math.Ceiling(attackerDamage));
-            
-            if (defender.UnitGame.AttackRange >= attacker.UnitGame.AttackRange)
+            defUnit.DecreaseHealth(damageToDefender);
+
+            if (defUnit.AttackRange >= attUnit.AttackRange)
             {
-                attacker.UnitGame.DecreaseHealth((int)Math.Ceiling(defenderDamage));
+                attUnit.DecreaseHealth(damageToAttacker);
             }
 
             CheckUnitsHealth(attacker, defender);        

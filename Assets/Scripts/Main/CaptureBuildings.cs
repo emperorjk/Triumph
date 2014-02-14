@@ -56,10 +56,10 @@ public class CaptureBuildings : MonoBehaviour
 
             if (unitOnBuilding != null)
             {
-                int health = unitOnBuilding.UnitGame.CurrentHealth;
+                float health = unitOnBuilding.UnitGame.CurrentHealth;
                 building.IncreaseCapturePointsBy(health);
 
-                unitOnBuilding.UnitGame.DecreaseHealth((int)building.DamageToCapturingUnit);
+                unitOnBuilding.UnitGame.DecreaseHealth(building.DamageToCapturingUnit);
 
                 if (!unitOnBuilding.UnitGame.IsAlive())
                 {

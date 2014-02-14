@@ -15,11 +15,11 @@ public class GameJsonCreator
         int attackRange = jsonUnit["attackRange"].AsInt;
         int moveRange = jsonUnit["moveRange"].AsInt;
         bool canAttackAfterMove = jsonUnit["canAttackAfterMove"].AsBool;
-        int maxHealth = jsonUnit["maxHealth"].AsInt;
+        float maxHealth = jsonUnit["maxHealth"].AsFloat;
         float damage = jsonUnit["damage"].AsFloat;
         int cost = jsonUnit["cost"].AsInt;
         int fowLos = jsonUnit["fowLos"].AsInt;
-        int baseLoot = jsonUnit["baseLoot"].AsInt;
+        float baseLoot = jsonUnit["baseLoot"].AsFloat;
         JSONArray a = jsonUnit["unitModifiers"].AsArray;
 
         Dictionary<UnitTypes, float> modifiers = new Dictionary<UnitTypes, float>();
@@ -44,7 +44,7 @@ public class GameJsonCreator
         JSONNode jsonBuilding = JSON.Parse(jsonString);
 
         int income = jsonBuilding["income"].AsInt;
-        int capturePoints = jsonBuilding["capturePoints"].AsInt;
+        float capturePoints = jsonBuilding["capturePoints"].AsFloat;
         bool canProduce = jsonBuilding["canProduce"].AsBool;
         float damageToCapturingUnit = jsonBuilding["damageToCapturingUnit"].AsFloat;
         int fowLos = jsonBuilding["fowLos"].AsInt;

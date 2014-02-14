@@ -14,5 +14,11 @@ public class Environment
     public EnvironmentGameObject environmentGameObject { get; private set; }
     public bool IsWalkable { get; set; }
     private Dictionary<UnitTypes, float> modifiers { get; set; }
-    public float GetModifier(UnitTypes type) { return modifiers[type]; }
+    /// <summary>
+    /// Returns the environment modifier for the given UnitTypes.
+    /// This method should not be called directly. The Unit class has the method GetGroundModifier() which does some checks and if need be calls this method.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public float GetEnvironmentModifier(UnitTypes type) { return modifiers[type]; }
 }

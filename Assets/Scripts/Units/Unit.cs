@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class Unit {
 
-    public Unit(UnitGameObject game, bool isHero, int attackRange, int moveRange, bool canAttackAfterMove, int maxHealth,
-        float damage, int cost, int fowLos, int baseLoot, Dictionary<UnitTypes, float> modifiers)
+    public Unit(UnitGameObject game, bool isHero, int attackRange, int moveRange, bool canAttackAfterMove, float maxHealth,
+        float damage, int cost, int fowLos, float baseLoot, Dictionary<UnitTypes, float> modifiers)
     {
         this.UnitGameObject = game;
         this.isHero = isHero;
@@ -76,11 +76,11 @@ public class Unit {
         }
     }
     public bool CanAttackAfterMove { get; set; }
-    public int CurrentLoot { get; private set; }
+    public float CurrentLoot { get; private set; }
 
-    public int DeliverLoot()
+    public float DeliverLoot()
     {
-        int amount = 0;
+        float amount = 0;
 
         if(CurrentLoot > BaseLoot)
         {
@@ -90,12 +90,12 @@ public class Unit {
         return amount;
     }
 
-    public void AddLoot(int loot) 
+    public void AddLoot(float loot) 
     { 
         CurrentLoot += loot; 
     }
 
-    public int BaseLoot { get; private set; }
+    public float BaseLoot { get; private set; }
 
     public int FowLineOfSightRange { get; set; }
     public void PlaySound(UnitSoundType soundType)
@@ -103,13 +103,13 @@ public class Unit {
         GameManager.Instance.UnitSounds.PlaySound(UnitGameObject.type, soundType);
     }
     
-    public void DecreaseHealth(int damage) 
+    public void DecreaseHealth(float damage) 
     {
         this.CurrentHealth -= damage;
         this.UnitGameObject.UpdateHealthText();
     }
 
-    public void IncreaseHealth(int recovery)
+    public void IncreaseHealth(float recovery)
     {
         this.CurrentHealth += recovery;
         // If we later have some sort of healing make sure that it cannot go over its initial full health.
@@ -139,28 +139,38 @@ public class Unit {
         UnitGameObject.gameObject.renderer.material.color = hasMoved && hasAttacked ? Color.gray : Color.white;
     }
 
-    public int MaxHealth { get; private set; }
-    public int CurrentHealth { get; private set; }
+    public float MaxHealth { get; private set; }
+    public float CurrentHealth { get; private set; }
     public float Damage { get; private set; }
-    public float GetStrength() { return CurrentHealth / 10f; }
     public int Cost { get; private set; }
-
+    public float GetStrength() { return CurrentHealth / 10f; }
     private Dictionary<UnitTypes, float> modifiers { get; set; }
-    public float GetBaseModifier(UnitTypes type) { return modifiers[type]; }
+    /// <summary>
+    /// Returns how good this unit is against the UnitTypes that is given as a parameter.
+    /// </summary>
+    /// <param name="enemyUnit"></param>
+    /// <returns></returns>
+    public float GetUnitModifier(UnitTypes enemyUnit) { return modifiers[enemyUnit]; }
 
-    public float GetModifier()
+    /// <summary>
+    /// Returns the building or tile modifier the unit is standing on. If there is a building return the building modifier, otherwise return the environment modifier.
+    /// </summary>
+    /// <returns></returns>
+    public float GetGroundModifier()
     {
         if(UnitGameObject.Tile.HasBuilding())
         {
-            if(UnitGameObject.Tile.buildingGameObject.index != UnitGameObject.index)
-            {
-                return 1f;
-            }
-            return UnitGameObject.Tile.buildingGameObject.BuildingGame.GetModifier(UnitGameObject.type);
+            // Removed this because it can help the player. If normally the unit is given a 0.5 modifier when it owns the building, it will now receive a 1.0f modifier
+            // which increases the damage done and thus neglecting the fact that a knight is bad on a castle for example.
+            //if(UnitGameObject.Tile.buildingGameObject.index != UnitGameObject.index)
+           // {
+            //    return 1f;
+           // }
+            return UnitGameObject.Tile.buildingGameObject.BuildingGame.GetBuildingModifier(UnitGameObject.type);
         }
         else
         {
-            return UnitGameObject.Tile.environmentGameObject.environmentGame.GetModifier(UnitGameObject.type);
+            return UnitGameObject.Tile.environmentGameObject.environmentGame.GetEnvironmentModifier(UnitGameObject.type);
         }
     }
 }

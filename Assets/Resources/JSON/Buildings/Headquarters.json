@@ -2,7 +2,7 @@
 	"income" : 100,
 	"capturePoints" : 30,
 	"canProduce" : false,
-	"damageToCapturingUnit" : 1,
+	"damageToCapturingUnit" : 1.5,
 	"fowLos" : 2,
 	"attackRange" : 0,
 	"damage" : 1,

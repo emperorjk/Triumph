@@ -31,7 +31,7 @@ public class BuildingGameObject : MonoBehaviour
     public void UpdateCapturePointsText()
     {
         TextMesh text = CapturePointsText.GetComponent<TextMesh>();
-        text.text = BuildingGame.currentCapturePoints + "/" + BuildingGame.capturePoints;
+        text.text = ((int)BuildingGame.currentCapturePoints) + "/" + ((int)BuildingGame.capturePoints);
         CapturePointsText.renderer.enabled = (!Tile.IsFowOn() && BuildingGame.currentCapturePoints > 0);
     }
 

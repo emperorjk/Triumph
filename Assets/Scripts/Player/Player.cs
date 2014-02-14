@@ -7,7 +7,7 @@ public class Player {
 
     public PlayerIndex index { get; private set; }
     public string name { get; private set; }
-    public int gold { get; private set; }
+    public float gold { get; private set; }
     public IList<Building> ownedBuildings { get; private set; }
     public IList<Unit> ownedUnits { get; private set; }
     public Color PlayerColor { get; private set; }
@@ -37,15 +37,12 @@ public class Player {
 
     public void RemoveUnit(Unit unit)
     {
-        if (ownedUnits.Contains(unit)) 
-        {
-            ownedUnits.Remove(unit); 
-        }
+        if (ownedUnits.Contains(unit)) { ownedUnits.Remove(unit); }
     }
 
-    public void IncreaseGoldBy(int increaseBy) { gold += increaseBy; }
+    public void IncreaseGoldBy(float increaseBy) { gold += increaseBy; }
 
-    public void DecreaseGoldBy(int decreaseBy) { gold -= decreaseBy; }
+    public void DecreaseGoldBy(float decreaseBy) { gold -= decreaseBy; }
     
     /// <summary>
     /// Returns true is you have enough money to buy a unit.

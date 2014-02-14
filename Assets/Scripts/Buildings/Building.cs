@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Building {
 
-    public Building(BuildingGameObject game, int income, int capturePoints, bool canProduce, float damageToCapturingUnit, int fowLos, int attackRange, float damage, Dictionary<UnitTypes, float> modifiers)
+    public Building(BuildingGameObject game, int income, float capturePoints, bool canProduce, float damageToCapturingUnit, int fowLos, int attackRange, float damage, Dictionary<UnitTypes, float> modifiers)
     {
         this.buildingGameObject = game;
         this.income = income;
@@ -19,29 +19,35 @@ public class Building {
     }
     public BuildingGameObject buildingGameObject { get; private set; }
     public int income { get; private set; }
-    public int currentCapturePoints { get; private set; }
+    public float currentCapturePoints { get; private set; }
     public bool CanProduce { get; set; }
     public float DamageToCapturingUnit { get; set; }
     public int FowLineOfSightRange { get; set; }
     private Dictionary<UnitTypes, float> modifiers { get; set; }
-    public float GetModifier(UnitTypes type) { return modifiers[type]; }
-    public int capturePoints { get; private set; }
-    public void IncreaseCapturePointsBy(int increaseBy) 
+    /// <summary>
+    /// Returns the building modifier for the given UnitTypes.
+    /// This method should not be called directly. The Unit class has the method GetGroundModifier() which does some checks and if need be calls this method.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public float GetBuildingModifier(UnitTypes type) { return modifiers[type]; }
+    public float capturePoints { get; private set; }
+    public void IncreaseCapturePointsBy(float increaseBy) 
     { 
         this.currentCapturePoints += increaseBy;
-        if (this.currentCapturePoints >= this.capturePoints) { this.currentCapturePoints = this.capturePoints; }
+        this.currentCapturePoints = Mathf.Clamp(this.currentCapturePoints, 0f, this.capturePoints);
         buildingGameObject.UpdateCapturePointsText();
     }
-    public void DecreaseCapturePointsBy(int decreaseBy) 
+    public void DecreaseCapturePointsBy(float decreaseBy) 
     { 
         this.currentCapturePoints -= decreaseBy;
-        if (this.currentCapturePoints <= 0) { this.currentCapturePoints = 0; }
+        this.currentCapturePoints = Mathf.Clamp(this.currentCapturePoints, 0f, this.capturePoints);
         buildingGameObject.UpdateCapturePointsText();
     }
     public bool HasCaptured() { return currentCapturePoints >= capturePoints; }
     public void resetCurrentCapturePoints() 
     { 
-        this.currentCapturePoints = 0;
+        this.currentCapturePoints = 0f;
         buildingGameObject.UpdateCapturePointsText();
     }
 
