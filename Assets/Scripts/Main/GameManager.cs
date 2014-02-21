@@ -31,15 +31,15 @@ public class GameManager
     public SortedList<PlayerIndex, Player> Players { get; private set; }
     public ProductionOverlayMain ProductionOverlayMain { get; set; }
     public CaptureBuildings CaptureBuildings { get; set; }
-    public FogOfWar Fow { get; set; }
+    public DayStateController DayStateController { get; set; }
     public AudioManager UnitSounds { get; set; }
     public Highlight Highlight { get; set; }
     public Attack Attack { get; set; }
     public Movement Movement { get; set; }
     public AnimationInfo AnimInfo { get; set; }
+    public LevelManager LevelManager { get; set; }
 
     // Variables
-    public int CurrentTurn { get; private set; }
     public bool IsDoneButtonActive { get; set; }
 
     private void InitPlayer()
@@ -50,21 +50,23 @@ public class GameManager
         Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue, Color.blue));
         Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red, Color.red));
         CurrentPlayer = Players[PlayerIndex.Blue];
+        LevelManager = new LevelManager();
+
+        // Must be here for testing. If this is removed you cannot run the level1 instantly, you will need to go through the menu otherwise.
+        // Place the correct level parameter here when testing.
+        LevelManager.LoadLevel(LevelsEnum.Level1);
     }
 
     public void Init()
     {
-        CurrentTurn = 1;
-        
         GameObject scriptsGameObject = GameObject.Find("_Scripts");
         ProductionOverlayMain = scriptsGameObject.GetComponent<ProductionOverlayMain>();
         Movement = scriptsGameObject.GetComponent<Movement>();
         AnimInfo = scriptsGameObject.GetComponent<AnimationInfo>();
         CaptureBuildings = scriptsGameObject.GetComponent<CaptureBuildings>();
-        Fow = scriptsGameObject.GetComponent<FogOfWar>();
+        DayStateController = scriptsGameObject.GetComponent<DayStateController>();
         Highlight = scriptsGameObject.GetComponent<Highlight>();
         Attack = scriptsGameObject.GetComponent<Attack>();
-
         UnitSounds = new AudioManager();
     }
 
@@ -94,9 +96,8 @@ public class GameManager
                 l.IncreaseTurn();
             }
 
-            CurrentTurn++;
-            // Needs to be called after the CurrentTurn has increase in the UpdateTextBoxes() method. 
-            Fow.ShowOrHideFowPlayer();
+            //Fow.ShowOrHideFowPlayer();
+            DayStateController.TurnIncrease();
         }
     }
 
@@ -107,8 +108,6 @@ public class GameManager
     /// </summary>
     public void OnGameloopDestroy()
     {
-        CurrentTurn = 1;
-        
         TileHelper.ClearTilesDictionary();
         // Clear all stuff from the player and reinitialize the player tile and player objects by calling the InitPlayer() method.
         foreach (Player pl in Players.Select(x => x.Value))
@@ -123,9 +122,10 @@ public class GameManager
         Movement = null;
         AnimInfo = null;
         CaptureBuildings = null;
-        Fow = null;
+        DayStateController = null;
         Highlight = null;
         Attack = null;
         UnitSounds = null;
+        LevelManager = null;
     }
 }

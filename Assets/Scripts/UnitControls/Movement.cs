@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
         if (GetTimePassed() >= 1f)
         {
             // Show fow for the unit.
-            GameManager.Instance.Fow.ShowFowWithinLineOfSight(unitMoving.index);
+            GameManager.Instance.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
             // Remove the references from the old tile.
             unitMoving.Tile.unitGameObject = null;
             unitMoving.Tile = null;
@@ -43,7 +43,7 @@ public class Movement : MonoBehaviour
             unitMoving.transform.parent = newPosition.transform;
             unitMoving.transform.position = newPosition.transform.position;
             // Hide the fow for the unit. It will use the new tile location.
-            GameManager.Instance.Fow.HideFowWithinLineOfSight(unitMoving.index);
+            GameManager.Instance.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
             StartTimeMoving = Time.time;
         }
 

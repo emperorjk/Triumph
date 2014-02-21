@@ -104,6 +104,10 @@ public class GameLoop : MonoBehaviour
                 else if(touch.phase == TouchPhase.Moved && isSwipeHappening)
                 {
                     Vector2 delta = touch.position - SwipingVector;
+                    Debug.Log("----------");
+                    Debug.Log("Swipe Delta: " + delta);
+                    Debug.Log("Swipe Deltamag: " + delta.magnitude);
+                    Debug.Log("----------");
                     if (delta.magnitude > minSwipeDistance && Mathf.Abs(delta.x) < swipeVariance)
                     {
                         if(delta.y < 0)

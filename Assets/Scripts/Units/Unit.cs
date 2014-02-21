@@ -51,7 +51,7 @@ public class Unit {
     {
         get
         {
-            return GameManager.Instance.Fow.isFowActive ? 1 : _AttackRange;
+            return GameManager.Instance.DayStateController.isFowActive ? 1 : _AttackRange;
         }
         private set { _AttackRange = value; }
     }
@@ -61,7 +61,7 @@ public class Unit {
     {
         get
         {
-            return GameManager.Instance.Fow.isFowActive ? Mathf.Clamp(_MoveRange - 1, 1, int.MaxValue) : _MoveRange;
+            return GameManager.Instance.DayStateController.isFowActive ? Mathf.Clamp(_MoveRange - 1, 1, int.MaxValue) : _MoveRange;
         }
         private set { _MoveRange = value; }
     }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class LevelScreen : MonoBehaviour 
 {
@@ -41,6 +42,14 @@ public class LevelScreen : MonoBehaviour
     void LoadLevel(string name)
     {
         GameObject.Find("Level").GetComponents<AudioSource>()[0].Play();
-        Application.LoadLevel(name);
+
+        foreach (LevelsEnum level in (LevelsEnum[])Enum.GetValues(typeof(LevelsEnum)))
+        {
+            if(level.ToString() == name)
+            {
+                GameManager.Instance.LevelManager.LoadLevel(level);
+                break;
+            }
+        }
     }
 }

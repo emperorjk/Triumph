@@ -5,18 +5,78 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 
-public class FogOfWar : MonoBehaviour
+public class DayStateController : MonoBehaviour
 {
+    public DayStates CurrentDayState { get; private set; }
+
     /// <summary>
     /// Returns true is the fow is shown, e.g. it is active. False otherwise.
     /// </summary>
     public bool isFowActive { get; private set; }
+    private int DayTurnCounter = 1;
+
     private GameManager _manager;
 
-    public FogOfWar()
+    public DayStateController()
     {
         _manager = GameManager.Instance;
         isFowActive = false;
+        CurrentDayState = DayStates.Morning;
+    }
+
+    public void TurnIncrease()
+    {
+        DayTurnCounter++;
+        bool ended = DayTurnCounter > _manager.LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
+        if(ended)
+        {
+            Debug.Log("Previous daystate: " + CurrentDayState);
+            int newNumber = (int)CurrentDayState + 1;
+            int highest = 0;
+            foreach (DayStates day in (DayStates[])Enum.GetValues(typeof(DayStates)))
+            {
+                int n = (int)day;
+                
+                if(n > highest) { highest = n; }
+
+                if (newNumber > highest)
+                {
+                    CurrentDayState = DayStates.Morning;
+                    DayTurnCounter = 1;
+                }
+                else if(n == newNumber)
+                {
+                    CurrentDayState = day;              
+                    DayTurnCounter = 1;
+                }
+            }
+            Debug.Log("New daystate: " + CurrentDayState);
+        }
+    }
+
+    /// <summary>
+    /// Returns wether or not the current turn is a day or night time.
+    /// </summary>
+    /// <returns>Returns true if it is day time and false if it is night time.</returns>
+    private bool GetIsDay()
+    {
+        return true;
+        // Disabled because the day and night states have been implemented.
+        // Will change this later.
+        /*
+        bool result = false;
+        int number = _manager.CurrentTurn % 5;
+        if (number >= 1 && number <= 3)
+        {
+            result = true;
+        }
+        else if (number == 0 || number == 4)
+        {
+            result = false;
+        }
+
+        return result;
+         * */
     }
 
     public void HideFowWithinLineOfSight(PlayerIndex index)
@@ -113,26 +173,6 @@ public class FogOfWar : MonoBehaviour
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Returns wether or not the current turn is a day or night time.
-    /// </summary>
-    /// <returns>Returns true if it is day time and false if it is night time.</returns>
-    private bool GetIsDay()
-    {
-        bool result = false;
-        int number = _manager.CurrentTurn % 5;
-        if (number >= 1 && number <= 3)
-        {
-            result = true;
-        }
-        else if (number == 0 || number == 4)
-        {
-            result = false;
-        }
-
-        return result;
     }
 
     /// <summary>
