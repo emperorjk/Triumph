@@ -9,7 +9,8 @@ public class GameJsonCreator
 {
     public static Unit CreateUnit(UnitGameObject ug, bool isHero, UnitTypes type)
     {
-        string jsonString = Resources.Load<TextAsset>("JSON/Units/" + type.ToString()).text;
+        string unitType = isHero ? type.ToString() + "Hero" : type.ToString();
+        string jsonString = Resources.Load<TextAsset>("JSON/Units/" + unitType).text;
         JSONNode jsonUnit = JSON.Parse(jsonString);
 
         int attackRange = jsonUnit["attackRange"].AsInt;

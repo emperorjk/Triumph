@@ -1,0 +1,15 @@
+{
+	"attackRange" : 1,
+	"moveRange" : 2,
+	"canAttackAfterMove" : true,
+	"maxHealth" : 20,
+	"damage" : 2.0,
+	"cost" : 150,
+	"fowLos" : 1,
+	"baseLoot" : 10,
+	"unitModifiers" :[
+		{ "Archer" : 1.7 },
+		{ "Knight" : 1.5 },
+		{ "Swordsman" : 1}
+	]
+}
