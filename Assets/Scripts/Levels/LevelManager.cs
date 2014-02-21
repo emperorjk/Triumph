@@ -5,7 +5,7 @@ using System.Linq;
 using System.Collections;
 using SimpleJSON;
 
-public class LevelManager
+public class LevelManager : MonoBehaviour
 {
     public Level CurrentLevel { get; private set; }
 

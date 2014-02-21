@@ -26,6 +26,7 @@ public class GameManager
     #endregion
 
     // Objects
+    public GameObject GlobalScripts { get; set; }
     public Dictionary<int, Dictionary<int, Tile>> Tiles { get; private set; }
     public Player CurrentPlayer { get; private set; }
     public SortedList<PlayerIndex, Player> Players { get; private set; }
@@ -50,11 +51,6 @@ public class GameManager
         Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue, Color.blue));
         Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red, Color.red));
         CurrentPlayer = Players[PlayerIndex.Blue];
-        LevelManager = new LevelManager();
-
-        // Must be here for testing. If this is removed you cannot run the level1 instantly, you will need to go through the menu otherwise.
-        // Place the correct level parameter here when testing.
-        LevelManager.LoadLevel(LevelsEnum.Level1);
     }
 
     public void Init()
@@ -68,6 +64,7 @@ public class GameManager
         Highlight = scriptsGameObject.GetComponent<Highlight>();
         Attack = scriptsGameObject.GetComponent<Attack>();
         UnitSounds = new AudioManager();
+        LevelManager = GlobalScripts.GetComponent<LevelManager>();
     }
 
     public void EndTurn()

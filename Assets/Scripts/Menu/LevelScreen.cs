@@ -47,7 +47,7 @@ public class LevelScreen : MonoBehaviour
         {
             if(level.ToString() == name)
             {
-                GameManager.Instance.LevelManager.LoadLevel(level);
+                GameObject.Find("_GlobalScripts").GetComponent<LevelManager>().LoadLevel(level);
                 break;
             }
         }

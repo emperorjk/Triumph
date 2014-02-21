@@ -32,6 +32,11 @@ public class GameLoop : MonoBehaviour
             AudioManager.MuteAudio(test);
             test = !test;
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            _manager.LevelManager.LoadLevel(LevelsEnum.Menu);
+        }
     }
 
     void OnDestroy()

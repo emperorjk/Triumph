@@ -27,10 +27,11 @@ public class DayStateController : MonoBehaviour
     public void TurnIncrease()
     {
         DayTurnCounter++;
-        bool ended = DayTurnCounter > _manager.LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
+        int turnsNeeded = _manager.LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
+        bool ended = DayTurnCounter > turnsNeeded;
+        
         if(ended)
         {
-            Debug.Log("Previous daystate: " + CurrentDayState);
             int newNumber = (int)CurrentDayState + 1;
             int highest = 0;
             foreach (DayStates day in (DayStates[])Enum.GetValues(typeof(DayStates)))
@@ -50,7 +51,7 @@ public class DayStateController : MonoBehaviour
                     DayTurnCounter = 1;
                 }
             }
-            Debug.Log("New daystate: " + CurrentDayState);
+            Notificator.Notify(CurrentDayState.ToString() + " has arrived", 1.7f);
         }
     }
 
