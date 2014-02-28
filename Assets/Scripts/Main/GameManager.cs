@@ -92,9 +92,10 @@ public class GameManager
             {
                 l.IncreaseTurn();
             }
-
-            //Fow.ShowOrHideFowPlayer();
+            
+            // Must be called last and in this order.
             DayStateController.TurnIncrease();
+            DayStateController.ShowOrHideFowPlayer();
         }
     }
 

@@ -9,7 +9,11 @@ public class DayStateController : MonoBehaviour
 {
     public DayStates CurrentDayState { get; private set; }
 
-    /// <summary>
+    private float speed = 0.5f;
+    private float StartTime;
+    private Light light;
+
+    /// <summary>s
     /// Returns true is the fow is shown, e.g. it is active. False otherwise.
     /// </summary>
     public bool isFowActive { get; private set; }
@@ -17,11 +21,14 @@ public class DayStateController : MonoBehaviour
 
     private GameManager _manager;
 
-    public DayStateController()
+    void Start()
     {
+        light = GameObject.Find("Light").GetComponent<Light>();
         _manager = GameManager.Instance;
         isFowActive = false;
         CurrentDayState = DayStates.Morning;
+        // Start a fade into the CurrentDayState. This is done because the intensity of the light prefab may differ from the values set below.
+        StartTime = Time.time;
     }
 
     public void TurnIncrease()
@@ -51,33 +58,56 @@ public class DayStateController : MonoBehaviour
                     DayTurnCounter = 1;
                 }
             }
+            StartTime = Time.time;
             Notificator.Notify(CurrentDayState.ToString() + " has arrived", 1.7f);
         }
     }
 
     /// <summary>
-    /// Returns wether or not the current turn is a day or night time.
+    /// Gets the intensity level for the light. Change these values to make the world lighter or darker. 
+    /// This is not the best piece of code yet creating a dictionary or something is waste of memory.
     /// </summary>
-    /// <returns>Returns true if it is day time and false if it is night time.</returns>
-    private bool GetIsDay()
+    /// <returns>The intensity level for the CurrentDayState</returns>
+    private float GetIntensityLightForCurrentDayState()
     {
-        return true;
-        // Disabled because the day and night states have been implemented.
-        // Will change this later.
-        /*
-        bool result = false;
-        int number = _manager.CurrentTurn % 5;
-        if (number >= 1 && number <= 3)
+        if (CurrentDayState == DayStates.Morning)
         {
-            result = true;
+            return 3.8f;
         }
-        else if (number == 0 || number == 4)
+        else if (CurrentDayState == DayStates.Midday)
         {
-            result = false;
+            return 5f;
         }
+        else if (CurrentDayState == DayStates.Evening)
+        {
+            return 2.7f;
+        }
+        else if (CurrentDayState == DayStates.Night)
+        {
+            return 1.4f;
+        }
+        else
+        {
+            return 5f;
+        }
+    }
 
-        return result;
-         * */
+    private float GetTimePassed()
+    {
+        return (Time.time - StartTime) / speed;
+    }
+
+    void Update()
+    {
+        if(StartTime > 0f)
+        {
+            float intensity = GetIntensityLightForCurrentDayState();
+            light.intensity = Mathf.Lerp(light.intensity, intensity, GetTimePassed());
+            if(GetTimePassed() >= 1f)
+            {
+                StartTime = 0f;
+            }
+        }
     }
 
     public void HideFowWithinLineOfSight(PlayerIndex index)
@@ -138,12 +168,11 @@ public class DayStateController : MonoBehaviour
     /// </summary>
     public void ShowOrHideFowPlayer()
     {
-        bool isDay = GetIsDay();
+        bool isDay = CurrentDayState != DayStates.Night;
 
         if (!isDay)
         {
             ShowOrHideFow(true);
-
             CheckLineForAllObjects(_manager.CurrentPlayer.index, false);
        }
         else if (isFowActive && isDay)
