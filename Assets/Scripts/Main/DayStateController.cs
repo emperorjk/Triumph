@@ -11,7 +11,8 @@ public class DayStateController : MonoBehaviour
 
     private float speed = 0.5f;
     private float StartTime;
-    private Light light;
+    private Light lightFront;
+    private Light lightBack;
 
     /// <summary>s
     /// Returns true is the fow is shown, e.g. it is active. False otherwise.
@@ -23,7 +24,9 @@ public class DayStateController : MonoBehaviour
 
     void Start()
     {
-        light = GameObject.Find("Light").GetComponent<Light>();
+        lightFront = GameObject.Find("LightFront").GetComponent<Light>();
+        lightBack = GameObject.Find("LightBack").GetComponent<Light>();
+
         _manager = GameManager.Instance;
         isFowActive = false;
         CurrentDayState = DayStates.Morning;
@@ -101,8 +104,8 @@ public class DayStateController : MonoBehaviour
     {
         if(StartTime > 0f)
         {
-            float intensity = GetIntensityLightForCurrentDayState();
-            light.intensity = Mathf.Lerp(light.intensity, intensity, GetTimePassed());
+            float intensity = Mathf.Lerp(lightFront.intensity, GetIntensityLightForCurrentDayState(), GetTimePassed());
+            lightFront.intensity = lightBack.intensity = intensity;
             if(GetTimePassed() >= 1f)
             {
                 StartTime = 0f;
