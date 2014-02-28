@@ -8,22 +8,15 @@ using UnityEngine;
 public class CaptureBuildings : MonoBehaviour
 {
     public List<Building> BuildingsBeingCaptured { get; private set; }
-    private List<Building> buildingsToBeRemoved;
-    /// <summary>
-    /// Decrease the capture per turn if the building no longer has a unit on it. This can be placed in the UnitBase if certain buildings decrease faster than other buildings.
-    /// </summary>
-    private int decreaseCapturePointsBy = 2;
 
     void Awake ()
     {
         BuildingsBeingCaptured = new List<Building>();
-        buildingsToBeRemoved = new List<Building>();
     }
 
     void OnDestroy()
     {
-        buildingsToBeRemoved.Clear();
-        buildingsToBeRemoved.Clear();
+        BuildingsBeingCaptured.Clear();
     }
 
     /// <summary>
@@ -48,14 +41,13 @@ public class CaptureBuildings : MonoBehaviour
     /// </summary>
     public void CalculateCapturing()
     {
-        for (int i = 0; i < BuildingsBeingCaptured.Count; i++)
+        int count = BuildingsBeingCaptured.Count;
+        for (int i = 0; i < count; i++)
         {
             Building building = BuildingsBeingCaptured[i];
-
-            UnitGameObject unitOnBuilding = building.buildingGameObject.Tile.unitGameObject;
-
-            if (unitOnBuilding != null)
+            if (building.buildingGameObject.Tile.HasUnit())
             {
+                UnitGameObject unitOnBuilding = building.buildingGameObject.Tile.unitGameObject;
                 float health = unitOnBuilding.UnitGame.CurrentHealth;
                 building.IncreaseCapturePointsBy(health);
 
@@ -70,10 +62,15 @@ public class CaptureBuildings : MonoBehaviour
                 {
                     if (building.buildingGameObject.type != BuildingTypes.Headquarters)
                     {
-                        buildingsToBeRemoved.Add(building);
+                        BuildingTypes type = building.buildingGameObject.type;
+
+                        BuildingsBeingCaptured.Remove(building);
+                        count--;
+                        i--;
                         building.buildingGameObject.DestroyBuilding();
-                        BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile, unitOnBuilding.index, building.buildingGameObject.type);
-                        if (newBuilding.type == BuildingTypes.TrainingZone)
+
+                        BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile, unitOnBuilding.index, type);
+                        if (type == BuildingTypes.TrainingZone)
                         {
                             OnTrainingzoneCapturedHero(unitOnBuilding);
                         }
@@ -91,21 +88,16 @@ public class CaptureBuildings : MonoBehaviour
             }
             else
             {
-                // there is no longer a unit on the tile / building. Slowly decrease the capture points each turn.
-                building.DecreaseCapturePointsBy(decreaseCapturePointsBy);
-                if (building.currentCapturePoints <= 0)
+                building.DecreaseCapturePointsBy(building.CapturePointsDecreasedBy);
+                if (building.currentCapturePoints <= 0f)
                 {
-                    buildingsToBeRemoved.Add(building);
+                    BuildingsBeingCaptured.Remove(building);
+                    count--;
+                    i--;
                 }
             }
         }
-        foreach (Building item in buildingsToBeRemoved) 
-        {
-            BuildingsBeingCaptured.Remove(item); 
-        }
-        buildingsToBeRemoved.Clear();
     }
-
 
     /// <summary>
     /// When a unit captured an trainingzone, train him to his hero form.
@@ -118,11 +110,7 @@ public class CaptureBuildings : MonoBehaviour
             Tile tiletoSpawn = unitToHero.Tile;
             PlayerIndex index = unitToHero.index;
             UnitTypes type = unitToHero.type;
-
-            // TODO: either here in code or in the prefab, depending on how we want to implement certain conversions apply the buffs to the hero.
-            // The damage and range can go in prefab. But how about health? Does the hero gain full health or depending on the normal units health.
             unitToHero.DestroyUnit();
-            //UnitGameObject hero = CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
             CreatorFactoryUnit.CreateHeroUnit(tiletoSpawn, index, type);
         }
     }

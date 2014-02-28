@@ -11,7 +11,7 @@ public class Movement : MonoBehaviour
     public List<Node> nodeList;
 
     private CompareNodes compare = new CompareNodes();
-    private float movingDuration = 1f;
+    private float movingDuration = 0.65f;
 
     void Update()
     {
@@ -55,10 +55,10 @@ public class Movement : MonoBehaviour
             if (endDestinationTile.HasLoot())
             {
                 endDestinationTile.Loot.PickUpLoot(GameManager.Instance.CurrentPlayer);
-            } 
-           
+            }
+
             if (endDestinationTile.HasBuilding())
-            {
+            {   
                 GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.BuildingGame);
             }
 

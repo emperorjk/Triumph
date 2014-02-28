@@ -3,6 +3,7 @@
 	"capturePoints" : 20,
 	"canProduce" : false,
 	"damageToCapturingUnit" : 1,
+	"capturepointsDecreaseBy" : 5,
 	"fowLos" : 1,
 	"attackRange" : 0,
 	"damage" : 1,

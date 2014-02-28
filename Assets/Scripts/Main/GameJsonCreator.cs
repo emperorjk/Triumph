@@ -48,6 +48,7 @@ public class GameJsonCreator
         float capturePoints = jsonBuilding["capturePoints"].AsFloat;
         bool canProduce = jsonBuilding["canProduce"].AsBool;
         float damageToCapturingUnit = jsonBuilding["damageToCapturingUnit"].AsFloat;
+        float capturepointsDecreaseBy = jsonBuilding["capturepointsDecreaseBy"].AsFloat;
         int fowLos = jsonBuilding["fowLos"].AsInt;
         int attackRange = jsonBuilding["attackRange"].AsInt;
         float damage = jsonBuilding["damage"].AsFloat;
@@ -66,7 +67,7 @@ public class GameJsonCreator
             }
         }
 
-        return new Building(bg, income, capturePoints, canProduce, damageToCapturingUnit, fowLos, attackRange, damage, modifiers);
+        return new Building(bg, income, capturePoints, canProduce, damageToCapturingUnit, capturepointsDecreaseBy, fowLos, attackRange, damage, modifiers);
     }
 
     public static Environment CreateEnvironment(EnvironmentGameObject eg, EnvironmentTypes type)

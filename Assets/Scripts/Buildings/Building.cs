@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Building {
 
-    public Building(BuildingGameObject game, int income, float capturePoints, bool canProduce, float damageToCapturingUnit, int fowLos, int attackRange, float damage, Dictionary<UnitTypes, float> modifiers)
+    public Building(BuildingGameObject game, int income, float capturePoints, bool canProduce, float damageToCapturingUnit, float CapturePointsDecreasedBy, int fowLos, int attackRange, float damage, Dictionary<UnitTypes, float> modifiers)
     {
         this.buildingGameObject = game;
         this.income = income;
@@ -12,6 +12,7 @@ public class Building {
         this.currentCapturePoints = 0;
         this.CanProduce = canProduce;
         this.DamageToCapturingUnit = damageToCapturingUnit;
+        this.CapturePointsDecreasedBy = CapturePointsDecreasedBy;
         this.FowLineOfSightRange = fowLos;
         this.attackRange = attackRange;
         this.damage = damage;
@@ -21,7 +22,8 @@ public class Building {
     public int income { get; private set; }
     public float currentCapturePoints { get; private set; }
     public bool CanProduce { get; set; }
-    public float DamageToCapturingUnit { get; set; }
+    public float DamageToCapturingUnit { get; private set; }
+    public float CapturePointsDecreasedBy { get; private set; }
     public int FowLineOfSightRange { get; set; }
     private Dictionary<UnitTypes, float> modifiers { get; set; }
     /// <summary>
