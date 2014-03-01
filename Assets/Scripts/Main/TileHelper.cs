@@ -145,4 +145,60 @@ public class TileHelper
         }
         return possibleLocations;
     }
+    
+    /// <summary>
+    /// Returns all of the tiles that are withing the players LOS. So if a unit or building has vision on a tile it returns it.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public static List<Tile> GetAllTilesWithPlayerLOS(PlayerIndex index)
+    {
+        List<Tile> tileInLOSRange = new List<Tile>();
+        Player player = _manager.Players[index];
+
+        foreach (Unit unit in player.ownedUnits)
+        {
+            tileInLOSRange.Add(unit.UnitGameObject.Tile);
+            Dictionary<int, Dictionary<int, Tile>> tilesInRange = TileHelper.GetAllTilesWithinRange(unit.UnitGameObject.Tile.Coordinate, unit.FowLineOfSightRange);
+            foreach (KeyValuePair<int, Dictionary<int, Tile>> item in tilesInRange)
+            {
+                foreach (KeyValuePair<int, Tile> tileValue in item.Value)
+                {
+                    if (!tileInLOSRange.Contains(tileValue.Value))
+                    {
+                        tileInLOSRange.Add(tileValue.Value);
+                    }
+                }
+            }
+        }
+        foreach (Building building in player.ownedBuildings)
+        {
+            tileInLOSRange.Add(building.buildingGameObject.Tile);
+            Dictionary<int, Dictionary<int, Tile>> tilesInRange = TileHelper.GetAllTilesWithinRange(building.buildingGameObject.Tile.Coordinate, building.FowLineOfSightRange);
+            foreach (KeyValuePair<int, Dictionary<int, Tile>> item in tilesInRange)
+            {
+                foreach (KeyValuePair<int, Tile> tileValue in item.Value)
+                {
+                    if (!tileInLOSRange.Contains(tileValue.Value))
+                    {
+                        tileInLOSRange.Add(tileValue.Value);
+                    }
+                }
+            }
+        }
+        return tileInLOSRange;
+    }
+
+    public static List<Tile> GetAllTilesInListType()
+    {
+        List<Tile> allTiles = new List<Tile>();
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in _manager.Tiles)
+        {
+            foreach (KeyValuePair<int, Tile> tileValue in item.Value)
+            {
+                allTiles.Add(tileValue.Value);
+            }
+        }
+        return allTiles;
+    }
 }

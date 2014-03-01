@@ -40,6 +40,7 @@ public class Tile : MonoBehaviour
     public BuildingGameObject buildingGameObject;
     public UnitGameObject unitGameObject;
     public GameObject FogOfWar { get; private set; }
+    public bool IsFogShown { get; set; }
     public HighlightObject highlight { get; private set; }
     public TileCoordinates Coordinate { get; private set; }
     public Vector2 Vector2 { get; set; }
@@ -50,16 +51,20 @@ public class Tile : MonoBehaviour
         Coordinate = new TileCoordinates(ColumnId, RowId);
         Vector2 = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         TileHelper.AddTile(this);
-
+        IsFogShown = false;
         InitHighlights();
     }
 
     private void InitHighlights()
     {
         FogOfWar = (GameObject)GameObject.Instantiate(Resources.Load(FileLocations.fogOfWar));
-        FogOfWar.renderer.enabled = false;
         FogOfWar.transform.position = this.transform.position;
         FogOfWar.transform.parent = this.transform;
+        // Set the alpha channel to 0f (transparent)
+        float r = FogOfWar.renderer.material.color.r;
+        float g = FogOfWar.renderer.material.color.g;
+        float b = FogOfWar.renderer.material.color.b;
+        FogOfWar.renderer.material.color = new Color(r, g, b, 0f);
 
         GameObject highlight = ((GameObject)GameObject.Instantiate(Resources.Load(FileLocations.highlight)));
         highlight.transform.parent = this.transform;
@@ -81,10 +86,5 @@ public class Tile : MonoBehaviour
     public bool HasLoot()
     {
         return Loot != null;
-    }
-
-    public bool IsFowOn()
-    {
-        return FogOfWar.renderer.enabled;
     }
 }

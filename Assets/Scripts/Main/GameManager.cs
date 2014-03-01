@@ -93,9 +93,7 @@ public class GameManager
                 l.IncreaseTurn();
             }
             
-            // Must be called last and in this order.
             DayStateController.TurnIncrease();
-            DayStateController.ShowOrHideFowPlayer();
         }
     }
 

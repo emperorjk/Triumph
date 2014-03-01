@@ -33,7 +33,7 @@ public class Attack : MonoBehaviour
                 if (tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index)
                 {
                     // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
-                    if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFowOn())
+                    if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
                     {
                         tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
                         GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);
@@ -42,7 +42,7 @@ public class Attack : MonoBehaviour
                     {
                         List<Node> path = GameManager.Instance.Movement.CalculateShortestPath(unit.Tile, tile.Value, true);
 
-                        if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFowOn())
+                        if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
                         {
                             tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
                             GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);  

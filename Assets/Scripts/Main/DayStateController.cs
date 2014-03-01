@@ -5,6 +5,13 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 
+public struct fading
+{
+    public float from;
+    public float to;
+    public Tile t;
+}
+
 public class DayStateController : MonoBehaviour
 {
     public DayStates CurrentDayState { get; private set; }
@@ -14,10 +21,14 @@ public class DayStateController : MonoBehaviour
     private Light lightFront;
     private Light lightBack;
 
+    private List<fading> tiles;
+    private float StartTimeFading;
+
     /// <summary>s
     /// Returns true is the fow is shown, e.g. it is active. False otherwise.
     /// </summary>
     public bool isFowActive { get; private set; }
+    private bool lastIsFowActive;
     private int DayTurnCounter = 1;
 
     private GameManager _manager;
@@ -28,10 +39,56 @@ public class DayStateController : MonoBehaviour
         lightBack = GameObject.Find("LightBack").GetComponent<Light>();
 
         _manager = GameManager.Instance;
-        isFowActive = false;
+        isFowActive = lastIsFowActive = false;
         CurrentDayState = DayStates.Morning;
         // Start a fade into the CurrentDayState. This is done because the intensity of the light prefab may differ from the values set below.
         StartTime = Time.time;
+        tiles = new List<fading>();
+    }
+
+    void Update()
+    {
+        if (StartTime > 0f)
+        {
+            float intensity = Mathf.Lerp(lightFront.intensity, GetIntensityLightForCurrentDayState(), GetTimePassed(StartTime));
+            lightFront.intensity = lightBack.intensity = intensity;
+            if (GetTimePassed(StartTime) >= 1f)
+            {
+                StartTime = 0f;
+            }
+        }
+
+        if (StartTimeFading > 0f)
+        {
+            foreach (fading item in tiles)
+            {
+                float r = item.t.FogOfWar.renderer.material.color.r;
+                float g = item.t.FogOfWar.renderer.material.color.g;
+                float b = item.t.FogOfWar.renderer.material.color.b;
+                float a = Mathf.Lerp(item.from, item.to, GetTimePassed(StartTimeFading));
+                item.t.FogOfWar.renderer.material.color = new Color(r, g, b, a);
+
+                if (GetTimePassed(StartTimeFading) >= 1f)
+                {
+                    StartTimeFading = 0f;
+                    UpdateTextForAllTiles();
+                }
+            }
+            if (StartTimeFading <= 0f)
+            {
+                tiles.Clear();
+            }
+        }
+    }
+    private void AddToFading(Tile t, float from, float to)
+    {
+        fading f = new fading();
+        f.from = from;
+        f.to = to;
+        f.t = t;
+
+        tiles.Add(f);
+        StartTimeFading = Time.time;
     }
 
     public void TurnIncrease()
@@ -62,8 +119,15 @@ public class DayStateController : MonoBehaviour
                 }
             }
             StartTime = Time.time;
-            Notificator.Notify(CurrentDayState.ToString() + " has arrived", 1.7f);
+            Notificator.Notify(CurrentDayState.ToString() + " has arrived", 1.5f);
         }
+        else
+        {
+            int turnsRemaining = (turnsNeeded - DayTurnCounter) +1;
+            Notificator.Notify(turnsRemaining + " turns remaining before new daystate!", 1.1f);
+        }
+
+        TurnFOW();
     }
 
     /// <summary>
@@ -73,45 +137,98 @@ public class DayStateController : MonoBehaviour
     /// <returns>The intensity level for the CurrentDayState</returns>
     private float GetIntensityLightForCurrentDayState()
     {
-        if (CurrentDayState == DayStates.Morning)
+        switch (CurrentDayState)
         {
-            return 3.8f;
-        }
-        else if (CurrentDayState == DayStates.Midday)
-        {
-            return 5f;
-        }
-        else if (CurrentDayState == DayStates.Evening)
-        {
-            return 2.7f;
-        }
-        else if (CurrentDayState == DayStates.Night)
-        {
-            return 1.4f;
-        }
-        else
-        {
-            return 5f;
+            case DayStates.Morning:
+                return 3.8f;
+            case DayStates.Midday:
+                return 5f;
+            case DayStates.Evening:
+                return 2.7f;
+            case DayStates.Night:
+                return 1.4f;
+            default:
+                return 5f;
         }
     }
 
-    private float GetTimePassed()
+    private float GetTimePassed(float t)
     {
-        return (Time.time - StartTime) / speed;
+        return (Time.time - t) / speed;
     }
 
-    void Update()
+    private void TurnFOW()
     {
-        if(StartTime > 0f)
+        isFowActive = CurrentDayState == DayStates.Night;
+        // If the last turn the fog was not active and it has now switched to active then loop through all tiles, 
+        // if a tile does not exist in the view range of any friendly los than fade it dark. Ignore the rest.
+        if (!lastIsFowActive && isFowActive)
         {
-            float intensity = Mathf.Lerp(lightFront.intensity, GetIntensityLightForCurrentDayState(), GetTimePassed());
-            lightFront.intensity = lightBack.intensity = intensity;
-            if(GetTimePassed() >= 1f)
+            List<Tile> allTiles = TileHelper.GetAllTilesInListType();
+            List<Tile> tileInLOSRange = TileHelper.GetAllTilesWithPlayerLOS(_manager.CurrentPlayer.index);
+
+            foreach (Tile tile in allTiles)
             {
-                StartTime = 0f;
+                if (!tileInLOSRange.Contains(tile))
+                {
+                    tile.IsFogShown = true;
+                    AddToFading(tile, 0f, 1f);
+                }
+            }
+        }
+            // If the last and current turn are active fog then check if the fog is already shown, ifso then ignore else fade to dark.
+            // Then 
+        else if (lastIsFowActive && isFowActive)
+        {
+            foreach (Tile tile in TileHelper.GetAllTilesInListType())
+            {
+                if (!tile.IsFogShown)
+                {
+                    tile.IsFogShown = true;
+                    AddToFading(tile, 0f, 1f);
+                }
+            }
+            foreach (Tile tile in TileHelper.GetAllTilesWithPlayerLOS(_manager.CurrentPlayer.index))
+            {
+                tile.IsFogShown = false;
+                AddToFading(tile, 1f, 0f);
+            }
+        }
+            // If the last turn was active and the current is not. Then fade all of the fog to light if it was previously active.
+        else if(lastIsFowActive && !isFowActive)
+        {
+            foreach (Tile tile in TileHelper.GetAllTilesInListType())
+            {
+                if (tile.IsFogShown)
+                {
+                    tile.IsFogShown = false;
+                    AddToFading(tile, 1f, 0f);
+                }
+            }
+        }
+
+        lastIsFowActive = isFowActive;
+    }
+
+    /// <summary>
+    /// Check if all of the unit or building textboxes in the game need to be active or not.
+    /// </summary>
+    private void UpdateTextForAllTiles()
+    {
+        foreach (Tile tile in TileHelper.GetAllTilesInListType())
+        {
+            if (tile.HasUnit())
+            {
+                tile.unitGameObject.UpdateHealthText();
+            }
+            if (tile.HasBuilding())
+            {
+                tile.buildingGameObject.UpdateCapturePointsText();
             }
         }
     }
+
+    #region FOG method for particular user.
 
     public void HideFowWithinLineOfSight(PlayerIndex index)
     {
@@ -130,58 +247,34 @@ public class DayStateController : MonoBehaviour
     /// <param name="showFog"></param>
     private void CheckLineForAllObjects(PlayerIndex index, bool showFog)
     {
-        Player player = _manager.Players[index];
-        foreach (Unit item in player.ownedUnits)
-        {
-            ShowOrHideFowWithinRange(item.UnitGameObject.Tile, item.FowLineOfSightRange, showFog);
-            item.UnitGameObject.UpdateHealthText();
-        }
-
-        foreach (Building item in player.ownedBuildings)
-        {
-            ShowOrHideFowWithinRange(item.buildingGameObject.Tile, item.FowLineOfSightRange, showFog);
-        }
-
-        UnitBuilingHealthCapturePoints(index);
-    }
-
-    private void UnitBuilingHealthCapturePoints(PlayerIndex index)
-    {
         if(isFowActive)
         {
-            foreach (Player player in _manager.Players.Where(x => x.Value.index != index && x.Value.index != PlayerIndex.Neutral).Select(x => x.Value))
+            Player player = _manager.Players[index];
+
+            foreach (Unit item in player.ownedUnits)
             {
-                foreach (Unit unit in player.ownedUnits)
-                {
-                    unit.UnitGameObject.UpdateHealthText();
-                }
+                ShowOrHideFowWithinRange(item.UnitGameObject.Tile, item.FowLineOfSightRange, showFog);
             }
 
-            foreach (Building building in GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured)
+            foreach (Building item in player.ownedBuildings)
             {
-                building.buildingGameObject.UpdateCapturePointsText();
+                ShowOrHideFowWithinRange(item.buildingGameObject.Tile, item.FowLineOfSightRange, showFog);
             }
-
         }
-    }
 
-    /// <summary>
-    /// This method is called inside the NextPlayer() method. If it is night time it shows all of the fow. Then it goes through all of the current player buildings and unit to enable there
-    /// line of sight.
-    /// </summary>
-    public void ShowOrHideFowPlayer()
-    {
-        bool isDay = CurrentDayState != DayStates.Night;
-
-        if (!isDay)
+        // Update all of the health / capturepoints from all of the other players.
+        foreach (Player players in _manager.Players.Where(x => x.Value.index != index && x.Value.index != PlayerIndex.Neutral).Select(x => x.Value))
         {
-            ShowOrHideFow(true);
-            CheckLineForAllObjects(_manager.CurrentPlayer.index, false);
-       }
-        else if (isFowActive && isDay)
-        {
-            ShowOrHideFow(false);
+            foreach (Unit unit in players.ownedUnits)
+            {
+                unit.UnitGameObject.UpdateHealthText();
+            }
         }
+        foreach (Building building in GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured)
+        {
+            building.buildingGameObject.UpdateCapturePointsText();
+        }
+
     }
 
     /// <summary>
@@ -192,44 +285,36 @@ public class DayStateController : MonoBehaviour
     /// <param name="showOrhide">Wether or not the fow should be enabled or disabled.</param>
     private void ShowOrHideFowWithinRange(Tile tile, int rangeLineOfSight, bool showOrhide)
     {
-        if (isFowActive)
+        tile.IsFogShown = showOrhide;
+
+        // Fading when moving gives weird effects. For now disabled.
+        //float fromf = showOrhide ? 0f : 1f;
+        //float tof = showOrhide ? 1f : 0f;
+        //AddToFading(tile, fromf, tof);
+
+        float rr = tile.FogOfWar.renderer.material.color.r;
+        float gg = tile.FogOfWar.renderer.material.color.g;
+        float bb = tile.FogOfWar.renderer.material.color.b;
+        tile.FogOfWar.renderer.material.color = new Color(rr, gg, bb, tile.IsFogShown ? 1f : 0f);
+
+        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight))
         {
-            tile.FogOfWar.renderer.enabled = showOrhide;
-
-            Dictionary<int, Dictionary<int, Tile>> tilesInRange = TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight);
-
-            foreach (KeyValuePair<int, Dictionary<int, Tile>> item in tilesInRange)
+            foreach (KeyValuePair<int, Tile> tileValue in item.Value)
             {
-                foreach (KeyValuePair<int, Tile> tileValue in item.Value)
-                {
-                    tileValue.Value.FogOfWar.renderer.enabled = showOrhide;
-                }
+                tileValue.Value.IsFogShown = showOrhide;
+
+                // Fading when moving gives weird effects. For now disabled.
+                //float from = showOrhide ? 0f : 1f;
+                //float to = showOrhide ? 1f : 0f;
+                //AddToFading(tileValue.Value, from, to);
+
+                float r = tileValue.Value.FogOfWar.renderer.material.color.r;
+                float g = tileValue.Value.FogOfWar.renderer.material.color.g;
+                float b = tileValue.Value.FogOfWar.renderer.material.color.b;
+                tileValue.Value.FogOfWar.renderer.material.color = new Color(r, g, b, tileValue.Value.IsFogShown ? 1f : 0f);
             }
         }
     }
 
-    /// <summary>
-    /// Show or hide all of the fog of war gameobjects.
-    /// </summary>
-    /// <param name="showFow"></param>
-    private void ShowOrHideFow(bool showFow)
-    {
-        isFowActive = showFow;
-        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in _manager.Tiles)
-        {
-            foreach (KeyValuePair<int, Tile> tile in item.Value)
-            {
-                tile.Value.FogOfWar.renderer.enabled = showFow;
-                if(tile.Value.HasUnit())
-                {
-                    tile.Value.unitGameObject.UpdateHealthText();
-                }
-                if(tile.Value.HasBuilding())
-                {
-                    tile.Value.buildingGameObject.UpdateCapturePointsText();
-                }
-            }
-        }
-    }
+    #endregion
 }
-
