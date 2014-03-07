@@ -6,14 +6,13 @@ using UnityEngine;
 
 public class TileHelper
 {
-    private static GameManager _manager = GameManager.Instance;
-
     /// <summary>
     /// Add a tile to the list. This methods should only be called one when a Tile GameObject is loaded when the scene starts.
     /// </summary>
     /// <param name="tile"></param>
     public static void AddTile(Tile tile)
     {
+        GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         // Check if the second dictionary exists in the list. If not then create a new dictionary and insert this in the tiles dictionary.
         if (!_manager.Tiles.ContainsKey(tile.Coordinate.ColumnId))
         {
@@ -24,20 +23,13 @@ public class TileHelper
     }
 
     /// <summary>
-    /// Removes all entrys from the tiles dictionary. Should be called before a new scene (level) starts to load. So no old references exists when new Tile are added to the list.
-    /// </summary>
-    public static void ClearTilesDictionary()
-    {
-        _manager.Tiles.Clear();
-    }
-
-    /// <summary>
     /// Returns the tile with via the given TileCoordinates from the tiles dictionary. Or an KeyNotFoundException if either of the keys is not found.
     /// </summary>
     /// <param name="coor"></param>
     /// <returns></returns>
     public static Tile GetTile(TileCoordinates coor)
     {
+        GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         if (_manager.Tiles.ContainsKey(coor.ColumnId) && _manager.Tiles[coor.ColumnId].ContainsKey(coor.RowId))
         {
             return _manager.Tiles[coor.ColumnId][coor.RowId];
@@ -81,6 +73,7 @@ public class TileHelper
     /// <param name="range">The range from which tiles get returned</param>
     public static Dictionary<int, Dictionary<int, Tile>> GetAllTilesWithinRange(TileCoordinates centerPointTileCoordinate, int range)
     {
+        GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         // Check if the range is 0 or smaller.
         if (range <= 0)
         {
@@ -153,6 +146,7 @@ public class TileHelper
     /// <returns></returns>
     public static List<Tile> GetAllTilesWithPlayerLOS(PlayerIndex index)
     {
+        GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         List<Tile> tileInLOSRange = new List<Tile>();
         Player player = _manager.Players[index];
 
@@ -191,6 +185,7 @@ public class TileHelper
 
     public static List<Tile> GetAllTilesInListType()
     {
+        GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         List<Tile> allTiles = new List<Tile>();
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in _manager.Tiles)
         {

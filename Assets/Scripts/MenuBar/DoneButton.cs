@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class DoneButton : MonoBehaviour
 {
+    private GameManager _manager;
     private bool _needsFading = false;
     private bool _fadeIn = true;
 
@@ -17,6 +18,7 @@ public class DoneButton : MonoBehaviour
         Color col = renderer.material.color;
         col.a = 0f;
         renderer.material.color = col;
+        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
     }
 
     void OnDestroy()
@@ -28,7 +30,7 @@ public class DoneButton : MonoBehaviour
     {
         if(evt.SwipeUp)
         {
-            GameManager.Instance.IsDoneButtonActive = !GameManager.Instance.IsDoneButtonActive;
+            _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
             this.renderer.enabled = true;
             this.collider.enabled = true;
             _needsFading = true;
@@ -45,8 +47,8 @@ public class DoneButton : MonoBehaviour
             col.a = 0f;
             _needsFading = false;
             _fadeIn = true;
-            this.renderer.enabled = GameManager.Instance.IsDoneButtonActive;
-            this.collider.enabled = GameManager.Instance.IsDoneButtonActive;
+            this.renderer.enabled = _manager.IsDoneButtonActive;
+            this.collider.enabled = _manager.IsDoneButtonActive;
         }
         else if (_fadeIn && col.a > 0.95f)
         {
@@ -61,7 +63,7 @@ public class DoneButton : MonoBehaviour
     {
         if(_needsFading) { Fade(); }
 
-        if (Input.GetKeyDown(KeyCode.T) && !GameManager.Instance.IsDoneButtonActive && !_needsFading)
+        if (Input.GetKeyDown(KeyCode.T) && !_manager.IsDoneButtonActive && !_needsFading)
         {
             SwipeDoneButton(new OnSwipeAction(false, false, true, false));
         }
@@ -74,7 +76,7 @@ public class DoneButton : MonoBehaviour
             {
                 if (_touchBox.collider == this.collider)
                 {
-                    GameManager.Instance.EndTurn();
+                    _manager.EndTurn();
                     SwipeDoneButton(new OnSwipeAction(false, false, true, false));
                 }
             }

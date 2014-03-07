@@ -51,7 +51,7 @@ public class Unit {
     {
         get
         {
-            return GameManager.Instance.DayStateController.CurrentDayState == DayStates.Night ? 1 : _AttackRange;
+            return GameObject.Find("_Scripts").GetComponent<GameManager>().DayStateController.CurrentDayState == DayStates.Night ? 1 : _AttackRange;
         }
         private set { _AttackRange = value; }
     }
@@ -61,7 +61,7 @@ public class Unit {
     {
         get
         {
-            return GameManager.Instance.DayStateController.CurrentDayState == DayStates.Night ? Mathf.Clamp(_MoveRange - 1, 1, int.MaxValue) : _MoveRange;
+            return GameObject.Find("_Scripts").GetComponent<GameManager>().DayStateController.CurrentDayState == DayStates.Night ? Mathf.Clamp(_MoveRange - 1, 1, int.MaxValue) : _MoveRange;
         }
         private set { _MoveRange = value; }
     }
@@ -100,7 +100,7 @@ public class Unit {
     public int FowLineOfSightRange { get; set; }
     public void PlaySound(UnitSoundType soundType)
     {
-        GameManager.Instance.UnitSounds.PlaySound(UnitGameObject.type, soundType);
+        GameObject.Find("_Scripts").GetComponent<GameManager>().UnitSounds.PlaySound(UnitGameObject.type, soundType);
     }
     
     public void DecreaseHealth(float damage) 

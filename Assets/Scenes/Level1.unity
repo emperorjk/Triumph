@@ -159,8 +159,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -242,8 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -423,8 +419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -506,8 +500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -589,8 +581,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -672,8 +662,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -795,8 +783,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -900,6 +886,7 @@ GameObject:
   - 114: {fileID: 152253645}
   - 114: {fileID: 152253644}
   - 114: {fileID: 152253647}
+  - 114: {fileID: 152253648}
   m_Layer: 0
   m_Name: _Scripts
   m_TagString: Untagged
@@ -1048,6 +1035,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c717611f88a2f4c8c8404f066f81ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &152253648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 152253635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85457e243f343440923a7d691189ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &167040882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,8 +1087,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1172,8 +1168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1491,8 +1485,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1574,8 +1566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1657,8 +1647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1740,8 +1728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1823,8 +1809,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1906,8 +1890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -1989,8 +1971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2072,8 +2052,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2155,8 +2133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2238,8 +2214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2321,8 +2295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2404,8 +2376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2487,8 +2457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2570,8 +2538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -2653,8 +2619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3026,8 +2990,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3110,8 +3072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3193,8 +3153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3374,8 +3332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3457,8 +3413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3612,8 +3566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3695,8 +3647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3778,8 +3728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -3977,8 +3925,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4060,8 +4006,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4143,8 +4087,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4227,8 +4169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4310,8 +4250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4393,8 +4331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4476,8 +4412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4559,8 +4493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4642,8 +4574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4797,8 +4727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4881,8 +4809,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -4964,8 +4890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5119,8 +5043,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5202,8 +5124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5285,8 +5205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5368,8 +5286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5451,8 +5367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5534,8 +5448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5617,8 +5529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5700,8 +5610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5784,8 +5692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -5907,8 +5813,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6063,8 +5967,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6146,8 +6048,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6301,8 +6201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6482,8 +6380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6565,8 +6461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6746,8 +6640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6870,8 +6762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -6953,8 +6843,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7036,8 +6924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7119,8 +7005,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7202,8 +7086,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7286,8 +7168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7369,8 +7249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7496,8 +7374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7623,8 +7499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -7706,8 +7580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8014,8 +7886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8097,8 +7967,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8180,8 +8048,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8263,8 +8129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8347,8 +8211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8430,8 +8292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8513,8 +8373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8596,8 +8454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8849,8 +8705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -8932,8 +8786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9015,8 +8867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9170,8 +9020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9253,8 +9101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9336,8 +9182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9420,8 +9264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9575,8 +9417,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9658,8 +9498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9741,8 +9579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9824,8 +9660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -9907,8 +9741,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10106,8 +9938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10189,8 +10019,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10272,8 +10100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10355,8 +10181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10560,8 +10384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10715,8 +10537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10798,8 +10618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10881,8 +10699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -10964,8 +10780,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -11047,8 +10861,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 2
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -11228,8 +11040,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -11410,8 +11220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -11661,8 +11469,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -11886,8 +11692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -11969,8 +11773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12092,8 +11894,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12175,8 +11975,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12402,8 +12200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12485,8 +12281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12649,8 +12443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12732,8 +12524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12815,8 +12605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12898,8 +12686,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -12981,8 +12767,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13065,8 +12849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13211,8 +12993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13294,8 +13074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13377,8 +13155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13460,8 +13236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13544,8 +13318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 3
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13667,8 +13439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13750,8 +13520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13833,8 +13601,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -13988,8 +13754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14111,8 +13875,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14195,8 +13957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14278,8 +14038,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14433,8 +14191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14516,8 +14272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14639,8 +14393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14722,8 +14474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14806,8 +14556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14889,8 +14637,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -14972,8 +14718,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15055,8 +14799,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15138,8 +14880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15221,8 +14961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15344,8 +15082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 13
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15499,8 +15235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15623,8 +15357,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 2
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15706,8 +15438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15789,8 +15519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15872,8 +15600,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 15
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -15955,8 +15681,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 12
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16038,8 +15762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16121,8 +15843,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16204,8 +15924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16287,8 +16005,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16451,8 +16167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16534,8 +16248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16661,8 +16373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16744,8 +16454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16827,8 +16535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16910,8 +16616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 3
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -16993,8 +16697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17076,8 +16778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 18
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17159,8 +16859,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17286,8 +16984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17490,8 +17186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 7
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17573,8 +17267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 9
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17656,8 +17348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17775,8 +17465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17858,8 +17546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -17941,8 +17627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18024,8 +17708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18108,8 +17790,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18191,8 +17871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 5
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18274,8 +17952,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 8
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18429,8 +18105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 10
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18513,8 +18187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18596,8 +18268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 14
-  RowId: 1
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18679,8 +18349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 10
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18762,8 +18430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 6
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18845,8 +18511,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 16
-  RowId: 4
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -18928,8 +18592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 17
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -19011,8 +18673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -19094,8 +18754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 4
-  RowId: 8
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -19177,8 +18835,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 6
-  RowId: 9
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -19300,8 +18956,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 1
-  RowId: 7
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}
@@ -19521,8 +19175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42639fbe9bf3b2540a7a6edf72a53fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColumnId: 11
-  RowId: 5
   environmentGameObject: {fileID: 0}
   buildingGameObject: {fileID: 0}
   unitGameObject: {fileID: 0}

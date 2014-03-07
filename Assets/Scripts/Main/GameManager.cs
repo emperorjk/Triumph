@@ -7,26 +7,8 @@ using System;
 /// <summary>
 /// This singleton class keeps hold of the game.
 /// </summary>
-public class GameManager
+public class GameManager : MonoBehaviour
 {
-    #region Singleton
-    private static GameManager instance;
-    private GameManager() {}
-    public static GameManager Instance { 
-        get 
-        {
-            if (instance == null) 
-            { 
-                instance = new GameManager();
-                instance.InitPlayer();
-            }
-            return instance;
-        }
-    }
-    #endregion
-
-    // Objects
-    public GameObject GlobalScripts { get; set; }
     public Dictionary<int, Dictionary<int, Tile>> Tiles { get; private set; }
     public Player CurrentPlayer { get; private set; }
     public SortedList<PlayerIndex, Player> Players { get; private set; }
@@ -43,7 +25,7 @@ public class GameManager
     // Variables
     public bool IsDoneButtonActive { get; set; }
 
-    private void InitPlayer()
+    void Awake()
     {
         Tiles = new Dictionary<int, Dictionary<int, Tile>>();
         Players = new SortedList<PlayerIndex, Player>();
@@ -51,10 +33,7 @@ public class GameManager
         Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue, Color.blue));
         Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red, Color.red));
         CurrentPlayer = Players[PlayerIndex.Blue];
-    }
 
-    public void Init()
-    {
         GameObject scriptsGameObject = GameObject.Find("_Scripts");
         ProductionOverlayMain = scriptsGameObject.GetComponent<ProductionOverlayMain>();
         Movement = scriptsGameObject.GetComponent<Movement>();
@@ -64,7 +43,7 @@ public class GameManager
         Highlight = scriptsGameObject.GetComponent<Highlight>();
         Attack = scriptsGameObject.GetComponent<Attack>();
         UnitSounds = new AudioManager();
-        LevelManager = GlobalScripts.GetComponent<LevelManager>();
+        LevelManager = GameObject.Find("_GlobalScripts").GetComponent<LevelManager>();
     }
 
     public void EndTurn()
@@ -97,14 +76,9 @@ public class GameManager
         }
     }
 
-    /// <summary>
-    /// This method is called from the gameloop void OnDestroy method. In here we clear all this that needs clearing and/or reset from the gamemanager.
-    /// Make sure we set all of the values to zero so the garbace collector can remove all of these objects from memory.
-    /// Otherwise everytime we start a new level we recreate them while the previous are still in memory.
-    /// </summary>
-    public void OnGameloopDestroy()
+    void OnDestroy()
     {
-        TileHelper.ClearTilesDictionary();
+        Tiles.Clear();
         // Clear all stuff from the player and reinitialize the player tile and player objects by calling the InitPlayer() method.
         foreach (Player pl in Players.Select(x => x.Value))
         {
@@ -112,7 +86,6 @@ public class GameManager
             pl.ownedUnits.Clear();
         }
         Players.Clear();
-        InitPlayer();
 
         ProductionOverlayMain = null;
         Movement = null;

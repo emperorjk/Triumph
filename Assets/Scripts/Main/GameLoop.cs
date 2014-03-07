@@ -18,8 +18,7 @@ public class GameLoop : MonoBehaviour
 	
 	void Awake () 
     {
-        _manager = GameManager.Instance;
-        _manager.Init();
+        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
 	}
     bool test = false;
     void Update()
@@ -37,11 +36,6 @@ public class GameLoop : MonoBehaviour
         {
             _manager.LevelManager.LoadLevel(LevelsEnum.Menu);
         }
-    }
-
-    void OnDestroy()
-    {
-        _manager.OnGameloopDestroy();
     }
 
     /// <summary>

@@ -13,7 +13,6 @@ public class StartScreen : MonoBehaviour
     {
         MenuManager.Instance.MenuPositions();
         MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
-        TileHelper.ClearTilesDictionary();
     }
 
 	void Update () 

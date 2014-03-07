@@ -8,7 +8,7 @@ public class EndGame : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GameManager.Instance.LevelManager.LoadLevel(LevelsEnum.Menu);
+            GameObject.Find("_Scripts").GetComponent<GameManager>().LevelManager.LoadLevel(LevelsEnum.Menu);
         }
 	}
 }

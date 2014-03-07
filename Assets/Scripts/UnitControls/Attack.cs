@@ -6,10 +6,16 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    private GameManager _manager;
     void Awake ()
     {
         EventHandler.register<OnHighlightClick>(BattlePreparation);
         EventHandler.register<OnAnimFight>(BattleSimulation);
+    }
+
+    void Start()
+    {
+        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
     }
 
     void OnDestroy()
@@ -36,23 +42,23 @@ public class Attack : MonoBehaviour
                     if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
                     {
                         tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                        GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);
+                        _manager.Highlight.HighlightObjects.Add(tile.Value.highlight);
                     }
                     else
                     {
-                        List<Node> path = GameManager.Instance.Movement.CalculateShortestPath(unit.Tile, tile.Value, true);
+                        List<Node> path = _manager.Movement.CalculateShortestPath(unit.Tile, tile.Value, true);
 
                         if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
                         {
                             tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                            GameManager.Instance.Highlight.HighlightObjects.Add(tile.Value.highlight);  
+                            _manager.Highlight.HighlightObjects.Add(tile.Value.highlight);  
                         }
                     }                   
                 }
             }
         }
-        int count = GameManager.Instance.Highlight.HighlightObjects.Count;
-        GameManager.Instance.Highlight.IsHighlightOn = count > 0;
+        int count = _manager.Highlight.HighlightObjects.Count;
+        _manager.Highlight.IsHighlightOn = count > 0;
         return count;
     }
 
@@ -65,9 +71,9 @@ public class Attack : MonoBehaviour
         if(evt.highlight != null)
         {
             HighlightObject highlight = evt.highlight;
-            if (GameManager.Instance.Highlight.IsHighlightOn && !GameManager.Instance.Movement.NeedsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
+            if (_manager.Highlight.IsHighlightOn && !_manager.Movement.NeedsMoving && highlight.highlightTypeActive == HighlightTypes.highlight_attack)
             {
-                UnitGameObject attackingUnit = GameManager.Instance.Highlight.UnitSelected;
+                UnitGameObject attackingUnit = _manager.Highlight.UnitSelected;
                 UnitGameObject defendingUnit = highlight.tile.unitGameObject;
 
 
@@ -81,7 +87,7 @@ public class Attack : MonoBehaviour
                             attackingUnit.UnitGame.hasMoved = true;
                             attackingUnit.UnitGame.PlaySound(UnitSoundType.Attack);
 
-                            GameManager.Instance.Highlight.ClearHighlights();
+                            _manager.Highlight.ClearHighlights();
 
                             // Check if units are faces the wrong way
                             FacingDirectionUnits(attackingUnit, defendingUnit);

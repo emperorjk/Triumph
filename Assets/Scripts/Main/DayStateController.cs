@@ -38,7 +38,7 @@ public class DayStateController : MonoBehaviour
         lightFront = GameObject.Find("LightFront").GetComponent<Light>();
         lightBack = GameObject.Find("LightBack").GetComponent<Light>();
 
-        _manager = GameManager.Instance;
+        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         isFowActive = lastIsFowActive = false;
         CurrentDayState = DayStates.Morning;
         // Start a fade into the CurrentDayState. This is done because the intensity of the light prefab may differ from the values set below.
@@ -268,7 +268,7 @@ public class DayStateController : MonoBehaviour
                 unit.UnitGameObject.UpdateHealthText();
             }
         }
-        foreach (Building building in GameManager.Instance.CaptureBuildings.BuildingsBeingCaptured)
+        foreach (Building building in _manager.CaptureBuildings.BuildingsBeingCaptured)
         {
             building.buildingGameObject.UpdateCapturePointsText();
         }

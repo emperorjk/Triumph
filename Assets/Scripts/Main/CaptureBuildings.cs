@@ -80,7 +80,7 @@ public class CaptureBuildings : MonoBehaviour
                         // Captured the HQ (Dissable level and _Scripts, show background color in winning player color and display winning text)
                         GameObject.FindGameObjectWithTag("Level").SetActive(false);
                         GameObject.Find("_Scripts").SetActive(false);
-                        Camera.main.backgroundColor = GameManager.Instance.Players[unitOnBuilding.index].PlayerColor;
+                        Camera.main.backgroundColor = GameObject.Find("_Scripts").GetComponent<GameManager>().Players[unitOnBuilding.index].PlayerColor;
                         GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
                         GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.endGameLocation));
                     }

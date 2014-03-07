@@ -6,15 +6,17 @@ using System.Collections;
 /// </summary>
 public class GlobalScript : MonoBehaviour {
 
+    private static GameObject globalScripts;
+
     void Awake()
     {
-        if (GameManager.Instance.GlobalScripts)
+        if (globalScripts)
         {
             Destroy(gameObject);
         }
         else
         {
-            GameManager.Instance.GlobalScripts = this.gameObject;
+            globalScripts = this.gameObject;
             DontDestroyOnLoad(gameObject);
         }
     }

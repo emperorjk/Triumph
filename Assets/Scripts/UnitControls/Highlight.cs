@@ -13,7 +13,7 @@ public class Highlight : MonoBehaviour
 
     void Awake ()
     {
-        _manager = GameManager.Instance;
+        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         IsHighlightOn = false;
         HighlightObjects = new List<HighlightObject>();
         EventHandler.register<OnUnitClick>(ShowHighlight);
@@ -99,7 +99,7 @@ public class Highlight : MonoBehaviour
     /// </summary>
     public void ClearMovementAndHighLights()
     {
-        foreach (Unit unit in GameManager.Instance.CurrentPlayer.ownedUnits)
+        foreach (Unit unit in _manager.CurrentPlayer.ownedUnits)
         {
             unit.hasMoved = false;
             unit.hasAttacked = false;

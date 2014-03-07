@@ -26,11 +26,11 @@ public class ProductionScript : MonoBehaviour {
                     // Set it inactive immediatly and then check for enough gold. If not then destroy else decrease the gold and set it active.
                     UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.Tile, buildingToProduceFrom.index, type);
                     unit.gameObject.SetActive(false);
-
-                    if(GameManager.Instance.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
+                    GameManager man = GameObject.Find("_Scripts").GetComponent<GameManager>();
+                    if(man.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
                     {
                         unit.gameObject.SetActive(true);
-                        GameManager.Instance.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
+                        man.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
                         CanClick = false;
                         parentProduction.InitiateMoving(true);
                     }

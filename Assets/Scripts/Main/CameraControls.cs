@@ -109,8 +109,10 @@ public class CameraControls : MonoBehaviour
         lastScreenWidth = Screen.width;
         lastScreenHeight = Screen.height;
 
-        Dictionary<int, Tile> qq = GameManager.Instance.Tiles[GameManager.Instance.Tiles.Count];
-        Tile first = GameManager.Instance.Tiles[1][1];
+        GameManager manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
+
+        Dictionary<int, Tile> qq = manager.Tiles[manager.Tiles.Count];
+        Tile first = manager.Tiles[1][1];
         Tile last = qq[qq.Count];
 
         Vector3 firstTilePosition = first.transform.position;

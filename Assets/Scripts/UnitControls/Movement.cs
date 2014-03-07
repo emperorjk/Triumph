@@ -13,11 +13,18 @@ public class Movement : MonoBehaviour
     private CompareNodes compare = new CompareNodes();
     private float movingDuration = 0.65f;
 
+    private GameManager _manager;
+
+    void Start()
+    {
+        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
+    }
+
     void Update()
     {
         if (NeedsMoving && nodeList != null)
         {
-            Moving(GameManager.Instance.Highlight.UnitSelected);
+            Moving(_manager.Highlight.UnitSelected);
         }
     }
 
@@ -28,7 +35,7 @@ public class Movement : MonoBehaviour
         if (GetTimePassed() >= 1f)
         {
             // Show fow for the unit.
-            GameManager.Instance.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
+            _manager.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
             // Remove the references from the old tile.
             unitMoving.Tile.unitGameObject = null;
             unitMoving.Tile = null;
@@ -43,26 +50,26 @@ public class Movement : MonoBehaviour
             unitMoving.transform.parent = newPosition.transform;
             unitMoving.transform.position = newPosition.transform.position;
             // Hide the fow for the unit. It will use the new tile location.
-            GameManager.Instance.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
+            _manager.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
             StartTimeMoving = Time.time;
         }
 
         if(nodeList.Count <= 0)
         {
-            GameManager.Instance.Highlight.ClearHighlights();
+            _manager.Highlight.ClearHighlights();
             Tile endDestinationTile = unitMoving.Tile;
 
             if (endDestinationTile.HasLoot())
             {
-                endDestinationTile.Loot.PickUpLoot(GameManager.Instance.CurrentPlayer);
+                endDestinationTile.Loot.PickUpLoot(_manager.CurrentPlayer);
             }
 
             if (endDestinationTile.HasBuilding())
-            {   
-                GameManager.Instance.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.BuildingGame);
+            {
+                _manager.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.BuildingGame);
             }
 
-            if(unitMoving.UnitGame.CanAttackAfterMove && GameManager.Instance.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
+            if (unitMoving.UnitGame.CanAttackAfterMove && _manager.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
             {
                 unitMoving.UnitGame.hasMoved = true;
             }

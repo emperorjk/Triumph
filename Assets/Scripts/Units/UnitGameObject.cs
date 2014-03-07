@@ -27,7 +27,7 @@ public class UnitGameObject : MonoBehaviour
         UnitHealthText = transform.FindChild("UnitHealth").gameObject;
         // Set the sorting layer to GUI. The same used for the hightlights. Eventhough you cannot set it via unity inspector you can still set it via code. :D
         UnitHealthText.renderer.sortingLayerName = "GUI";
-        GameManager.Instance.Players[index].AddUnit(UnitGame);
+        GameObject.Find("_Scripts").GetComponent<GameManager>().Players[index].AddUnit(UnitGame);
 	}
 
     public void UpdateHealthText()
@@ -41,7 +41,7 @@ public class UnitGameObject : MonoBehaviour
     {
         this.Tile.unitGameObject = null;
         this.Tile = null;
-        GameManager.Instance.Players[(this.index)].RemoveUnit(this.UnitGame);
+        GameObject.Find("_Scripts").GetComponent<GameManager>().Players[(this.index)].RemoveUnit(this.UnitGame);
         GameObject.Destroy(this.gameObject);
     }
 }

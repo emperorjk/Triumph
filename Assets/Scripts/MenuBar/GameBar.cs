@@ -15,14 +15,21 @@ public class GameBar : MonoBehaviour {
     public float minSizeBar = 175f;
     public float maxSizeBar = 240;
 
+    private GameManager _manager;
+
+    void Start()
+    {
+        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
+    }
+
      void OnGUI()
     {
         GUI.skin = customSkin;
         Rect player = new Rect(40, 10, 300, 40);
-        GUI.Label(player, "Player: " + GameManager.Instance.CurrentPlayer.name);
+        GUI.Label(player, "Player: " + _manager.CurrentPlayer.name);
 
         Rect gold = new Rect(40, 40, 300, 40);
-        GUI.Label(gold, "Current gold: " + GameManager.Instance.CurrentPlayer.gold);
+        GUI.Label(gold, "Current gold: " + _manager.CurrentPlayer.gold);
     }
 
     /*
