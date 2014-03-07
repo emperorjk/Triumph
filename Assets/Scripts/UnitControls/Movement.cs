@@ -139,7 +139,7 @@ public class Movement : MonoBehaviour
                     continue;
                 }
 
-                Tile t = TileHelper.GetTile(new TileCoordinates(x + current.tile.ColumnId, y + current.tile.RowId));
+                Tile t = TileHelper.GetTile(new TileCoordinates(x + current.tile.Coordinate.ColumnId, y + current.tile.Coordinate.RowId));
 
                 if (t == null)
                 {

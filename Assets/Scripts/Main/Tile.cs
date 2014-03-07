@@ -30,9 +30,9 @@ public class TileCoordinates
 /// </summary>
 public class Tile : MonoBehaviour
 {
-    // These values are set within unity.
-    public int ColumnId;
-    public int RowId;
+    // ColumnId and RowId are now calculated dynamicly based on the position. Which elimanates the need to manually set the coordinates.
+    //public int ColumnId;
+    //public int RowId;
     // The three gameobjects below are prefabs of corresponding objects. ArcherRed-Prefab, ArcherBlue-Prefab, Grass-Prefab, etc.
     // Each of these prefabs should have the corresponding script attached e.g. BuildingGameObject, UnitGameObject or EnvironmentGameObject.
     // And be set within the unity environment.
@@ -48,7 +48,11 @@ public class Tile : MonoBehaviour
 
     void Awake()
     {
-        Coordinate = new TileCoordinates(ColumnId, RowId);
+        // The world starts at 0,0 and goes in the x in the positive and the y in the negative. It always needs to be this way other wise the calculation will not work.
+        int cId = (((int)gameObject.transform.position.x) / 2) + 1;
+        int rId = Mathf.Abs((((int)gameObject.transform.position.y) / 2) - 1);
+
+        Coordinate = new TileCoordinates(cId, rId);
         Vector2 = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         TileHelper.AddTile(this);
         IsFogShown = false;
@@ -60,11 +64,9 @@ public class Tile : MonoBehaviour
         FogOfWar = (GameObject)GameObject.Instantiate(Resources.Load(FileLocations.fogOfWar));
         FogOfWar.transform.position = this.transform.position;
         FogOfWar.transform.parent = this.transform;
-        // Set the alpha channel to 0f (transparent)
-        float r = FogOfWar.renderer.material.color.r;
-        float g = FogOfWar.renderer.material.color.g;
-        float b = FogOfWar.renderer.material.color.b;
-        FogOfWar.renderer.material.color = new Color(r, g, b, 0f);
+        Color color = FogOfWar.renderer.material.color;
+        color.a = 0f;
+        FogOfWar.renderer.material.color = color;
 
         GameObject highlight = ((GameObject)GameObject.Instantiate(Resources.Load(FileLocations.highlight)));
         highlight.transform.parent = this.transform;

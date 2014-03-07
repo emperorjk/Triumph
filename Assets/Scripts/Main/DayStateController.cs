@@ -62,11 +62,9 @@ public class DayStateController : MonoBehaviour
         {
             foreach (fading item in tiles)
             {
-                float r = item.t.FogOfWar.renderer.material.color.r;
-                float g = item.t.FogOfWar.renderer.material.color.g;
-                float b = item.t.FogOfWar.renderer.material.color.b;
-                float a = Mathf.Lerp(item.from, item.to, GetTimePassed(StartTimeFading));
-                item.t.FogOfWar.renderer.material.color = new Color(r, g, b, a);
+                Color color = item.t.FogOfWar.renderer.material.color;
+                color.a = Mathf.Lerp(item.from, item.to, GetTimePassed(StartTimeFading));
+                item.t.FogOfWar.renderer.material.color = color;
 
                 if (GetTimePassed(StartTimeFading) >= 1f)
                 {
@@ -291,11 +289,9 @@ public class DayStateController : MonoBehaviour
         //float fromf = showOrhide ? 0f : 1f;
         //float tof = showOrhide ? 1f : 0f;
         //AddToFading(tile, fromf, tof);
-
-        float rr = tile.FogOfWar.renderer.material.color.r;
-        float gg = tile.FogOfWar.renderer.material.color.g;
-        float bb = tile.FogOfWar.renderer.material.color.b;
-        tile.FogOfWar.renderer.material.color = new Color(rr, gg, bb, tile.IsFogShown ? 1f : 0f);
+        Color cc = tile.FogOfWar.renderer.material.color;
+        cc.a = tile.IsFogShown ? 1f : 0f;
+        tile.FogOfWar.renderer.material.color = cc;
 
         foreach (KeyValuePair<int, Dictionary<int, Tile>> item in TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight))
         {
@@ -307,11 +303,9 @@ public class DayStateController : MonoBehaviour
                 //float from = showOrhide ? 0f : 1f;
                 //float to = showOrhide ? 1f : 0f;
                 //AddToFading(tileValue.Value, from, to);
-
-                float r = tileValue.Value.FogOfWar.renderer.material.color.r;
-                float g = tileValue.Value.FogOfWar.renderer.material.color.g;
-                float b = tileValue.Value.FogOfWar.renderer.material.color.b;
-                tileValue.Value.FogOfWar.renderer.material.color = new Color(r, g, b, tileValue.Value.IsFogShown ? 1f : 0f);
+                Color color = tileValue.Value.FogOfWar.renderer.material.color;
+                color.a = tileValue.Value.IsFogShown ? 1f : 0f;
+                tileValue.Value.FogOfWar.renderer.material.color = color;
             }
         }
     }
