@@ -4,19 +4,19 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public class Notification
-{
-    public string text;
-    public float time;
-
-    public Notification(string _text, float _time)
-    {
-        this.text = _text;
-        this.time = _time;
-    }
-}
-
 public class Notificator : MonoBehaviour {
+
+    private class Notification
+    {
+        public string text;
+        public float time;
+
+        public Notification(string _text, float _time)
+        {
+            this.text = _text;
+            this.time = _time;
+        }
+    }
 
     private static LinkedList<Notification> _notifications;
     private static Notification _current;
