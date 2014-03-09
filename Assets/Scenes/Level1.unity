@@ -1243,6 +1243,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 1fafa0575e6dc4f48a8f5a7860929f53, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7f2c3873bcf6ed64b82f5e0ef5d4a264, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1fafa0575e6dc4f48a8f5a7860929f53, type: 2}
   m_RootGameObject: {fileID: 2140303903}
@@ -2892,7 +2896,7 @@ Animator:
   m_GameObject: {fileID: 320260608}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 17986bd504b11304dbc23340194f5851, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7f2c3873bcf6ed64b82f5e0ef5d4a264, type: 2}
   m_CullingMode: 0
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
@@ -6715,6 +6719,10 @@ Prefab:
     - target: {fileID: 400000, guid: 3d7a23742b6f3994598190809e26b0ce, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 3d7a23742b6f3994598190809e26b0ce, type: 2}
+      propertyPath: type
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d7a23742b6f3994598190809e26b0ce, type: 2}
@@ -11423,6 +11431,14 @@ Prefab:
     - target: {fileID: 400000, guid: 3d7a23742b6f3994598190809e26b0ce, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 3d7a23742b6f3994598190809e26b0ce, type: 2}
+      propertyPath: type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 3d7a23742b6f3994598190809e26b0ce, type: 2}
+      propertyPath: index
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d7a23742b6f3994598190809e26b0ce, type: 2}
@@ -17219,7 +17235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310980bb4f52092498b78fc627fc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 0
+  index: 2
   type: 5
 --- !u!65 &1969270577
 BoxCollider:
@@ -19288,7 +19304,7 @@ Animator:
   m_GameObject: {fileID: 2140303903}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 17986bd504b11304dbc23340194f5851, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7f2c3873bcf6ed64b82f5e0ef5d4a264, type: 2}
   m_CullingMode: 0
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
