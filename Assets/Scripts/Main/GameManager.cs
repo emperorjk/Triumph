@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Movement Movement { get; set; }
     public AnimationInfo AnimInfo { get; set; }
     public LevelManager LevelManager { get; set; }
+    public SwipeController SwipeController { get; set; }
 
     // Variables
     public bool IsDoneButtonActive { get; set; }
@@ -43,7 +44,10 @@ public class GameManager : MonoBehaviour
         Highlight = scriptsGameObject.GetComponent<Highlight>();
         Attack = scriptsGameObject.GetComponent<Attack>();
         UnitSounds = new AudioManager();
-        LevelManager = GameObject.Find("_GlobalScripts").GetComponent<LevelManager>();
+
+        GameObject globalScripts = GameObject.Find("_GlobalScripts");
+        LevelManager = globalScripts.GetComponent<LevelManager>();
+        SwipeController = globalScripts.GetComponent<SwipeController>();
     }
 
     public void EndTurn()

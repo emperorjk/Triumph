@@ -28,7 +28,7 @@ public class DoneButton : MonoBehaviour
 
     void SwipeDoneButton(OnSwipeAction evt)
     {
-        if(evt.SwipeUp)
+        if(evt.SwipeUp && evt.fingerCount == 2)
         {
             _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
             this.renderer.enabled = true;
@@ -65,7 +65,7 @@ public class DoneButton : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.T) && !_manager.IsDoneButtonActive && !_needsFading)
         {
-            SwipeDoneButton(new OnSwipeAction(false, false, true, false));
+            SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
         }
 
         if (Input.GetMouseButtonDown(0) && !_needsFading)
@@ -77,7 +77,7 @@ public class DoneButton : MonoBehaviour
                 if (_touchBox.collider == this.collider)
                 {
                     _manager.EndTurn();
-                    SwipeDoneButton(new OnSwipeAction(false, false, true, false));
+                    SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
                 }
             }
         }

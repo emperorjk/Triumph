@@ -49,13 +49,15 @@ public struct OnAnimFight
 
 public struct OnSwipeAction
 {
+    public int fingerCount;
     public bool SwipeLeft;
     public bool SwipeRight;
     public bool SwipeUp;
     public bool SwipeDown;
 
-    public OnSwipeAction(bool _SwipeLeft, bool _SwipeRight, bool _SwipeUp, bool _SwipDown)
+    public OnSwipeAction(int _fingerCount, bool _SwipeLeft, bool _SwipeRight, bool _SwipeUp, bool _SwipDown)
     {
+        fingerCount = _fingerCount;
         SwipeLeft = _SwipeLeft;
         SwipeRight = _SwipeRight;
         SwipeUp = _SwipeUp;

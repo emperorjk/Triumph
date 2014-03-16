@@ -8,22 +8,15 @@ using System.Collections.Generic;
 public class GameLoop : MonoBehaviour 
 {
     private GameManager _manager;
-
-    // Min swipe distance downwards.
-    private float minSwipeDistance = 50f;
-    // The difference the fingers can go to the left or right.
-    private float swipeVariance = 30f;
-    private bool isSwipeHappening = false;
-    private Vector2 SwipingVector;
 	
 	void Awake () 
     {
         _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
 	}
+
     bool test = false;
     void Update()
     {
-        UpdateSwipeActions();
         CheckObjectsClick();
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -32,7 +25,7 @@ public class GameLoop : MonoBehaviour
             test = !test;
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             _manager.LevelManager.LoadLevel(LevelsEnum.Menu);
         }
@@ -43,7 +36,7 @@ public class GameLoop : MonoBehaviour
     /// </summary>
     private void CheckObjectsClick()
     {
-        if (Input.GetMouseButtonDown(0) && !isSwipeHappening)
+        if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.isSwipeHappening)
         {
             OnUnitClick ouc = new OnUnitClick();
             OnBuildingClick obc = new OnBuildingClick();
@@ -86,68 +79,6 @@ public class GameLoop : MonoBehaviour
             EventHandler.dispatch(ouc);
             EventHandler.dispatch(obc);
             EventHandler.dispatch(ohc);
-        }
-    }
-
-    void UpdateSwipeActions()
-    {
-        if (Input.touchCount == 2)
-        {
-            foreach (Touch touch in Input.touches)
-            {
-                if(touch.phase == TouchPhase.Began && !isSwipeHappening)
-                {
-                    SwipingVector = touch.position;
-                    isSwipeHappening = true;
-                }
-                else if(touch.phase == TouchPhase.Moved && isSwipeHappening)
-                {
-                    Vector2 delta = touch.position - SwipingVector;
-                    Debug.Log("----------");
-                    Debug.Log("Swipe Delta: " + delta);
-                    Debug.Log("Swipe Deltamag: " + delta.magnitude);
-                    Debug.Log("----------");
-                    if (delta.magnitude > minSwipeDistance && Mathf.Abs(delta.x) < swipeVariance)
-                    {
-                        if(delta.y < 0)
-                        {
-                            // down swipe
-                            isSwipeHappening = false;
-                            OnSwipeAction swipeDown = new OnSwipeAction(false, false, false, true);
-                            EventHandler.dispatch<OnSwipeAction>(swipeDown);
-                        }else if (delta.y > 0)
-                        {
-                            // Up swipe
-                            isSwipeHappening = false;
-                            OnSwipeAction swipeUp = new OnSwipeAction(false, false, true, false);
-                            EventHandler.dispatch<OnSwipeAction>(swipeUp);
-                        }
-                    }
-                    // Left and right swipe not working yet.
-                    else if (delta.magnitude > minSwipeDistance && Mathf.Abs(delta.y) < swipeVariance)
-                    {
-                        if(delta.x < 0)
-                        {
-                            // Swipe left
-                            //isSwipeHappening = false;
-                            //OnSwipeAction swipe = new OnSwipeAction(true, false, false, false);
-                            //EventHandler.dispatch<OnSwipeAction>(swipe);
-                        }
-                        else if (delta.x > 0)
-                        {
-                            // Swipe right
-                            //isSwipeHappening = false;
-                            //OnSwipeAction swipe = new OnSwipeAction(false, true, false, false);
-                            //EventHandler.dispatch<OnSwipeAction>(swipe);
-                        }
-                    }
-                }
-                else if (touch.phase == TouchPhase.Ended && isSwipeHappening)
-                {
-                    SwipingVector = Vector2.zero;
-                    isSwipeHappening = false;
-                }
-            }
         }
     }
 }
