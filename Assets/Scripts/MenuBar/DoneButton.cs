@@ -1,83 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Main;
 using UnityEngine;
+using EventHandler = Assets.Scripts.Events.EventHandler;
 
-public class DoneButton : MonoBehaviour
+namespace Assets.Scripts.MenuBar
 {
-    private GameManager _manager;
-    private bool _needsFading = false;
-    private bool _fadeIn = true;
-
-    void Start()
+    public class DoneButton : MonoBehaviour
     {
-        Vector3 centerWorldSpace = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0, 5));
-        transform.position = new Vector3(centerWorldSpace.x, centerWorldSpace.y + 1, centerWorldSpace.z);
-        EventHandler.register<OnSwipeAction>(SwipeDoneButton);
-        Color col = renderer.material.color;
-        col.a = 0f;
-        renderer.material.color = col;
-        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
-    }
+        private GameManager _manager;
+        private bool _needsFading = false;
+        private bool _fadeIn = true;
 
-    void OnDestroy()
-    {
-        EventHandler.unregister<OnSwipeAction>(SwipeDoneButton);
-    }
-
-    void SwipeDoneButton(OnSwipeAction evt)
-    {
-        if(evt.SwipeUp && evt.fingerCount == 2)
+        private void Start()
         {
-            _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
-            this.renderer.enabled = true;
-            this.collider.enabled = true;
-            _needsFading = true;
-        }
-    }
-
-    private void Fade()
-    {
-        Color col = renderer.material.color;
-        col.a = Mathf.Lerp(renderer.material.color.a, (_fadeIn ? 1 : 0), Time.deltaTime * 4.5f);
-
-        if (!_fadeIn && col.a < 0.10f)
-        {
+            Vector3 centerWorldSpace = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0, 5));
+            transform.position = new Vector3(centerWorldSpace.x, centerWorldSpace.y + 1, centerWorldSpace.z);
+            EventHandler.register<OnSwipeAction>(SwipeDoneButton);
+            Color col = renderer.material.color;
             col.a = 0f;
-            _needsFading = false;
-            _fadeIn = true;
-            this.renderer.enabled = _manager.IsDoneButtonActive;
-            this.collider.enabled = _manager.IsDoneButtonActive;
-        }
-        else if (_fadeIn && col.a > 0.95f)
-        {
-            _fadeIn = false;
-            _needsFading = false;
-            col.a = 1f;
-        }
-        renderer.material.color = col;
-    }
-
-    void Update()
-    {
-        if(_needsFading) { Fade(); }
-
-        if (Input.GetKeyDown(KeyCode.T) && !_manager.IsDoneButtonActive && !_needsFading)
-        {
-            SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
+            renderer.material.color = col;
+            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         }
 
-        if (Input.GetMouseButtonDown(0) && !_needsFading)
+        private void OnDestroy()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit _touchBox;
-            if (Physics.Raycast(ray, out _touchBox))
+            EventHandler.unregister<OnSwipeAction>(SwipeDoneButton);
+        }
+
+        private void SwipeDoneButton(OnSwipeAction evt)
+        {
+            if (evt.SwipeUp && evt.fingerCount == 2)
             {
-                if (_touchBox.collider == this.collider)
+                _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
+                this.renderer.enabled = true;
+                this.collider.enabled = true;
+                _needsFading = true;
+            }
+        }
+
+        private void Fade()
+        {
+            Color col = renderer.material.color;
+            col.a = Mathf.Lerp(renderer.material.color.a, (_fadeIn ? 1 : 0), Time.deltaTime*4.5f);
+
+            if (!_fadeIn && col.a < 0.10f)
+            {
+                col.a = 0f;
+                _needsFading = false;
+                _fadeIn = true;
+                this.renderer.enabled = _manager.IsDoneButtonActive;
+                this.collider.enabled = _manager.IsDoneButtonActive;
+            }
+            else if (_fadeIn && col.a > 0.95f)
+            {
+                _fadeIn = false;
+                _needsFading = false;
+                col.a = 1f;
+            }
+            renderer.material.color = col;
+        }
+
+        private void Update()
+        {
+            if (_needsFading)
+            {
+                Fade();
+            }
+
+            if (Input.GetKeyDown(KeyCode.T) && !_manager.IsDoneButtonActive && !_needsFading)
+            {
+                SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
+            }
+
+            if (Input.GetMouseButtonDown(0) && !_needsFading)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit _touchBox;
+                if (Physics.Raycast(ray, out _touchBox))
                 {
-                    _manager.EndTurn();
-                    SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
+                    if (_touchBox.collider == this.collider)
+                    {
+                        _manager.EndTurn();
+                        SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
+                    }
                 }
             }
         }

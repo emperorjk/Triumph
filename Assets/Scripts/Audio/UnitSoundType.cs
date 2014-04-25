@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public enum UnitSoundType
+﻿namespace Assets.Scripts.Audio
 {
-    Select,
-    Move,
-    Attack
+    public enum UnitSoundType
+    {
+        Select,
+        Move,
+        Attack
+    }
 }

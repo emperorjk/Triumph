@@ -1,35 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Players;
 using UnityEngine;
-public class ArcherFactory : IUnitGameObject
-{
-    public override GameObject CreateUnit(PlayerIndex index)
-    {
-        GameObject obj = null;
-        if (PlayerIndex.Blue == index)
-        {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherBluePrefab");
-        }
-        else if (PlayerIndex.Red == index)
-        {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherRedPrefab");
-        }
-        return obj;
-    }
 
-    public override GameObject CreateHeroUnit(PlayerIndex index)
+namespace Assets.Scripts.FactoryPattern.UnitFactory
+{
+    public class ArcherFactory : IUnitGameObject
     {
-        GameObject obj = null;
-        if (PlayerIndex.Blue == index)
+        public override GameObject CreateUnit(PlayerIndex index)
         {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherBlueHeroPrefab");
+            GameObject obj = null;
+            if (PlayerIndex.Blue == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherBluePrefab");
+            }
+            else if (PlayerIndex.Red == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherRedPrefab");
+            }
+            return obj;
         }
-        else if (PlayerIndex.Red == index)
+
+        public override GameObject CreateHeroUnit(PlayerIndex index)
         {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherRedHeroPrefab");
+            GameObject obj = null;
+            if (PlayerIndex.Blue == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherBlueHeroPrefab");
+            }
+            else if (PlayerIndex.Red == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "ArcherRedHeroPrefab");
+            }
+            return obj;
         }
-        return obj;
     }
 }

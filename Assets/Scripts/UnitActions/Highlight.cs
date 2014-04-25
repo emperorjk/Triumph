@@ -1,123 +1,133 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Audio;
+using Assets.Scripts.Events;
+using Assets.Scripts.Main;
+using Assets.Scripts.Tiles;
+using Assets.Scripts.Units;
 using UnityEngine;
+using EventHandler = Assets.Scripts.Events.EventHandler;
 
-public class Highlight : MonoBehaviour
+namespace Assets.Scripts.UnitActions
 {
-    public List<HighlightObject> HighlightObjects { get; private set; }
-    public UnitGameObject UnitSelected { get; set; }
-    public bool IsHighlightOn { get; set; }
-    private GameManager _manager;
-
-    void Awake ()
+    public class Highlight : MonoBehaviour
     {
-        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
-        IsHighlightOn = false;
-        HighlightObjects = new List<HighlightObject>();
-        EventHandler.register<OnUnitClick>(ShowHighlight);
-        EventHandler.register<OnHighlightClick>(ClickedOnHightLight);
-    }
+        public List<HighlightObject> HighlightObjects { get; private set; }
+        public UnitGameObject UnitSelected { get; set; }
+        public bool IsHighlightOn { get; set; }
+        private GameManager _manager;
 
-    void OnDestroy()
-    {
-        EventHandler.unregister<OnUnitClick>(ShowHighlight);
-        EventHandler.unregister<OnHighlightClick>(ClickedOnHightLight);
-    }
-
-    /// <summary>
-    /// Gets called whenever an OnUnitClick event is fired.
-    /// </summary>
-    /// <param name="evt"></param>
-    public void ShowHighlight(OnUnitClick evt)
-    {
-        if(evt.unit != null)
+        private void Awake()
         {
-            if (!IsHighlightOn && !_manager.Movement.NeedsMoving && !_manager.AnimInfo.IsAnimateFight)
-            {
-                UnitSelected = evt.unit;
-                IsHighlightOn = true;
-                if (!UnitSelected.UnitGame.hasMoved)
-                {
-                    UnitSelected.UnitGame.PlaySound(UnitSoundType.Select);
+            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
+            IsHighlightOn = false;
+            HighlightObjects = new List<HighlightObject>();
+            EventHandler.register<OnUnitClick>(ShowHighlight);
+            EventHandler.register<OnHighlightClick>(ClickedOnHightLight);
+        }
 
-                    Dictionary<int, Dictionary<int, Tile>> movementListt = TileHelper.GetAllTilesWithinRange(UnitSelected.Tile.Coordinate, UnitSelected.UnitGame.MoveRange);
-                    foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementListt)
+        private void OnDestroy()
+        {
+            EventHandler.unregister<OnUnitClick>(ShowHighlight);
+            EventHandler.unregister<OnHighlightClick>(ClickedOnHightLight);
+        }
+
+        /// <summary>
+        /// Gets called whenever an OnUnitClick event is fired.
+        /// </summary>
+        /// <param name="evt"></param>
+        public void ShowHighlight(OnUnitClick evt)
+        {
+            if (evt.unit != null)
+            {
+                if (!IsHighlightOn && !_manager.Movement.NeedsMoving && !_manager.AnimInfo.IsAnimateFight)
+                {
+                    UnitSelected = evt.unit;
+                    IsHighlightOn = true;
+                    if (!UnitSelected.UnitGame.hasMoved)
                     {
-                        foreach (KeyValuePair<int, Tile> tile in item.Value)
+                        UnitSelected.UnitGame.PlaySound(UnitSoundType.Select);
+
+                        Dictionary<int, Dictionary<int, Tile>> movementListt =
+                            TileHelper.GetAllTilesWithinRange(UnitSelected.Tile.Coordinate,
+                                UnitSelected.UnitGame.MoveRange);
+                        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementListt)
                         {
-                            if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
+                            foreach (KeyValuePair<int, Tile> tile in item.Value)
                             {
-                                List<Node> path = _manager.Movement.CalculateShortestPath(UnitSelected.Tile, tile.Value, false);
-                               
-                                if (path != null && path.Count <= UnitSelected.UnitGame.MoveRange)
+                                if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
                                 {
-                                    tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_move);
-                                    HighlightObjects.Add(tile.Value.highlight);
+                                    List<Node> path = _manager.Movement.CalculateShortestPath(UnitSelected.Tile,
+                                        tile.Value, false);
+
+                                    if (path != null && path.Count <= UnitSelected.UnitGame.MoveRange)
+                                    {
+                                        tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_move);
+                                        HighlightObjects.Add(tile.Value.highlight);
+                                    }
                                 }
-                            }  
+                            }
                         }
+                        _manager.Attack.ShowAttackHighlights(UnitSelected, UnitSelected.UnitGame.GetAttackMoveRange);
                     }
-                    _manager.Attack.ShowAttackHighlights(UnitSelected, UnitSelected.UnitGame.GetAttackMoveRange);
-                }
-                else if (UnitSelected.UnitGame.CanAttackAfterMove && !UnitSelected.UnitGame.hasAttacked)
-                {
-                    _manager.Attack.ShowAttackHighlights(UnitSelected, UnitSelected.UnitGame.AttackRange);
+                    else if (UnitSelected.UnitGame.CanAttackAfterMove && !UnitSelected.UnitGame.hasAttacked)
+                    {
+                        _manager.Attack.ShowAttackHighlights(UnitSelected, UnitSelected.UnitGame.AttackRange);
+                    }
                 }
             }
         }
-    }
 
-    /// <summary>
-    /// Gets called whenever an OnHighlightClick event is fired.
-    /// </summary>
-    /// <param name="evt"></param>
-    public void ClickedOnHightLight(OnHighlightClick evt)
-    {
-        if(evt.highlight != null)
+        /// <summary>
+        /// Gets called whenever an OnHighlightClick event is fired.
+        /// </summary>
+        /// <param name="evt"></param>
+        public void ClickedOnHightLight(OnHighlightClick evt)
         {
-            if (IsHighlightOn)
+            if (evt.highlight != null)
             {
-                HighlightObject highlight = evt.highlight;
-                if (highlight.highlightTypeActive == HighlightTypes.highlight_move)
+                if (IsHighlightOn)
                 {
-                    UnitSelected.UnitGame.hasMoved = true;
-                    _manager.Movement.nodeList = _manager.Movement.CalculateShortestPath(UnitSelected.Tile, highlight.tile, false);
-                    _manager.Movement.StartTimeMoving = Time.time;
-                    _manager.Movement.NeedsMoving = true;
-                    _manager.Movement.FacingDirectionMovement(UnitSelected, _manager.Movement.nodeList[0].tile);
-                    UnitSelected.UnitGame.PlaySound(UnitSoundType.Move);
-                    ClearHighlights();
+                    HighlightObject highlight = evt.highlight;
+                    if (highlight.highlightTypeActive == HighlightTypes.highlight_move)
+                    {
+                        UnitSelected.UnitGame.hasMoved = true;
+                        _manager.Movement.nodeList = _manager.Movement.CalculateShortestPath(UnitSelected.Tile,
+                            highlight.tile, false);
+                        _manager.Movement.StartTimeMoving = Time.time;
+                        _manager.Movement.NeedsMoving = true;
+                        _manager.Movement.FacingDirectionMovement(UnitSelected, _manager.Movement.nodeList[0].tile);
+                        UnitSelected.UnitGame.PlaySound(UnitSoundType.Move);
+                        ClearHighlights();
+                    }
                 }
             }
         }
-    }
 
-    /// <summary>
-    /// Clears all of the movement and highlights.
-    /// </summary>
-    public void ClearMovementAndHighLights()
-    {
-        foreach (Unit unit in _manager.CurrentPlayer.ownedUnits)
+        /// <summary>
+        /// Clears all of the movement and highlights.
+        /// </summary>
+        public void ClearMovementAndHighLights()
         {
-            unit.hasMoved = false;
-            unit.hasAttacked = false;
-            unit.UpdateUnitColor();
+            foreach (Unit unit in _manager.CurrentPlayer.ownedUnits)
+            {
+                unit.hasMoved = false;
+                unit.hasAttacked = false;
+                unit.UpdateUnitColor();
+            }
+            ClearHighlights();
         }
-        ClearHighlights();
-    }
 
-    /// <summary>
-    /// Clears only the highlights.
-    /// </summary>
-    public void ClearHighlights()
-    {
-        foreach (HighlightObject item in HighlightObjects)
+        /// <summary>
+        /// Clears only the highlights.
+        /// </summary>
+        public void ClearHighlights()
         {
-            item.ChangeHighlight(HighlightTypes.highlight_none);
+            foreach (HighlightObject item in HighlightObjects)
+            {
+                item.ChangeHighlight(HighlightTypes.highlight_none);
+            }
+            HighlightObjects.Clear();
+            IsHighlightOn = false;
         }
-        HighlightObjects.Clear();
-        IsHighlightOn = false;
     }
 }

@@ -1,46 +1,48 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class StartScreen : MonoBehaviour
+namespace Assets.Scripts.Menu
 {
-    public GameObject guideButton;
-    public GameObject startButton;
-    public GameObject creditButton;
-
-    private RaycastHit touchBox;
-
-    void Start()
+    public class StartScreen : MonoBehaviour
     {
-        MenuManager.Instance.MenuPositions();
-        MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
-    }
+        public GameObject guideButton;
+        public GameObject startButton;
+        public GameObject creditButton;
 
-	void Update () 
-    {
-        ButtonClick();
-	}
+        private RaycastHit touchBox;
 
-    private void ButtonClick()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Input.GetMouseButtonDown(0))
+        private void Start()
         {
-            if (Physics.Raycast(ray, out touchBox))
+            MenuManager.Instance.MenuPositions();
+            MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
+        }
+
+        private void Update()
+        {
+            ButtonClick();
+        }
+
+        private void ButtonClick()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Input.GetMouseButtonDown(0))
             {
-                if (touchBox.collider == startButton.collider)
+                if (Physics.Raycast(ray, out touchBox))
                 {
-                    MenuManager.Instance.ChangeMenuScreen(MenuStates.LevelState);
-                    GameObject.Find("StartButton").audio.Play();
-                }
-                else if (touchBox.collider == guideButton.collider)
-                {
-                    MenuManager.Instance.ChangeMenuScreen(MenuStates.GuideState);
-                    GameObject.Find("GuideButton").audio.Play();
-                }
-                else if (touchBox.collider == creditButton.collider)
-                {
-                    MenuManager.Instance.ChangeMenuScreen(MenuStates.CreditsScreen);
+                    if (touchBox.collider == startButton.collider)
+                    {
+                        MenuManager.Instance.ChangeMenuScreen(MenuStates.LevelState);
+                        GameObject.Find("StartButton").audio.Play();
+                    }
+                    else if (touchBox.collider == guideButton.collider)
+                    {
+                        MenuManager.Instance.ChangeMenuScreen(MenuStates.GuideState);
+                        GameObject.Find("GuideButton").audio.Play();
+                    }
+                    else if (touchBox.collider == creditButton.collider)
+                    {
+                        MenuManager.Instance.ChangeMenuScreen(MenuStates.CreditsScreen);
+                    }
                 }
             }
         }

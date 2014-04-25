@@ -1,54 +1,57 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.Scripts.Levels;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class LevelScreen : MonoBehaviour 
+namespace Assets.Scripts.Menu
 {
-    public List<GameObject> levels;
-    private RaycastHit touchBox;
-    public GameObject backButton;
-
-	void Update () 
+    public class LevelScreen : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        public List<GameObject> levels;
+        private RaycastHit touchBox;
+        public GameObject backButton;
 
-            if (Physics.Raycast(ray, out touchBox))
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                foreach (GameObject level in levels)
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out touchBox))
                 {
-                    if (touchBox.collider == level.collider)
+                    foreach (GameObject level in levels)
                     {
-                        LoadLevel(level.name);
+                        if (touchBox.collider == level.collider)
+                        {
+                            LoadLevel(level.name);
+                        }
+                    }
+
+                    if (touchBox.collider == backButton.collider)
+                    {
+                        MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
                     }
                 }
+            }
 
-                if (touchBox.collider == backButton.collider)
-                {
-                    MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
-                }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                GameObject.Find("Level").GetComponents<AudioSource>()[1].Play();
+                MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        private void LoadLevel(string name)
         {
-            GameObject.Find("Level").GetComponents<AudioSource>()[1].Play();
-            MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
-        }
-	}
+            GameObject.Find("Level").GetComponents<AudioSource>()[0].Play();
 
-    void LoadLevel(string name)
-    {
-        GameObject.Find("Level").GetComponents<AudioSource>()[0].Play();
-
-        foreach (LevelsEnum level in (LevelsEnum[])Enum.GetValues(typeof(LevelsEnum)))
-        {
-            if(level.ToString() == name)
+            foreach (LevelsEnum level in (LevelsEnum[]) Enum.GetValues(typeof (LevelsEnum)))
             {
-                GameObject.Find("_GlobalScripts").GetComponent<LevelManager>().LoadLevel(level);
-                break;
+                if (level.ToString() == name)
+                {
+                    GameObject.Find("_GlobalScripts").GetComponent<LevelManager>().LoadLevel(level);
+                    break;
+                }
             }
         }
     }

@@ -1,35 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Players;
 using UnityEngine;
-public class SwordsmanFactory : IUnitGameObject
-{
-    public override GameObject CreateUnit(PlayerIndex index)
-    {
-        GameObject obj = null;
-        if (PlayerIndex.Blue == index)
-        {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanBluePrefab");
-        }
-        else if (PlayerIndex.Red == index)
-        {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanRedPrefab");
-        }
-        return obj;
-    }
 
-    public override GameObject CreateHeroUnit(PlayerIndex index)
+namespace Assets.Scripts.FactoryPattern.UnitFactory
+{
+    public class SwordsmanFactory : IUnitGameObject
     {
-        GameObject obj = null;
-        if (PlayerIndex.Blue == index)
+        public override GameObject CreateUnit(PlayerIndex index)
         {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanBlueHeroPrefab");
+            GameObject obj = null;
+            if (PlayerIndex.Blue == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanBluePrefab");
+            }
+            else if (PlayerIndex.Red == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanRedPrefab");
+            }
+            return obj;
         }
-        else if (PlayerIndex.Red == index)
+
+        public override GameObject CreateHeroUnit(PlayerIndex index)
         {
-            obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanRedHeroPrefab");
+            GameObject obj = null;
+            if (PlayerIndex.Blue == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanBlueHeroPrefab");
+            }
+            else if (PlayerIndex.Red == index)
+            {
+                obj = Resources.Load<GameObject>(DirToUnitFolder + "SwordsmanRedHeroPrefab");
+            }
+            return obj;
         }
-        return obj;
     }
 }

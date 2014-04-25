@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public enum MenuStates
-{ 
-    StartState,
-    GuideState,
-    LevelState,
-    CreditsScreen
+﻿namespace Assets.Scripts.Menu
+{
+    public enum MenuStates
+    {
+        StartState,
+        GuideState,
+        LevelState,
+        CreditsScreen
+    }
 }

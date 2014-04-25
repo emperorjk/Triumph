@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public enum UnitTypes
+﻿namespace Assets.Scripts.Units
 {
-    Archer,
-    Knight,
-    Swordsman
+    public enum UnitTypes
+    {
+        Archer,
+        Knight,
+        Swordsman
+    }
 }

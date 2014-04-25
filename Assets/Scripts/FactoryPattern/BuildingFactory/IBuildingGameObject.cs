@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Main;
+using Assets.Scripts.Players;
 using UnityEngine;
 
-public abstract class IBuildingGameObject
+namespace Assets.Scripts.FactoryPattern.BuildingFactory
 {
-    public string DirToBuildingFolder { get { return FileLocations.prefabBuildings; } }
-    public abstract GameObject CreateBuilding(PlayerIndex index);
+    public abstract class IBuildingGameObject
+    {
+        public string DirToBuildingFolder
+        {
+            get { return FileLocations.prefabBuildings; }
+        }
+
+        public abstract GameObject CreateBuilding(PlayerIndex index);
+    }
 }

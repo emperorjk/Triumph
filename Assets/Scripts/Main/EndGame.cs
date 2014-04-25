@@ -1,14 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.Scripts.Levels;
+using UnityEngine;
 
-public class EndGame : MonoBehaviour 
+namespace Assets.Scripts.Main
 {
-
-	void Update () 
+    public class EndGame : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
+        private void Update()
         {
-            GameObject.Find("_Scripts").GetComponent<GameManager>().LevelManager.LoadLevel(LevelsEnum.Menu);
+            if (Input.GetMouseButtonDown(0))
+            {
+                GameObject.Find("_Scripts").GetComponent<GameManager>().LevelManager.LoadLevel(LevelsEnum.Menu);
+            }
         }
-	}
+    }
 }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public enum BuildingTypes
+﻿namespace Assets.Scripts.Buildings
 {
-    BarracksCavalry,
-    BarracksMelee,
-    BarracksRange,
-    Castle,
-    Headquarters,
-    TrainingZone
+    public enum BuildingTypes
+    {
+        BarracksCavalry,
+        BarracksMelee,
+        BarracksRange,
+        Castle,
+        Headquarters,
+        TrainingZone
+    }
 }

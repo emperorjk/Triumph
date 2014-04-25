@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Buildings;
+using Assets.Scripts.Players;
+using Assets.Scripts.Tiles;
 using UnityEngine;
 
-public class CreatorFactoryBuilding
+namespace Assets.Scripts.FactoryPattern.BuildingFactory
 {
-    private static BuildingGameObject ConfigBuildingAndTile(Tile tile, GameObject obj)
+    public class CreatorFactoryBuilding
     {
-        BuildingGameObject building = ((GameObject)GameObject.Instantiate(obj)).GetComponent<BuildingGameObject>();
-        tile.buildingGameObject = building;
-        building.transform.position = tile.transform.position;
-        building.transform.parent = tile.transform;
-        building.Tile = tile;
-        return building;
-    }
-
-    public static BuildingGameObject CreateBuilding(Tile tile, PlayerIndex index, BuildingTypes type)
-    {
-        GameObject obj = null;
-        if (type == BuildingTypes.TrainingZone)
+        private static BuildingGameObject ConfigBuildingAndTile(Tile tile, GameObject obj)
         {
-            TrainingzoneFactory fac = new TrainingzoneFactory();
-            obj = fac.CreateBuilding(index);
+            BuildingGameObject building = ((GameObject) GameObject.Instantiate(obj)).GetComponent<BuildingGameObject>();
+            tile.buildingGameObject = building;
+            building.transform.position = tile.transform.position;
+            building.transform.parent = tile.transform;
+            building.Tile = tile;
+            return building;
         }
-        return ConfigBuildingAndTile(tile, obj);
+
+        public static BuildingGameObject CreateBuilding(Tile tile, PlayerIndex index, BuildingTypes type)
+        {
+            GameObject obj = null;
+            if (type == BuildingTypes.TrainingZone)
+            {
+                TrainingzoneFactory fac = new TrainingzoneFactory();
+                obj = fac.CreateBuilding(index);
+            }
+            return ConfigBuildingAndTile(tile, obj);
+        }
     }
 }

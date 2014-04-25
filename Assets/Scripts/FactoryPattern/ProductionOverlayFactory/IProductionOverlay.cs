@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Main;
 using UnityEngine;
 
-public abstract class IProductionOverlay
+namespace Assets.Scripts.FactoryPattern.ProductionOverlayFactory
 {
-    public string DirToProductionOverlayFolder { get { return FileLocations.prefabUnitProduction; } }
-    public abstract GameObject CreateProductionOverlay();
+    public abstract class IProductionOverlay
+    {
+        public string DirToProductionOverlayFolder
+        {
+            get { return FileLocations.prefabUnitProduction; }
+        }
+
+        public abstract GameObject CreateProductionOverlay();
+    }
 }

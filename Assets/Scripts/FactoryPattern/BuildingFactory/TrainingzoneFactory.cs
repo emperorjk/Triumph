@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Players;
 using UnityEngine;
-public class TrainingzoneFactory : IBuildingGameObject
+
+namespace Assets.Scripts.FactoryPattern.BuildingFactory
 {
-    public override GameObject CreateBuilding(PlayerIndex index)
+    public class TrainingzoneFactory : IBuildingGameObject
     {
-        GameObject obj = null;
-        if (PlayerIndex.Blue == index)
+        public override GameObject CreateBuilding(PlayerIndex index)
         {
-            obj = Resources.Load<GameObject>(DirToBuildingFolder + "TrainingZoneBluePrefab");
+            GameObject obj = null;
+            if (PlayerIndex.Blue == index)
+            {
+                obj = Resources.Load<GameObject>(DirToBuildingFolder + "TrainingZoneBluePrefab");
+            }
+            else if (PlayerIndex.Red == index)
+            {
+                obj = Resources.Load<GameObject>(DirToBuildingFolder + "TrainingZoneRedPrefab");
+            }
+            else if (PlayerIndex.Neutral == index)
+            {
+                obj = Resources.Load<GameObject>(DirToBuildingFolder + "TrainingZoneNeutralPrefab");
+            }
+            return obj;
         }
-        else if (PlayerIndex.Red == index)
-        {
-            obj = Resources.Load<GameObject>(DirToBuildingFolder + "TrainingZoneRedPrefab");
-        }
-        else if (PlayerIndex.Neutral == index)
-        {
-            obj = Resources.Load<GameObject>(DirToBuildingFolder + "TrainingZoneNeutralPrefab");
-        }
-        return obj;
     }
 }

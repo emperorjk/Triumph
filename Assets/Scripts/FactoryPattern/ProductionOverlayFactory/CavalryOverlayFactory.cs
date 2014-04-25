@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-public class CavalryOverlayFactory : IProductionOverlay
+﻿using UnityEngine;
+
+namespace Assets.Scripts.FactoryPattern.ProductionOverlayFactory
 {
-    public override GameObject CreateProductionOverlay()
+    public class CavalryOverlayFactory : IProductionOverlay
     {
-        GameObject obj = null;
-        obj = Resources.Load<GameObject>(DirToProductionOverlayFolder + "ProductionCavalryPrefab");
-        return obj;
+        public override GameObject CreateProductionOverlay()
+        {
+            GameObject obj = null;
+            obj = Resources.Load<GameObject>(DirToProductionOverlayFolder + "ProductionCavalryPrefab");
+            return obj;
+        }
     }
 }

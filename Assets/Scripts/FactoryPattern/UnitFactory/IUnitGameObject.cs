@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Scripts.Main;
+using Assets.Scripts.Players;
 using UnityEngine;
 
-public abstract class IUnitGameObject
+namespace Assets.Scripts.FactoryPattern.UnitFactory
 {
-    public string DirToUnitFolder { get { return FileLocations.prefabUnits; } }
-    public abstract GameObject CreateUnit(PlayerIndex index);
-    public abstract GameObject CreateHeroUnit(PlayerIndex index);
+    public abstract class IUnitGameObject
+    {
+        public string DirToUnitFolder
+        {
+            get { return FileLocations.prefabUnits; }
+        }
+
+        public abstract GameObject CreateUnit(PlayerIndex index);
+        public abstract GameObject CreateHeroUnit(PlayerIndex index);
+    }
 }

@@ -1,223 +1,233 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Assets.Scripts.Main;
+using Assets.Scripts.Tiles;
+using Assets.Scripts.Units;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+namespace Assets.Scripts.UnitActions
 {
-    public float StartTimeMoving { get; set; }
-    public bool NeedsMoving { get; set; }
-    public List<Node> nodeList;
-
-    private CompareNodes compare = new CompareNodes();
-    private float movingDuration = 0.65f;
-
-    private GameManager _manager;
-
-    void Start()
+    public class Movement : MonoBehaviour
     {
-        _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
-    }
+        public float StartTimeMoving { get; set; }
+        public bool NeedsMoving { get; set; }
+        public List<Node> nodeList;
 
-    void Update()
-    {
-        if (NeedsMoving && nodeList != null)
+        private CompareNodes compare = new CompareNodes();
+        private float movingDuration = 0.65f;
+
+        private GameManager _manager;
+
+        private void Start()
         {
-            Moving(_manager.Highlight.UnitSelected);
-        }
-    }
-
-    public void Moving(UnitGameObject unitMoving)
-    {
-        unitMoving.transform.position = Vector2.Lerp(unitMoving.Tile.Vector2, nodeList.Last().tile.Vector2, GetTimePassed());
-        
-        if (GetTimePassed() >= 1f)
-        {
-            // Show fow for the unit.
-            _manager.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
-            // Remove the references from the old tile.
-            unitMoving.Tile.unitGameObject = null;
-            unitMoving.Tile = null;
-            // Remove the last tile from the list.
-            Tile newPosition = nodeList.Last().tile;
-            nodeList.Remove(nodeList.Last());
-            // Assign the references using the new tile.
-            newPosition.unitGameObject = unitMoving;
-            unitMoving.Tile = newPosition;
-            unitMoving.Tile.Vector2 = newPosition.Vector2;
-            // Set the parent and position of the unit to the new tile.
-            unitMoving.transform.parent = newPosition.transform;
-            unitMoving.transform.position = newPosition.transform.position;
-            // Hide the fow for the unit. It will use the new tile location.
-            _manager.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
-            StartTimeMoving = Time.time;
+            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         }
 
-        if(nodeList.Count <= 0)
+        private void Update()
         {
-            _manager.Highlight.ClearHighlights();
-            Tile endDestinationTile = unitMoving.Tile;
-
-            if (endDestinationTile.HasLoot())
+            if (NeedsMoving && nodeList != null)
             {
-                endDestinationTile.Loot.PickUpLoot(_manager.CurrentPlayer);
+                Moving(_manager.Highlight.UnitSelected);
             }
-
-            if (endDestinationTile.HasBuilding())
-            {
-                _manager.CaptureBuildings.AddBuildingToCaptureList(endDestinationTile.buildingGameObject.BuildingGame);
-            }
-
-            if (unitMoving.UnitGame.CanAttackAfterMove && _manager.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
-            {
-                unitMoving.UnitGame.hasMoved = true;
-            }
-            else
-            {
-                unitMoving.UnitGame.hasMoved = true;
-                unitMoving.UnitGame.hasAttacked = true;
-            }
-            NeedsMoving = false;
-            unitMoving.UnitGame.UpdateUnitColor();
         }
-    }
 
-    public void FacingDirectionMovement(UnitGameObject moveUnit, Tile destination)
-    {
-        Vector3 direction = moveUnit.transform.position - destination.transform.position;
-
-        Quaternion quaternion = new Quaternion(0, (direction.x > 0 ? 180 : 0), 0, 0);
-        moveUnit.transform.rotation = quaternion;
-
-        Quaternion attackerHealthQ = new Quaternion(0, 0, 0, (moveUnit.transform.position.y > 0 ? 0 : 180));
-        moveUnit.UnitHealthText.transform.rotation = attackerHealthQ;
-    }
-
-    private float GetTimePassed()
-    {
-        return (Time.time - StartTimeMoving) / movingDuration;
-    }
-
-    /// <summary>
-    /// Calculates the shortest path with the A* search algorithm.
-    /// </summary>
-    /// <param name="start"></param>
-    /// <param name="goal"></param>
-    /// <returns></returns>
-    public List<Node> CalculateShortestPath(Tile start, Tile goal, bool attackCalculate)
-    {
-        List<Node> openList = new List<Node>();
-        List<Node> closedList = new List<Node>();
-        Node current = new Node(start.Vector2, start, null, 0, 0);
-        int maxValueCounter = 0;
-
-        openList.Add(current);
-        while(openList.Count > 0)
+        public void Moving(UnitGameObject unitMoving)
         {
-            openList.Sort(compare);
-            current = openList[0];
+            unitMoving.transform.position = Vector2.Lerp(unitMoving.Tile.Vector2, nodeList.Last().tile.Vector2,
+                GetTimePassed());
 
-            if (current.tile.Equals(goal))
+            if (GetTimePassed() >= 1f)
             {
-                List<Node> path = new List<Node>();
-
-                while (current.parent != null)
-                {
-                    path.Add(current);
-                    current = current.parent;
-                }
-                openList.Clear();
-                closedList.Clear();
-
-                return path;
+                // Show fow for the unit.
+                _manager.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
+                // Remove the references from the old tile.
+                unitMoving.Tile.unitGameObject = null;
+                unitMoving.Tile = null;
+                // Remove the last tile from the list.
+                Tile newPosition = nodeList.Last().tile;
+                nodeList.Remove(nodeList.Last());
+                // Assign the references using the new tile.
+                newPosition.unitGameObject = unitMoving;
+                unitMoving.Tile = newPosition;
+                unitMoving.Tile.Vector2 = newPosition.Vector2;
+                // Set the parent and position of the unit to the new tile.
+                unitMoving.transform.parent = newPosition.transform;
+                unitMoving.transform.position = newPosition.transform.position;
+                // Hide the fow for the unit. It will use the new tile location.
+                _manager.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
+                StartTimeMoving = Time.time;
             }
-            
-            openList.Remove(current);
-            closedList.Add(current);
-            for (int i = 0; i < 9; i++)
+
+            if (nodeList.Count <= 0)
             {
-                int x = (i % 3) - 1;
-                int y = (i / 3) - 1;
+                _manager.Highlight.ClearHighlights();
+                Tile endDestinationTile = unitMoving.Tile;
 
-                // This line prevents diagonal movement
-                if (!((x == 0 && y != 0) || (x != 0 && y == 0)))
+                if (endDestinationTile.HasLoot())
                 {
-                    continue;
+                    endDestinationTile.Loot.PickUpLoot(_manager.CurrentPlayer);
                 }
 
-                Tile t = TileHelper.GetTile(new TileCoordinates(x + current.tile.Coordinate.ColumnId, y + current.tile.Coordinate.RowId));
-
-                if (t == null)
+                if (endDestinationTile.HasBuilding())
                 {
-                    continue;
+                    _manager.CaptureBuildings.AddBuildingToCaptureList(
+                        endDestinationTile.buildingGameObject.BuildingGame);
                 }
-                else if (attackCalculate)
+
+                if (unitMoving.UnitGame.CanAttackAfterMove &&
+                    _manager.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
                 {
-                    // if T is not equal to goal we want to check if isWalkable and HasUnit. Otherwise we cannot move to goal because that one has an unit.
-                    if (!t.Equals(goal))
+                    unitMoving.UnitGame.hasMoved = true;
+                }
+                else
+                {
+                    unitMoving.UnitGame.hasMoved = true;
+                    unitMoving.UnitGame.hasAttacked = true;
+                }
+                NeedsMoving = false;
+                unitMoving.UnitGame.UpdateUnitColor();
+            }
+        }
+
+        public void FacingDirectionMovement(UnitGameObject moveUnit, Tile destination)
+        {
+            Vector3 direction = moveUnit.transform.position - destination.transform.position;
+
+            Quaternion quaternion = new Quaternion(0, (direction.x > 0 ? 180 : 0), 0, 0);
+            moveUnit.transform.rotation = quaternion;
+
+            Quaternion attackerHealthQ = new Quaternion(0, 0, 0, (moveUnit.transform.position.y > 0 ? 0 : 180));
+            moveUnit.UnitHealthText.transform.rotation = attackerHealthQ;
+        }
+
+        private float GetTimePassed()
+        {
+            return (Time.time - StartTimeMoving)/movingDuration;
+        }
+
+        /// <summary>
+        /// Calculates the shortest path with the A* search algorithm.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="goal"></param>
+        /// <returns></returns>
+        public List<Node> CalculateShortestPath(Tile start, Tile goal, bool attackCalculate)
+        {
+            List<Node> openList = new List<Node>();
+            List<Node> closedList = new List<Node>();
+            Node current = new Node(start.Vector2, start, null, 0, 0);
+            int maxValueCounter = 0;
+
+            openList.Add(current);
+            while (openList.Count > 0)
+            {
+                openList.Sort(compare);
+                current = openList[0];
+
+                if (current.tile.Equals(goal))
+                {
+                    List<Node> path = new List<Node>();
+
+                    while (current.parent != null)
+                    {
+                        path.Add(current);
+                        current = current.parent;
+                    }
+                    openList.Clear();
+                    closedList.Clear();
+
+                    return path;
+                }
+
+                openList.Remove(current);
+                closedList.Add(current);
+                for (int i = 0; i < 9; i++)
+                {
+                    int x = (i%3) - 1;
+                    int y = (i/3) - 1;
+
+                    // This line prevents diagonal movement
+                    if (!((x == 0 && y != 0) || (x != 0 && y == 0)))
+                    {
+                        continue;
+                    }
+
+                    Tile t =
+                        TileHelper.GetTile(new TileCoordinates(x + current.tile.Coordinate.ColumnId,
+                            y + current.tile.Coordinate.RowId));
+
+                    if (t == null)
+                    {
+                        continue;
+                    }
+                    else if (attackCalculate)
+                    {
+                        // if T is not equal to goal we want to check if isWalkable and HasUnit. Otherwise we cannot move to goal because that one has an unit.
+                        if (!t.Equals(goal))
+                        {
+                            if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    else
                     {
                         if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
                         {
                             continue;
                         }
                     }
-                }
-                else
-                {
-                    if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
+
+                    double gCost = current.gCost + GetCost(current.vector2, t.Vector2);
+                    double hCost = GetCost(t.Vector2, goal.Vector2);
+
+                    Node node = new Node(t.Vector2, t, current, gCost, hCost);
+
+                    if (closedList.Contains(node))
                     {
                         continue;
                     }
-                }
+                    if (!openList.Contains(node))
+                    {
+                        openList.Add(node);
+                    }
 
-                double gCost = current.gCost + GetCost(current.vector2, t.Vector2);
-                double hCost = GetCost(t.Vector2, goal.Vector2);
-
-                Node node = new Node(t.Vector2, t, current, gCost, hCost);
-
-                if (closedList.Contains(node))
-                {
-                    continue; 
+                    maxValueCounter++;
+                    if (maxValueCounter > 100) return null;
                 }
-                if (!openList.Contains(node))
-                {
-                    openList.Add(node);
-                }
-                
-                maxValueCounter++;
-                if (maxValueCounter > 100) return null;
             }
+
+            // No paths found
+            return null;
         }
 
-       // No paths found
-        return null;
-    }
-
-    public double GetCost(Vector2 a, Vector2 b)
-    {
-        double x = (a.x - b.x);
-        double y = (a.y - b.y);
-        x *= x;
-        y *= y;
-
-        return Math.Sqrt(x + y);
-    }
-
-    public class CompareNodes : Comparer<Node>
-    {
-        public override int Compare(Node n0, Node n1)
+        public double GetCost(Vector2 a, Vector2 b)
         {
-            if (n1.fCost < n0.fCost)
-            {
-                return 1;
-            }
-            else if (n1.fCost > n0.fCost)
-            {
-                return -1;
-            }
+            double x = (a.x - b.x);
+            double y = (a.y - b.y);
+            x *= x;
+            y *= y;
 
-            return 0;
+            return Math.Sqrt(x + y);
+        }
+
+        public class CompareNodes : Comparer<Node>
+        {
+            public override int Compare(Node n0, Node n1)
+            {
+                if (n1.fCost < n0.fCost)
+                {
+                    return 1;
+                }
+                else if (n1.fCost > n0.fCost)
+                {
+                    return -1;
+                }
+
+                return 0;
+            }
         }
     }
 }

@@ -1,51 +1,49 @@
-﻿using UnityEngine;
-using System;
+﻿using Assets.Scripts.Main;
+using Assets.Scripts.Tiles;
+using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections;
 
-public enum HighlightTypes
+namespace Assets.Scripts.UnitActions
 {
-    highlight_none,
-    highlight_attack,
-    highlight_move
-}
-
-public class HighlightObject : MonoBehaviour {
-
-    public HighlightTypes highlightTypeActive;
-
-    public List<Sprite> highlights;
-
-    public Tile tile { get; private set; }
-
-	void Start () {
-        highlights = new List<Sprite>();
-        tile = transform.parent.gameObject.GetComponent<Tile>();
-        highlights.Add((Sprite)Resources.Load<Sprite>(FileLocations.highlightAttack));
-        highlights.Add((Sprite)Resources.Load<Sprite>(FileLocations.highlightMove));
-	}
-    
-    public void ChangeHighlight(HighlightTypes highlightToActivate)
+    public class HighlightObject : MonoBehaviour
     {
-        if(highlightToActivate == HighlightTypes.highlight_none)
+
+        public HighlightTypes highlightTypeActive;
+
+        public List<Sprite> highlights;
+
+        public Tile tile { get; private set; }
+
+        private void Start()
         {
-            GetComponent<SpriteRenderer>().sprite = null;
-            this.highlightTypeActive = highlightToActivate;
-            this.renderer.enabled = false;
-            this.collider.enabled = false;
+            highlights = new List<Sprite>();
+            tile = transform.parent.gameObject.GetComponent<Tile>();
+            highlights.Add((Sprite) Resources.Load<Sprite>(FileLocations.highlightAttack));
+            highlights.Add((Sprite) Resources.Load<Sprite>(FileLocations.highlightMove));
         }
-        else if (this.highlightTypeActive != highlightToActivate)
+
+        public void ChangeHighlight(HighlightTypes highlightToActivate)
         {
-            Sprite s = highlights.FirstOrDefault(x => x.name == highlightToActivate.ToString());
-            if (s != null)
+            if (highlightToActivate == HighlightTypes.highlight_none)
             {
-                GetComponent<SpriteRenderer>().sprite = s;
+                GetComponent<SpriteRenderer>().sprite = null;
                 this.highlightTypeActive = highlightToActivate;
-                this.renderer.enabled = true;
-                this.collider.enabled = true;
+                this.renderer.enabled = false;
+                this.collider.enabled = false;
             }
+            else if (this.highlightTypeActive != highlightToActivate)
+            {
+                Sprite s = highlights.FirstOrDefault(x => x.name == highlightToActivate.ToString());
+                if (s != null)
+                {
+                    GetComponent<SpriteRenderer>().sprite = s;
+                    this.highlightTypeActive = highlightToActivate;
+                    this.renderer.enabled = true;
+                    this.collider.enabled = true;
+                }
+            }
+
         }
-        
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Assets.Scripts.Buildings;
+using Assets.Scripts.Units;
+using Assets.Scripts.World;
 using UnityEngine;
 using SimpleJSON;
 
@@ -70,7 +71,7 @@ public class GameJsonCreator
         return new Building(bg, income, capturePoints, canProduce, damageToCapturingUnit, capturepointsDecreaseBy, fowLos, attackRange, damage, modifiers);
     }
 
-    public static Environment CreateEnvironment(EnvironmentGameObject eg, EnvironmentTypes type)
+    public static Assets.Scripts.World.Environment CreateEnvironment(EnvironmentGameObject eg, EnvironmentTypes type)
     {
         string jsonString = Resources.Load<TextAsset>("JSON/Environments/" + type.ToString()).text;
         JSONNode jsonEnvironment = JSON.Parse(jsonString);
@@ -91,7 +92,7 @@ public class GameJsonCreator
                 }
             }
         }
-        
-        return new Environment(eg, isWalkable, modifiers);
+
+        return new Assets.Scripts.World.Environment(eg, isWalkable, modifiers);
     }
 }
