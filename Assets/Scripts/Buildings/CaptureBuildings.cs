@@ -27,16 +27,16 @@ namespace Assets.Scripts.Buildings
         /// <summary>
         /// Call this method whenever a unit has moved onto an enemy or neutral building.
         /// </summary>
-        /// <param name="building"></param>
+        /// <param Name="building"></param>
         public void AddBuildingToCaptureList(Building building)
         {
-            UnitGameObject unitOnBuilding = building.buildingGameObject.Tile.unitGameObject;
-            if (!BuildingsBeingCaptured.Contains(building) && unitOnBuilding.index != building.buildingGameObject.index)
+            UnitGameObject unitOnBuilding = building.BuildingGameObject.Tile.unitGameObject;
+            if (!BuildingsBeingCaptured.Contains(building) && unitOnBuilding.index != building.BuildingGameObject.index)
             {
                 BuildingsBeingCaptured.Add(building);
             }
             else if (BuildingsBeingCaptured.Contains(building) &&
-                     unitOnBuilding.index == building.buildingGameObject.index)
+                     unitOnBuilding.index == building.BuildingGameObject.index)
             {
                 building.resetCurrentCapturePoints();
                 BuildingsBeingCaptured.Remove(building);
@@ -52,9 +52,9 @@ namespace Assets.Scripts.Buildings
             for (int i = 0; i < count; i++)
             {
                 Building building = BuildingsBeingCaptured[i];
-                if (building.buildingGameObject.Tile.HasUnit())
+                if (building.BuildingGameObject.Tile.HasUnit())
                 {
-                    UnitGameObject unitOnBuilding = building.buildingGameObject.Tile.unitGameObject;
+                    UnitGameObject unitOnBuilding = building.BuildingGameObject.Tile.unitGameObject;
                     float health = unitOnBuilding.UnitGame.CurrentHealth;
                     building.IncreaseCapturePointsBy(health);
 
@@ -67,14 +67,14 @@ namespace Assets.Scripts.Buildings
 
                     if (building.HasCaptured())
                     {
-                        if (building.buildingGameObject.type != BuildingTypes.Headquarters)
+                        if (building.BuildingGameObject.type != BuildingTypes.Headquarters)
                         {
-                            BuildingTypes type = building.buildingGameObject.type;
+                            BuildingTypes type = building.BuildingGameObject.type;
 
                             BuildingsBeingCaptured.Remove(building);
                             count--;
                             i--;
-                            building.buildingGameObject.DestroyBuilding();
+                            building.BuildingGameObject.DestroyBuilding();
 
                             BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile,
                                 unitOnBuilding.index, type);
@@ -91,10 +91,10 @@ namespace Assets.Scripts.Buildings
                             // makes sure that no unnecessary code is being run.
                             // Captured the HQ (Dissable level and _Scripts, show background color in winning player color and display winning text)
                             /*
-                        Camera.main.backgroundColor = GameObject.Find("_Scripts").GetComponent<GameManager>().Players[unitOnBuilding.index].PlayerColor;
+                        Camera.main.backgroundColor = GameObject.Find("_Scripts").GetComponent<GameManager>().Players[unitOnBuilding.Index].PlayerColor;
                         GameObject.FindGameObjectWithTag("Level").SetActive(false);
                         GameObject.Find("_Scripts").SetActive(false);
-                        GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
+                        GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.Index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
                         GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.endGameLocation));
                          */
                             GameObject.Find("_Scripts")
@@ -107,7 +107,7 @@ namespace Assets.Scripts.Buildings
                 else
                 {
                     building.DecreaseCapturePointsBy(building.CapturePointsDecreasedBy);
-                    if (building.currentCapturePoints <= 0f)
+                    if (building.CurrentCapturePoints <= 0f)
                     {
                         BuildingsBeingCaptured.Remove(building);
                         count--;
@@ -120,7 +120,7 @@ namespace Assets.Scripts.Buildings
         /// <summary>
         /// When a unit captured an trainingzone, train him to his hero form.
         /// </summary>
-        /// <param name="unitToHero">The unit to train to an hero.</param>
+        /// <param Name="unitToHero">The unit to train to an hero.</param>
         private void OnTrainingzoneCapturedHero(UnitGameObject unitToHero)
         {
             if (!unitToHero.isHero)

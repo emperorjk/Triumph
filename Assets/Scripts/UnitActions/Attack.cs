@@ -34,8 +34,8 @@ namespace Assets.Scripts.UnitActions
         /// <summary>
         /// Show the attack highlights for the specified unit with the specified range.
         /// </summary>
-        /// <param name="unit"></param>
-        /// <param name="range"></param>
+        /// <param Name="unit"></param>
+        /// <param Name="range"></param>
         /// <returns></returns>
         public int ShowAttackHighlights(UnitGameObject unit, int range)
         {
@@ -50,8 +50,8 @@ namespace Assets.Scripts.UnitActions
                         // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
                         if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
                         {
-                            tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                            _manager.Highlight.HighlightObjects.Add(tile.Value.highlight);
+                            tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
+                            _manager.Highlight.HighlightObjects.Add(tile.Value.Highlight);
                         }
                         else
                         {
@@ -59,8 +59,8 @@ namespace Assets.Scripts.UnitActions
 
                             if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
                             {
-                                tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                                _manager.Highlight.HighlightObjects.Add(tile.Value.highlight);
+                                tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
+                                _manager.Highlight.HighlightObjects.Add(tile.Value.Highlight);
                             }
                         }
                     }
@@ -74,7 +74,7 @@ namespace Assets.Scripts.UnitActions
         /// <summary>
         /// Get called whenever an OnHighlightClick is fired. If it is possible it will attack an enemy unit.
         /// </summary>
-        /// <param name="evt"></param>
+        /// <param Name="evt"></param>
         public void BattlePreparation(OnHighlightClick evt)
         {
             if (evt.highlight != null)
@@ -87,16 +87,16 @@ namespace Assets.Scripts.UnitActions
                     UnitGameObject defendingUnit = highlight.tile.unitGameObject;
 
 
-                    if (!attackingUnit.UnitGame.hasAttacked)
+                    if (!attackingUnit.UnitGame.HasAttacked)
                     {
-                        if (!attackingUnit.UnitGame.hasMoved ||
-                            (attackingUnit.UnitGame.hasMoved && attackingUnit.UnitGame.CanAttackAfterMove))
+                        if (!attackingUnit.UnitGame.HasMoved ||
+                            (attackingUnit.UnitGame.HasMoved && attackingUnit.UnitGame.CanAttackAfterMove))
                         {
                             if (TileHelper.IsTileWithinRange(attackingUnit.transform.position,
                                 defendingUnit.transform.position, attackingUnit.UnitGame.AttackRange))
                             {
-                                attackingUnit.UnitGame.hasAttacked = true;
-                                attackingUnit.UnitGame.hasMoved = true;
+                                attackingUnit.UnitGame.HasAttacked = true;
+                                attackingUnit.UnitGame.HasMoved = true;
                                 attackingUnit.UnitGame.PlaySound(UnitSoundType.Attack);
 
                                 _manager.Highlight.ClearHighlights();
@@ -125,8 +125,8 @@ namespace Assets.Scripts.UnitActions
         /// The method which does all the complicated battle simulation. From calculating damage to dealing damage and so forth.
         /// Gets called when the event OnAnimFight is fired. When the needsAnimating property is false it will execute this code.
         /// </summary>
-        /// <param name="attacker"></param>
-        /// <param name="defender"></param>
+        /// <param Name="Attacker"></param>
+        /// <param Name="Defender"></param>
         private void BattleSimulation(OnAnimFight evt)
         {
             if (evt.attacker != null && evt.defender != null && !evt.needsAnimating)

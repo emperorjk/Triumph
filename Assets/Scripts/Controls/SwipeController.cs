@@ -11,12 +11,12 @@ namespace Assets.Scripts.Controls
         private float minSwipeDistance = 50f;
         // The difference the fingers can go to the left or right.
         private float swipeVariance = 30f;
-        public bool isSwipeHappening { get; set; }
+        public bool IsSwipeHappening { get; set; }
         private Vector2 SwipingVector;
 
         private void Awake()
         {
-            isSwipeHappening = false;
+            IsSwipeHappening = false;
         }
 
         private void Update()
@@ -33,12 +33,12 @@ namespace Assets.Scripts.Controls
             for (int i = 0; i < fingerCount; i++)
             {
                 Touch touch = Input.GetTouch(i);
-                if (touch.phase == TouchPhase.Began && !isSwipeHappening)
+                if (touch.phase == TouchPhase.Began && !IsSwipeHappening)
                 {
                     SwipingVector = touch.position;
-                    isSwipeHappening = true;
+                    IsSwipeHappening = true;
                 }
-                else if (touch.phase == TouchPhase.Moved && isSwipeHappening)
+                else if (touch.phase == TouchPhase.Moved && IsSwipeHappening)
                 {
                     Vector2 delta = touch.position - SwipingVector;
                     Debug.Log("----------");
@@ -50,14 +50,14 @@ namespace Assets.Scripts.Controls
                         if (delta.y < 0)
                         {
                             // down swipe
-                            isSwipeHappening = false;
+                            IsSwipeHappening = false;
                             OnSwipeAction swipeDown = new OnSwipeAction(fingerCount, false, false, false, true);
                             EventHandler.dispatch<OnSwipeAction>(swipeDown);
                         }
                         else if (delta.y > 0)
                         {
                             // Up swipe
-                            isSwipeHappening = false;
+                            IsSwipeHappening = false;
                             OnSwipeAction swipeUp = new OnSwipeAction(fingerCount, false, false, true, false);
                             EventHandler.dispatch<OnSwipeAction>(swipeUp);
                         }
@@ -68,23 +68,23 @@ namespace Assets.Scripts.Controls
                         if (delta.x < 0)
                         {
                             // Swipe left
-                            //isSwipeHappening = false;
+                            //IsSwipeHappening = false;
                             //OnSwipeAction swipe = new OnSwipeAction(fingerCount, true, false, false, false);
                             //EventHandler.dispatch<OnSwipeAction>(swipe);
                         }
                         else if (delta.x > 0)
                         {
                             // Swipe right
-                            //isSwipeHappening = false;
+                            //IsSwipeHappening = false;
                             //OnSwipeAction swipe = new OnSwipeAction(fingerCount, false, true, false, false);
                             //EventHandler.dispatch<OnSwipeAction>(swipe);
                         }
                     }
                 }
-                else if (touch.phase == TouchPhase.Ended && isSwipeHappening)
+                else if (touch.phase == TouchPhase.Ended && IsSwipeHappening)
                 {
                     SwipingVector = Vector2.zero;
-                    isSwipeHappening = false;
+                    IsSwipeHappening = false;
                 }
             }
         }

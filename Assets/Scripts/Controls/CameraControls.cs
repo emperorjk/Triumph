@@ -88,7 +88,7 @@ namespace Assets.Scripts.Controls
         /// <summary>
         /// Moves the camera according to the given Vector2 deltaposition.
         /// </summary>
-        /// <param name="deltaposition">The amount the camera moves by.</param>
+        /// <param Name="deltaposition">The amount the camera moves by.</param>
         private void MoveCamera(Vector2 deltaposition)
         {
             Camera cam = Camera.main;

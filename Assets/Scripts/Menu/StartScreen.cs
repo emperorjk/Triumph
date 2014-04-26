@@ -9,11 +9,13 @@ namespace Assets.Scripts.Menu
         public GameObject creditButton;
 
         private RaycastHit touchBox;
+        private GameObject start;
 
         private void Start()
         {
-            MenuManager.Instance.MenuPositions();
+            MenuManager.Instance.Positions();
             MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
+            start = GameObject.Find("Start");
         }
 
         private void Update()
@@ -32,16 +34,17 @@ namespace Assets.Scripts.Menu
                     if (touchBox.collider == startButton.collider)
                     {
                         MenuManager.Instance.ChangeMenuScreen(MenuStates.LevelState);
-                        GameObject.Find("StartButton").audio.Play();
+                        start.audio.Play();
                     }
                     else if (touchBox.collider == guideButton.collider)
                     {
                         MenuManager.Instance.ChangeMenuScreen(MenuStates.GuideState);
-                        GameObject.Find("GuideButton").audio.Play();
+                        start.audio.Play();
                     }
                     else if (touchBox.collider == creditButton.collider)
                     {
                         MenuManager.Instance.ChangeMenuScreen(MenuStates.CreditsScreen);
+                        start.audio.Play();
                     }
                 }
             }

@@ -34,27 +34,27 @@ namespace Assets.Scripts.UnitActions
 
         public void Moving(UnitGameObject unitMoving)
         {
-            unitMoving.transform.position = Vector2.Lerp(unitMoving.Tile.Vector2, nodeList.Last().tile.Vector2,
+            unitMoving.transform.position = Vector2.Lerp(unitMoving.Tile.Vector2, nodeList.Last().Tile.Vector2,
                 GetTimePassed());
 
             if (GetTimePassed() >= 1f)
             {
                 // Show fow for the unit.
                 _manager.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
-                // Remove the references from the old tile.
+                // Remove the references from the old Tile.
                 unitMoving.Tile.unitGameObject = null;
                 unitMoving.Tile = null;
-                // Remove the last tile from the list.
-                Tile newPosition = nodeList.Last().tile;
+                // Remove the last Tile from the list.
+                Tile newPosition = nodeList.Last().Tile;
                 nodeList.Remove(nodeList.Last());
-                // Assign the references using the new tile.
+                // Assign the references using the new Tile.
                 newPosition.unitGameObject = unitMoving;
                 unitMoving.Tile = newPosition;
                 unitMoving.Tile.Vector2 = newPosition.Vector2;
-                // Set the parent and position of the unit to the new tile.
+                // Set the parent and position of the unit to the new Tile.
                 unitMoving.transform.parent = newPosition.transform;
                 unitMoving.transform.position = newPosition.transform.position;
-                // Hide the fow for the unit. It will use the new tile location.
+                // Hide the fow for the unit. It will use the new Tile location.
                 _manager.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
                 StartTimeMoving = Time.time;
             }
@@ -78,12 +78,12 @@ namespace Assets.Scripts.UnitActions
                 if (unitMoving.UnitGame.CanAttackAfterMove &&
                     _manager.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
                 {
-                    unitMoving.UnitGame.hasMoved = true;
+                    unitMoving.UnitGame.HasMoved = true;
                 }
                 else
                 {
-                    unitMoving.UnitGame.hasMoved = true;
-                    unitMoving.UnitGame.hasAttacked = true;
+                    unitMoving.UnitGame.HasMoved = true;
+                    unitMoving.UnitGame.HasAttacked = true;
                 }
                 NeedsMoving = false;
                 unitMoving.UnitGame.UpdateUnitColor();
@@ -109,8 +109,8 @@ namespace Assets.Scripts.UnitActions
         /// <summary>
         /// Calculates the shortest path with the A* search algorithm.
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="goal"></param>
+        /// <param Name="start"></param>
+        /// <param Name="goal"></param>
         /// <returns></returns>
         public List<Node> CalculateShortestPath(Tile start, Tile goal, bool attackCalculate)
         {
@@ -125,14 +125,14 @@ namespace Assets.Scripts.UnitActions
                 openList.Sort(compare);
                 current = openList[0];
 
-                if (current.tile.Equals(goal))
+                if (current.Tile.Equals(goal))
                 {
                     List<Node> path = new List<Node>();
 
-                    while (current.parent != null)
+                    while (current.Parent != null)
                     {
                         path.Add(current);
-                        current = current.parent;
+                        current = current.Parent;
                     }
                     openList.Clear();
                     closedList.Clear();
@@ -154,8 +154,8 @@ namespace Assets.Scripts.UnitActions
                     }
 
                     Tile t =
-                        TileHelper.GetTile(new TileCoordinates(x + current.tile.Coordinate.ColumnId,
-                            y + current.tile.Coordinate.RowId));
+                        TileHelper.GetTile(new TileCoordinates(x + current.Tile.Coordinate.ColumnId,
+                            y + current.Tile.Coordinate.RowId));
 
                     if (t == null)
                     {
@@ -166,7 +166,7 @@ namespace Assets.Scripts.UnitActions
                         // if T is not equal to goal we want to check if isWalkable and HasUnit. Otherwise we cannot move to goal because that one has an unit.
                         if (!t.Equals(goal))
                         {
-                            if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
+                            if (!t.environmentGameObject.EnvironmentGame.IsWalkable || t.HasUnit())
                             {
                                 continue;
                             }
@@ -174,13 +174,13 @@ namespace Assets.Scripts.UnitActions
                     }
                     else
                     {
-                        if (!t.environmentGameObject.environmentGame.IsWalkable || t.HasUnit())
+                        if (!t.environmentGameObject.EnvironmentGame.IsWalkable || t.HasUnit())
                         {
                             continue;
                         }
                     }
 
-                    double gCost = current.gCost + GetCost(current.vector2, t.Vector2);
+                    double gCost = current.GCost + GetCost(current.Vector2, t.Vector2);
                     double hCost = GetCost(t.Vector2, goal.Vector2);
 
                     Node node = new Node(t.Vector2, t, current, gCost, hCost);
@@ -217,11 +217,11 @@ namespace Assets.Scripts.UnitActions
         {
             public override int Compare(Node n0, Node n1)
             {
-                if (n1.fCost < n0.fCost)
+                if (n1.FCost < n0.FCost)
                 {
                     return 1;
                 }
-                else if (n1.fCost > n0.fCost)
+                else if (n1.FCost > n0.FCost)
                 {
                     return -1;
                 }

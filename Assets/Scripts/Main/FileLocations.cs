@@ -2,7 +2,7 @@
 {
     public class FileLocations
     {
-        public const string highlight = "Prefabs/Level/highlight";
+        public const string highlight = "Prefabs/Level/Highlight";
         public const string highlightMove = "Textures/Misc/highlight_move";
         public const string highlightAttack = "Textures/Misc/highlight_attack";
         public const string fogOfWar = "Prefabs/Environments/FogOfWar";

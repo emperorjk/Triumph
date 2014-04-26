@@ -8,9 +8,9 @@ using UnityEngine;
 namespace Assets.Scripts.Tiles
 {
     /// <summary>
-    /// This script is put on a prefab. Some information needs to be set within Unity. The environment object is a prefab. That needs to be dragged ontop of the environmentGameObject variable.
+    /// This script is put on a prefab. Some information needs to be set within Unity. The environment object is a prefab. That needs to be dragged ontop of the EnvironmentGameObject variable.
     /// This is also true for possible units and buildings.
-    /// So the tile has a reference to the stuff that is on it.
+    /// So the Tile has a reference to the stuff that is on it.
     /// </summary>
     public class Tile : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace Assets.Scripts.Tiles
         public UnitGameObject unitGameObject;
         public GameObject FogOfWar { get; private set; }
         public bool IsFogShown { get; set; }
-        public HighlightObject highlight { get; private set; }
+        public HighlightObject Highlight { get; private set; }
         public TileCoordinates Coordinate { get; private set; }
         public Vector2 Vector2 { get; set; }
         public Loot Loot { get; set; }
@@ -55,8 +55,8 @@ namespace Assets.Scripts.Tiles
             GameObject highlight = ((GameObject) GameObject.Instantiate(Resources.Load(FileLocations.highlight)));
             highlight.transform.parent = this.transform;
             highlight.transform.position = this.transform.position;
-            this.highlight = highlight.GetComponent<HighlightObject>();
-            this.highlight.ChangeHighlight(HighlightTypes.highlight_none);
+            this.Highlight = highlight.GetComponent<HighlightObject>();
+            this.Highlight.ChangeHighlight(HighlightTypes.highlight_none);
         }
 
         public bool HasBuilding()

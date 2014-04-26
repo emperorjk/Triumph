@@ -55,8 +55,8 @@ namespace Assets.Scripts.Notification
         /// <summary>
         /// Add an notify to the last position on the list. So the text that was entered first will display first.
         /// </summary>
-        /// <param name="textToDisplay"></param>
-        /// <param name="timeToDisplay"></param>
+        /// <param Name="textToDisplay"></param>
+        /// <param Name="timeToDisplay"></param>
         public static void Notify(string textToDisplay, float timeToDisplay)
         {
             // Make sure we only add the new notification to the list when it is not an empty list and the time to display is greater than 0.

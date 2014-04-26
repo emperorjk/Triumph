@@ -34,7 +34,7 @@ namespace Assets.Scripts.UnitActions
         /// <summary>
         /// Gets called whenever an OnUnitClick event is fired.
         /// </summary>
-        /// <param name="evt"></param>
+        /// <param Name="evt"></param>
         public void ShowHighlight(OnUnitClick evt)
         {
             if (evt.unit != null)
@@ -43,7 +43,7 @@ namespace Assets.Scripts.UnitActions
                 {
                     UnitSelected = evt.unit;
                     IsHighlightOn = true;
-                    if (!UnitSelected.UnitGame.hasMoved)
+                    if (!UnitSelected.UnitGame.HasMoved)
                     {
                         UnitSelected.UnitGame.PlaySound(UnitSoundType.Select);
 
@@ -54,22 +54,22 @@ namespace Assets.Scripts.UnitActions
                         {
                             foreach (KeyValuePair<int, Tile> tile in item.Value)
                             {
-                                if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.environmentGame.IsWalkable)
+                                if (!tile.Value.HasUnit() && tile.Value.environmentGameObject.EnvironmentGame.IsWalkable)
                                 {
                                     List<Node> path = _manager.Movement.CalculateShortestPath(UnitSelected.Tile,
                                         tile.Value, false);
 
                                     if (path != null && path.Count <= UnitSelected.UnitGame.MoveRange)
                                     {
-                                        tile.Value.highlight.ChangeHighlight(HighlightTypes.highlight_move);
-                                        HighlightObjects.Add(tile.Value.highlight);
+                                        tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_move);
+                                        HighlightObjects.Add(tile.Value.Highlight);
                                     }
                                 }
                             }
                         }
                         _manager.Attack.ShowAttackHighlights(UnitSelected, UnitSelected.UnitGame.GetAttackMoveRange);
                     }
-                    else if (UnitSelected.UnitGame.CanAttackAfterMove && !UnitSelected.UnitGame.hasAttacked)
+                    else if (UnitSelected.UnitGame.CanAttackAfterMove && !UnitSelected.UnitGame.HasAttacked)
                     {
                         _manager.Attack.ShowAttackHighlights(UnitSelected, UnitSelected.UnitGame.AttackRange);
                     }
@@ -80,7 +80,7 @@ namespace Assets.Scripts.UnitActions
         /// <summary>
         /// Gets called whenever an OnHighlightClick event is fired.
         /// </summary>
-        /// <param name="evt"></param>
+        /// <param Name="evt"></param>
         public void ClickedOnHightLight(OnHighlightClick evt)
         {
             if (evt.highlight != null)
@@ -90,12 +90,12 @@ namespace Assets.Scripts.UnitActions
                     HighlightObject highlight = evt.highlight;
                     if (highlight.highlightTypeActive == HighlightTypes.highlight_move)
                     {
-                        UnitSelected.UnitGame.hasMoved = true;
+                        UnitSelected.UnitGame.HasMoved = true;
                         _manager.Movement.nodeList = _manager.Movement.CalculateShortestPath(UnitSelected.Tile,
                             highlight.tile, false);
                         _manager.Movement.StartTimeMoving = Time.time;
                         _manager.Movement.NeedsMoving = true;
-                        _manager.Movement.FacingDirectionMovement(UnitSelected, _manager.Movement.nodeList[0].tile);
+                        _manager.Movement.FacingDirectionMovement(UnitSelected, _manager.Movement.nodeList[0].Tile);
                         UnitSelected.UnitGame.PlaySound(UnitSoundType.Move);
                         ClearHighlights();
                     }
@@ -108,10 +108,10 @@ namespace Assets.Scripts.UnitActions
         /// </summary>
         public void ClearMovementAndHighLights()
         {
-            foreach (Unit unit in _manager.CurrentPlayer.ownedUnits)
+            foreach (Unit unit in _manager.CurrentPlayer.OwnedUnits)
             {
-                unit.hasMoved = false;
-                unit.hasAttacked = false;
+                unit.HasMoved = false;
+                unit.HasAttacked = false;
                 unit.UpdateUnitColor();
             }
             ClearHighlights();

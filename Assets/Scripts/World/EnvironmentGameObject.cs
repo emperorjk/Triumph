@@ -9,14 +9,14 @@ namespace Assets.Scripts.World
     public class EnvironmentGameObject : MonoBehaviour
     {
         public EnvironmentTypes type;
-        public Environment environmentGame { get; private set; }
-        public Tile tile { get; set; }
+        public Environment EnvironmentGame { get; private set; }
+        public Tile Tile { get; set; }
 
         private void Awake()
         {
-            this.environmentGame = GameJsonCreator.CreateEnvironment(this, type);
-            tile = GetComponent<Tile>();
-            tile.environmentGameObject = this;
+            this.EnvironmentGame = GameJsonCreator.CreateEnvironment(this, type);
+            Tile = GetComponent<Tile>();
+            Tile.environmentGameObject = this;
         }
     }
 }

@@ -35,8 +35,8 @@ namespace Assets.Scripts.Buildings
         public void UpdateCapturePointsText()
         {
             TextMesh text = CapturePointsText.GetComponent<TextMesh>();
-            text.text = ((int) BuildingGame.currentCapturePoints) + "/" + ((int) BuildingGame.capturePoints);
-            CapturePointsText.renderer.enabled = (!Tile.IsFogShown && BuildingGame.currentCapturePoints > 0);
+            text.text = ((int) BuildingGame.CurrentCapturePoints) + "/" + ((int) BuildingGame.capturePoints);
+            CapturePointsText.renderer.enabled = (!Tile.IsFogShown && BuildingGame.CurrentCapturePoints > 0);
         }
 
         public void DestroyBuilding()

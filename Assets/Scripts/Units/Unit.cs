@@ -13,9 +13,9 @@ namespace Assets.Scripts.Units
             float damage, int cost, int fowLos, float baseLoot, Dictionary<UnitTypes, float> modifiers)
         {
             this.UnitGameObject = game;
-            this.isHero = isHero;
-            this.hasMoved = false;
-            this.hasAttacked = false;
+            this.IsHero = isHero;
+            this.HasMoved = false;
+            this.HasAttacked = false;
             this.AttackRange = attackRange;
             this.MoveRange = moveRange;
             this.CanAttackAfterMove = canAttackAfterMove;
@@ -30,9 +30,9 @@ namespace Assets.Scripts.Units
         }
 
         public UnitGameObject UnitGameObject { get; private set; }
-        public bool isHero { get; private set; }
+        public bool IsHero { get; private set; }
 
-        public bool hasMoved
+        public bool HasMoved
         {
             get { return _moved; }
             set
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Units
             }
         }
 
-        public bool hasAttacked
+        public bool HasAttacked
         {
             get { return _attacked; }
             set
@@ -143,7 +143,7 @@ namespace Assets.Scripts.Units
                 ((GameObject) GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.lootPrefab)));
             this.UnitGameObject.Tile.Loot = loot.GetComponent<Loot>();
             this.UnitGameObject.Tile.Loot.SetLoot(this.CurrentLoot);
-            loot.GetComponent<Loot>().tile = this.UnitGameObject.Tile;
+            loot.GetComponent<Loot>().Tile = this.UnitGameObject.Tile;
             loot.transform.position = this.UnitGameObject.Tile.gameObject.transform.position;
 
             this.UnitGameObject.DestroyUnit();
@@ -151,7 +151,7 @@ namespace Assets.Scripts.Units
 
         public void UpdateUnitColor()
         {
-            UnitGameObject.gameObject.renderer.material.color = hasMoved && hasAttacked ? Color.gray : Color.white;
+            UnitGameObject.gameObject.renderer.material.color = HasMoved && HasAttacked ? Color.gray : Color.white;
         }
 
         public float MaxHealth { get; private set; }
@@ -169,7 +169,7 @@ namespace Assets.Scripts.Units
         /// <summary>
         /// Returns how good this unit is against the UnitTypes that is given as a parameter.
         /// </summary>
-        /// <param name="enemyUnit"></param>
+        /// <param Name="enemyUnit"></param>
         /// <returns></returns>
         public float GetUnitModifier(UnitTypes enemyUnit)
         {
@@ -177,7 +177,7 @@ namespace Assets.Scripts.Units
         }
 
         /// <summary>
-        /// Returns the building or tile modifier the unit is standing on. If there is a building return the building modifier, otherwise return the environment modifier.
+        /// Returns the building or Tile modifier the unit is standing on. If there is a building return the building modifier, otherwise return the environment modifier.
         /// </summary>
         /// <returns></returns>
         public float GetGroundModifier()
@@ -186,7 +186,7 @@ namespace Assets.Scripts.Units
             {
                 // Removed this because it can help the player. If normally the unit is given a 0.5 modifier when it owns the building, it will now receive a 1.0f modifier
                 // which increases the damage done and thus neglecting the fact that a knight is bad on a castle for example.
-                //if(UnitGameObject.Tile.buildingGameObject.index != UnitGameObject.index)
+                //if(UnitGameObject.Tile.BuildingGameObject.Index != UnitGameObject.Index)
                 // {
                 //    return 1f;
                 // }
@@ -195,7 +195,7 @@ namespace Assets.Scripts.Units
             else
             {
                 return
-                    UnitGameObject.Tile.environmentGameObject.environmentGame.GetEnvironmentModifier(UnitGameObject.type);
+                    UnitGameObject.Tile.environmentGameObject.EnvironmentGame.GetEnvironmentModifier(UnitGameObject.type);
             }
         }
     }

@@ -29,10 +29,10 @@ namespace Assets.Scripts.MenuBar
         {
             GUI.skin = customSkin;
             Rect player = new Rect(40, 10, 300, 40);
-            GUI.Label(player, "Player: " + _manager.CurrentPlayer.name);
+            GUI.Label(player, "Player: " + _manager.CurrentPlayer.Name);
 
             Rect gold = new Rect(40, 40, 300, 40);
-            GUI.Label(gold, "Current gold: " + _manager.CurrentPlayer.gold);
+            GUI.Label(gold, "Current Gold: " + _manager.CurrentPlayer.Gold);
         }
 
         /*
@@ -56,14 +56,14 @@ namespace Assets.Scripts.MenuBar
 
             // TO-DO stop using .top and instead use xMin etc. And general improvements / cleanups to the code.
             Rect player = new Rect(margin, gamebarSize.height / 2 - 20, cellSize, gamebarSize.height);
-            Rect gold = new Rect(player.width + margin, player.top, player.width + cellSize, player.height);
-            Rect turn = new Rect(gold.width + margin, gold.top, gold.width + cellSize, gold.height);
+            Rect Gold = new Rect(player.width + margin, player.top, player.width + cellSize, player.height);
+            Rect turn = new Rect(Gold.width + margin, Gold.top, Gold.width + cellSize, Gold.height);
             
             Rect settings = new Rect(turn.width + margin, 0, settingsTexture.width, settingsTexture.height - 12);
             Rect speaker = new Rect(turn.width + cellSize, 0, speakerOnTexture.width, speakerOnTexture.height - 12);
 
-            GUI.Label(player, "Player: " + GameManager.Instance.CurrentPlayer.name);
-            GUI.Label(gold, "Current gold: " + GameManager.Instance.CurrentPlayer.gold);
+            GUI.Label(player, "Player: " + GameManager.Instance.CurrentPlayer.Name);
+            GUI.Label(Gold, "Current Gold: " + GameManager.Instance.CurrentPlayer.Gold);
             GUI.Label(turn, "Turn: " + GameManager.Instance.CurrentTurn);
 
             if(GUI.Button(settings, settingsTexture))
@@ -93,14 +93,14 @@ namespace Assets.Scripts.MenuBar
         }
     }
 
-    private void TileTexture(Texture texture, Rect tile, Rect areaToFill, ScaleMode scaleMode)
+    private void TileTexture(Texture texture, Rect Tile, Rect areaToFill, ScaleMode scaleMode)
     { 
-        for (float y = areaToFill.y; y < areaToFill.y + areaToFill.height; y = y + tile.height)
+        for (float y = areaToFill.y; y < areaToFill.y + areaToFill.height; y = y + Tile.height)
         {
-            for (float x = areaToFill.x; x < areaToFill.x + areaToFill.width; x = x + tile.width)
+            for (float x = areaToFill.x; x < areaToFill.x + areaToFill.width; x = x + Tile.width)
             {
-                tile.x = x; tile.y = y;
-                GUI.DrawTexture(tile, texture, scaleMode);
+                Tile.x = x; Tile.y = y;
+                GUI.DrawTexture(Tile, texture, scaleMode);
             }
         }
     }

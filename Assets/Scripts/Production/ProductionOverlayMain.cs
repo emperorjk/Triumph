@@ -53,7 +53,7 @@ namespace Assets.Scripts.Production
         /// <summary>
         /// This method is executed when an clicked on building event is fired.
         /// </summary>
-        /// <param name="evt"></param>
+        /// <param Name="evt"></param>
         private void OnBuildingClick(OnBuildingClick evt)
         {
             if (evt.building != null)
@@ -66,7 +66,7 @@ namespace Assets.Scripts.Production
                     CurrentOverlay.transform.parent = Camera.main.transform;
                     foreach (ProductionScript item in CurrentOverlay.GetComponentsInChildren<ProductionScript>())
                     {
-                        item.parentProduction = this;
+                        item.ParentProduction = this;
                     }
                     InitiateMoving(false);
                     IsProductionOverlayActive = true;

@@ -7,10 +7,10 @@ namespace Assets.Scripts.UnitActions
 {
     public class AnimationInfo : MonoBehaviour
     {
-        public UnitGameObject defender { get; set; }
-        public UnitGameObject attacker { get; set; }
-        public Sprite defaultSpriteDefender { get; set; }
-        public Sprite defaultSpriteAttacker { get; set; }
+        public UnitGameObject Defender { get; set; }
+        public UnitGameObject Attacker { get; set; }
+        public Sprite DefaultSpriteDefender { get; set; }
+        public Sprite DefaultSpriteAttacker { get; set; }
         public float FightTime { get; set; }
 
         public bool IsAnimateFight { get; set; }
@@ -30,16 +30,16 @@ namespace Assets.Scripts.UnitActions
         {
             if (evt.attacker != null && evt.defender != null && evt.needsAnimating)
             {
-                defender = evt.defender;
-                attacker = evt.attacker;
-                defaultSpriteAttacker = attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
-                defaultSpriteDefender = defender.gameObject.GetComponent<SpriteRenderer>().sprite;
+                Defender = evt.defender;
+                Attacker = evt.attacker;
+                DefaultSpriteAttacker = Attacker.gameObject.GetComponent<SpriteRenderer>().sprite;
+                DefaultSpriteDefender = Defender.gameObject.GetComponent<SpriteRenderer>().sprite;
 
-                attacker.gameObject.GetComponent<Animator>().enabled = true;
+                Attacker.gameObject.GetComponent<Animator>().enabled = true;
 
-                if (defender.UnitGame.AttackRange >= attacker.UnitGame.AttackRange)
+                if (Defender.UnitGame.AttackRange >= Attacker.UnitGame.AttackRange)
                 {
-                    defender.gameObject.GetComponent<Animator>().enabled = true;
+                    Defender.gameObject.GetComponent<Animator>().enabled = true;
                 }
 
                 IsAnimateFight = true;
@@ -57,20 +57,20 @@ namespace Assets.Scripts.UnitActions
                 {
                     IsAnimateFight = false;
 
-                    attacker.gameObject.GetComponent<Animator>().enabled = false;
-                    defender.gameObject.GetComponent<Animator>().enabled = false;
+                    Attacker.gameObject.GetComponent<Animator>().enabled = false;
+                    Defender.gameObject.GetComponent<Animator>().enabled = false;
 
-                    attacker.gameObject.GetComponent<SpriteRenderer>().sprite = defaultSpriteAttacker;
-                    defender.gameObject.GetComponent<SpriteRenderer>().sprite = defaultSpriteDefender;
+                    Attacker.gameObject.GetComponent<SpriteRenderer>().sprite = DefaultSpriteAttacker;
+                    Defender.gameObject.GetComponent<SpriteRenderer>().sprite = DefaultSpriteDefender;
 
-                    attacker.UpdateHealthText();
-                    defender.UpdateHealthText();
+                    Attacker.UpdateHealthText();
+                    Defender.UpdateHealthText();
                     FightTime = 1f;
 
                     // Create the animation fight event. But set the needsanimating to false. Meaning that the method Attack.BattleSimulation() is called.
                     OnAnimFight fight = new OnAnimFight();
-                    fight.attacker = attacker;
-                    fight.defender = defender;
+                    fight.attacker = Attacker;
+                    fight.defender = Defender;
                     fight.needsAnimating = false;
 
                     EventHandler.dispatch<OnAnimFight>(fight);

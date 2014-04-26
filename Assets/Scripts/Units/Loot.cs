@@ -9,8 +9,8 @@ namespace Assets.Scripts.Units
         private int AmountTurnsDestroy { get; set; }
         public int CurrentTurnAmount { get; set; }
         public float AmountLoot { get; private set; }
-        // We need a reference to the tile the loot is on in order to clear the reference on the tile object to the loot.
-        public Tile tile { get; set; }
+        // We need a reference to the Tile the loot is on in order to clear the reference on the Tile object to the loot.
+        public Tile Tile { get; set; }
 
         private void Awake()
         {
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Units
 
         private void OnDestroy()
         {
-            tile.Loot = null;
+            Tile.Loot = null;
         }
     }
 }

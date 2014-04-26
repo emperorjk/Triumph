@@ -6,8 +6,8 @@ namespace Assets.Scripts.Menu
     public class MenuManager
     {
         private static MenuManager instance;
-        public Dictionary<MenuStates, GameObject> menuPositions { get; private set; }
-        public MenuStates activeMenuState { get; set; }
+        public Dictionary<MenuStates, GameObject> MenuPositions { get; private set; }
+        public MenuStates ActiveMenuState { get; set; }
 
         public static MenuManager Instance
         {
@@ -21,46 +21,46 @@ namespace Assets.Scripts.Menu
             }
         }
 
-        public void MenuPositions()
+        public void Positions()
         {
-            menuPositions = new Dictionary<MenuStates, GameObject>();
+            MenuPositions = new Dictionary<MenuStates, GameObject>();
 
             GameObject startScreen = GameObject.FindGameObjectWithTag("BackgroundStart");
             GameObject levelScreen = GameObject.FindGameObjectWithTag("BackgroundLevel");
             GameObject guideScreen = GameObject.FindGameObjectWithTag("BackgroundGuide");
             GameObject creditsScreen = GameObject.FindGameObjectWithTag("BackgroundCredits");
 
-            menuPositions.Add(MenuStates.StartState, startScreen);
-            menuPositions.Add(MenuStates.LevelState, levelScreen);
-            menuPositions.Add(MenuStates.GuideState, guideScreen);
-            menuPositions.Add(MenuStates.CreditsScreen, creditsScreen);
+            MenuPositions.Add(MenuStates.StartState, startScreen);
+            MenuPositions.Add(MenuStates.LevelState, levelScreen);
+            MenuPositions.Add(MenuStates.GuideState, guideScreen);
+            MenuPositions.Add(MenuStates.CreditsScreen, creditsScreen);
         }
 
         public void ChangeMenuScreen(MenuStates menu)
         {
-            SetScripts(activeMenuState, false);
-            activeMenuState = menu;
+            SetScripts(ActiveMenuState, false);
+            ActiveMenuState = menu;
             SetScripts(menu, true);
-            Camera.main.transform.position = menuPositions[menu].renderer.bounds.center - new Vector3(0, 0, 1);
+            Camera.main.transform.position = MenuPositions[menu].renderer.bounds.center - new Vector3(0, 0, 1);
         }
 
         private void SetScripts(MenuStates state, bool active)
         {
             if (state == MenuStates.StartState)
             {
-                menuPositions[state].transform.parent.GetComponent<StartScreen>().enabled = active;
+                MenuPositions[state].transform.parent.GetComponent<StartScreen>().enabled = active;
             }
             else if (state == MenuStates.GuideState)
             {
-                menuPositions[state].transform.parent.GetComponent<GuideScreen>().enabled = active;
+                MenuPositions[state].transform.parent.GetComponent<GuideScreen>().enabled = active;
             }
             else if (state == MenuStates.LevelState)
             {
-                menuPositions[state].transform.parent.GetComponent<LevelScreen>().enabled = active;
+                MenuPositions[state].transform.parent.GetComponent<LevelScreen>().enabled = active;
             }
             else if (state == MenuStates.CreditsScreen)
             {
-                menuPositions[state].transform.parent.GetComponent<CreditScreen>().enabled = active;
+                MenuPositions[state].transform.parent.GetComponent<CreditScreen>().enabled = active;
             }
         }
     }

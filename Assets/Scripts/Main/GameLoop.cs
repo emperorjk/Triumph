@@ -9,7 +9,7 @@ using EventHandler = Assets.Scripts.Events.EventHandler;
 
 namespace Assets.Scripts.Main
 {
-// Main gameloop
+    // Main gameloop
     public class GameLoop : MonoBehaviour
     {
         private GameManager _manager;
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Main
         private void CheckObjectsClick()
         {
             // Gives errors
-            //if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.isSwipeHappening)
+            //if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.IsSwipeHappening)
             if (Input.GetMouseButtonDown(0))
             {
                 OnUnitClick ouc = new OnUnitClick();
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Main
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
-                    foreach (Unit unit in _manager.CurrentPlayer.ownedUnits)
+                    foreach (Unit unit in _manager.CurrentPlayer.OwnedUnits)
                     {
                         if (unit.UnitGameObject.collider == hit.collider)
                         {
@@ -62,11 +62,11 @@ namespace Assets.Scripts.Main
                             break;
                         }
                     }
-                    foreach (Building building in _manager.CurrentPlayer.ownedBuildings)
+                    foreach (Building building in _manager.CurrentPlayer.OwnedBuildings)
                     {
-                        if (building.buildingGameObject.collider == hit.collider)
+                        if (building.BuildingGameObject.collider == hit.collider)
                         {
-                            obc.building = building.buildingGameObject;
+                            obc.building = building.BuildingGameObject;
                             break;
                         }
                     }

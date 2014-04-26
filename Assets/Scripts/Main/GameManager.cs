@@ -72,13 +72,13 @@ namespace Assets.Scripts.Main
                 bool foundPlayer = false;
                 while (!foundPlayer)
                 {
-                    int indexplayer = Players.IndexOfKey(CurrentPlayer.index) + 1;
+                    int indexplayer = Players.IndexOfKey(CurrentPlayer.Index) + 1;
                     if (indexplayer >= Players.Count)
                     {
                         indexplayer = 0;
                     }
                     CurrentPlayer = Players.Values[indexplayer];
-                    foundPlayer = CurrentPlayer.index != PlayerIndex.Neutral;
+                    foundPlayer = CurrentPlayer.Index != PlayerIndex.Neutral;
                 }
 
                 // After end turn we want to loop through loots and IncreaseTurn so that loot will destroy after x amount turns.
@@ -95,11 +95,11 @@ namespace Assets.Scripts.Main
         private void OnDestroy()
         {
             Tiles.Clear();
-            // Clear all stuff from the player and reinitialize the player tile and player objects by calling the InitPlayer() method.
+            // Clear all stuff from the player and reinitialize the player Tile and player objects by calling the InitPlayer() method.
             foreach (Player pl in Players.Select(x => x.Value))
             {
-                pl.ownedBuildings.Clear();
-                pl.ownedUnits.Clear();
+                pl.OwnedBuildings.Clear();
+                pl.OwnedUnits.Clear();
             }
             Players.Clear();
 

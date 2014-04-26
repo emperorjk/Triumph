@@ -23,7 +23,7 @@ namespace Assets.Scripts.Levels
                 int midday = Mathf.Clamp(jsonLevel["turn-midday"].AsInt, 1, int.MaxValue);
                 int evening = Mathf.Clamp(jsonLevel["turn-evening"].AsInt, 1, int.MaxValue);
                 int night = Mathf.Clamp(jsonLevel["turn-night"].AsInt, 1, int.MaxValue);
-                string name = jsonLevel["level-name"];
+                string name = jsonLevel["level-Name"];
                 string description = jsonLevel["level-description"];
 
                 Level levelLoaded = new Level(true, morning, midday, evening, night, name, description);

@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Tiles
 {
     /// <summary>
-    /// This class is used to find Tiles in the tile list. This makes it easier than using two variables e.g. int ColumndId and int RowId.
+    /// This class is used to find Tiles in the Tile list. This makes it easier than using two variables e.g. int ColumndId and int RowId.
     /// </summary>
     public class TileCoordinates
     {

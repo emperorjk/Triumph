@@ -14,14 +14,14 @@ namespace Assets.Scripts.Production
 
         // Define the type of unit.
         public UnitTypes type;
-        public ProductionOverlayMain parentProduction { get; set; }
+        public ProductionOverlayMain ParentProduction { get; set; }
         public bool CanClick { get; set; }
 
         private void Update()
         {
 
-            if (CanClick && Input.GetMouseButtonDown(0) && parentProduction.IsProductionOverlayActive &&
-                !parentProduction.BuildingClickedProduction.Tile.HasUnit())
+            if (CanClick && Input.GetMouseButtonDown(0) && ParentProduction.IsProductionOverlayActive &&
+                !ParentProduction.BuildingClickedProduction.Tile.HasUnit())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit touchBox;
@@ -29,9 +29,9 @@ namespace Assets.Scripts.Production
                 {
                     if (touchBox.collider == this.collider)
                     {
-                        BuildingGameObject buildingToProduceFrom = parentProduction.BuildingClickedProduction;
+                        BuildingGameObject buildingToProduceFrom = ParentProduction.BuildingClickedProduction;
                         // Kind of ugly yet could not find better solution. The unit is created before we check if it can be bought.
-                        // Set it inactive immediatly and then check for enough gold. If not then destroy else decrease the gold and set it active.
+                        // Set it inactive immediatly and then check for enough Gold. If not then destroy else decrease the Gold and set it active.
                         UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.Tile,
                             buildingToProduceFrom.index, type);
                         unit.gameObject.SetActive(false);
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Production
                             unit.gameObject.SetActive(true);
                             man.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
                             CanClick = false;
-                            parentProduction.InitiateMoving(true);
+                            ParentProduction.InitiateMoving(true);
                         }
                         else
                         {

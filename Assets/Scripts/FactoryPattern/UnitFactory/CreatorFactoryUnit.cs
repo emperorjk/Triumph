@@ -22,7 +22,7 @@ namespace Assets.Scripts.FactoryPattern.UnitFactory
         {
             if (tile.HasUnit())
             {
-                throw new ArgumentException("The given tile already has a unit on it. Cannot spawn a unit.", "tile");
+                throw new ArgumentException("The given Tile already has a unit on it. Cannot spawn a unit.", "tile");
             }
             GameObject obj = null;
             if (type == UnitTypes.Archer)
@@ -47,7 +47,7 @@ namespace Assets.Scripts.FactoryPattern.UnitFactory
         {
             if (tile.HasUnit())
             {
-                throw new ArgumentException("The given tile already has a unit on it. Cannot spawn a unit.", "tile");
+                throw new ArgumentException("The given Tile already has a unit on it. Cannot spawn a unit.", "tile");
             }
             GameObject obj = null;
             if (type == UnitTypes.Archer)
