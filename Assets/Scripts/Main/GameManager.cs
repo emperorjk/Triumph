@@ -54,7 +54,7 @@ namespace Assets.Scripts.Main
             Attack = scriptsGameObject.GetComponent<Attack>();
             UnitSounds = new AudioManager();
 
-            GameObject globalScripts = GameObject.Find("_Scripts");
+            GameObject globalScripts = GameObject.Find("_GlobalScripts");
             LevelManager = globalScripts.GetComponent<LevelManager>();
             SwipeController = globalScripts.GetComponent<SwipeController>();
         }

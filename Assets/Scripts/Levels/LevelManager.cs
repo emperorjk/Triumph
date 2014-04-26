@@ -9,7 +9,7 @@ namespace Assets.Scripts.Levels
 
         public void LoadLevel(LevelsEnum level)
         {
-            if (level == LevelsEnum.Menu)
+            if (level 	== LevelsEnum.Menu)
             {
                 CurrentLevel = new Level(false, 0, 0, 0, 0, "Menu", "The uber main menu.");
                 Application.LoadLevel(level.ToString());
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Levels
                 int midday = Mathf.Clamp(jsonLevel["turn-midday"].AsInt, 1, int.MaxValue);
                 int evening = Mathf.Clamp(jsonLevel["turn-evening"].AsInt, 1, int.MaxValue);
                 int night = Mathf.Clamp(jsonLevel["turn-night"].AsInt, 1, int.MaxValue);
-                string name = jsonLevel["level-Name"];
+                string name = jsonLevel["level-name"];
                 string description = jsonLevel["level-description"];
 
                 Level levelLoaded = new Level(true, morning, midday, evening, night, name, description);
