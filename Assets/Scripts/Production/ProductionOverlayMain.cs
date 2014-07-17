@@ -61,8 +61,8 @@ namespace Assets.Scripts.Production
                 if (!IsProductionOverlayActive && evt.building.BuildingGame.CanProduce)
                 {
                     BuildingClickedProduction = evt.building;
-                    CurrentOverlay =
-                        CreatorFactoryProductionOverlay.CreateProductionOverlay(BuildingClickedProduction.type);
+                    CurrentOverlay = CreatorFactoryProductionOverlay.CreateProductionOverlay(BuildingClickedProduction.type);
+                    CurrentOverlay.transform.position = GetBelowScreenPosition();
                     CurrentOverlay.transform.parent = Camera.main.transform;
                     foreach (ProductionScript item in CurrentOverlay.GetComponentsInChildren<ProductionScript>())
                     {

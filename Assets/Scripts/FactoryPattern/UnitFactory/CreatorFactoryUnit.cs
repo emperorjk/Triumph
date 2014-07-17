@@ -25,21 +25,12 @@ namespace Assets.Scripts.FactoryPattern.UnitFactory
                 throw new ArgumentException("The given Tile already has a unit on it. Cannot spawn a unit.", "tile");
             }
             GameObject obj = null;
-            if (type == UnitTypes.Archer)
-            {
-                ArcherFactory fac = new ArcherFactory();
-                obj = fac.CreateUnit(index);
-            }
-            else if (type == UnitTypes.Knight)
-            {
-                KnightFactory fac = new KnightFactory();
-                obj = fac.CreateUnit(index);
-            }
-            else if (type == UnitTypes.Swordsman)
-            {
-                SwordsmanFactory fac = new SwordsmanFactory();
-                obj = fac.CreateUnit(index);
-            }
+            IUnitGameObject go = null;
+
+            if (type == UnitTypes.Archer) { go = new ArcherFactory(); }
+            else if (type == UnitTypes.Knight) { go = new KnightFactory(); }
+            else if (type == UnitTypes.Swordsman) { go = new SwordsmanFactory(); }
+            obj = go.CreateUnit(index);
             return ConfigUnitAndTile(tile, obj);
         }
 
@@ -47,24 +38,14 @@ namespace Assets.Scripts.FactoryPattern.UnitFactory
         {
             if (tile.HasUnit())
             {
-                throw new ArgumentException("The given Tile already has a unit on it. Cannot spawn a unit.", "tile");
+                throw new ArgumentException("The given Tile already has a unit on it. Cannot spawn a herounit.", "tile");
             }
             GameObject obj = null;
-            if (type == UnitTypes.Archer)
-            {
-                ArcherFactory fac = new ArcherFactory();
-                obj = fac.CreateHeroUnit(index);
-            }
-            else if (type == UnitTypes.Knight)
-            {
-                KnightFactory fac = new KnightFactory();
-                obj = fac.CreateHeroUnit(index);
-            }
-            else if (type == UnitTypes.Swordsman)
-            {
-                SwordsmanFactory fac = new SwordsmanFactory();
-                obj = fac.CreateHeroUnit(index);
-            }
+            IUnitGameObject go = null;
+            if (type == UnitTypes.Archer) { go = new ArcherFactory(); }
+            else if (type == UnitTypes.Knight) { go = new KnightFactory(); }
+            else if (type == UnitTypes.Swordsman) { go = new SwordsmanFactory(); }
+            obj = go.CreateHeroUnit(index);
             return ConfigUnitAndTile(tile, obj);
         }
     }

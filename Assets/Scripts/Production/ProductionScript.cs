@@ -3,6 +3,7 @@ using Assets.Scripts.FactoryPattern.UnitFactory;
 using Assets.Scripts.Main;
 using Assets.Scripts.Units;
 using UnityEngine;
+using Assets.Scripts.Notification;
 
 namespace Assets.Scripts.Production
 {
@@ -45,6 +46,7 @@ namespace Assets.Scripts.Production
                         }
                         else
                         {
+                            Notificator.Notify("Not enough gold!", 1.5f);
                             unit.DestroyUnit();
                         }
                     }

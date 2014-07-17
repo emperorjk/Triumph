@@ -45,7 +45,7 @@ public class GameJsonCreator
         string jsonString = Resources.Load<TextAsset>("JSON/Buildings/" + type.ToString()).text;
         JSONNode jsonBuilding = JSON.Parse(jsonString);
 
-        int income = jsonBuilding["Income"].AsInt;
+        int income = jsonBuilding["income"].AsInt;
         float capturePoints = jsonBuilding["capturePoints"].AsFloat;
         bool canProduce = jsonBuilding["canProduce"].AsBool;
         float damageToCapturingUnit = jsonBuilding["damageToCapturingUnit"].AsFloat;
@@ -67,7 +67,6 @@ public class GameJsonCreator
                 }
             }
         }
-
         return new Building(bg, income, capturePoints, canProduce, damageToCapturingUnit, capturepointsDecreaseBy, fowLos, attackRange, damage, modifiers);
     }
 
