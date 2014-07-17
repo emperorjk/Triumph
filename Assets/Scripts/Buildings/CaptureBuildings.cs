@@ -89,18 +89,12 @@ namespace Assets.Scripts.Buildings
                             // Instead loaded the main menu. A new scene called AfterMath of ResultScreen or something must be created.
                             // If the game was won then the rest of the end turn calculating would also continue in the background, including fading and such. So loading a new scene 
                             // makes sure that no unnecessary code is being run.
-                            // Captured the HQ (Dissable level and _Scripts, show background color in winning player color and display winning text)
-                            /*
-                        Camera.main.backgroundColor = GameObject.Find("_Scripts").GetComponent<GameManager>().Players[unitOnBuilding.Index].PlayerColor;
-                        GameObject.FindGameObjectWithTag("Level").SetActive(false);
-                        GameObject.Find("_Scripts").SetActive(false);
-                        GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.Index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
-                        GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.endGameLocation));
-                         */
-                            GameObject.Find("_Scripts")
-                                .GetComponent<GameManager>()
-                                .LevelManager.LoadLevel(LevelsEnum.Menu);
-
+                           
+                            Camera.main.backgroundColor = GameObject.Find("_Scripts").GetComponent<GameManager>().Players[unitOnBuilding.index].PlayerColor;
+                            GameObject.FindGameObjectWithTag("Level").SetActive(false);
+                            GameObject.Find("_Scripts").SetActive(false);
+                            GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
+                            Instantiate(Resources.Load<GameObject>(FileLocations.endGameLocation));
                         }
                     }
                 }

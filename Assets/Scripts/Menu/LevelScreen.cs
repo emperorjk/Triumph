@@ -8,26 +8,27 @@ namespace Assets.Scripts.Menu
     public class LevelScreen : MonoBehaviour
     {
         public List<GameObject> levels;
-        private RaycastHit touchBox;
         public GameObject backButton;
 
         private void Update()
         {
+
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-                if (Physics.Raycast(ray, out touchBox))
+                if (hit)
                 {
                     foreach (GameObject level in levels)
                     {
-                        if (touchBox.collider == level.collider)
+                        if (hit.collider == level.collider2D)
                         {
                             LoadLevel(level.name);
                         }
                     }
 
-                    if (touchBox.collider == backButton.collider)
+                    if (hit.collider == backButton.collider2D)
                     {
                         MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
                     }

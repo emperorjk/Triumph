@@ -4,8 +4,6 @@ namespace Assets.Scripts.Menu
 {
     public class CreditScreen : MonoBehaviour
     {
-
-        private RaycastHit touchBox;
         public GameObject backButton;
 
         private void Update()
@@ -13,10 +11,11 @@ namespace Assets.Scripts.Menu
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-                if (Physics.Raycast(ray, out touchBox))
+                if (hit)
                 {
-                    if (touchBox.collider == backButton.collider)
+                    if (hit.collider == backButton.collider2D)
                     {
                         MenuManager.Instance.ChangeMenuScreen(MenuStates.StartState);
                     }

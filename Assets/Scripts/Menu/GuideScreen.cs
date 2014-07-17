@@ -9,7 +9,6 @@ namespace Assets.Scripts.Menu
         public GameObject forwardButton;
         public GameObject backwardButton;
 
-        private RaycastHit touchBox;
         private int activeScreen;
 
         private void Update()
@@ -28,10 +27,11 @@ namespace Assets.Scripts.Menu
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-                if (Physics.Raycast(ray, out touchBox))
+                if (hit)
                 {
-                    if (touchBox.collider == forwardButton.collider)
+                    if (hit.collider == forwardButton.collider2D)
                     {
                         activeScreen++;
                         if (activeScreen >= guideScreenSprites.Count - 1)
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Menu
                         GameObject.Find("GuideScreen").GetComponent<SpriteRenderer>().sprite =
                             guideScreenSprites[activeScreen];
                     }
-                    else if (touchBox.collider == backwardButton.collider)
+                    else if (hit.collider == backwardButton.collider2D)
                     {
                         activeScreen--;
                         if (activeScreen < 0)
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Menu
                         GameObject.Find("GuideScreen").GetComponent<SpriteRenderer>().sprite =
                             guideScreenSprites[activeScreen];
                     }
-                }
+                }  
             }
         }
     }
