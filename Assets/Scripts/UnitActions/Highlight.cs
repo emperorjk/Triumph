@@ -125,9 +125,9 @@ namespace Assets.Scripts.UnitActions
         /// </summary>
         public void ClearHighlights()
         {
-            UnitSelected.SelectionBox.enabled = false;
             foreach (HighlightObject item in HighlightObjects)
             {
+                UnitSelected.SelectionBox.enabled = false;
                 item.ChangeHighlight(HighlightTypes.highlight_none);
             }
             HighlightObjects.Clear();

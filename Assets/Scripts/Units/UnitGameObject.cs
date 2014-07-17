@@ -1,6 +1,8 @@
-﻿using Assets.Scripts.Main;
+﻿using System.Runtime.Serialization;
+using Assets.Scripts.Main;
 using Assets.Scripts.Players;
 using Assets.Scripts.Tiles;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Units
@@ -22,7 +24,20 @@ namespace Assets.Scripts.Units
         private void Awake()
         {
             UnitGame = GameJsonCreator.CreateUnit(this, isHero, type);
-            SelectionBox = transform.FindChild("Selection").gameObject.GetComponent<SpriteRenderer>();
+
+            GameObject selectionBox = null;
+            if (index == PlayerIndex.Red)
+            {
+                 selectionBox = (GameObject) Instantiate(Resources.Load<GameObject>("Prefabs/Misc/SelectionRed"));
+            }
+            else if(index == PlayerIndex.Blue)
+            {
+                selectionBox = (GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Misc/SelectionBlue"));
+            }
+            selectionBox.transform.position = transform.position;
+            selectionBox.transform.parent = transform;
+            SelectionBox = selectionBox.GetComponent<SpriteRenderer>();
+
 
             if (transform.parent != null)
             {
