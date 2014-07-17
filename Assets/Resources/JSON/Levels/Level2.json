@@ -1,0 +1,8 @@
+{
+	"turn-morning" : 4,
+	"turn-midday" : 8,
+	"turn-evening" : 4,
+	"turn-night" : 3,
+	"level-name" : "Fair",
+	"level-description" : "It will be a fair game!"
+}
