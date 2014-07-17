@@ -16,16 +16,17 @@ namespace Assets.Scripts.Units
         public bool isHero;
         public Unit UnitGame { get; private set; }
         public Tile Tile { get; set; }
-
+        public SpriteRenderer SelectionBox { get; set; }
         public GameObject UnitHealthText { get; private set; }
 
         private void Awake()
         {
-            this.UnitGame = GameJsonCreator.CreateUnit(this, isHero, type);
+            UnitGame = GameJsonCreator.CreateUnit(this, isHero, type);
+            SelectionBox = transform.FindChild("Selection").gameObject.GetComponent<SpriteRenderer>();
 
-            if (this.transform.parent != null)
+            if (transform.parent != null)
             {
-                Tile = this.transform.parent.GetComponent<Tile>();
+                Tile = transform.parent.GetComponent<Tile>();
                 Tile.unitGameObject = this;
             }
             UnitHealthText = transform.FindChild("UnitHealth").gameObject;
@@ -43,10 +44,10 @@ namespace Assets.Scripts.Units
 
         public void DestroyUnit()
         {
-            this.Tile.unitGameObject = null;
-            this.Tile = null;
-            GameObject.Find("_Scripts").GetComponent<GameManager>().Players[(this.index)].RemoveUnit(this.UnitGame);
-            GameObject.Destroy(this.gameObject);
+            Tile.unitGameObject = null;
+            Tile = null;
+            GameObject.Find("_Scripts").GetComponent<GameManager>().Players[(index)].RemoveUnit(UnitGame);
+            Destroy(gameObject);
         }
     }
 }

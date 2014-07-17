@@ -73,7 +73,7 @@ namespace Assets.Scripts.UnitActions
                     fight.defender = Defender;
                     fight.needsAnimating = false;
 
-                    EventHandler.dispatch<OnAnimFight>(fight);
+                    EventHandler.dispatch(fight);
                 }
             }
         }

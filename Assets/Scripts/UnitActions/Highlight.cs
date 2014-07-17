@@ -39,13 +39,16 @@ namespace Assets.Scripts.UnitActions
         {
             if (evt.unit != null)
             {
+
                 if (!IsHighlightOn && !_manager.Movement.NeedsMoving && !_manager.AnimInfo.IsAnimateFight)
                 {
                     UnitSelected = evt.unit;
                     IsHighlightOn = true;
+
                     if (!UnitSelected.UnitGame.HasMoved)
                     {
                         UnitSelected.UnitGame.PlaySound(UnitSoundType.Select);
+                        UnitSelected.SelectionBox.enabled = true;
 
                         Dictionary<int, Dictionary<int, Tile>> movementListt =
                             TileHelper.GetAllTilesWithinRange(UnitSelected.Tile.Coordinate,
@@ -92,7 +95,7 @@ namespace Assets.Scripts.UnitActions
                     {
                         UnitSelected.UnitGame.HasMoved = true;
                         _manager.Movement.nodeList = _manager.Movement.CalculateShortestPath(UnitSelected.Tile,
-                            highlight.tile, false);
+                            highlight.Tile, false);
                         _manager.Movement.StartTimeMoving = Time.time;
                         _manager.Movement.NeedsMoving = true;
                         _manager.Movement.FacingDirectionMovement(UnitSelected, _manager.Movement.nodeList[0].Tile);
@@ -122,6 +125,7 @@ namespace Assets.Scripts.UnitActions
         /// </summary>
         public void ClearHighlights()
         {
+            UnitSelected.SelectionBox.enabled = false;
             foreach (HighlightObject item in HighlightObjects)
             {
                 item.ChangeHighlight(HighlightTypes.highlight_none);

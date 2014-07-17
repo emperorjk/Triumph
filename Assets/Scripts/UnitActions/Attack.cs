@@ -39,11 +39,9 @@ namespace Assets.Scripts.UnitActions
         /// <returns></returns>
         public int ShowAttackHighlights(UnitGameObject unit, int range)
         {
-            foreach (
-                KeyValuePair<int, Dictionary<int, Tile>> item in
-                    TileHelper.GetAllTilesWithinRange(unit.Tile.Coordinate, range))
+            foreach (var item in TileHelper.GetAllTilesWithinRange(unit.Tile.Coordinate, range))
             {
-                foreach (KeyValuePair<int, Tile> tile in item.Value)
+                foreach (var tile in item.Value)
                 {
                     if (tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index)
                     {
@@ -84,7 +82,7 @@ namespace Assets.Scripts.UnitActions
                     highlight.highlightTypeActive == HighlightTypes.highlight_attack)
                 {
                     UnitGameObject attackingUnit = _manager.Highlight.UnitSelected;
-                    UnitGameObject defendingUnit = highlight.tile.unitGameObject;
+                    UnitGameObject defendingUnit = highlight.Tile.unitGameObject;
 
 
                     if (!attackingUnit.UnitGame.HasAttacked)
@@ -109,7 +107,7 @@ namespace Assets.Scripts.UnitActions
                                 fight.attacker = attackingUnit;
                                 fight.defender = defendingUnit;
                                 fight.needsAnimating = true;
-                                EventHandler.dispatch<OnAnimFight>(fight);
+                                EventHandler.dispatch(fight);
                             }
                             else
                             {
