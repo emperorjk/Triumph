@@ -120,7 +120,7 @@ namespace Assets.Scripts.UnitActions
         }
 
         /// <summary>
-        /// The method which does all the complicated battle simulation. From calculating damage to dealing damage and so forth.
+        /// The method which does all the complicated battle simulation. From calculating Damage to dealing Damage and so forth.
         /// Gets called when the event OnAnimFight is fired. When the needsAnimating property is false it will execute this code.
         /// </summary>
         /// <param Name="Attacker"></param>

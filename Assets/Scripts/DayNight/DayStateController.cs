@@ -30,7 +30,7 @@ namespace Assets.Scripts.DayNight
         public bool IsFowActive { get; private set; }
 
         private bool lastIsFowActive;
-        private int DayTurnCounter = 1;
+        private int dayTurnCounter = 1;
 
         private GameManager _manager;
 
@@ -94,9 +94,9 @@ namespace Assets.Scripts.DayNight
 
         public void TurnIncrease()
         {
-            DayTurnCounter++;
+            dayTurnCounter++;
             int turnsNeeded = LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
-            bool ended = DayTurnCounter > turnsNeeded;
+            bool ended = dayTurnCounter > turnsNeeded;
 
             if (ended)
             {
@@ -114,12 +114,12 @@ namespace Assets.Scripts.DayNight
                     if (newNumber > highest)
                     {
                         CurrentDayState = DayStates.Morning;
-                        DayTurnCounter = 1;
+                        dayTurnCounter = 1;
                     }
                     else if (n == newNumber)
                     {
                         CurrentDayState = day;
-                        DayTurnCounter = 1;
+                        dayTurnCounter = 1;
                     }
                 }
                 StartTime = Time.time;
@@ -127,11 +127,11 @@ namespace Assets.Scripts.DayNight
             }
             else
             {
-                int turnsRemaining = (turnsNeeded - DayTurnCounter) + 1;
+                int turnsRemaining = (turnsNeeded - dayTurnCounter) + 1;
                 Notificator.Notify(turnsRemaining + " turns remaining before new daystate!", 1.1f);
             }
 
-            TurnFOW();
+            SetFowOfWar();
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Assets.Scripts.DayNight
             return (Time.time - t)/speed;
         }
 
-        private void TurnFOW()
+        private void SetFowOfWar()
         {
             IsFowActive = CurrentDayState == DayStates.Night;
             // If the last turn the fog was not active and it has now switched to active then loop through all tiles, 
@@ -302,9 +302,7 @@ namespace Assets.Scripts.DayNight
             cc.a = tile.IsFogShown ? 1f : 0f;
             tile.FogOfWar.renderer.material.color = cc;
 
-            foreach (
-                KeyValuePair<int, Dictionary<int, Tile>> item in
-                    TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight))
+            foreach (var item in TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight))
             {
                 foreach (KeyValuePair<int, Tile> tileValue in item.Value)
                 {
@@ -320,7 +318,6 @@ namespace Assets.Scripts.DayNight
                 }
             }
         }
-
         #endregion
     }
 }

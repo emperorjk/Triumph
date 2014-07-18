@@ -19,10 +19,10 @@ namespace Assets.Scripts.Buildings
 
         private void Awake()
         {
-            this.BuildingGame = GameJsonCreator.CreateBuilding(this, type);
-            if (this.transform.parent != null)
+            BuildingGame = GameJsonCreator.CreateBuilding(this, type);
+            if (transform.parent != null)
             {
-                Tile = this.transform.parent.GetComponent<Tile>();
+                Tile = transform.parent.GetComponent<Tile>();
                 Tile.buildingGameObject = this;
             }
             CapturePointsText = transform.FindChild("CapturePoints").gameObject;
@@ -35,23 +35,23 @@ namespace Assets.Scripts.Buildings
         public void UpdateCapturePointsText()
         {
             TextMesh text = CapturePointsText.GetComponent<TextMesh>();
-            text.text = ((int) BuildingGame.CurrentCapturePoints) + "/" + ((int) BuildingGame.capturePoints);
+            text.text = ((int) BuildingGame.CurrentCapturePoints) + "/" + ((int) BuildingGame.CapturePoints);
             CapturePointsText.renderer.enabled = (!Tile.IsFogShown && BuildingGame.CurrentCapturePoints > 0);
         }
 
         public void DestroyBuilding()
         {
-            this.Tile.buildingGameObject = null;
-            this.Tile = null;
+            Tile.buildingGameObject = null;
+            Tile = null;
             GameManager man = GameObject.Find("_Scripts").GetComponent<GameManager>();
-            man.Players[this.index].RemoveBuilding(this.BuildingGame);
+            man.Players[index].RemoveBuilding(BuildingGame);
 
-            if (man.CaptureBuildings.BuildingsBeingCaptured.Contains(this.BuildingGame))
+            if (man.CaptureBuildings.BuildingsBeingCaptured.Contains(BuildingGame))
             {
-                man.CaptureBuildings.BuildingsBeingCaptured.Remove(this.BuildingGame);
+                man.CaptureBuildings.BuildingsBeingCaptured.Remove(BuildingGame);
             }
 
-            GameObject.Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

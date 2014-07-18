@@ -24,13 +24,13 @@ namespace Assets.Scripts.Audio
 
             foreach (UnitTypes unitType in Enum.GetValues(typeof (UnitTypes)))
             {
-                Dictionary<UnitSoundType, AudioClip[]> dictionary = new Dictionary<UnitSoundType, AudioClip[]>();
+                var dictionary = new Dictionary<UnitSoundType, AudioClip[]>();
 
                 foreach (UnitSoundType unitSoundType in Enum.GetValues(typeof (UnitSoundType)))
                 {
                     dictionary.Add(unitSoundType,
-                        Resources.LoadAll<AudioClip>(FileLocations.soundsFolder + unitType.ToString() + "/" +
-                                                     unitSoundType.ToString()).ToArray());
+                        Resources.LoadAll<AudioClip>(FileLocations.soundsFolder + unitType + "/" +
+                                                     unitSoundType).ToArray());
                 }
                 soundsDictionary.Add(unitType, dictionary);
             }

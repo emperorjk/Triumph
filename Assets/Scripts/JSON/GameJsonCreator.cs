@@ -10,7 +10,7 @@ public class GameJsonCreator
 {
     public static Unit CreateUnit(UnitGameObject ug, bool isHero, UnitTypes type)
     {
-        string unitType = isHero ? type.ToString() + "Hero" : type.ToString();
+        string unitType = isHero ? type + "Hero" : type.ToString();
         string jsonString = Resources.Load<TextAsset>("JSON/Units/" + unitType).text;
         JSONNode jsonUnit = JSON.Parse(jsonString);
 
@@ -18,13 +18,13 @@ public class GameJsonCreator
         int moveRange = jsonUnit["moveRange"].AsInt;
         bool canAttackAfterMove = jsonUnit["canAttackAfterMove"].AsBool;
         float maxHealth = jsonUnit["maxHealth"].AsFloat;
-        float damage = jsonUnit["damage"].AsFloat;
+        float damage = jsonUnit["Damage"].AsFloat;
         int cost = jsonUnit["cost"].AsInt;
         int fowLos = jsonUnit["fowLos"].AsInt;
         float baseLoot = jsonUnit["baseLoot"].AsFloat;
         JSONArray a = jsonUnit["unitModifiers"].AsArray;
 
-        Dictionary<UnitTypes, float> modifiers = new Dictionary<UnitTypes, float>();
+       var modifiers = new Dictionary<UnitTypes, float>();
 
         foreach (UnitTypes suit in (UnitTypes[])Enum.GetValues(typeof(UnitTypes)))
         {
@@ -36,13 +36,12 @@ public class GameJsonCreator
                 }
             }
         }
-
         return new Unit(ug, isHero, attackRange, moveRange, canAttackAfterMove, maxHealth, damage, cost, fowLos, baseLoot, modifiers);
     }
 
     public static Building CreateBuilding(BuildingGameObject bg, BuildingTypes type)
     {
-        string jsonString = Resources.Load<TextAsset>("JSON/Buildings/" + type.ToString()).text;
+        string jsonString = Resources.Load<TextAsset>("JSON/Buildings/" + type).text;
         JSONNode jsonBuilding = JSON.Parse(jsonString);
 
         int income = jsonBuilding["income"].AsInt;
@@ -72,7 +71,7 @@ public class GameJsonCreator
 
     public static Assets.Scripts.World.Environment CreateEnvironment(EnvironmentGameObject eg, EnvironmentTypes type)
     {
-        string jsonString = Resources.Load<TextAsset>("JSON/Environments/" + type.ToString()).text;
+        string jsonString = Resources.Load<TextAsset>("JSON/Environments/" + type).text;
         JSONNode jsonEnvironment = JSON.Parse(jsonString);
 
         bool isWalkable = jsonEnvironment["isWalkable"].AsBool;

@@ -26,7 +26,7 @@ namespace Assets.Scripts.Units
 
             if (CurrentTurnAmount >= AmountTurnsDestroy)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Units
         public void PickUpLoot(Player player)
         {
             player.IncreaseGoldBy(AmountLoot);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         private void OnDestroy()

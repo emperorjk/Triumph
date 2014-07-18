@@ -50,10 +50,9 @@ namespace Assets.Scripts.UnitActions
                         UnitSelected.UnitGame.PlaySound(UnitSoundType.Select);
                         UnitSelected.SelectionBox.enabled = true;
 
-                        Dictionary<int, Dictionary<int, Tile>> movementListt =
-                            TileHelper.GetAllTilesWithinRange(UnitSelected.Tile.Coordinate,
+                        var movementListt = TileHelper.GetAllTilesWithinRange(UnitSelected.Tile.Coordinate,
                                 UnitSelected.UnitGame.MoveRange);
-                        foreach (KeyValuePair<int, Dictionary<int, Tile>> item in movementListt)
+                        foreach (var item in movementListt)
                         {
                             foreach (KeyValuePair<int, Tile> tile in item.Value)
                             {

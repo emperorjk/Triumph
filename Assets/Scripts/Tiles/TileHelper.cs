@@ -82,8 +82,9 @@ namespace Assets.Scripts.Tiles
             // Check if the range is 0 or smaller.
             if (range <= 0)
             {
+                //range = 1;
                 throw new ArgumentOutOfRangeException("range",
-                    "The entered range is 0 or smaller. Please use a correct range");
+                  "The entered range is 0 or smaller. Please use a correct range");
             }
 
             if (!_manager.Tiles.ContainsKey(centerPointTileCoordinate.ColumnId) ||
@@ -94,7 +95,7 @@ namespace Assets.Scripts.Tiles
             }
 
             // collection for holding the possible tiles that are within range.
-            Dictionary<int, Dictionary<int, Tile>> possibleLocations = new Dictionary<int, Dictionary<int, Tile>>();
+            var possibleLocations = new Dictionary<int, Dictionary<int, Tile>>();
 
             int columnId = centerPointTileCoordinate.ColumnId;
             int rowId = centerPointTileCoordinate.RowId;

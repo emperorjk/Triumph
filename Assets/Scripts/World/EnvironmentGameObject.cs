@@ -14,7 +14,7 @@ namespace Assets.Scripts.World
 
         private void Awake()
         {
-            this.EnvironmentGame = GameJsonCreator.CreateEnvironment(this, type);
+            EnvironmentGame = GameJsonCreator.CreateEnvironment(this, type);
             Tile = GetComponent<Tile>();
             Tile.environmentGameObject = this;
         }

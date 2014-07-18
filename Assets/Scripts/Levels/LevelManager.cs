@@ -16,7 +16,7 @@ namespace Assets.Scripts.Levels
             }
             else if (Application.loadedLevelName != level.ToString() && IsValidLevel(level))
             {
-                string jsonString = Resources.Load<TextAsset>("JSON/Levels/" + level.ToString()).text;
+                string jsonString = Resources.Load<TextAsset>("JSON/Levels/" + level).text;
                 JSONNode jsonLevel = JSON.Parse(jsonString);
 
                 int morning = Mathf.Clamp(jsonLevel["turn-morning"].AsInt, 1, int.MaxValue);

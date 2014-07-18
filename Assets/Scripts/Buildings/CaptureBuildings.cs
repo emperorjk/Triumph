@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.FactoryPattern.BuildingFactory;
 using Assets.Scripts.FactoryPattern.UnitFactory;
-using Assets.Scripts.Levels;
 using Assets.Scripts.Main;
 using Assets.Scripts.Players;
 using Assets.Scripts.Tiles;
@@ -38,7 +37,7 @@ namespace Assets.Scripts.Buildings
             else if (BuildingsBeingCaptured.Contains(building) &&
                      unitOnBuilding.index == building.BuildingGameObject.index)
             {
-                building.resetCurrentCapturePoints();
+                building.ResetCurrentCapturePoints();
                 BuildingsBeingCaptured.Remove(building);
             }
         }
@@ -76,8 +75,6 @@ namespace Assets.Scripts.Buildings
                             i--;
                             building.BuildingGameObject.DestroyBuilding();
 
-                            BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile,
-                                unitOnBuilding.index, type);
                             if (type == BuildingTypes.TrainingZone)
                             {
                                 OnTrainingzoneCapturedHero(unitOnBuilding);
@@ -93,7 +90,7 @@ namespace Assets.Scripts.Buildings
                             Camera.main.backgroundColor = GameObject.Find("_Scripts").GetComponent<GameManager>().Players[unitOnBuilding.index].PlayerColor;
                             GameObject.FindGameObjectWithTag("Level").SetActive(false);
                             GameObject.Find("_Scripts").SetActive(false);
-                            GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index.ToString() + " has won the game! \n\nPress anywhere to return to the menu.";
+                            GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index + " has won the game! \n\nPress anywhere to return to the menu.";
                             Instantiate(Resources.Load<GameObject>(FileLocations.endGameLocation));
                         }
                     }

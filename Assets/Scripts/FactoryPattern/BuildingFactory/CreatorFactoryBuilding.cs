@@ -21,7 +21,6 @@ namespace Assets.Scripts.FactoryPattern.BuildingFactory
         {
             IBuildingGameObject bgo = null;
             GameObject obj = null;
-            
             if (type == BuildingTypes.TrainingZone) { bgo = new TrainingzoneFactory(); }
             else if (type == BuildingTypes.BarracksCavalry) { bgo = new BarracksCavalryFactory(); }
             else if (type == BuildingTypes.BarracksMelee) { bgo = new BarracksMeleeFactory(); }

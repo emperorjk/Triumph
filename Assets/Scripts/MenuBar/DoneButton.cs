@@ -8,7 +8,7 @@ namespace Assets.Scripts.MenuBar
     public class DoneButton : MonoBehaviour
     {
         private GameManager _manager;
-        private bool _needsFading = false;
+        private bool _needsFading;
         private bool _fadeIn = true;
 
         private void Start()
@@ -32,8 +32,8 @@ namespace Assets.Scripts.MenuBar
             if (evt.SwipeUp && evt.fingerCount == 2)
             {
                 _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
-                this.renderer.enabled = true;
-                this.collider.enabled = true;
+                renderer.enabled = true;
+                collider.enabled = true;
                 _needsFading = true;
             }
         }
@@ -48,8 +48,8 @@ namespace Assets.Scripts.MenuBar
                 col.a = 0f;
                 _needsFading = false;
                 _fadeIn = true;
-                this.renderer.enabled = _manager.IsDoneButtonActive;
-                this.collider.enabled = _manager.IsDoneButtonActive;
+                renderer.enabled = _manager.IsDoneButtonActive;
+                collider.enabled = _manager.IsDoneButtonActive;
             }
             else if (_fadeIn && col.a > 0.95f)
             {
@@ -78,7 +78,7 @@ namespace Assets.Scripts.MenuBar
                 RaycastHit _touchBox;
                 if (Physics.Raycast(ray, out _touchBox))
                 {
-                    if (_touchBox.collider == this.collider)
+                    if (_touchBox.collider == collider)
                     {
                         _manager.EndTurn();
                         SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));

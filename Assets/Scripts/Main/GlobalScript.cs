@@ -18,7 +18,7 @@ namespace Assets.Scripts.Main
             }
             else
             {
-                globalScripts = this.gameObject;
+                globalScripts = gameObject;
                 DontDestroyOnLoad(gameObject);
             }
         }

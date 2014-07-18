@@ -74,7 +74,6 @@ namespace Assets.Scripts.UnitActions
                     _manager.CaptureBuildings.AddBuildingToCaptureList(
                         endDestinationTile.buildingGameObject.BuildingGame);
                 }
-
                 if (unitMoving.UnitGame.CanAttackAfterMove &&
                     _manager.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
                 {

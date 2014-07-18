@@ -14,8 +14,8 @@ namespace Assets.Scripts.Notification
 
             public Notification(string _text, float _time)
             {
-                this.text = _text;
-                this.time = _time;
+                text = _text;
+                time = _time;
             }
         }
 

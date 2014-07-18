@@ -7,9 +7,9 @@ namespace Assets.Scripts.World
     {
         public Environment(EnvironmentGameObject game, bool isWalkable, Dictionary<UnitTypes, float> modifiers)
         {
-            this.EnvironmentGameObject = game;
-            this.IsWalkable = isWalkable;
-            this.Modifiers = modifiers;
+            EnvironmentGameObject = game;
+            IsWalkable = isWalkable;
+            Modifiers = modifiers;
         }
 
         public EnvironmentGameObject EnvironmentGameObject { get; private set; }

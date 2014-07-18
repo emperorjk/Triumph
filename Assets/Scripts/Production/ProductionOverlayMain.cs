@@ -166,7 +166,7 @@ namespace Assets.Scripts.Production
             BuildingClickedProduction = null;
             IsProductionOverlayActive = false;
             NeedsMoving = false;
-            GameObject.Destroy(CurrentOverlay);
+            Destroy(CurrentOverlay);
             CurrentOverlay = null;
         }
     }
