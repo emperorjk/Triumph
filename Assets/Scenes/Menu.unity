@@ -1172,13 +1172,7 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 38aa6dd59a79fc844ab8aa38392c3a60, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 11400002, guid: 38aa6dd59a79fc844ab8aa38392c3a60, type: 2}
-    - {fileID: 11400000, guid: 38aa6dd59a79fc844ab8aa38392c3a60, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 38aa6dd59a79fc844ab8aa38392c3a60, type: 2}
   m_RootGameObject: {fileID: 1595628054}
   m_IsPrefabParent: 0
@@ -1935,8 +1929,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1595628056}
-  - 114: {fileID: 1595628058}
   - 114: {fileID: 1595628055}
+  - 114: {fileID: 1595628058}
   m_Layer: 0
   m_Name: _GlobalScripts
   m_TagString: Untagged
@@ -1947,8 +1941,9 @@ GameObject:
 --- !u!114 &1595628055
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabParentObject: {fileID: 11400002, guid: 38aa6dd59a79fc844ab8aa38392c3a60,
+    type: 2}
+  m_PrefabInternal: {fileID: 847882173}
   m_GameObject: {fileID: 1595628054}
   m_Enabled: 1
   m_EditorHideFlags: 0

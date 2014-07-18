@@ -75,6 +75,8 @@ namespace Assets.Scripts.Buildings
                             i--;
                             building.BuildingGameObject.DestroyBuilding();
 
+                            BuildingGameObject newBuilding = CreatorFactoryBuilding.CreateBuilding(unitOnBuilding.Tile, unitOnBuilding.index, type);
+
                             if (type == BuildingTypes.TrainingZone)
                             {
                                 OnTrainingzoneCapturedHero(unitOnBuilding);
