@@ -3,11 +3,11 @@ using SimpleJSON;
 
 namespace Assets.Scripts.Levels
 {
-    public class LevelManager : MonoBehaviour
+    public static class LevelManager
     {
-        public Level CurrentLevel { get; private set; }
+        public static Level CurrentLevel { get; set; }
 
-        public void LoadLevel(LevelsEnum level)
+        public static void LoadLevel(LevelsEnum level)
         {
             if (level 	== LevelsEnum.Menu)
             {
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Levels
             }
         }
 
-        private bool IsValidLevel(LevelsEnum level)
+        private static bool IsValidLevel(LevelsEnum level)
         {
             foreach (UnityEditor.EditorBuildSettingsScene S in UnityEditor.EditorBuildSettings.scenes)
             {

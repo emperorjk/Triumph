@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Buildings;
+using Assets.Scripts.Levels;
 using Assets.Scripts.Main;
 using Assets.Scripts.Notification;
 using Assets.Scripts.Players;
@@ -94,7 +95,7 @@ namespace Assets.Scripts.DayNight
         public void TurnIncrease()
         {
             DayTurnCounter++;
-            int turnsNeeded = _manager.LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
+            int turnsNeeded = LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
             bool ended = DayTurnCounter > turnsNeeded;
 
             if (ended)

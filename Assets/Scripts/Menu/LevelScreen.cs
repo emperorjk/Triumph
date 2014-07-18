@@ -50,7 +50,7 @@ namespace Assets.Scripts.Menu
             {
                 if (level.ToString() == name)
                 {
-                    GameObject.Find("_GlobalScripts").GetComponent<LevelManager>().LoadLevel(level);
+                    LevelManager.LoadLevel(level);
                     break;
                 }
             }

@@ -33,7 +33,7 @@ namespace Assets.Scripts.Main
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                _manager.LevelManager.LoadLevel(LevelsEnum.Menu);
+                LevelManager.LoadLevel(LevelsEnum.Menu);
             }
         }
 

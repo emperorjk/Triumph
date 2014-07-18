@@ -9,7 +9,7 @@ namespace Assets.Scripts.Main
         {
             if (Input.GetMouseButtonDown(0))
             {
-                GameObject.Find("_Scripts").GetComponent<GameManager>().LevelManager.LoadLevel(LevelsEnum.Menu);
+                LevelManager.LoadLevel(LevelsEnum.Menu);
             }
         }
     }

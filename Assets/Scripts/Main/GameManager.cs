@@ -31,7 +31,6 @@ namespace Assets.Scripts.Main
         public Attack Attack { get; set; }
         public Movement Movement { get; set; }
         public AnimationInfo AnimInfo { get; set; }
-        public LevelManager LevelManager { get; set; }
         public SwipeController SwipeController { get; set; }
         public bool IsDoneButtonActive { get; set; }
 
@@ -54,14 +53,19 @@ namespace Assets.Scripts.Main
             Attack = scriptsGameObject.GetComponent<Attack>();
             UnitSounds = new AudioManager();
 
-            GameObject globalScripts = GameObject.Find("_GlobalScripts");
-            LevelManager = globalScripts.GetComponent<LevelManager>();
+            GameObject globalScripts = GameObject.Find("_Scripts");
             SwipeController = globalScripts.GetComponent<SwipeController>();
+
+            // For faster debugging if we dont start from menu. Remove when release.
+            if (LevelManager.CurrentLevel.levelName == null)
+            {
+                LevelManager.CurrentLevel = new Level(true, 2, 4, 2, 2, "wololo", "Testing level");
+            }
         }
 
         public void EndTurn()
         {
-            if (!this.AnimInfo.IsAnimateFight && !this.Movement.NeedsMoving)
+            if (!AnimInfo.IsAnimateFight && !Movement.NeedsMoving)
             {
                 ProductionOverlayMain.DestroyAndStopOverlay();
                 Highlight.ClearMovementAndHighLights();
@@ -82,7 +86,7 @@ namespace Assets.Scripts.Main
                 }
 
                 // After end turn we want to loop through loots and IncreaseTurn so that loot will destroy after x amount turns.
-                Loot[] loots = GameObject.FindObjectsOfType<Loot>();
+                Loot[] loots = FindObjectsOfType<Loot>();
                 foreach (Loot l in loots)
                 {
                     l.IncreaseTurn();
@@ -111,7 +115,6 @@ namespace Assets.Scripts.Main
             Highlight = null;
             Attack = null;
             UnitSounds = null;
-            LevelManager = null;
         }
     }
 }
