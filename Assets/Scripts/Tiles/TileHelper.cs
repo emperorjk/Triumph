@@ -82,7 +82,6 @@ namespace Assets.Scripts.Tiles
             // Check if the range is 0 or smaller.
             if (range <= 0)
             {
-                //range = 1;
                 throw new ArgumentOutOfRangeException("range",
                   "The entered range is 0 or smaller. Please use a correct range");
             }
@@ -162,9 +161,9 @@ namespace Assets.Scripts.Tiles
             foreach (Unit unit in player.OwnedUnits)
             {
                 tileInLOSRange.Add(unit.UnitGameObject.Tile);
-                Dictionary<int, Dictionary<int, Tile>> tilesInRange =
-                    TileHelper.GetAllTilesWithinRange(unit.UnitGameObject.Tile.Coordinate, unit.FowLineOfSightRange);
-                foreach (KeyValuePair<int, Dictionary<int, Tile>> item in tilesInRange)
+                var tilesInRange =
+                    GetAllTilesWithinRange(unit.UnitGameObject.Tile.Coordinate, unit.FowLineOfSightRange);
+                foreach (var item in tilesInRange)
                 {
                     foreach (KeyValuePair<int, Tile> tileValue in item.Value)
                     {
@@ -178,10 +177,9 @@ namespace Assets.Scripts.Tiles
             foreach (Building building in player.OwnedBuildings)
             {
                 tileInLOSRange.Add(building.BuildingGameObject.Tile);
-                Dictionary<int, Dictionary<int, Tile>> tilesInRange =
-                    TileHelper.GetAllTilesWithinRange(building.BuildingGameObject.Tile.Coordinate,
+                var tilesInRange = GetAllTilesWithinRange(building.BuildingGameObject.Tile.Coordinate,
                         building.FowLineOfSightRange);
-                foreach (KeyValuePair<int, Dictionary<int, Tile>> item in tilesInRange)
+                foreach (var item in tilesInRange)
                 {
                     foreach (KeyValuePair<int, Tile> tileValue in item.Value)
                     {
@@ -199,7 +197,7 @@ namespace Assets.Scripts.Tiles
         {
             GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
             List<Tile> allTiles = new List<Tile>();
-            foreach (KeyValuePair<int, Dictionary<int, Tile>> item in _manager.Tiles)
+            foreach (var item in _manager.Tiles)
             {
                 foreach (KeyValuePair<int, Tile> tileValue in item.Value)
                 {

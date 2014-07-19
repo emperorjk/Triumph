@@ -18,7 +18,7 @@ public class GameJsonCreator
         int moveRange = jsonUnit["moveRange"].AsInt;
         bool canAttackAfterMove = jsonUnit["canAttackAfterMove"].AsBool;
         float maxHealth = jsonUnit["maxHealth"].AsFloat;
-        float damage = jsonUnit["Damage"].AsFloat;
+        float damage = jsonUnit["damage"].AsFloat;
         int cost = jsonUnit["cost"].AsInt;
         int fowLos = jsonUnit["fowLos"].AsInt;
         float baseLoot = jsonUnit["baseLoot"].AsFloat;
