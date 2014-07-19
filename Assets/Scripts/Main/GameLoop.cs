@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Audio;
-using Assets.Scripts.Buildings;
+﻿using Assets.Scripts.Buildings;
 using Assets.Scripts.Events;
 using Assets.Scripts.Levels;
 using Assets.Scripts.UnitActions;
@@ -19,21 +18,19 @@ namespace Assets.Scripts.Main
             _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         }
 
-        private bool test = false;
-
         private void Update()
         {
             CheckObjectsClick();
 
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                AudioManager.MuteAudio(test);
-                test = !test;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetMouseButtonDown(0) &&_manager.IsEnded))
             {
                 LevelManager.LoadLevel(LevelsEnum.Menu);
+            }
+
+            // Temporary code for debuging
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _manager.EndTurn();
             }
         }
 
@@ -43,7 +40,7 @@ namespace Assets.Scripts.Main
         private void CheckObjectsClick()
         {
             // Gives errors
-            //if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.IsSwipeHappening)
+            // if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.IsSwipeHappening)
             if (Input.GetMouseButtonDown(0))
             {
                 OnUnitClick ouc = new OnUnitClick();

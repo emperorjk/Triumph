@@ -33,6 +33,7 @@ namespace Assets.Scripts.Main
         public AnimationInfo AnimInfo { get; set; }
         public SwipeController SwipeController { get; set; }
         public bool IsDoneButtonActive { get; set; }
+        public bool IsEnded { get; set; }
 
         private void Awake()
         {

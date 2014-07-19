@@ -1,6 +1,8 @@
 fileFormatVersion: 2
 guid: 1a1f4514ed2a84c47a0e3b24e4c59e21
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: Barracks_range_neutral
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -24,9 +26,9 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 1
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50

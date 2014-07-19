@@ -3,7 +3,7 @@ using SimpleJSON;
 
 namespace Assets.Scripts.Levels
 {
-    public static class LevelManager
+    public class LevelManager
     {
         public static Level CurrentLevel { get; set; }
 
@@ -34,6 +34,7 @@ namespace Assets.Scripts.Levels
 
         private static bool IsValidLevel(LevelsEnum level)
         {
+            /*
             foreach (UnityEditor.EditorBuildSettingsScene S in UnityEditor.EditorBuildSettings.scenes)
             {
                 string name = S.path.Substring(S.path.LastIndexOf('/') + 1);
@@ -44,6 +45,10 @@ namespace Assets.Scripts.Levels
                 }
             }
             return false;
+        }
+             
+             */
+            return true;
         }
     }
 }

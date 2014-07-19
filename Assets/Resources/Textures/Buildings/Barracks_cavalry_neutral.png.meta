@@ -1,6 +1,8 @@
 fileFormatVersion: 2
 guid: 37ce812a4059285489cdbef49e445ac0
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: Barracks_cavalry_neutral
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

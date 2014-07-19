@@ -19,6 +19,8 @@ namespace Assets.Scripts.Players
         {
             Name = name;
             Index = index;
+            // Temp gold
+            Gold = 250;
             PlayerColor = playerColor;
             OwnedBuildings = new List<Building>();
             OwnedUnits = new List<Unit>();
