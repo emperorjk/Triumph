@@ -25,6 +25,7 @@ namespace Assets.Scripts.FactoryPattern.BuildingFactory
             else if (type == BuildingTypes.BarracksCavalry) { bgo = new BarracksCavalryFactory(); }
             else if (type == BuildingTypes.BarracksMelee) { bgo = new BarracksMeleeFactory(); }
             else if (type == BuildingTypes.BarracksRange) { bgo = new BarracksRangeFactory(); }
+            else if (type == BuildingTypes.Castle) { bgo = new CastleFactory(); }
 
             obj = bgo.CreateBuilding(index);
             return ConfigBuildingAndTile(tile, obj);

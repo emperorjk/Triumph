@@ -5,10 +5,11 @@ using Assets.Scripts.Main;
 using Assets.Scripts.Players;
 using Assets.Scripts.Units;
 using UnityEngine;
+using Assets.Scripts.Levels;
 
 namespace Assets.Scripts.Tiles
 {
-    public class TileHelper
+    public static class TileHelper
     {
         /// <summary>
         /// Add a Tile to the list. This methods should only be called one when a Tile GameObject is loaded when the scene starts.
@@ -16,14 +17,13 @@ namespace Assets.Scripts.Tiles
         /// <param Name="Tile"></param>
         public static void AddTile(Tile tile)
         {
-            GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
             // Check if the second dictionary exists in the list. If not then create a new dictionary and insert this in the tiles dictionary.
-            if (!_manager.Tiles.ContainsKey(tile.Coordinate.ColumnId))
+            if (!LevelManager.CurrentLevel.Tiles.ContainsKey(tile.Coordinate.ColumnId))
             {
-                _manager.Tiles.Add(tile.Coordinate.ColumnId, new Dictionary<int, Tile>());
+                LevelManager.CurrentLevel.Tiles.Add(tile.Coordinate.ColumnId, new Dictionary<int, Tile>());
             }
             // Last insert the Tile object into the correct spot in the dictionarys. Since we now know that both dictionary at these keys exist.
-            _manager.Tiles[tile.Coordinate.ColumnId].Add(tile.Coordinate.RowId, tile);
+            LevelManager.CurrentLevel.Tiles[tile.Coordinate.ColumnId].Add(tile.Coordinate.RowId, tile);
         }
 
         /// <summary>
@@ -33,10 +33,9 @@ namespace Assets.Scripts.Tiles
         /// <returns></returns>
         public static Tile GetTile(TileCoordinates coor)
         {
-            GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
-            if (_manager.Tiles.ContainsKey(coor.ColumnId) && _manager.Tiles[coor.ColumnId].ContainsKey(coor.RowId))
+            if (LevelManager.CurrentLevel.Tiles.ContainsKey(coor.ColumnId) && LevelManager.CurrentLevel.Tiles[coor.ColumnId].ContainsKey(coor.RowId))
             {
-                return _manager.Tiles[coor.ColumnId][coor.RowId];
+                return LevelManager.CurrentLevel.Tiles[coor.ColumnId][coor.RowId];
             }
 
             return null;
@@ -78,7 +77,6 @@ namespace Assets.Scripts.Tiles
         public static Dictionary<int, Dictionary<int, Tile>> GetAllTilesWithinRange(
             TileCoordinates centerPointTileCoordinate, int range)
         {
-            GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
             // Check if the range is 0 or smaller.
             if (range <= 0)
             {
@@ -86,8 +84,8 @@ namespace Assets.Scripts.Tiles
                   "The entered range is 0 or smaller. Please use a correct range");
             }
 
-            if (!_manager.Tiles.ContainsKey(centerPointTileCoordinate.ColumnId) ||
-                !_manager.Tiles[centerPointTileCoordinate.ColumnId].ContainsKey(centerPointTileCoordinate.RowId))
+            if (!LevelManager.CurrentLevel.Tiles.ContainsKey(centerPointTileCoordinate.ColumnId) ||
+                !LevelManager.CurrentLevel.Tiles[centerPointTileCoordinate.ColumnId].ContainsKey(centerPointTileCoordinate.RowId))
             {
                 throw new ArgumentOutOfRangeException("centerPointTileCoordinate",
                     "The given center Tile does not exist. Please give a valid TileCoordinate");
@@ -109,7 +107,7 @@ namespace Assets.Scripts.Tiles
             while (currentColumnId <= endColumnId)
             {
                 // If the current tilecoordinate falls outside the level dont bother getting it.
-                if (!_manager.Tiles.ContainsKey(currentColumnId))
+                if (!LevelManager.CurrentLevel.Tiles.ContainsKey(currentColumnId))
                 {
                     currentColumnId++;
                     size++;
@@ -124,7 +122,7 @@ namespace Assets.Scripts.Tiles
                 {
                     // If the current tilecoordinate falls outside the level dont bother getting it.
                     // And if the current tilecoordinate is on the same place as the original coordinate dont get it.
-                    if (!_manager.Tiles[currentColumnId].ContainsKey(currentRowid) ||
+                    if (!LevelManager.CurrentLevel.Tiles[currentColumnId].ContainsKey(currentRowid) ||
                         (currentColumnId == centerPointTileCoordinate.ColumnId &&
                          currentRowid == centerPointTileCoordinate.RowId))
                     {
@@ -154,9 +152,8 @@ namespace Assets.Scripts.Tiles
         /// <returns></returns>
         public static List<Tile> GetAllTilesWithPlayerLOS(PlayerIndex index)
         {
-            GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
             List<Tile> tileInLOSRange = new List<Tile>();
-            Player player = _manager.Players[index];
+            Player player = LevelManager.CurrentLevel.Players[index];
 
             foreach (Unit unit in player.OwnedUnits)
             {
@@ -195,9 +192,8 @@ namespace Assets.Scripts.Tiles
 
         public static List<Tile> GetAllTilesInListType()
         {
-            GameManager _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
             List<Tile> allTiles = new List<Tile>();
-            foreach (var item in _manager.Tiles)
+            foreach (var item in LevelManager.CurrentLevel.Tiles)
             {
                 foreach (KeyValuePair<int, Tile> tileValue in item.Value)
                 {

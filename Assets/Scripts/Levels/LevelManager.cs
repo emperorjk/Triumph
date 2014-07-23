@@ -1,20 +1,24 @@
 ﻿using UnityEngine;
 using SimpleJSON;
+using System.Collections.Generic;
+using Assets.Scripts.Players;
+using System;
 
 namespace Assets.Scripts.Levels
 {
-    public class LevelManager
+    public class LevelManager : MonoBehaviour
     {
         public static Level CurrentLevel { get; set; }
 
         public static void LoadLevel(LevelsEnum level)
         {
-            if (level 	== LevelsEnum.Menu)
+            CurrentLevel = null;
+            if (level == LevelsEnum.Menu)
             {
-                CurrentLevel = new Level(false, 0, 0, 0, 0, "Menu", "The uber main menu.");
+                CurrentLevel = new Level();
                 Application.LoadLevel(level.ToString());
             }
-            else if (Application.loadedLevelName != level.ToString() && IsValidLevel(level))
+            else
             {
                 string jsonString = Resources.Load<TextAsset>("JSON/Levels/" + level).text;
                 JSONNode jsonLevel = JSON.Parse(jsonString);
@@ -25,30 +29,27 @@ namespace Assets.Scripts.Levels
                 int night = Mathf.Clamp(jsonLevel["turn-night"].AsInt, 1, int.MaxValue);
                 string name = jsonLevel["level-name"];
                 string description = jsonLevel["level-description"];
+                JSONArray gold = jsonLevel["starting-gold"].AsArray;
 
-                Level levelLoaded = new Level(true, morning, midday, evening, night, name, description);
+                Dictionary<PlayerIndex, int> startGold = new Dictionary<PlayerIndex, int>();
+
+                foreach (PlayerIndex pl in (PlayerIndex[])Enum.GetValues(typeof(PlayerIndex)))
+                {
+                    foreach (JSONNode item in gold)
+                    {
+                        if (!String.IsNullOrEmpty(item[pl.ToString()]) && item[pl.ToString()] != pl.ToString())
+                        {
+                            startGold.Add(pl, item[pl.ToString()].AsInt);
+                        }
+                    }
+                }
+
+                Level levelLoaded = new Level(true, morning, midday, evening, night, name, description, startGold, level);
+                Debug.Log(CurrentLevel);
                 CurrentLevel = levelLoaded;
+                Debug.Log(CurrentLevel);
                 Application.LoadLevel(level.ToString());
             }
-        }
-
-        private static bool IsValidLevel(LevelsEnum level)
-        {
-            /*
-            foreach (UnityEditor.EditorBuildSettingsScene S in UnityEditor.EditorBuildSettings.scenes)
-            {
-                string name = S.path.Substring(S.path.LastIndexOf('/') + 1);
-                name = name.Substring(0, name.Length - 6);
-                if (level.ToString() == name)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-             
-             */
-            return true;
         }
     }
 }

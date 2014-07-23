@@ -12,17 +12,15 @@ namespace Assets.Scripts.UnitActions
 {
     public class Attack : MonoBehaviour
     {
-        private GameManager _manager;
+        private Movement movement;
+        private Highlight highlight;
 
         private void Awake()
         {
+            movement = GameObject.Find("_Scripts").GetComponent<Movement>();
+            highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
             EventHandler.register<OnHighlightClick>(BattlePreparation);
             EventHandler.register<OnAnimFight>(BattleSimulation);
-        }
-
-        private void Start()
-        {
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         }
 
         private void OnDestroy()
@@ -49,23 +47,23 @@ namespace Assets.Scripts.UnitActions
                         if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
                         {
                             tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                            _manager.Highlight.HighlightObjects.Add(tile.Value.Highlight);
+                            highlight.HighlightObjects.Add(tile.Value.Highlight);
                         }
                         else
                         {
-                            List<Node> path = _manager.Movement.CalculateShortestPath(unit.Tile, tile.Value, true);
+                            List<Node> path = movement.CalculateShortestPath(unit.Tile, tile.Value, true);
 
                             if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
                             {
                                 tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                                _manager.Highlight.HighlightObjects.Add(tile.Value.Highlight);
+                                highlight.HighlightObjects.Add(tile.Value.Highlight);
                             }
                         }
                     }
                 }
             }
-            int count = _manager.Highlight.HighlightObjects.Count;
-            _manager.Highlight.IsHighlightOn = count > 0;
+            int count = highlight.HighlightObjects.Count;
+            highlight.IsHighlightOn = count > 0;
             return count;
         }
 
@@ -77,12 +75,12 @@ namespace Assets.Scripts.UnitActions
         {
             if (evt.highlight != null)
             {
-                HighlightObject highlight = evt.highlight;
-                if (_manager.Highlight.IsHighlightOn && !_manager.Movement.NeedsMoving &&
-                    highlight.highlightTypeActive == HighlightTypes.highlight_attack)
+                HighlightObject highlightObj = evt.highlight;
+                if (highlight.IsHighlightOn && !movement.NeedsMoving &&
+                    highlightObj.highlightTypeActive == HighlightTypes.highlight_attack)
                 {
-                    UnitGameObject attackingUnit = _manager.Highlight.UnitSelected;
-                    UnitGameObject defendingUnit = highlight.Tile.unitGameObject;
+                    UnitGameObject attackingUnit = highlight.UnitSelected;
+                    UnitGameObject defendingUnit = highlightObj.Tile.unitGameObject;
 
 
                     if (!attackingUnit.UnitGame.HasAttacked)
@@ -97,7 +95,7 @@ namespace Assets.Scripts.UnitActions
                                 attackingUnit.UnitGame.HasMoved = true;
                                 attackingUnit.UnitGame.PlaySound(UnitSoundType.Attack);
 
-                                _manager.Highlight.ClearHighlights();
+                                highlight.ClearHighlights();
 
                                 // Check if units are faces the wrong way
                                 FacingDirectionUnits(attackingUnit, defendingUnit);

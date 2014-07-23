@@ -2,6 +2,7 @@
 using Assets.Scripts.Main;
 using Assets.Scripts.Tiles;
 using UnityEngine;
+using Assets.Scripts.Levels;
 
 namespace Assets.Scripts.Controls
 {
@@ -111,10 +112,8 @@ namespace Assets.Scripts.Controls
             lastScreenWidth = Screen.width;
             lastScreenHeight = Screen.height;
 
-            GameManager manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
-
-            Dictionary<int, Tile> qq = manager.Tiles[manager.Tiles.Count];
-            Tile first = manager.Tiles[1][1];
+            Dictionary<int, Tile> qq = LevelManager.CurrentLevel.Tiles[LevelManager.CurrentLevel.Tiles.Count];
+            Tile first = LevelManager.CurrentLevel.Tiles[1][1];
             Tile last = qq[qq.Count];
 
             Vector3 firstTilePosition = first.transform.position;

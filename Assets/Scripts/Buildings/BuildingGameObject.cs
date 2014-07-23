@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Main;
+﻿using Assets.Scripts.Levels;
+using Assets.Scripts.Main;
 using Assets.Scripts.Players;
 using Assets.Scripts.Tiles;
 using UnityEngine;
@@ -29,7 +30,8 @@ namespace Assets.Scripts.Buildings
             CapturePointsText.renderer.enabled = false;
             // Set the sorting layer to GUI. The same used for the hightlights. Eventough you cannot set it via unity inspector you can still set it via code. :D
             CapturePointsText.renderer.sortingLayerName = "GUI";
-            GameObject.Find("_Scripts").GetComponent<GameManager>().Players[index].AddBuilding(BuildingGame);
+
+            LevelManager.CurrentLevel.Players[index].AddBuilding(BuildingGame);
         }
 
         public void UpdateCapturePointsText()
@@ -43,12 +45,12 @@ namespace Assets.Scripts.Buildings
         {
             Tile.buildingGameObject = null;
             Tile = null;
-            GameManager man = GameObject.Find("_Scripts").GetComponent<GameManager>();
-            man.Players[index].RemoveBuilding(BuildingGame);
+            LevelManager.CurrentLevel.Players[index].RemoveBuilding(BuildingGame);
 
-            if (man.CaptureBuildings.BuildingsBeingCaptured.Contains(BuildingGame))
+            CaptureBuildings capBuilding = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+            if (capBuilding.BuildingsBeingCaptured.Contains(BuildingGame))
             {
-                man.CaptureBuildings.BuildingsBeingCaptured.Remove(BuildingGame);
+                capBuilding.BuildingsBeingCaptured.Remove(BuildingGame);
             }
 
             Destroy(gameObject);

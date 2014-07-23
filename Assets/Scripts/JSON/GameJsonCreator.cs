@@ -30,7 +30,7 @@ public class GameJsonCreator
         {
             foreach (JSONNode item in a)
             {
-                if (item[suit.ToString()] != null && item[suit.ToString()] != "" && item[suit.ToString()] != suit.ToString())
+                if (!String.IsNullOrEmpty(item[suit.ToString()]) && item[suit.ToString()] != suit.ToString())
                 {
                     modifiers.Add(suit, item[suit.ToString()].AsFloat);
                 }

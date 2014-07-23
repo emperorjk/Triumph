@@ -32,14 +32,11 @@ namespace Assets.Scripts.DayNight
         private bool lastIsFowActive;
         private int dayTurnCounter = 1;
 
-        private GameManager _manager;
-
         private void Start()
         {
             lightFront = GameObject.Find("LightFront").GetComponent<Light>();
             lightBack = GameObject.Find("LightBack").GetComponent<Light>();
 
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
             IsFowActive = lastIsFowActive = false;
             CurrentDayState = DayStates.Morning;
             // Start a fade into the CurrentDayState. This is done because the intensity of the light prefab may differ from the values set below.
@@ -169,7 +166,7 @@ namespace Assets.Scripts.DayNight
             if (!lastIsFowActive && IsFowActive)
             {
                 List<Tile> allTiles = TileHelper.GetAllTilesInListType();
-                List<Tile> tileInLOSRange = TileHelper.GetAllTilesWithPlayerLOS(_manager.CurrentPlayer.Index);
+                List<Tile> tileInLOSRange = TileHelper.GetAllTilesWithPlayerLOS(LevelManager.CurrentLevel.CurrentPlayer.Index);
 
                 foreach (Tile tile in allTiles)
                 {
@@ -192,7 +189,7 @@ namespace Assets.Scripts.DayNight
                         AddToFading(tile, 0f, 1f);
                     }
                 }
-                foreach (Tile tile in TileHelper.GetAllTilesWithPlayerLOS(_manager.CurrentPlayer.Index))
+                foreach (Tile tile in TileHelper.GetAllTilesWithPlayerLOS(LevelManager.CurrentLevel.CurrentPlayer.Index))
                 {
                     tile.IsFogShown = false;
                     AddToFading(tile, 1f, 0f);
@@ -253,7 +250,7 @@ namespace Assets.Scripts.DayNight
         {
             if (IsFowActive)
             {
-                Player player = _manager.Players[index];
+                Player player = LevelManager.CurrentLevel.Players[index];
 
                 foreach (Unit item in player.OwnedUnits)
                 {
@@ -269,7 +266,7 @@ namespace Assets.Scripts.DayNight
             // Update all of the health / capturepoints from all of the other players.
             foreach (
                 Player players in
-                    _manager.Players.Where(x => x.Value.Index != index && x.Value.Index != PlayerIndex.Neutral)
+                    LevelManager.CurrentLevel.Players.Where(x => x.Value.Index != index && x.Value.Index != PlayerIndex.Neutral)
                         .Select(x => x.Value))
             {
                 foreach (Unit unit in players.OwnedUnits)
@@ -277,7 +274,8 @@ namespace Assets.Scripts.DayNight
                     unit.UnitGameObject.UpdateHealthText();
                 }
             }
-            foreach (Building building in _manager.CaptureBuildings.BuildingsBeingCaptured)
+            CaptureBuildings capBuilding = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+            foreach (Building building in capBuilding.BuildingsBeingCaptured)
             {
                 building.BuildingGameObject.UpdateCapturePointsText();
             }

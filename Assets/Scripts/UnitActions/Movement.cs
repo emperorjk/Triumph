@@ -5,6 +5,9 @@ using Assets.Scripts.Main;
 using Assets.Scripts.Tiles;
 using Assets.Scripts.Units;
 using UnityEngine;
+using Assets.Scripts.Levels;
+using Assets.Scripts.Buildings;
+using Assets.Scripts.DayNight;
 
 namespace Assets.Scripts.UnitActions
 {
@@ -17,18 +20,22 @@ namespace Assets.Scripts.UnitActions
         private CompareNodes compare = new CompareNodes();
         private float movingDuration = 0.65f;
 
-        private GameManager _manager;
+        private Highlight highlight;
+        private Attack attack;
+        private DayStateController dayStateControl;
 
         private void Start()
         {
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
+            highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
+            attack = GameObject.Find("_Scripts").GetComponent<Attack>();
+            dayStateControl = GameObject.Find("_Scripts").GetComponent<DayStateController>();
         }
 
         private void Update()
         {
             if (NeedsMoving && nodeList != null)
             {
-                Moving(_manager.Highlight.UnitSelected);
+                Moving(highlight.UnitSelected);
             }
         }
 
@@ -40,7 +47,7 @@ namespace Assets.Scripts.UnitActions
             if (GetTimePassed() >= 1f)
             {
                 // Show fow for the unit.
-                _manager.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
+                dayStateControl.ShowFowWithinLineOfSight(unitMoving.index);
                 // Remove the references from the old Tile.
                 unitMoving.Tile.unitGameObject = null;
                 unitMoving.Tile = null;
@@ -55,27 +62,28 @@ namespace Assets.Scripts.UnitActions
                 unitMoving.transform.parent = newPosition.transform;
                 unitMoving.transform.position = newPosition.transform.position;
                 // Hide the fow for the unit. It will use the new Tile location.
-                _manager.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
+                dayStateControl.HideFowWithinLineOfSight(unitMoving.index);
                 StartTimeMoving = Time.time;
             }
 
             if (nodeList.Count <= 0)
             {
-                _manager.Highlight.ClearHighlights();
+                highlight.ClearHighlights();
                 Tile endDestinationTile = unitMoving.Tile;
 
                 if (endDestinationTile.HasLoot())
                 {
-                    endDestinationTile.Loot.PickUpLoot(_manager.CurrentPlayer);
+                    endDestinationTile.Loot.PickUpLoot(LevelManager.CurrentLevel.CurrentPlayer);
                 }
 
                 if (endDestinationTile.HasBuilding())
                 {
-                    _manager.CaptureBuildings.AddBuildingToCaptureList(
+                    CaptureBuildings capBuilding = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+                    capBuilding.AddBuildingToCaptureList(
                         endDestinationTile.buildingGameObject.BuildingGame);
                 }
                 if (unitMoving.UnitGame.CanAttackAfterMove &&
-                    _manager.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
+                    attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
                 {
                     unitMoving.UnitGame.HasMoved = true;
                 }

@@ -8,6 +8,7 @@ using Assets.Scripts.Players;
 using Assets.Scripts.Tiles;
 using Assets.Scripts.Units;
 using UnityEngine;
+using Assets.Scripts.Levels;
 
 namespace Assets.Scripts.Buildings
 {
@@ -86,12 +87,12 @@ namespace Assets.Scripts.Buildings
                         }
                         else
                         {                         
-                            Camera.main.backgroundColor = GameObject.Find("_Scripts").GetComponent<GameManager>().Players[unitOnBuilding.index].PlayerColor;
+                            Camera.main.backgroundColor = LevelManager.CurrentLevel.Players[unitOnBuilding.index].PlayerColor;
                             GameObject.FindGameObjectWithTag("Level").SetActive(false);
                             GameObject.Find("_Scripts").GetComponent<GameBar>().enabled = false;
                             GameObject.Find("_Scripts").GetComponent<Notificator>().enabled = false;
                             GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index + " has won the game! \n\nPress anywhere to return to the menu.";
-                            GameObject.Find("_Scripts").GetComponent<GameManager>().IsEnded = true;
+                            LevelManager.CurrentLevel.IsEnded = true;
                         }
                     }
                 }

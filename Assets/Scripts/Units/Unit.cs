@@ -59,7 +59,7 @@ namespace Assets.Scripts.Units
         {
             get
             {
-                return GameObject.Find("_Scripts").GetComponent<GameManager>().DayStateController.CurrentDayState ==
+                return GameObject.Find("_Scripts").GetComponent<DayStateController>().CurrentDayState ==
                        DayStates.Night
                     ? 1
                     : _AttackRange;
@@ -73,7 +73,7 @@ namespace Assets.Scripts.Units
         {
             get
             {
-                return GameObject.Find("_Scripts").GetComponent<GameManager>().DayStateController.CurrentDayState ==
+                return GameObject.Find("_Scripts").GetComponent<DayStateController>().CurrentDayState ==
                        DayStates.Night
                     ? Mathf.Clamp(_MoveRange - 1, 1, int.MaxValue)
                     : _MoveRange;
@@ -114,7 +114,7 @@ namespace Assets.Scripts.Units
 
         public void PlaySound(UnitSoundType soundType)
         {
-            GameObject.Find("_Scripts").GetComponent<GameManager>().UnitSounds.PlaySound(UnitGameObject.type, soundType);
+            //GameObject.Find("_Scripts").GetComponent<GameManager>().UnitSounds.PlaySound(UnitGameObject.type, soundType);
         }
 
         public void DecreaseHealth(float damage)

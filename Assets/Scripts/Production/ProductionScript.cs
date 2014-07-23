@@ -4,6 +4,7 @@ using Assets.Scripts.Main;
 using Assets.Scripts.Units;
 using UnityEngine;
 using Assets.Scripts.Notification;
+using Assets.Scripts.Levels;
 
 namespace Assets.Scripts.Production
 {
@@ -36,11 +37,10 @@ namespace Assets.Scripts.Production
                         UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.Tile,
                             buildingToProduceFrom.index, type);
                         unit.gameObject.SetActive(false);
-                        GameManager man = GameObject.Find("_Scripts").GetComponent<GameManager>();
-                        if (man.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
+                        if (LevelManager.CurrentLevel.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
                         {
                             unit.gameObject.SetActive(true);
-                            man.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
+                            LevelManager.CurrentLevel.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
                             CanClick = false;
                             ParentProduction.InitiateMoving(true);
                         }

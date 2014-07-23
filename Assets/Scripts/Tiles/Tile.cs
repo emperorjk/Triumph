@@ -1,8 +1,10 @@
 ﻿using Assets.Scripts.Buildings;
+using Assets.Scripts.Levels;
 using Assets.Scripts.Main;
 using Assets.Scripts.UnitActions;
 using Assets.Scripts.Units;
 using Assets.Scripts.World;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Tiles
@@ -38,7 +40,8 @@ namespace Assets.Scripts.Tiles
 
             Coordinate = new TileCoordinates(cId, rId);
             Vector2 = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-            TileHelper.AddTile(this);
+            //TileHelper.AddTile(this);
+            AddTile();
             IsFogShown = false;
             InitHighlights();
         }
@@ -72,6 +75,23 @@ namespace Assets.Scripts.Tiles
         public bool HasLoot()
         {
             return Loot != null;
+        }
+
+        public static int count = 0;
+
+        public void AddTile()
+        {
+            count++;
+            Debug.Log(count);
+            // Check if the second dictionary exists in the list. If not then create a new dictionary and insert this in the tiles dictionary.
+            if (!LevelManager.CurrentLevel.Tiles.ContainsKey(this.Coordinate.ColumnId))
+            {
+                LevelManager.CurrentLevel.Tiles.Add(this.Coordinate.ColumnId, new Dictionary<int, Tile>());
+            }
+            // Last insert the Tile object into the correct spot in the dictionarys. Since we now know that both dictionary at these keys exist.
+            LevelManager.CurrentLevel.Tiles[this.Coordinate.ColumnId].Add(this.Coordinate.RowId, this);
+
+            //Debug.Log(this.Coordinate.ColumnId + "\t" + this.Coordinate.RowId);
         }
     }
 }

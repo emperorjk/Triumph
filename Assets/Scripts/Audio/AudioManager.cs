@@ -9,24 +9,24 @@ using UnityEngine;
 
 namespace Assets.Scripts.Audio
 {
-    public class AudioManager
+    public class AudioManager : MonoBehaviour
     {
         private AudioSource audioSource;
 
         private Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>> soundsDictionary =
             new Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>>();
 
-        public AudioManager()
+        private void Awake() 
         {
             ReadJSONAudio();
 
             audioSource = Camera.main.gameObject.AddComponent<AudioSource>();
 
-            foreach (UnitTypes unitType in Enum.GetValues(typeof (UnitTypes)))
+            foreach (UnitTypes unitType in Enum.GetValues(typeof(UnitTypes)))
             {
                 var dictionary = new Dictionary<UnitSoundType, AudioClip[]>();
 
-                foreach (UnitSoundType unitSoundType in Enum.GetValues(typeof (UnitSoundType)))
+                foreach (UnitSoundType unitSoundType in Enum.GetValues(typeof(UnitSoundType)))
                 {
                     dictionary.Add(unitSoundType,
                         Resources.LoadAll<AudioClip>(FileLocations.soundsFolder + unitType + "/" +

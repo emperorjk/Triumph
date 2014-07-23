@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Main;
+﻿using Assets.Scripts.Levels;
+using Assets.Scripts.Main;
 using Assets.Scripts.Players;
 using Assets.Scripts.Tiles;
 using UnityEngine;
@@ -45,7 +46,7 @@ namespace Assets.Scripts.Units
             UnitHealthText = transform.FindChild("UnitHealth").gameObject;
             // Set the sorting layer to GUI. The same used for the hightlights. Eventhough you cannot set it via unity inspector you can still set it via code. :D
             UnitHealthText.renderer.sortingLayerName = "GUI";
-            GameObject.Find("_Scripts").GetComponent<GameManager>().Players[index].AddUnit(UnitGame);
+            LevelManager.CurrentLevel.Players[index].AddUnit(UnitGame);
         }
 
         public void UpdateHealthText()
@@ -59,7 +60,7 @@ namespace Assets.Scripts.Units
         {
             Tile.unitGameObject = null;
             Tile = null;
-            GameObject.Find("_Scripts").GetComponent<GameManager>().Players[(index)].RemoveUnit(UnitGame);
+            LevelManager.CurrentLevel.Players[(index)].RemoveUnit(UnitGame);
             Destroy(gameObject);
         }
     }

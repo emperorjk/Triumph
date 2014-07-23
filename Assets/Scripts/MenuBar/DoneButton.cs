@@ -7,9 +7,9 @@ namespace Assets.Scripts.MenuBar
 {
     public class DoneButton : MonoBehaviour
     {
-        private GameManager _manager;
         private bool _needsFading;
         private bool _fadeIn = true;
+        private GameLoop gameLoop;
 
         private void Start()
         {
@@ -19,7 +19,8 @@ namespace Assets.Scripts.MenuBar
             Color col = renderer.material.color;
             col.a = 0f;
             renderer.material.color = col;
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
+
+            gameLoop = GameObject.Find("_Scripts").GetComponent<GameLoop>();
         }
 
         private void OnDestroy()
@@ -31,7 +32,7 @@ namespace Assets.Scripts.MenuBar
         {
             if (evt.SwipeUp && evt.fingerCount == 2)
             {
-                _manager.IsDoneButtonActive = !_manager.IsDoneButtonActive;
+                gameLoop.IsDoneButtonActive = !gameLoop.IsDoneButtonActive;
                 renderer.enabled = true;
                 collider.enabled = true;
                 _needsFading = true;
@@ -48,8 +49,8 @@ namespace Assets.Scripts.MenuBar
                 col.a = 0f;
                 _needsFading = false;
                 _fadeIn = true;
-                renderer.enabled = _manager.IsDoneButtonActive;
-                collider.enabled = _manager.IsDoneButtonActive;
+                renderer.enabled = gameLoop.IsDoneButtonActive;
+                collider.enabled = gameLoop.IsDoneButtonActive;
             }
             else if (_fadeIn && col.a > 0.95f)
             {
@@ -67,7 +68,7 @@ namespace Assets.Scripts.MenuBar
                 Fade();
             }
 
-            if (Input.GetKeyDown(KeyCode.T) && !_manager.IsDoneButtonActive && !_needsFading)
+            if (Input.GetKeyDown(KeyCode.T) && !gameLoop.IsDoneButtonActive && !_needsFading)
             {
                 SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
             }
@@ -80,7 +81,7 @@ namespace Assets.Scripts.MenuBar
                 {
                     if (_touchBox.collider == collider)
                     {
-                        _manager.EndTurn();
+                        GameObject.Find("_Scripts").GetComponent<GameLoop>().EndTurn();
                         SwipeDoneButton(new OnSwipeAction(2, false, false, true, false));
                     }
                 }
