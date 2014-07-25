@@ -12,7 +12,7 @@ namespace Assets.Scripts.Levels
 
         public Level CurrentLevel { get; set; }
 
-        public LevelsEnum levelToLoad { get; set; }
+        public LevelsEnum levelToLoad { get; private set; }
 
         /// <summary>
         /// Load the level. It will load the loadingscene and from there load the properties of the level.
