@@ -42,8 +42,17 @@ namespace Assets.Scripts.Levels
             Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue, Color.blue));
             Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red, Color.red));
             CurrentPlayer = Players[PlayerIndex.Blue];
+
+            foreach(KeyValuePair<PlayerIndex, int> gold in startingGold)
+            {
+                Player pl = Players[gold.Key];
+                pl.SetGold(gold.Value);
+            }
         }
 
-        public Level() { }
+        public Level(LevelsEnum level) 
+        {
+            type = level;
+        }
     }
 }

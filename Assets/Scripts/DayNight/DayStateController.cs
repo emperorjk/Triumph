@@ -14,6 +14,7 @@ namespace Assets.Scripts.DayNight
 {
     public class DayStateController : MonoBehaviour
     {
+        private LevelManager lm;
         public DayStates CurrentDayState { get; private set; }
 
         private float speed = 0.5f;
@@ -34,6 +35,7 @@ namespace Assets.Scripts.DayNight
 
         private void Start()
         {
+            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
             lightFront = GameObject.Find("LightFront").GetComponent<Light>();
             lightBack = GameObject.Find("LightBack").GetComponent<Light>();
 
@@ -92,7 +94,8 @@ namespace Assets.Scripts.DayNight
         public void TurnIncrease()
         {
             dayTurnCounter++;
-            int turnsNeeded = LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
+            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+            int turnsNeeded = lm.CurrentLevel.dayNightTurns[CurrentDayState];
             bool ended = dayTurnCounter > turnsNeeded;
 
             if (ended)
@@ -166,7 +169,7 @@ namespace Assets.Scripts.DayNight
             if (!lastIsFowActive && IsFowActive)
             {
                 List<Tile> allTiles = TileHelper.GetAllTilesInListType();
-                List<Tile> tileInLOSRange = TileHelper.GetAllTilesWithPlayerLOS(LevelManager.CurrentLevel.CurrentPlayer.Index);
+                List<Tile> tileInLOSRange = TileHelper.GetAllTilesWithPlayerLOS(lm.CurrentLevel.CurrentPlayer.Index);
 
                 foreach (Tile tile in allTiles)
                 {
@@ -189,7 +192,7 @@ namespace Assets.Scripts.DayNight
                         AddToFading(tile, 0f, 1f);
                     }
                 }
-                foreach (Tile tile in TileHelper.GetAllTilesWithPlayerLOS(LevelManager.CurrentLevel.CurrentPlayer.Index))
+                foreach (Tile tile in TileHelper.GetAllTilesWithPlayerLOS(lm.CurrentLevel.CurrentPlayer.Index))
                 {
                     tile.IsFogShown = false;
                     AddToFading(tile, 1f, 0f);
@@ -250,7 +253,7 @@ namespace Assets.Scripts.DayNight
         {
             if (IsFowActive)
             {
-                Player player = LevelManager.CurrentLevel.Players[index];
+                Player player = lm.CurrentLevel.Players[index];
 
                 foreach (Unit item in player.OwnedUnits)
                 {
@@ -266,7 +269,7 @@ namespace Assets.Scripts.DayNight
             // Update all of the health / capturepoints from all of the other players.
             foreach (
                 Player players in
-                    LevelManager.CurrentLevel.Players.Where(x => x.Value.Index != index && x.Value.Index != PlayerIndex.Neutral)
+                    lm.CurrentLevel.Players.Where(x => x.Value.Index != index && x.Value.Index != PlayerIndex.Neutral)
                         .Select(x => x.Value))
             {
                 foreach (Unit unit in players.OwnedUnits)

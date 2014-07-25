@@ -112,8 +112,10 @@ namespace Assets.Scripts.Controls
             lastScreenWidth = Screen.width;
             lastScreenHeight = Screen.height;
 
-            Dictionary<int, Tile> qq = LevelManager.CurrentLevel.Tiles[LevelManager.CurrentLevel.Tiles.Count];
-            Tile first = LevelManager.CurrentLevel.Tiles[1][1];
+            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+
+            Dictionary<int, Tile> qq = lm.CurrentLevel.Tiles[lm.CurrentLevel.Tiles.Count];
+            Tile first = lm.CurrentLevel.Tiles[1][1];
             Tile last = qq[qq.Count];
 
             Vector3 firstTilePosition = first.transform.position;

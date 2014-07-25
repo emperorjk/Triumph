@@ -5394,8 +5394,8 @@ Transform:
   m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1339700535}
   - {fileID: 1965860392}
+  - {fileID: 1339700535}
   m_Father: {fileID: 1940052300}
   m_RootOrder: 1
 --- !u!114 &650817441
@@ -11640,7 +11640,7 @@ Transform:
   m_Children:
   - {fileID: 372808269}
   m_Father: {fileID: 650817440}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!114 &1339700536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16656,7 +16656,7 @@ Transform:
   m_Children:
   - {fileID: 1246548354}
   m_Father: {fileID: 650817440}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!95 &1965860393
 Animator:
   serializedVersion: 3

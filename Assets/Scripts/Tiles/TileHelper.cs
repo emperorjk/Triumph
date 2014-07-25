@@ -11,19 +11,28 @@ namespace Assets.Scripts.Tiles
 {
     public static class TileHelper
     {
+        private static LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+
         /// <summary>
         /// Add a Tile to the list. This methods should only be called one when a Tile GameObject is loaded when the scene starts.
         /// </summary>
         /// <param Name="Tile"></param>
         public static void AddTile(Tile tile)
         {
-            // Check if the second dictionary exists in the list. If not then create a new dictionary and insert this in the tiles dictionary.
-            if (!LevelManager.CurrentLevel.Tiles.ContainsKey(tile.Coordinate.ColumnId))
+            if(lm.IsCurrentLevelLoaded())
             {
-                LevelManager.CurrentLevel.Tiles.Add(tile.Coordinate.ColumnId, new Dictionary<int, Tile>());
+                // Check if the second dictionary exists in the list. If not then create a new dictionary and insert this in the tiles dictionary.
+                if (!lm.CurrentLevel.Tiles.ContainsKey(tile.Coordinate.ColumnId))
+                {
+                    lm.CurrentLevel.Tiles.Add(tile.Coordinate.ColumnId, new Dictionary<int, Tile>());
+                }
+                // Last insert the Tile object into the correct spot in the dictionarys. Since we now know that both dictionary at these keys exist.
+                lm.CurrentLevel.Tiles[tile.Coordinate.ColumnId].Add(tile.Coordinate.RowId, tile);
             }
-            // Last insert the Tile object into the correct spot in the dictionarys. Since we now know that both dictionary at these keys exist.
-            LevelManager.CurrentLevel.Tiles[tile.Coordinate.ColumnId].Add(tile.Coordinate.RowId, tile);
+            else
+            {
+                Debug.Log("Cannot insert the tile(" + tile.Coordinate.ColumnId + ":" + tile.Coordinate.RowId + ")into the CurrentLevel.Tiles dictionary.");
+            }
         }
 
         /// <summary>
@@ -33,9 +42,9 @@ namespace Assets.Scripts.Tiles
         /// <returns></returns>
         public static Tile GetTile(TileCoordinates coor)
         {
-            if (LevelManager.CurrentLevel.Tiles.ContainsKey(coor.ColumnId) && LevelManager.CurrentLevel.Tiles[coor.ColumnId].ContainsKey(coor.RowId))
+            if (lm.CurrentLevel.Tiles.ContainsKey(coor.ColumnId) && lm.CurrentLevel.Tiles[coor.ColumnId].ContainsKey(coor.RowId))
             {
-                return LevelManager.CurrentLevel.Tiles[coor.ColumnId][coor.RowId];
+                return lm.CurrentLevel.Tiles[coor.ColumnId][coor.RowId];
             }
 
             return null;
@@ -84,8 +93,8 @@ namespace Assets.Scripts.Tiles
                   "The entered range is 0 or smaller. Please use a correct range");
             }
 
-            if (!LevelManager.CurrentLevel.Tiles.ContainsKey(centerPointTileCoordinate.ColumnId) ||
-                !LevelManager.CurrentLevel.Tiles[centerPointTileCoordinate.ColumnId].ContainsKey(centerPointTileCoordinate.RowId))
+            if (!lm.CurrentLevel.Tiles.ContainsKey(centerPointTileCoordinate.ColumnId) ||
+                !lm.CurrentLevel.Tiles[centerPointTileCoordinate.ColumnId].ContainsKey(centerPointTileCoordinate.RowId))
             {
                 throw new ArgumentOutOfRangeException("centerPointTileCoordinate",
                     "The given center Tile does not exist. Please give a valid TileCoordinate");
@@ -107,7 +116,7 @@ namespace Assets.Scripts.Tiles
             while (currentColumnId <= endColumnId)
             {
                 // If the current tilecoordinate falls outside the level dont bother getting it.
-                if (!LevelManager.CurrentLevel.Tiles.ContainsKey(currentColumnId))
+                if (!lm.CurrentLevel.Tiles.ContainsKey(currentColumnId))
                 {
                     currentColumnId++;
                     size++;
@@ -122,7 +131,7 @@ namespace Assets.Scripts.Tiles
                 {
                     // If the current tilecoordinate falls outside the level dont bother getting it.
                     // And if the current tilecoordinate is on the same place as the original coordinate dont get it.
-                    if (!LevelManager.CurrentLevel.Tiles[currentColumnId].ContainsKey(currentRowid) ||
+                    if (!lm.CurrentLevel.Tiles[currentColumnId].ContainsKey(currentRowid) ||
                         (currentColumnId == centerPointTileCoordinate.ColumnId &&
                          currentRowid == centerPointTileCoordinate.RowId))
                     {
@@ -153,7 +162,7 @@ namespace Assets.Scripts.Tiles
         public static List<Tile> GetAllTilesWithPlayerLOS(PlayerIndex index)
         {
             List<Tile> tileInLOSRange = new List<Tile>();
-            Player player = LevelManager.CurrentLevel.Players[index];
+            Player player = lm.CurrentLevel.Players[index];
 
             foreach (Unit unit in player.OwnedUnits)
             {
@@ -193,7 +202,7 @@ namespace Assets.Scripts.Tiles
         public static List<Tile> GetAllTilesInListType()
         {
             List<Tile> allTiles = new List<Tile>();
-            foreach (var item in LevelManager.CurrentLevel.Tiles)
+            foreach (var item in lm.CurrentLevel.Tiles)
             {
                 foreach (KeyValuePair<int, Tile> tileValue in item.Value)
                 {

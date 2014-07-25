@@ -19,6 +19,13 @@ namespace Assets.Scripts.Production
         public ProductionOverlayMain ParentProduction { get; set; }
         public bool CanClick { get; set; }
 
+        private LevelManager lm;
+
+        private void Start()
+        {
+            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+        }
+
         private void Update()
         {
 
@@ -37,10 +44,10 @@ namespace Assets.Scripts.Production
                         UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.Tile,
                             buildingToProduceFrom.index, type);
                         unit.gameObject.SetActive(false);
-                        if (LevelManager.CurrentLevel.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
+                        if (lm.CurrentLevel.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
                         {
                             unit.gameObject.SetActive(true);
-                            LevelManager.CurrentLevel.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
+                            lm.CurrentLevel.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
                             CanClick = false;
                             ParentProduction.InitiateMoving(true);
                         }

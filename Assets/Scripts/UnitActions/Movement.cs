@@ -23,9 +23,11 @@ namespace Assets.Scripts.UnitActions
         private Highlight highlight;
         private Attack attack;
         private DayStateController dayStateControl;
+        private LevelManager lm;
 
         private void Start()
         {
+            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
             highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
             attack = GameObject.Find("_Scripts").GetComponent<Attack>();
             dayStateControl = GameObject.Find("_Scripts").GetComponent<DayStateController>();
@@ -73,7 +75,7 @@ namespace Assets.Scripts.UnitActions
 
                 if (endDestinationTile.HasLoot())
                 {
-                    endDestinationTile.Loot.PickUpLoot(LevelManager.CurrentLevel.CurrentPlayer);
+                    endDestinationTile.Loot.PickUpLoot(lm.CurrentLevel.CurrentPlayer);
                 }
 
                 if (endDestinationTile.HasBuilding())

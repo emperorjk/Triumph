@@ -19,9 +19,11 @@ namespace Assets.Scripts.UnitActions
         private Movement movement;
         private Attack attack;
         private AnimationInfo animInfo;
+        private LevelManager lm;
 
         private void Awake()
         {
+            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
             movement = GameObject.Find("_Scripts").GetComponent<Movement>();
             attack = GameObject.Find("_Scripts").GetComponent<Attack>();
             animInfo = GameObject.Find("_Scripts").GetComponent<AnimationInfo>();
@@ -116,7 +118,7 @@ namespace Assets.Scripts.UnitActions
         /// </summary>
         public void ClearMovementAndHighLights()
         {
-            foreach (Unit unit in LevelManager.CurrentLevel.CurrentPlayer.OwnedUnits)
+            foreach (Unit unit in lm.CurrentLevel.CurrentPlayer.OwnedUnits)
             {
                 unit.HasMoved = false;
                 unit.HasAttacked = false;

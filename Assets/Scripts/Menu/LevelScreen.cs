@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Assets.Scripts.Main;
 
 namespace Assets.Scripts.Menu
 {
@@ -50,7 +51,7 @@ namespace Assets.Scripts.Menu
             {
                 if (level.ToString() == name)
                 {
-                    LevelManager.LoadLevel(level);
+                    GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>().LoadLevel(level);
                     break;
                 }
             }

@@ -24,23 +24,27 @@ namespace Assets.Scripts.Main
         private ProductionOverlayMain productionOverlay;
         private Assets.Scripts.UnitActions.AnimationInfo animInfo;
         private DayStateController dayStateController;
+        private LevelManager lm;
 
         private void Awake() 
         {
-            string name = Application.loadedLevelName;
-            
-            if (LevelManager.CurrentLevel == null)
+            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+
+            string sceneName = Application.loadedLevelName;
+            if (Application.isEditor && !sceneName.Equals(LevelsEnum.Menu.ToString()))
             {
-                foreach (LevelsEnum pl in (LevelsEnum[])Enum.GetValues(typeof(LevelsEnum)))
+                if (lm.CurrentLevel == null)
                 {
-                    if (pl.ToString() == name)
+                    foreach (LevelsEnum pl in (LevelsEnum[])Enum.GetValues(typeof(LevelsEnum)))
                     {
-                        LevelManager.LoadLevel(pl);
-                        break;
+                        if (pl.ToString() == sceneName)
+                        {
+                            lm.LoadLevel(pl);
+                            break;
+                        }
                     }
                 }
             }
-            
             movement = GameObject.Find("_Scripts").GetComponent<Movement>();
             highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
             capBuildings = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
@@ -53,9 +57,9 @@ namespace Assets.Scripts.Main
         {
             CheckObjectsClick();
 
-            if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetMouseButtonDown(0) && LevelManager.CurrentLevel.IsEnded))
+            if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetMouseButtonDown(0) && lm.CurrentLevel.IsEnded))
             {
-                LevelManager.LoadLevel(LevelsEnum.Menu);
+                lm.LoadLevel(LevelsEnum.Menu);
             }
 
             // Temporary code for debuging
@@ -82,7 +86,7 @@ namespace Assets.Scripts.Main
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
-                    foreach (Unit unit in LevelManager.CurrentLevel.CurrentPlayer.OwnedUnits)
+                    foreach (Unit unit in lm.CurrentLevel.CurrentPlayer.OwnedUnits)
                     {
                         if (unit.UnitGameObject.collider == hit.collider)
                         {
@@ -90,7 +94,7 @@ namespace Assets.Scripts.Main
                             break;
                         }
                     }
-                    foreach (Building building in LevelManager.CurrentLevel.CurrentPlayer.OwnedBuildings)
+                    foreach (Building building in lm.CurrentLevel.CurrentPlayer.OwnedBuildings)
                     {
                         if (building.BuildingGameObject.collider == hit.collider)
                         {
@@ -127,13 +131,13 @@ namespace Assets.Scripts.Main
                 highlight.ClearMovementAndHighLights();
                 capBuildings.CalculateCapturing();
 
-                Players.Player player = LevelManager.CurrentLevel.CurrentPlayer;
+                Players.Player player = lm.CurrentLevel.CurrentPlayer;
                 player.IncreaseGoldBy(player.GetCurrentIncome());
 
                 // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
                 bool foundPlayer = false;
 
-                SortedList<PlayerIndex, Players.Player> list = LevelManager.CurrentLevel.Players;
+                SortedList<PlayerIndex, Players.Player> list = lm.CurrentLevel.Players;
                 while (!foundPlayer)
                 {
                     int indexplayer = list.IndexOfKey(player.Index) + 1;
@@ -144,7 +148,7 @@ namespace Assets.Scripts.Main
                     player = list.Values[indexplayer];
                     foundPlayer = player.Index != PlayerIndex.Neutral;
                 }
-                LevelManager.CurrentLevel.CurrentPlayer = player;
+                lm.CurrentLevel.CurrentPlayer = player;
 
                 // After end turn we want to loop through loots and IncreaseTurn so that loot will destroy after x amount turns.
                 Loot[] loots = FindObjectsOfType<Loot>();

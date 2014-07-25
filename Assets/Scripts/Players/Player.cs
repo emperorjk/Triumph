@@ -19,8 +19,6 @@ namespace Assets.Scripts.Players
         {
             Name = name;
             Index = index;
-            // Temp gold
-            Gold = 250;
             PlayerColor = playerColor;
             OwnedBuildings = new List<Building>();
             OwnedUnits = new List<Unit>();
@@ -66,6 +64,11 @@ namespace Assets.Scripts.Players
         public void DecreaseGoldBy(float decreaseBy)
         {
             Gold -= decreaseBy;
+        }
+
+        public void SetGold(float gold)
+        {
+            Gold = gold;
         }
 
         /// <summary>

@@ -86,13 +86,14 @@ namespace Assets.Scripts.Buildings
                             }
                         }
                         else
-                        {                         
-                            Camera.main.backgroundColor = LevelManager.CurrentLevel.Players[unitOnBuilding.index].PlayerColor;
+                        {
+                            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+                            Camera.main.backgroundColor = lm.CurrentLevel.Players[unitOnBuilding.index].PlayerColor;
                             GameObject.FindGameObjectWithTag("Level").SetActive(false);
                             GameObject.Find("_Scripts").GetComponent<GameBar>().enabled = false;
                             GameObject.Find("_Scripts").GetComponent<Notificator>().enabled = false;
                             GameObject.Find("NotificationText").GetComponent<TextMesh>().text = unitOnBuilding.index + " has won the game! \n\nPress anywhere to return to the menu.";
-                            LevelManager.CurrentLevel.IsEnded = true;
+                            lm.CurrentLevel.IsEnded = true;
                         }
                     }
                 }
