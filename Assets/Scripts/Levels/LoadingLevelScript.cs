@@ -36,7 +36,8 @@ namespace Assets.Scripts.Levels
             }
             else
             {
-                string jsonString = Resources.Load<TextAsset>("JSON/Levels/" + level).text;
+                string jsonString = ResourceCache.getResource<TextAsset>(level.ToString()).text;
+
                 JSONNode jsonLevel = JSON.Parse(jsonString);
 
                 int morning = Mathf.Clamp(jsonLevel["turn-morning"].AsInt, 1, int.MaxValue);

@@ -18,6 +18,8 @@ namespace Assets.Scripts.Main
             }
             else
             {
+                // One time load the resources into memory.
+                ResourceCache.CacheResources();
                 globalScripts = gameObject;
                 DontDestroyOnLoad(gameObject);
             }
