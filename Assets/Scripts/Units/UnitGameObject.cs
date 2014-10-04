@@ -46,17 +46,16 @@ namespace Assets.Scripts.Units
             UnitHealthText = transform.FindChild("UnitHealth").gameObject;
             // Set the sorting layer to GUI. The same used for the hightlights. Eventhough you cannot set it via unity inspector you can still set it via code. :D
             UnitHealthText.renderer.sortingLayerName = "GUI";
-            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
-            if(lm.IsCurrentLevelLoaded())
+            var levelManager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+            if(levelManager.IsCurrentLevelLoaded())
             {
-                lm.CurrentLevel.Players[index].AddUnit(UnitGame);
+                levelManager.CurrentLevel.Players[index].AddUnit(UnitGame);
             }
-            else { Debug.Log("Cannot insert unit into the unit list because the CurrentLevel is null." + type + " | " + index); }
         }
 
         public void UpdateHealthText()
         {
-            TextMesh text = UnitHealthText.GetComponent<TextMesh>();
+            var text = UnitHealthText.GetComponent<TextMesh>();
             text.text = ((int) Mathf.Clamp(UnitGame.CurrentHealth, 1f, UnitGame.MaxHealth)).ToString();
             UnitHealthText.renderer.enabled = (!Tile.IsFogShown && UnitGame.CurrentHealth < UnitGame.MaxHealth);
         }
@@ -65,7 +64,7 @@ namespace Assets.Scripts.Units
         {
             Tile.unitGameObject = null;
             Tile = null;
-            GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>().CurrentLevel.Players[(index)].RemoveUnit(UnitGame);
+            GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>().CurrentLevel.Players[(index)].RemoveUnit(UnitGame);
             Destroy(gameObject);
         }
     }

@@ -18,21 +18,21 @@ namespace Assets.Scripts.MenuBar
         public float minSizeBar = 175f;
         public float maxSizeBar = 240;
 
-        private LevelManager lm;
+        private LevelManager levelManager;
 
         private void Start()
         {
-            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+            levelManager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
         }
 
         private void OnGUI()
         {
             GUI.skin = customSkin;
-            Rect player = new Rect(40, 10, 300, 40);
-            GUI.Label(player, "Player: " + lm.CurrentLevel.CurrentPlayer.Name);
+            var player = new Rect(40, 10, 300, 40);
+            GUI.Label(player, "Player: " + levelManager.CurrentLevel.CurrentPlayer.Name);
 
-            Rect gold = new Rect(40, 40, 300, 40);
-            GUI.Label(gold, "Current Gold: " + lm.CurrentLevel.CurrentPlayer.Gold);
+            var gold = new Rect(40, 40, 300, 40);
+            GUI.Label(gold, "Current Gold: " + levelManager.CurrentLevel.CurrentPlayer.Gold);
         }
     }
 }

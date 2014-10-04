@@ -8,12 +8,9 @@ namespace Assets.Scripts.UnitActions
 {
     public class HighlightObject : MonoBehaviour
     {
-
-        public HighlightTypes highlightTypeActive;
-
-        public List<Sprite> highlights;
-
         public Tile Tile { get; private set; }
+        public HighlightTypes highlightTypeActive;
+        public List<Sprite> highlights;
 
         private void Start()
         {

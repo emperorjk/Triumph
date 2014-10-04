@@ -19,14 +19,17 @@ namespace Assets.Scripts.UnitActions
         private Movement movement;
         private Attack attack;
         private AnimationInfo animInfo;
-        private LevelManager lm;
+        private LevelManager levelManager;
 
         private void Awake()
         {
-            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
-            movement = GameObject.Find("_Scripts").GetComponent<Movement>();
-            attack = GameObject.Find("_Scripts").GetComponent<Attack>();
-            animInfo = GameObject.Find("_Scripts").GetComponent<AnimationInfo>();
+            levelManager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+
+            movement = GameObjectReferences.GetScriptsGameObject().GetComponent<Movement>();
+            movement = GameObjectReferences.GetScriptsGameObject().GetComponent<Movement>();
+            attack = GameObjectReferences.GetScriptsGameObject().GetComponent<Attack>();
+            animInfo = GameObjectReferences.GetScriptsGameObject().GetComponent<AnimationInfo>();
+
             IsHighlightOn = false;
             HighlightObjects = new List<HighlightObject>();
             EventHandler.register<OnUnitClick>(ShowHighlight);
@@ -47,7 +50,6 @@ namespace Assets.Scripts.UnitActions
         {
             if (evt.unit != null)
             {
-
                 if (!IsHighlightOn && !movement.NeedsMoving && !animInfo.IsAnimateFight)
                 {
                     UnitSelected = evt.unit;
@@ -93,22 +95,20 @@ namespace Assets.Scripts.UnitActions
         /// <param Name="evt"></param>
         public void ClickedOnHightLight(OnHighlightClick evt)
         {
-            if (evt.highlight != null)
+            if (evt.highlight != null && IsHighlightOn)
             {
-                if (IsHighlightOn)
+                HighlightObject highlight = evt.highlight;
+
+                if (highlight.highlightTypeActive == HighlightTypes.highlight_move)
                 {
-                    HighlightObject highlight = evt.highlight;
-                    if (highlight.highlightTypeActive == HighlightTypes.highlight_move)
-                    {
-                        UnitSelected.UnitGame.HasMoved = true;
-                        movement.nodeList = movement.CalculateShortestPath(UnitSelected.Tile,
-                            highlight.Tile, false);
-                        movement.StartTimeMoving = Time.time;
-                        movement.NeedsMoving = true;
-                        movement.FacingDirectionMovement(UnitSelected, movement.nodeList[0].Tile);
-                        UnitSelected.UnitGame.PlaySound(UnitSoundType.Move);
-                        ClearHighlights();
-                    }
+                    UnitSelected.UnitGame.HasMoved = true;
+                    movement.nodeList = movement.CalculateShortestPath(UnitSelected.Tile,
+                        highlight.Tile, false);
+                    movement.StartTimeMoving = Time.time;
+                    movement.NeedsMoving = true;
+                    movement.FacingDirectionMovement(UnitSelected, movement.nodeList[0].Tile);
+                    UnitSelected.UnitGame.PlaySound(UnitSoundType.Move);
+                    ClearHighlights();
                 }
             }
         }
@@ -118,7 +118,7 @@ namespace Assets.Scripts.UnitActions
         /// </summary>
         public void ClearMovementAndHighLights()
         {
-            foreach (Unit unit in lm.CurrentLevel.CurrentPlayer.OwnedUnits)
+            foreach (Unit unit in levelManager.CurrentLevel.CurrentPlayer.OwnedUnits)
             {
                 unit.HasMoved = false;
                 unit.HasAttacked = false;

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Buildings;
+﻿using System.Linq;
+using Assets.Scripts.Buildings;
 using Assets.Scripts.DayNight;
 using Assets.Scripts.Events;
 using Assets.Scripts.Levels;
@@ -22,13 +23,13 @@ namespace Assets.Scripts.Main
         private Highlight highlight;
         private CaptureBuildings capBuildings;
         private ProductionOverlayMain productionOverlay;
-        private Assets.Scripts.UnitActions.AnimationInfo animInfo;
+        private UnitActions.AnimationInfo animInfo;
         private DayStateController dayStateController;
         private LevelManager lm;
 
         private void Awake() 
         {
-            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+            lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
 
             string sceneName = Application.loadedLevelName;
             if (Application.isEditor && !sceneName.Equals(LevelsEnum.Menu.ToString()))
@@ -78,9 +79,9 @@ namespace Assets.Scripts.Main
             // if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.IsSwipeHappening)
             if (Input.GetMouseButtonDown(0))
             {
-                OnUnitClick ouc = new OnUnitClick();
-                OnBuildingClick obc = new OnBuildingClick();
-                OnHighlightClick ohc = new OnHighlightClick();
+                var unitClick = new OnUnitClick();
+                var buildingClick = new OnBuildingClick();
+                var highlightClick = new OnHighlightClick();
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -90,7 +91,7 @@ namespace Assets.Scripts.Main
                     {
                         if (unit.UnitGameObject.collider == hit.collider)
                         {
-                            ouc.unit = unit.UnitGameObject;
+                            unitClick.unit = unit.UnitGameObject;
                             break;
                         }
                     }
@@ -98,7 +99,7 @@ namespace Assets.Scripts.Main
                     {
                         if (building.BuildingGameObject.collider == hit.collider)
                         {
-                            obc.building = building.BuildingGameObject;
+                            buildingClick.building = building.BuildingGameObject;
                             break;
                         }
                     }
@@ -106,20 +107,20 @@ namespace Assets.Scripts.Main
                     {
                         if (highlightObj.collider == hit.collider)
                         {
-                            ohc.highlight = highlightObj;
+                            highlightClick.highlight = highlightObj;
                             break;
                         }
                     }
                 }
 
-                if (ouc.unit == null && ohc.highlight == null && !movement.NeedsMoving ||
-                    (highlight.IsHighlightOn && ouc.unit != null))
+                if (unitClick.unit == null && highlightClick.highlight == null && !movement.NeedsMoving ||
+                    (highlight.IsHighlightOn && unitClick.unit != null))
                 {
                     highlight.ClearHighlights();
                 }
-                EventHandler.dispatch(ouc);
-                EventHandler.dispatch(obc);
-                EventHandler.dispatch(ohc);
+                EventHandler.dispatch(unitClick);
+                EventHandler.dispatch(buildingClick);
+                EventHandler.dispatch(highlightClick);
             }
         }
 
@@ -131,13 +132,13 @@ namespace Assets.Scripts.Main
                 highlight.ClearMovementAndHighLights();
                 capBuildings.CalculateCapturing();
 
-                Players.Player player = lm.CurrentLevel.CurrentPlayer;
+                Player player = lm.CurrentLevel.CurrentPlayer;
                 player.IncreaseGoldBy(player.GetCurrentIncome());
 
                 // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
                 bool foundPlayer = false;
 
-                SortedList<PlayerIndex, Players.Player> list = lm.CurrentLevel.Players;
+                SortedList<PlayerIndex, Player> list = lm.CurrentLevel.Players;
                 while (!foundPlayer)
                 {
                     int indexplayer = list.IndexOfKey(player.Index) + 1;
@@ -151,12 +152,7 @@ namespace Assets.Scripts.Main
                 lm.CurrentLevel.CurrentPlayer = player;
 
                 // After end turn we want to loop through loots and IncreaseTurn so that loot will destroy after x amount turns.
-                Loot[] loots = FindObjectsOfType<Loot>();
-                foreach (Loot l in loots)
-                {
-                    l.IncreaseTurn();
-                }
-
+                FindObjectsOfType<Loot>().ToList().ForEach(x => x.IncreaseTurn());
                 dayStateController.TurnIncrease();
             }
         }

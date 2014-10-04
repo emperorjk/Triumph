@@ -35,7 +35,7 @@ namespace Assets.Scripts.DayNight
 
         private void Start()
         {
-            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+            lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
             lightFront = GameObject.Find("LightFront").GetComponent<Light>();
             lightBack = GameObject.Find("LightBack").GetComponent<Light>();
 
@@ -94,7 +94,7 @@ namespace Assets.Scripts.DayNight
         public void TurnIncrease()
         {
             dayTurnCounter++;
-            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+            LevelManager lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
             int turnsNeeded = lm.CurrentLevel.dayNightTurns[CurrentDayState];
             bool ended = dayTurnCounter > turnsNeeded;
 

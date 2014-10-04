@@ -11,9 +11,8 @@ namespace Assets.Scripts.UnitActions
         public UnitGameObject Attacker { get; set; }
         public Sprite DefaultSpriteDefender { get; set; }
         public Sprite DefaultSpriteAttacker { get; set; }
-        public float FightTime { get; set; }
-
         public bool IsAnimateFight { get; set; }
+        private float FightTime { get; set; }
 
         private void Awake()
         {
@@ -46,7 +45,6 @@ namespace Assets.Scripts.UnitActions
             }
         }
 
-
         private void Update()
         {
             if (IsAnimateFight)
@@ -68,11 +66,13 @@ namespace Assets.Scripts.UnitActions
                     FightTime = 1f;
 
                     // Create the animation fight event. But set the needsanimating to false. Meaning that the method Attack.BattleSimulation() is called.
-                    OnAnimFight fight = new OnAnimFight();
-                    fight.attacker = Attacker;
-                    fight.defender = Defender;
-                    fight.needsAnimating = false;
-                    
+                    var fight = new OnAnimFight
+                    {
+                        attacker = Attacker,
+                        defender = Defender,
+                        needsAnimating = false
+                    };
+
                     EventHandler.dispatch(fight);
                 }
             }

@@ -32,28 +32,9 @@ namespace Assets.Scripts.Units
         public UnitGameObject UnitGameObject { get; private set; }
         public bool IsHero { get; private set; }
 
-        public bool HasMoved
-        {
-            get { return _moved; }
-            set
-            {
-                _moved = value;
-                //UpdateUnitColor(); 
-            }
-        }
+        public bool HasMoved { get; set; }
 
-        public bool HasAttacked
-        {
-            get { return _attacked; }
-            set
-            {
-                _attacked = value;
-                //UpdateUnitColor();
-            }
-        }
-
-        private bool _moved;
-        private bool _attacked;
+        public bool HasAttacked { get; set; }
 
         public int AttackRange
         {

@@ -46,7 +46,6 @@ namespace Assets.Scripts.Buildings
             return Modifiers[type];
         }
 
-
         public void IncreaseCapturePointsBy(float increaseBy)
         {
             CurrentCapturePoints += increaseBy;

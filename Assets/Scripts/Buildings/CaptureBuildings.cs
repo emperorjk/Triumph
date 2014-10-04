@@ -87,7 +87,7 @@ namespace Assets.Scripts.Buildings
                         }
                         else
                         {
-                            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+                            LevelManager lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
                             Camera.main.backgroundColor = lm.CurrentLevel.Players[unitOnBuilding.index].PlayerColor;
                             GameObject.FindGameObjectWithTag("Level").SetActive(false);
                             GameObject.Find("_Scripts").GetComponent<GameBar>().enabled = false;

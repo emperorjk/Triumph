@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Levels;
+﻿using System.Linq;
+using Assets.Scripts.Levels;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
@@ -13,7 +14,6 @@ namespace Assets.Scripts.Menu
 
         private void Update()
         {
-
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -21,12 +21,9 @@ namespace Assets.Scripts.Menu
 
                 if (hit)
                 {
-                    foreach (GameObject level in levels)
+                    foreach (GameObject level in levels.Where(level => hit.collider == level.collider2D))
                     {
-                        if (hit.collider == level.collider2D)
-                        {
-                            LoadLevel(level.name);
-                        }
+                        LoadLevel(level.name);
                     }
 
                     if (hit.collider == backButton.collider2D)
@@ -51,7 +48,7 @@ namespace Assets.Scripts.Menu
             {
                 if (level.ToString() == name)
                 {
-                    GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>().LoadLevel(level);
+                    GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>().LoadLevel(level);
                     break;
                 }
             }

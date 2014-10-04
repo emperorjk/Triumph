@@ -5,16 +5,16 @@ namespace Assets.Scripts.World
 {
     public class Environment
     {
+        private readonly Dictionary<UnitTypes, float> modifiers;
+        public EnvironmentGameObject EnvironmentGameObject { get; private set; }
+        public bool IsWalkable { get; set; }
+
         public Environment(EnvironmentGameObject game, bool isWalkable, Dictionary<UnitTypes, float> modifiers)
         {
             EnvironmentGameObject = game;
             IsWalkable = isWalkable;
-            Modifiers = modifiers;
+            this.modifiers = modifiers;
         }
-
-        public EnvironmentGameObject EnvironmentGameObject { get; private set; }
-        public bool IsWalkable { get; set; }
-        private Dictionary<UnitTypes, float> Modifiers { get; set; }
 
         /// <summary>
         /// Returns the environment modifier for the given UnitTypes.
@@ -24,7 +24,7 @@ namespace Assets.Scripts.World
         /// <returns></returns>
         public float GetEnvironmentModifier(UnitTypes type)
         {
-            return Modifiers[type];
+            return modifiers[type];
         }
     }
 }

@@ -6,10 +6,9 @@ namespace Assets.Scripts.Notification
 {
     public class Notificator : MonoBehaviour
     {
-
         private class Notification
         {
-            public string text;
+            public readonly string text;
             public float time;
 
             public Notification(string _text, float _time)
@@ -60,10 +59,10 @@ namespace Assets.Scripts.Notification
         public static void Notify(string textToDisplay, float timeToDisplay)
         {
             // Make sure we only add the new notification to the list when it is not an empty list and the time to display is greater than 0.
-            if (_notifications.Where(x => x.text == textToDisplay).Count() <= 0 && !textToDisplay.Equals("") &&
+            if (_notifications.Count(x => x.text == textToDisplay) <= 0 && !textToDisplay.Equals("") &&
                 timeToDisplay > 0)
             {
-                Notification notification = new Notification(textToDisplay, timeToDisplay);
+                var notification = new Notification(textToDisplay, timeToDisplay);
                 _notifications.AddLast(notification);
             }
         }

@@ -31,18 +31,17 @@ namespace Assets.Scripts.Buildings
             // Set the sorting layer to GUI. The same used for the hightlights. Eventough you cannot set it via unity inspector you can still set it via code. :D
             CapturePointsText.renderer.sortingLayerName = "GUI";
 
-            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
-            if (lm.IsCurrentLevelLoaded())
+            var levelManager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+            if (levelManager.IsCurrentLevelLoaded())
             {
-                lm.CurrentLevel.Players[index].AddBuilding(BuildingGame);
+                levelManager.CurrentLevel.Players[index].AddBuilding(BuildingGame);
             }
-            else { Debug.Log("Cannot insert building into the buidling list because the CurrentLevel is null." + type + " | " + index); }
             
         }
 
         public void UpdateCapturePointsText()
         {
-            TextMesh text = CapturePointsText.GetComponent<TextMesh>();
+            var text = CapturePointsText.GetComponent<TextMesh>();
             text.text = ((int) BuildingGame.CurrentCapturePoints) + "/" + ((int) BuildingGame.CapturePoints);
             CapturePointsText.renderer.enabled = (!Tile.IsFogShown && BuildingGame.CurrentCapturePoints > 0);
         }
@@ -51,10 +50,10 @@ namespace Assets.Scripts.Buildings
         {
             Tile.buildingGameObject = null;
             Tile = null;
-            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
-            lm.CurrentLevel.Players[index].RemoveBuilding(BuildingGame);
+            var levelmanager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+            levelmanager.CurrentLevel.Players[index].RemoveBuilding(BuildingGame);
 
-            CaptureBuildings capBuilding = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+            var capBuilding = GameObjectReferences.GetScriptsGameObject().GetComponent<CaptureBuildings>();
             if (capBuilding.BuildingsBeingCaptured.Contains(BuildingGame))
             {
                 capBuilding.BuildingsBeingCaptured.Remove(BuildingGame);

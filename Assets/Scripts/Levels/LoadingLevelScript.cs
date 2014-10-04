@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using Assets.Scripts.Levels;
 using SimpleJSON;
 using System.Collections.Generic;
 using Assets.Scripts.Players;
@@ -9,25 +7,20 @@ using Assets.Scripts.Main;
 
 namespace Assets.Scripts.Levels
 {
-
     public class LoadingLevelScript : MonoBehaviour
     {
-
         void Start()
         {
             LoadLevel();
         }
-
 
         /// <summary>
         /// Load the level that is set in the LevelManager script.
         /// </summary>
         private void LoadLevel()
         {
-            LevelManager lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+            var lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
             LevelsEnum level = lm.levelToLoad;
-
-            Debug.Log("Loading level in loading screen: " + level.ToString());
 
             if (level == LevelsEnum.Menu)
             {
@@ -36,7 +29,7 @@ namespace Assets.Scripts.Levels
             }
             else
             {
-                string jsonString = ResourceCache.getResource<TextAsset>(level.ToString()).text;
+                string jsonString = ResourceCache.GetResource<TextAsset>(level.ToString()).text;
 
                 JSONNode jsonLevel = JSON.Parse(jsonString);
 
@@ -48,7 +41,7 @@ namespace Assets.Scripts.Levels
                 string description = jsonLevel["level-description"];
                 JSONArray gold = jsonLevel["starting-gold"].AsArray;
 
-                Dictionary<PlayerIndex, int> startGold = new Dictionary<PlayerIndex, int>();
+                var startGold = new Dictionary<PlayerIndex, int>();
 
                 foreach (PlayerIndex pl in (PlayerIndex[])Enum.GetValues(typeof(PlayerIndex)))
                 {

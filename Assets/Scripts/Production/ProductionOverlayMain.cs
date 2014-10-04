@@ -36,8 +36,7 @@ namespace Assets.Scripts.Production
                 RaycastHit touchBox;
                 Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out touchBox);
                 if (!NeedsMoving && BuildingClickedProduction != null && IsProductionOverlayActive &&
-                    !CurrentOverlay.GetComponentsInChildren<ProductionScript>()
-                        .Any(x => x.collider == touchBox.collider))
+                    CurrentOverlay.GetComponentsInChildren<ProductionScript>().All(x => x.collider != touchBox.collider))
                 {
                     InitiateMoving(true);
                 }
@@ -64,19 +63,16 @@ namespace Assets.Scripts.Production
                     CurrentOverlay = CreatorFactoryProductionOverlay.CreateProductionOverlay(BuildingClickedProduction.type);
                     CurrentOverlay.transform.position = GetBelowScreenPosition();
                     CurrentOverlay.transform.parent = Camera.main.transform;
-                    foreach (ProductionScript item in CurrentOverlay.GetComponentsInChildren<ProductionScript>())
-                    {
-                        item.ParentProduction = this;
-                    }
+
+                    CurrentOverlay.GetComponentsInChildren<ProductionScript>().ToList().ForEach(x=> x.ParentProduction = this);
                     InitiateMoving(false);
                     IsProductionOverlayActive = true;
                 }
             }
         }
 
-        public void InitiateMoving(bool EndOfMoveDestroyed)
+        public void InitiateMoving(bool endOfMoveDestroyed)
         {
-
             if (!IsProductionOverlayActive)
             {
                 startPosition = GetBelowScreenPosition();
@@ -88,7 +84,7 @@ namespace Assets.Scripts.Production
                 targetPosition = GetBelowScreenPosition();
             }
 
-            this.EndOfMovingDestroyed = EndOfMoveDestroyed;
+            EndOfMovingDestroyed = endOfMoveDestroyed;
             NeedsMoving = true;
             startTime = Time.time;
         }
@@ -139,10 +135,8 @@ namespace Assets.Scripts.Production
                     else
                     {
                         NeedsMoving = false;
-                        foreach (ProductionScript item in CurrentOverlay.GetComponentsInChildren<ProductionScript>())
-                        {
-                            item.CanClick = true;
-                        }
+                        CurrentOverlay.GetComponentsInChildren<ProductionScript>()
+                            .ToList().ForEach(x => x.CanClick = true);
                     }
                 }
             }

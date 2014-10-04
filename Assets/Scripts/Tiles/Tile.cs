@@ -1,10 +1,8 @@
 ﻿using Assets.Scripts.Buildings;
-using Assets.Scripts.Levels;
 using Assets.Scripts.Main;
 using Assets.Scripts.UnitActions;
 using Assets.Scripts.Units;
 using Assets.Scripts.World;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Tiles

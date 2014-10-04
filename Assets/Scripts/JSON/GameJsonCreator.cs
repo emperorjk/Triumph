@@ -8,7 +8,7 @@ using SimpleJSON;
 
 public class GameJsonCreator
 {
-    public static Unit CreateUnit(UnitGameObject ug, bool isHero, UnitTypes type)
+    public static Unit CreateUnit(UnitGameObject unit, bool isHero, UnitTypes type)
     {
         string unitType = isHero ? type + "Hero" : type.ToString();
         string jsonString = Resources.Load<TextAsset>("JSON/Units/" + unitType).text;
@@ -36,7 +36,7 @@ public class GameJsonCreator
                 }
             }
         }
-        return new Unit(ug, isHero, attackRange, moveRange, canAttackAfterMove, maxHealth, damage, cost, fowLos, baseLoot, modifiers);
+        return new Unit(unit, isHero, attackRange, moveRange, canAttackAfterMove, maxHealth, damage, cost, fowLos, baseLoot, modifiers);
     }
 
     public static Building CreateBuilding(BuildingGameObject bg, BuildingTypes type)
@@ -54,7 +54,7 @@ public class GameJsonCreator
         float damage = jsonBuilding["damage"].AsFloat;
         JSONArray a = jsonBuilding["unitModifiers"].AsArray;
 
-        Dictionary<UnitTypes, float> modifiers = new Dictionary<UnitTypes, float>();
+        var modifiers = new Dictionary<UnitTypes, float>();
 
         foreach (UnitTypes suit in (UnitTypes[])Enum.GetValues(typeof(UnitTypes)))
         {
@@ -78,7 +78,7 @@ public class GameJsonCreator
 
         JSONArray a = jsonEnvironment["unitModifiers"].AsArray;
         
-        Dictionary<UnitTypes, float> modifiers = new Dictionary<UnitTypes,float>();
+        var modifiers = new Dictionary<UnitTypes,float>();
 
         foreach (UnitTypes suit in (UnitTypes[])Enum.GetValues(typeof(UnitTypes)))
         {

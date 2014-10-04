@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Audio;
 using Assets.Scripts.Events;
 using Assets.Scripts.Main;
@@ -17,8 +18,8 @@ namespace Assets.Scripts.UnitActions
 
         private void Awake()
         {
-            movement = GameObject.Find("_Scripts").GetComponent<Movement>();
-            highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
+            movement = GameObjectReferences.GetScriptsGameObject().GetComponent<Movement>();
+            highlight = GameObjectReferences.GetScriptsGameObject().GetComponent<Highlight>();
             EventHandler.register<OnHighlightClick>(BattlePreparation);
             EventHandler.register<OnAnimFight>(BattleSimulation);
         }
@@ -39,25 +40,22 @@ namespace Assets.Scripts.UnitActions
         {
             foreach (var item in TileHelper.GetAllTilesWithinRange(unit.Tile.Coordinate, range))
             {
-                foreach (var tile in item.Value)
+                foreach (var tile in item.Value.Where(tile => tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index))
                 {
-                    if (tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index)
+                    // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
+                    if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
                     {
-                        // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
-                        if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
+                        tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
+                        highlight.HighlightObjects.Add(tile.Value.Highlight);
+                    }
+                    else
+                    {
+                        List<Node> path = movement.CalculateShortestPath(unit.Tile, tile.Value, true);
+
+                        if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
                         {
                             tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
                             highlight.HighlightObjects.Add(tile.Value.Highlight);
-                        }
-                        else
-                        {
-                            List<Node> path = movement.CalculateShortestPath(unit.Tile, tile.Value, true);
-
-                            if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
-                            {
-                                tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                                highlight.HighlightObjects.Add(tile.Value.Highlight);
-                            }
                         }
                     }
                 }
@@ -175,13 +173,13 @@ namespace Assets.Scripts.UnitActions
             Vector3 attDirection = defender.transform.position - attacker.transform.position;
             Vector3 defDirection = attacker.transform.position - defender.transform.position;
 
-            Quaternion attackerQ = new Quaternion(0, (attDirection.x >= 0 ? 0 : 180), 0, 0);
-            Quaternion defenderQ = new Quaternion(0, (defDirection.x >= 0 ? 0 : 180), 0, 0);
+            var attackerQ = new Quaternion(0, (attDirection.x >= 0 ? 0 : 180), 0, 0);
+            var defenderQ = new Quaternion(0, (defDirection.x >= 0 ? 0 : 180), 0, 0);
             attacker.transform.rotation = attackerQ;
             defender.transform.rotation = defenderQ;
 
-            Quaternion attackerHealthQ = new Quaternion(0, 0, 0, (attacker.transform.position.y > 0 ? 0 : 180));
-            Quaternion defenderHealthQ = new Quaternion(0, 0, 0, (defender.transform.position.y > 0 ? 0 : 180));
+            var attackerHealthQ = new Quaternion(0, 0, 0, (attacker.transform.position.y > 0 ? 0 : 180));
+            var defenderHealthQ = new Quaternion(0, 0, 0, (defender.transform.position.y > 0 ? 0 : 180));
             attacker.UnitHealthText.transform.rotation = attackerHealthQ;
             defender.UnitHealthText.transform.rotation = defenderHealthQ;
 

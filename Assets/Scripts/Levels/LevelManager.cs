@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using SimpleJSON;
-using System.Collections.Generic;
-using Assets.Scripts.Players;
 using System;
 
 namespace Assets.Scripts.Levels

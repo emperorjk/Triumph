@@ -37,10 +37,12 @@ namespace Assets.Scripts.Levels
             this.type = type;
 
             Tiles = new Dictionary<int, Dictionary<int, Tile>>();
-            Players = new SortedList<PlayerIndex, Player>();
-            Players.Add(PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral, Color.gray));
-            Players.Add(PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue, Color.blue));
-            Players.Add(PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red, Color.red));
+            Players = new SortedList<PlayerIndex, Player>
+            {
+                {PlayerIndex.Neutral, new Player("Neutral player", PlayerIndex.Neutral, Color.gray)},
+                {PlayerIndex.Blue, new Player("Player Blue", PlayerIndex.Blue, Color.blue)},
+                {PlayerIndex.Red, new Player("Player Red", PlayerIndex.Red, Color.red)}
+            };
             CurrentPlayer = Players[PlayerIndex.Blue];
 
             foreach(KeyValuePair<PlayerIndex, int> gold in startingGold)

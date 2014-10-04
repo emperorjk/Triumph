@@ -23,7 +23,7 @@ namespace Assets.Scripts.Production
 
         private void Start()
         {
-            lm = GameObjectReferences.getGlobalScriptsGameObject().GetComponent<LevelManager>();
+            lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
         }
 
         private void Update()
