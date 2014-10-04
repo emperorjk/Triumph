@@ -37,26 +37,27 @@ namespace Assets.Scripts.Tiles
             int rId = Mathf.Abs((((int) gameObject.transform.position.y)/2) - 1);
 
             Coordinate = new TileCoordinates(cId, rId);
-            Vector2 = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
+            Vector2 = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
             TileHelper.AddTile(this);
+            //AddTile();
             IsFogShown = false;
             InitHighlights();
         }
 
         private void InitHighlights()
         {
-            FogOfWar = (GameObject) GameObject.Instantiate(Resources.Load(FileLocations.fogOfWar));
-            FogOfWar.transform.position = this.transform.position;
-            FogOfWar.transform.parent = this.transform;
+            FogOfWar = (GameObject) Instantiate(Resources.Load(FileLocations.fogOfWar));
+            FogOfWar.transform.position = transform.position;
+            FogOfWar.transform.parent = transform;
             Color color = FogOfWar.renderer.material.color;
             color.a = 0f;
             FogOfWar.renderer.material.color = color;
 
-            GameObject highlight = ((GameObject) GameObject.Instantiate(Resources.Load(FileLocations.highlight)));
-            highlight.transform.parent = this.transform;
-            highlight.transform.position = this.transform.position;
-            this.Highlight = highlight.GetComponent<HighlightObject>();
-            this.Highlight.ChangeHighlight(HighlightTypes.highlight_none);
+            GameObject highlight = ((GameObject) Instantiate(Resources.Load(FileLocations.highlight)));
+            highlight.transform.parent = transform;
+            highlight.transform.position = transform.position;
+            Highlight = highlight.GetComponent<HighlightObject>();
+            Highlight.ChangeHighlight(HighlightTypes.highlight_none);
         }
 
         public bool HasBuilding()

@@ -9,29 +9,25 @@ using UnityEngine;
 
 namespace Assets.Scripts.Audio
 {
-    public class AudioManager
+    public class AudioManager : MonoBehaviour
     {
         private AudioSource audioSource;
 
         private Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>> soundsDictionary =
             new Dictionary<UnitTypes, Dictionary<UnitSoundType, AudioClip[]>>();
 
-        public AudioManager()
+        private void Awake() 
         {
             ReadJSONAudio();
 
             audioSource = Camera.main.gameObject.AddComponent<AudioSource>();
 
-            foreach (UnitTypes unitType in Enum.GetValues(typeof (UnitTypes)))
+            foreach (UnitTypes unitType in Enum.GetValues(typeof(UnitTypes)))
             {
-                Dictionary<UnitSoundType, AudioClip[]> dictionary = new Dictionary<UnitSoundType, AudioClip[]>();
+                var dictionary = Enum.GetValues(typeof (UnitSoundType)).Cast<UnitSoundType>()
+                    .ToDictionary(unitSoundType => unitSoundType, unitSoundType => 
+                        Resources.LoadAll<AudioClip>(FileLocations.soundsFolder + unitType + "/" + unitSoundType).ToArray());
 
-                foreach (UnitSoundType unitSoundType in Enum.GetValues(typeof (UnitSoundType)))
-                {
-                    dictionary.Add(unitSoundType,
-                        Resources.LoadAll<AudioClip>(FileLocations.soundsFolder + unitType.ToString() + "/" +
-                                                     unitSoundType.ToString()).ToArray());
-                }
                 soundsDictionary.Add(unitType, dictionary);
             }
         }
@@ -53,7 +49,7 @@ namespace Assets.Scripts.Audio
 
         private static string GetJSONString()
         {
-            using (StreamReader sr = new StreamReader(Application.persistentDataPath + "/audio.json"))
+            using (var sr = new StreamReader(Application.persistentDataPath + "/audio.json"))
             {
                 return sr.ReadToEnd();
             }
@@ -93,7 +89,7 @@ namespace Assets.Scripts.Audio
         {
             AudioClip[] audioClipArray = soundsDictionary[unitType][soundType];
 
-            System.Random ran = new System.Random();
+            var ran = new System.Random();
             int randomNumber = ran.Next(audioClipArray.Length);
 
             if (audioSource == null)

@@ -15,22 +15,12 @@ namespace Assets.Scripts.FactoryPattern.ProductionOverlayFactory
                     "Please provide a correct building type. The chosen building cannot produce.", "type");
             }
             GameObject obj = null;
-            if (type == BuildingTypes.BarracksCavalry)
-            {
-                CavalryOverlayFactory fac = new CavalryOverlayFactory();
-                obj = fac.CreateProductionOverlay();
-            }
-            else if (type == BuildingTypes.BarracksMelee)
-            {
-                MeleeOverlayFactory fac = new MeleeOverlayFactory();
-                obj = fac.CreateProductionOverlay();
-            }
-            else if (type == BuildingTypes.BarracksRange)
-            {
-                RangeOverlayFactory fac = new RangeOverlayFactory();
-                obj = fac.CreateProductionOverlay();
-            }
+            IProductionOverlay po = null;
 
+            if (type == BuildingTypes.BarracksCavalry) { po = new CavalryOverlayFactory(); }
+            else if (type == BuildingTypes.BarracksMelee) { po = new MeleeOverlayFactory(); }
+            else if (type == BuildingTypes.BarracksRange) { po = new RangeOverlayFactory(); }
+            obj = po.CreateProductionOverlay();
             return (GameObject) GameObject.Instantiate(obj);
         }
     }

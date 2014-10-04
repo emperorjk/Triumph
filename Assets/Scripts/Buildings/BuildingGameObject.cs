@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Main;
+﻿using Assets.Scripts.Levels;
+using Assets.Scripts.Main;
 using Assets.Scripts.Players;
 using Assets.Scripts.Tiles;
 using UnityEngine;
@@ -19,39 +20,46 @@ namespace Assets.Scripts.Buildings
 
         private void Awake()
         {
-            this.BuildingGame = GameJsonCreator.CreateBuilding(this, type);
-            if (this.transform.parent != null)
+            BuildingGame = GameJsonCreator.CreateBuilding(this, type);
+            if (transform.parent != null)
             {
-                Tile = this.transform.parent.GetComponent<Tile>();
+                Tile = transform.parent.GetComponent<Tile>();
                 Tile.buildingGameObject = this;
             }
             CapturePointsText = transform.FindChild("CapturePoints").gameObject;
             CapturePointsText.renderer.enabled = false;
             // Set the sorting layer to GUI. The same used for the hightlights. Eventough you cannot set it via unity inspector you can still set it via code. :D
             CapturePointsText.renderer.sortingLayerName = "GUI";
-            GameObject.Find("_Scripts").GetComponent<GameManager>().Players[index].AddBuilding(BuildingGame);
+
+            var levelManager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+            if (levelManager.IsCurrentLevelLoaded())
+            {
+                levelManager.CurrentLevel.Players[index].AddBuilding(BuildingGame);
+            }
+            
         }
 
         public void UpdateCapturePointsText()
         {
-            TextMesh text = CapturePointsText.GetComponent<TextMesh>();
-            text.text = ((int) BuildingGame.CurrentCapturePoints) + "/" + ((int) BuildingGame.capturePoints);
+            var text = CapturePointsText.GetComponent<TextMesh>();
+            text.text = ((int) BuildingGame.CurrentCapturePoints) + "/" + ((int) BuildingGame.CapturePoints);
             CapturePointsText.renderer.enabled = (!Tile.IsFogShown && BuildingGame.CurrentCapturePoints > 0);
         }
 
         public void DestroyBuilding()
         {
-            this.Tile.buildingGameObject = null;
-            this.Tile = null;
-            GameManager man = GameObject.Find("_Scripts").GetComponent<GameManager>();
-            man.Players[this.index].RemoveBuilding(this.BuildingGame);
+            Tile.buildingGameObject = null;
+            Tile = null;
+            var levelmanager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+            levelmanager.CurrentLevel.Players[index].RemoveBuilding(BuildingGame);
 
-            if (man.CaptureBuildings.BuildingsBeingCaptured.Contains(this.BuildingGame))
+            var capBuilding = GameObjectReferences.GetScriptsGameObject().GetComponent<CaptureBuildings>();
+            if (capBuilding.BuildingsBeingCaptured.Contains(BuildingGame))
             {
-                man.CaptureBuildings.BuildingsBeingCaptured.Remove(this.BuildingGame);
+                capBuilding.BuildingsBeingCaptured.Remove(BuildingGame);
             }
 
-            GameObject.Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

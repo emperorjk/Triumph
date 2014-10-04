@@ -12,54 +12,35 @@ namespace Assets.Scripts.Units
             float maxHealth,
             float damage, int cost, int fowLos, float baseLoot, Dictionary<UnitTypes, float> modifiers)
         {
-            this.UnitGameObject = game;
-            this.IsHero = isHero;
-            this.HasMoved = false;
-            this.HasAttacked = false;
-            this.AttackRange = attackRange;
-            this.MoveRange = moveRange;
-            this.CanAttackAfterMove = canAttackAfterMove;
-            this.CurrentHealth = maxHealth;
-            this.MaxHealth = maxHealth;
-            this.Damage = damage;
-            this.Cost = cost;
-            this.FowLineOfSightRange = fowLos;
-            this.BaseLoot = baseLoot;
-            this.CurrentLoot = baseLoot;
-            this.modifiers = modifiers;
+            UnitGameObject = game;
+            IsHero = isHero;
+            HasMoved = false;
+            HasAttacked = false;
+            AttackRange = attackRange;
+            MoveRange = moveRange;
+            CanAttackAfterMove = canAttackAfterMove;
+            CurrentHealth = maxHealth;
+            MaxHealth = maxHealth;
+            Damage = damage;
+            Cost = cost;
+            FowLineOfSightRange = fowLos;
+            BaseLoot = baseLoot;
+            CurrentLoot = baseLoot;
+            Modifiers = modifiers;
         }
 
         public UnitGameObject UnitGameObject { get; private set; }
         public bool IsHero { get; private set; }
 
-        public bool HasMoved
-        {
-            get { return _moved; }
-            set
-            {
-                _moved = value;
-                //UpdateUnitColor(); 
-            }
-        }
+        public bool HasMoved { get; set; }
 
-        public bool HasAttacked
-        {
-            get { return _attacked; }
-            set
-            {
-                _attacked = value;
-                //UpdateUnitColor();
-            }
-        }
-
-        private bool _moved = false;
-        private bool _attacked = false;
+        public bool HasAttacked { get; set; }
 
         public int AttackRange
         {
             get
             {
-                return GameObject.Find("_Scripts").GetComponent<GameManager>().DayStateController.CurrentDayState ==
+                return GameObject.Find("_Scripts").GetComponent<DayStateController>().CurrentDayState ==
                        DayStates.Night
                     ? 1
                     : _AttackRange;
@@ -73,7 +54,7 @@ namespace Assets.Scripts.Units
         {
             get
             {
-                return GameObject.Find("_Scripts").GetComponent<GameManager>().DayStateController.CurrentDayState ==
+                return GameObject.Find("_Scripts").GetComponent<DayStateController>().CurrentDayState ==
                        DayStates.Night
                     ? Mathf.Clamp(_MoveRange - 1, 1, int.MaxValue)
                     : _MoveRange;
@@ -114,39 +95,39 @@ namespace Assets.Scripts.Units
 
         public void PlaySound(UnitSoundType soundType)
         {
-            GameObject.Find("_Scripts").GetComponent<GameManager>().UnitSounds.PlaySound(UnitGameObject.type, soundType);
+            //GameObject.Find("_Scripts").GetComponent<GameManager>().UnitSounds.PlaySound(UnitGameObject.type, soundType);
         }
 
         public void DecreaseHealth(float damage)
         {
-            this.CurrentHealth -= damage;
-            this.UnitGameObject.UpdateHealthText();
+            CurrentHealth -= damage;
+            UnitGameObject.UpdateHealthText();
         }
 
         public void IncreaseHealth(float recovery)
         {
-            this.CurrentHealth += recovery;
+            CurrentHealth += recovery;
             // If we later have some sort of healing make sure that it cannot go over its initial full health.
-            this.CurrentHealth = Mathf.Clamp(this.CurrentHealth, 0, this.MaxHealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
             //if (this.currentHealth >= this.health) { this.currentHealth = this.health; }
-            this.UnitGameObject.UpdateHealthText();
+            UnitGameObject.UpdateHealthText();
         }
 
         public bool IsAlive()
         {
-            return this.CurrentHealth > 0;
+            return CurrentHealth > 0;
         }
 
         public void OnDeath()
         {
             GameObject loot =
                 ((GameObject) GameObject.Instantiate(Resources.Load<GameObject>(FileLocations.lootPrefab)));
-            this.UnitGameObject.Tile.Loot = loot.GetComponent<Loot>();
-            this.UnitGameObject.Tile.Loot.SetLoot(this.CurrentLoot);
-            loot.GetComponent<Loot>().Tile = this.UnitGameObject.Tile;
-            loot.transform.position = this.UnitGameObject.Tile.gameObject.transform.position;
+            UnitGameObject.Tile.Loot = loot.GetComponent<Loot>();
+            UnitGameObject.Tile.Loot.SetLoot(CurrentLoot);
+            loot.GetComponent<Loot>().Tile = UnitGameObject.Tile;
+            loot.transform.position = UnitGameObject.Tile.gameObject.transform.position;
 
-            this.UnitGameObject.DestroyUnit();
+            UnitGameObject.DestroyUnit();
         }
 
         public void UpdateUnitColor()
@@ -164,7 +145,7 @@ namespace Assets.Scripts.Units
             return CurrentHealth/10f;
         }
 
-        private Dictionary<UnitTypes, float> modifiers { get; set; }
+        private Dictionary<UnitTypes, float> Modifiers { get; set; }
 
         /// <summary>
         /// Returns how good this unit is against the UnitTypes that is given as a parameter.
@@ -173,7 +154,7 @@ namespace Assets.Scripts.Units
         /// <returns></returns>
         public float GetUnitModifier(UnitTypes enemyUnit)
         {
-            return modifiers[enemyUnit];
+            return Modifiers[enemyUnit];
         }
 
         /// <summary>
@@ -185,18 +166,15 @@ namespace Assets.Scripts.Units
             if (UnitGameObject.Tile.HasBuilding())
             {
                 // Removed this because it can help the player. If normally the unit is given a 0.5 modifier when it owns the building, it will now receive a 1.0f modifier
-                // which increases the damage done and thus neglecting the fact that a knight is bad on a castle for example.
+                // which increases the Damage done and thus neglecting the fact that a knight is bad on a castle for example.
                 //if(UnitGameObject.Tile.BuildingGameObject.Index != UnitGameObject.Index)
                 // {
                 //    return 1f;
                 // }
                 return UnitGameObject.Tile.buildingGameObject.BuildingGame.GetBuildingModifier(UnitGameObject.type);
             }
-            else
-            {
-                return
-                    UnitGameObject.Tile.environmentGameObject.EnvironmentGame.GetEnvironmentModifier(UnitGameObject.type);
-            }
+            return
+                UnitGameObject.Tile.environmentGameObject.EnvironmentGame.GetEnvironmentModifier(UnitGameObject.type);
         }
     }
 }

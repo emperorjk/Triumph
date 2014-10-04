@@ -17,7 +17,7 @@ namespace Assets.Scripts.Menu
             {
                 GameObject.Find("Guide").GetComponent<AudioSource>().Play();
 
-                // reset images and activeScreen to 0
+                // Reset images and activeScreen to 0
                 activeScreen = 0;
                 forwardButton.renderer.enabled = true;
 

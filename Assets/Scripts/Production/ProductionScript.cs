@@ -3,6 +3,8 @@ using Assets.Scripts.FactoryPattern.UnitFactory;
 using Assets.Scripts.Main;
 using Assets.Scripts.Units;
 using UnityEngine;
+using Assets.Scripts.Notification;
+using Assets.Scripts.Levels;
 
 namespace Assets.Scripts.Production
 {
@@ -16,6 +18,13 @@ namespace Assets.Scripts.Production
         public UnitTypes type;
         public ProductionOverlayMain ParentProduction { get; set; }
         public bool CanClick { get; set; }
+
+        private LevelManager lm;
+
+        private void Start()
+        {
+            lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+        }
 
         private void Update()
         {
@@ -35,16 +44,16 @@ namespace Assets.Scripts.Production
                         UnitGameObject unit = CreatorFactoryUnit.CreateUnit(buildingToProduceFrom.Tile,
                             buildingToProduceFrom.index, type);
                         unit.gameObject.SetActive(false);
-                        GameManager man = GameObject.Find("_Scripts").GetComponent<GameManager>();
-                        if (man.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
+                        if (lm.CurrentLevel.CurrentPlayer.CanBuy(unit.UnitGame.Cost))
                         {
                             unit.gameObject.SetActive(true);
-                            man.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
+                            lm.CurrentLevel.CurrentPlayer.DecreaseGoldBy(unit.UnitGame.Cost);
                             CanClick = false;
                             ParentProduction.InitiateMoving(true);
                         }
                         else
                         {
+                            Notificator.Notify("Not enough gold!", 1.5f);
                             unit.DestroyUnit();
                         }
                     }

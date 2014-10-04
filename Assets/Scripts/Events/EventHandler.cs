@@ -8,8 +8,8 @@ namespace Assets.Scripts.Events
     {
         public delegate void EventListener<T>(T evt);
 
-        private static Dictionary<System.Type, System.Delegate> _listeners =
-            new Dictionary<System.Type, System.Delegate>();
+        private static Dictionary<Type, Delegate> _listeners =
+            new Dictionary<Type, Delegate>();
 
         public static void register<T>(EventListener<T> listener) where T : struct
         {
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Events
 
             if (_listeners.ContainsKey(type))
             {
-                _listeners[type] = System.Delegate.Combine(_listeners[type], listener);
+                _listeners[type] = Delegate.Combine(_listeners[type], listener);
             }
             else
             {
@@ -31,7 +31,7 @@ namespace Assets.Scripts.Events
 
             if (_listeners.ContainsKey(type))
             {
-                var newListeners = System.Delegate.Remove(_listeners[type], listener);
+                var newListeners = Delegate.Remove(_listeners[type], listener);
 
                 if (newListeners == null)
                 {

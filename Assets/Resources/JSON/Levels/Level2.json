@@ -4,5 +4,10 @@
 	"turn-evening" : 4,
 	"turn-night" : 3,
 	"level-name" : "Fair",
-	"level-description" : "It will be a fair game!"
+	"level-description" : "It will be a fair game!",
+	"starting-gold" :[
+		{ "Red": 250 },
+		{ "Blue" : 200 },
+		{ "Neutral" : 0 }
+	]
 }

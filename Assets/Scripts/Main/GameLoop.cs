@@ -1,9 +1,14 @@
-﻿using Assets.Scripts.Audio;
+﻿using System.Linq;
 using Assets.Scripts.Buildings;
+using Assets.Scripts.DayNight;
 using Assets.Scripts.Events;
 using Assets.Scripts.Levels;
+using Assets.Scripts.Players;
+using Assets.Scripts.Production;
 using Assets.Scripts.UnitActions;
 using Assets.Scripts.Units;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using EventHandler = Assets.Scripts.Events.EventHandler;
 
@@ -12,28 +17,56 @@ namespace Assets.Scripts.Main
     // Main gameloop
     public class GameLoop : MonoBehaviour
     {
-        private GameManager _manager;
+        public bool IsDoneButtonActive { get; set; }
 
-        private void Awake()
+        private Movement movement;
+        private Highlight highlight;
+        private CaptureBuildings capBuildings;
+        private ProductionOverlayMain productionOverlay;
+        private UnitActions.AnimationInfo animInfo;
+        private DayStateController dayStateController;
+        private LevelManager lm;
+
+        private void Awake() 
         {
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
-        }
+            lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
 
-        private bool test = false;
+            string sceneName = Application.loadedLevelName;
+            if (Application.isEditor && !sceneName.Equals(LevelsEnum.Menu.ToString()))
+            {
+                if (lm.CurrentLevel == null)
+                {
+                    foreach (LevelsEnum pl in (LevelsEnum[])Enum.GetValues(typeof(LevelsEnum)))
+                    {
+                        if (pl.ToString() == sceneName)
+                        {
+                            lm.LoadLevel(pl);
+                            break;
+                        }
+                    }
+                }
+            }
+            movement = GameObject.Find("_Scripts").GetComponent<Movement>();
+            highlight = GameObject.Find("_Scripts").GetComponent<Highlight>();
+            capBuildings = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+            productionOverlay = GameObject.Find("_Scripts").GetComponent<ProductionOverlayMain>();
+            dayStateController = GameObject.Find("_Scripts").GetComponent<DayStateController>();
+            animInfo = GameObject.Find("_Scripts").GetComponent<Assets.Scripts.UnitActions.AnimationInfo>();
+        }
 
         private void Update()
         {
             CheckObjectsClick();
 
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Escape) || (Input.GetMouseButtonDown(0) && lm.CurrentLevel.IsEnded))
             {
-                AudioManager.MuteAudio(test);
-                test = !test;
+                lm.LoadLevel(LevelsEnum.Menu);
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            // Temporary code for debuging
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                _manager.LevelManager.LoadLevel(LevelsEnum.Menu);
+                EndTurn();
             }
         }
 
@@ -43,51 +76,84 @@ namespace Assets.Scripts.Main
         private void CheckObjectsClick()
         {
             // Gives errors
-            //if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.IsSwipeHappening)
+            // if (Input.GetMouseButtonDown(0) && !_manager.SwipeController.IsSwipeHappening)
             if (Input.GetMouseButtonDown(0))
             {
-                OnUnitClick ouc = new OnUnitClick();
-                OnBuildingClick obc = new OnBuildingClick();
-                OnHighlightClick ohc = new OnHighlightClick();
+                var unitClick = new OnUnitClick();
+                var buildingClick = new OnBuildingClick();
+                var highlightClick = new OnHighlightClick();
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
-                    foreach (Unit unit in _manager.CurrentPlayer.OwnedUnits)
+                    foreach (Unit unit in lm.CurrentLevel.CurrentPlayer.OwnedUnits)
                     {
                         if (unit.UnitGameObject.collider == hit.collider)
                         {
-                            ouc.unit = unit.UnitGameObject;
+                            unitClick.unit = unit.UnitGameObject;
                             break;
                         }
                     }
-                    foreach (Building building in _manager.CurrentPlayer.OwnedBuildings)
+                    foreach (Building building in lm.CurrentLevel.CurrentPlayer.OwnedBuildings)
                     {
                         if (building.BuildingGameObject.collider == hit.collider)
                         {
-                            obc.building = building.BuildingGameObject;
+                            buildingClick.building = building.BuildingGameObject;
                             break;
                         }
                     }
-                    foreach (HighlightObject highlight in _manager.Highlight.HighlightObjects)
+                    foreach (HighlightObject highlightObj in highlight.HighlightObjects)
                     {
-                        if (highlight.collider == hit.collider)
+                        if (highlightObj.collider == hit.collider)
                         {
-                            ohc.highlight = highlight;
+                            highlightClick.highlight = highlightObj;
                             break;
                         }
                     }
                 }
 
-                if (ouc.unit == null && ohc.highlight == null && !_manager.Movement.NeedsMoving ||
-                    (_manager.Highlight.IsHighlightOn && ouc.unit != null))
+                if (unitClick.unit == null && highlightClick.highlight == null && !movement.NeedsMoving ||
+                    (highlight.IsHighlightOn && unitClick.unit != null))
                 {
-                    _manager.Highlight.ClearHighlights();
+                    highlight.ClearHighlights();
                 }
-                EventHandler.dispatch(ouc);
-                EventHandler.dispatch(obc);
-                EventHandler.dispatch(ohc);
+                EventHandler.dispatch(unitClick);
+                EventHandler.dispatch(buildingClick);
+                EventHandler.dispatch(highlightClick);
+            }
+        }
+
+        public void EndTurn()
+        {
+            if (!animInfo.IsAnimateFight && !movement.NeedsMoving)
+            {
+                productionOverlay.DestroyAndStopOverlay();
+                highlight.ClearMovementAndHighLights();
+                capBuildings.CalculateCapturing();
+
+                Player player = lm.CurrentLevel.CurrentPlayer;
+                player.IncreaseGoldBy(player.GetCurrentIncome());
+
+                // Change the currentplayer to the next player. Works with all amount of players. Ignores the Neutral player.
+                bool foundPlayer = false;
+
+                SortedList<PlayerIndex, Player> list = lm.CurrentLevel.Players;
+                while (!foundPlayer)
+                {
+                    int indexplayer = list.IndexOfKey(player.Index) + 1;
+                    if (indexplayer >= list.Count)
+                    {
+                        indexplayer = 0;
+                    }
+                    player = list.Values[indexplayer];
+                    foundPlayer = player.Index != PlayerIndex.Neutral;
+                }
+                lm.CurrentLevel.CurrentPlayer = player;
+
+                // After end turn we want to loop through loots and IncreaseTurn so that loot will destroy after x amount turns.
+                FindObjectsOfType<Loot>().ToList().ForEach(x => x.IncreaseTurn());
+                dayStateController.TurnIncrease();
             }
         }
     }

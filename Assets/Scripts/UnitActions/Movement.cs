@@ -5,6 +5,9 @@ using Assets.Scripts.Main;
 using Assets.Scripts.Tiles;
 using Assets.Scripts.Units;
 using UnityEngine;
+using Assets.Scripts.Levels;
+using Assets.Scripts.Buildings;
+using Assets.Scripts.DayNight;
 
 namespace Assets.Scripts.UnitActions
 {
@@ -14,21 +17,27 @@ namespace Assets.Scripts.UnitActions
         public bool NeedsMoving { get; set; }
         public List<Node> nodeList;
 
-        private CompareNodes compare = new CompareNodes();
-        private float movingDuration = 0.65f;
+        private readonly CompareNodes compare = new CompareNodes();
+        private const float movingDuration = 0.65f;
 
-        private GameManager _manager;
+        private Highlight highlight;
+        private Attack attack;
+        private DayStateController dayStateControl;
+        private LevelManager levelManager;
 
         private void Start()
         {
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
+            levelManager = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+            highlight = GameObjectReferences.GetScriptsGameObject().GetComponent<Highlight>();
+            attack = GameObjectReferences.GetScriptsGameObject().GetComponent<Attack>();
+            dayStateControl = GameObjectReferences.GetScriptsGameObject().GetComponent<DayStateController>();
         }
 
         private void Update()
         {
             if (NeedsMoving && nodeList != null)
             {
-                Moving(_manager.Highlight.UnitSelected);
+                Moving(highlight.UnitSelected);
             }
         }
 
@@ -40,7 +49,7 @@ namespace Assets.Scripts.UnitActions
             if (GetTimePassed() >= 1f)
             {
                 // Show fow for the unit.
-                _manager.DayStateController.ShowFowWithinLineOfSight(unitMoving.index);
+                dayStateControl.ShowFowWithinLineOfSight(unitMoving.index);
                 // Remove the references from the old Tile.
                 unitMoving.Tile.unitGameObject = null;
                 unitMoving.Tile = null;
@@ -55,28 +64,28 @@ namespace Assets.Scripts.UnitActions
                 unitMoving.transform.parent = newPosition.transform;
                 unitMoving.transform.position = newPosition.transform.position;
                 // Hide the fow for the unit. It will use the new Tile location.
-                _manager.DayStateController.HideFowWithinLineOfSight(unitMoving.index);
+                dayStateControl.HideFowWithinLineOfSight(unitMoving.index);
                 StartTimeMoving = Time.time;
             }
 
             if (nodeList.Count <= 0)
             {
-                _manager.Highlight.ClearHighlights();
+                highlight.ClearHighlights();
                 Tile endDestinationTile = unitMoving.Tile;
 
                 if (endDestinationTile.HasLoot())
                 {
-                    endDestinationTile.Loot.PickUpLoot(_manager.CurrentPlayer);
+                    endDestinationTile.Loot.PickUpLoot(levelManager.CurrentLevel.CurrentPlayer);
                 }
 
                 if (endDestinationTile.HasBuilding())
                 {
-                    _manager.CaptureBuildings.AddBuildingToCaptureList(
+                    CaptureBuildings capBuilding = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+                    capBuilding.AddBuildingToCaptureList(
                         endDestinationTile.buildingGameObject.BuildingGame);
                 }
-
                 if (unitMoving.UnitGame.CanAttackAfterMove &&
-                    _manager.Attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
+                    attack.ShowAttackHighlights(unitMoving, unitMoving.UnitGame.AttackRange) > 0)
                 {
                     unitMoving.UnitGame.HasMoved = true;
                 }
@@ -94,10 +103,10 @@ namespace Assets.Scripts.UnitActions
         {
             Vector3 direction = moveUnit.transform.position - destination.transform.position;
 
-            Quaternion quaternion = new Quaternion(0, (direction.x > 0 ? 180 : 0), 0, 0);
+            var quaternion = new Quaternion(0, (direction.x > 0 ? 180 : 0), 0, 0);
             moveUnit.transform.rotation = quaternion;
 
-            Quaternion attackerHealthQ = new Quaternion(0, 0, 0, (moveUnit.transform.position.y > 0 ? 0 : 180));
+            var attackerHealthQ = new Quaternion(0, 0, 0, (moveUnit.transform.position.y > 0 ? 0 : 180));
             moveUnit.UnitHealthText.transform.rotation = attackerHealthQ;
         }
 
@@ -114,9 +123,9 @@ namespace Assets.Scripts.UnitActions
         /// <returns></returns>
         public List<Node> CalculateShortestPath(Tile start, Tile goal, bool attackCalculate)
         {
-            List<Node> openList = new List<Node>();
-            List<Node> closedList = new List<Node>();
-            Node current = new Node(start.Vector2, start, null, 0, 0);
+            var openList = new List<Node>();
+            var closedList = new List<Node>();
+            var current = new Node(start.Vector2, start, null, 0, 0);
             int maxValueCounter = 0;
 
             openList.Add(current);
@@ -127,7 +136,7 @@ namespace Assets.Scripts.UnitActions
 
                 if (current.Tile.Equals(goal))
                 {
-                    List<Node> path = new List<Node>();
+                    var path = new List<Node>();
 
                     while (current.Parent != null)
                     {
@@ -161,7 +170,7 @@ namespace Assets.Scripts.UnitActions
                     {
                         continue;
                     }
-                    else if (attackCalculate)
+                    if (attackCalculate)
                     {
                         // if T is not equal to goal we want to check if isWalkable and HasUnit. Otherwise we cannot move to goal because that one has an unit.
                         if (!t.Equals(goal))
@@ -183,7 +192,7 @@ namespace Assets.Scripts.UnitActions
                     double gCost = current.GCost + GetCost(current.Vector2, t.Vector2);
                     double hCost = GetCost(t.Vector2, goal.Vector2);
 
-                    Node node = new Node(t.Vector2, t, current, gCost, hCost);
+                    var node = new Node(t.Vector2, t, current, gCost, hCost);
 
                     if (closedList.Contains(node))
                     {
@@ -221,7 +230,7 @@ namespace Assets.Scripts.UnitActions
                 {
                     return 1;
                 }
-                else if (n1.FCost > n0.FCost)
+                if (n1.FCost > n0.FCost)
                 {
                     return -1;
                 }

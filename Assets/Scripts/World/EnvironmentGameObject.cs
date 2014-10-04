@@ -10,13 +10,13 @@ namespace Assets.Scripts.World
     {
         public EnvironmentTypes type;
         public Environment EnvironmentGame { get; private set; }
-        public Tile Tile { get; set; }
+        private Tile tile;
 
         private void Awake()
         {
-            this.EnvironmentGame = GameJsonCreator.CreateEnvironment(this, type);
-            Tile = GetComponent<Tile>();
-            Tile.environmentGameObject = this;
+            EnvironmentGame = GameJsonCreator.CreateEnvironment(this, type);
+            tile = GetComponent<Tile>();
+            tile.environmentGameObject = this;
         }
     }
 }

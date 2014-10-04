@@ -6,7 +6,6 @@ namespace Assets.Scripts.Controls
 {
     public class SwipeController : MonoBehaviour
     {
-
         // Min swipe distance downwards.
         private float minSwipeDistance = 50f;
         // The difference the fingers can go to the left or right.
@@ -52,14 +51,14 @@ namespace Assets.Scripts.Controls
                             // down swipe
                             IsSwipeHappening = false;
                             OnSwipeAction swipeDown = new OnSwipeAction(fingerCount, false, false, false, true);
-                            EventHandler.dispatch<OnSwipeAction>(swipeDown);
+                            EventHandler.dispatch(swipeDown);
                         }
                         else if (delta.y > 0)
                         {
                             // Up swipe
                             IsSwipeHappening = false;
                             OnSwipeAction swipeUp = new OnSwipeAction(fingerCount, false, false, true, false);
-                            EventHandler.dispatch<OnSwipeAction>(swipeUp);
+                            EventHandler.dispatch(swipeUp);
                         }
                     }
                         // Left and right swipe not working yet.

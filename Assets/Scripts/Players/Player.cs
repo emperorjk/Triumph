@@ -17,9 +17,9 @@ namespace Assets.Scripts.Players
 
         public Player(string name, PlayerIndex index, Color playerColor)
         {
-            this.Name = name;
-            this.Index = index;
-            this.PlayerColor = playerColor;
+            Name = name;
+            Index = index;
+            PlayerColor = playerColor;
             OwnedBuildings = new List<Building>();
             OwnedUnits = new List<Unit>();
         }
@@ -64,6 +64,11 @@ namespace Assets.Scripts.Players
         public void DecreaseGoldBy(float decreaseBy)
         {
             Gold -= decreaseBy;
+        }
+
+        public void SetGold(float gold)
+        {
+            Gold = gold;
         }
 
         /// <summary>

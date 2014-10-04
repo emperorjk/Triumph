@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Buildings;
+using Assets.Scripts.Levels;
 using Assets.Scripts.Main;
 using Assets.Scripts.Notification;
 using Assets.Scripts.Players;
@@ -13,6 +14,7 @@ namespace Assets.Scripts.DayNight
 {
     public class DayStateController : MonoBehaviour
     {
+        private LevelManager lm;
         public DayStates CurrentDayState { get; private set; }
 
         private float speed = 0.5f;
@@ -29,16 +31,14 @@ namespace Assets.Scripts.DayNight
         public bool IsFowActive { get; private set; }
 
         private bool lastIsFowActive;
-        private int DayTurnCounter = 1;
-
-        private GameManager _manager;
+        private int dayTurnCounter = 1;
 
         private void Start()
         {
+            lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
             lightFront = GameObject.Find("LightFront").GetComponent<Light>();
             lightBack = GameObject.Find("LightBack").GetComponent<Light>();
 
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
             IsFowActive = lastIsFowActive = false;
             CurrentDayState = DayStates.Morning;
             // Start a fade into the CurrentDayState. This is done because the intensity of the light prefab may differ from the values set below.
@@ -93,9 +93,10 @@ namespace Assets.Scripts.DayNight
 
         public void TurnIncrease()
         {
-            DayTurnCounter++;
-            int turnsNeeded = _manager.LevelManager.CurrentLevel.dayNightTurns[CurrentDayState];
-            bool ended = DayTurnCounter > turnsNeeded;
+            dayTurnCounter++;
+            LevelManager lm = GameObjectReferences.GetGlobalScriptsGameObject().GetComponent<LevelManager>();
+            int turnsNeeded = lm.CurrentLevel.dayNightTurns[CurrentDayState];
+            bool ended = dayTurnCounter > turnsNeeded;
 
             if (ended)
             {
@@ -113,12 +114,12 @@ namespace Assets.Scripts.DayNight
                     if (newNumber > highest)
                     {
                         CurrentDayState = DayStates.Morning;
-                        DayTurnCounter = 1;
+                        dayTurnCounter = 1;
                     }
                     else if (n == newNumber)
                     {
                         CurrentDayState = day;
-                        DayTurnCounter = 1;
+                        dayTurnCounter = 1;
                     }
                 }
                 StartTime = Time.time;
@@ -126,11 +127,11 @@ namespace Assets.Scripts.DayNight
             }
             else
             {
-                int turnsRemaining = (turnsNeeded - DayTurnCounter) + 1;
+                int turnsRemaining = (turnsNeeded - dayTurnCounter) + 1;
                 Notificator.Notify(turnsRemaining + " turns remaining before new daystate!", 1.1f);
             }
 
-            TurnFOW();
+            SetFowOfWar();
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace Assets.Scripts.DayNight
             return (Time.time - t)/speed;
         }
 
-        private void TurnFOW()
+        private void SetFowOfWar()
         {
             IsFowActive = CurrentDayState == DayStates.Night;
             // If the last turn the fog was not active and it has now switched to active then loop through all tiles, 
@@ -168,7 +169,7 @@ namespace Assets.Scripts.DayNight
             if (!lastIsFowActive && IsFowActive)
             {
                 List<Tile> allTiles = TileHelper.GetAllTilesInListType();
-                List<Tile> tileInLOSRange = TileHelper.GetAllTilesWithPlayerLOS(_manager.CurrentPlayer.Index);
+                List<Tile> tileInLOSRange = TileHelper.GetAllTilesWithPlayerLOS(lm.CurrentLevel.CurrentPlayer.Index);
 
                 foreach (Tile tile in allTiles)
                 {
@@ -191,7 +192,7 @@ namespace Assets.Scripts.DayNight
                         AddToFading(tile, 0f, 1f);
                     }
                 }
-                foreach (Tile tile in TileHelper.GetAllTilesWithPlayerLOS(_manager.CurrentPlayer.Index))
+                foreach (Tile tile in TileHelper.GetAllTilesWithPlayerLOS(lm.CurrentLevel.CurrentPlayer.Index))
                 {
                     tile.IsFogShown = false;
                     AddToFading(tile, 1f, 0f);
@@ -252,7 +253,7 @@ namespace Assets.Scripts.DayNight
         {
             if (IsFowActive)
             {
-                Player player = _manager.Players[index];
+                Player player = lm.CurrentLevel.Players[index];
 
                 foreach (Unit item in player.OwnedUnits)
                 {
@@ -268,7 +269,7 @@ namespace Assets.Scripts.DayNight
             // Update all of the health / capturepoints from all of the other players.
             foreach (
                 Player players in
-                    _manager.Players.Where(x => x.Value.Index != index && x.Value.Index != PlayerIndex.Neutral)
+                    lm.CurrentLevel.Players.Where(x => x.Value.Index != index && x.Value.Index != PlayerIndex.Neutral)
                         .Select(x => x.Value))
             {
                 foreach (Unit unit in players.OwnedUnits)
@@ -276,7 +277,8 @@ namespace Assets.Scripts.DayNight
                     unit.UnitGameObject.UpdateHealthText();
                 }
             }
-            foreach (Building building in _manager.CaptureBuildings.BuildingsBeingCaptured)
+            CaptureBuildings capBuilding = GameObject.Find("_Scripts").GetComponent<CaptureBuildings>();
+            foreach (Building building in capBuilding.BuildingsBeingCaptured)
             {
                 building.BuildingGameObject.UpdateCapturePointsText();
             }
@@ -301,9 +303,7 @@ namespace Assets.Scripts.DayNight
             cc.a = tile.IsFogShown ? 1f : 0f;
             tile.FogOfWar.renderer.material.color = cc;
 
-            foreach (
-                KeyValuePair<int, Dictionary<int, Tile>> item in
-                    TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight))
+            foreach (var item in TileHelper.GetAllTilesWithinRange(tile.Coordinate, rangeLineOfSight))
             {
                 foreach (KeyValuePair<int, Tile> tileValue in item.Value)
                 {
@@ -319,7 +319,6 @@ namespace Assets.Scripts.DayNight
                 }
             }
         }
-
         #endregion
     }
 }

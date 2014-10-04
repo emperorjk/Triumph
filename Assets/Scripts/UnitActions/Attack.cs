@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Audio;
 using Assets.Scripts.Events;
 using Assets.Scripts.Main;
@@ -12,17 +13,15 @@ namespace Assets.Scripts.UnitActions
 {
     public class Attack : MonoBehaviour
     {
-        private GameManager _manager;
+        private Movement movement;
+        private Highlight highlight;
 
         private void Awake()
         {
+            movement = GameObjectReferences.GetScriptsGameObject().GetComponent<Movement>();
+            highlight = GameObjectReferences.GetScriptsGameObject().GetComponent<Highlight>();
             EventHandler.register<OnHighlightClick>(BattlePreparation);
             EventHandler.register<OnAnimFight>(BattleSimulation);
-        }
-
-        private void Start()
-        {
-            _manager = GameObject.Find("_Scripts").GetComponent<GameManager>();
         }
 
         private void OnDestroy()
@@ -39,35 +38,30 @@ namespace Assets.Scripts.UnitActions
         /// <returns></returns>
         public int ShowAttackHighlights(UnitGameObject unit, int range)
         {
-            foreach (
-                KeyValuePair<int, Dictionary<int, Tile>> item in
-                    TileHelper.GetAllTilesWithinRange(unit.Tile.Coordinate, range))
+            foreach (var item in TileHelper.GetAllTilesWithinRange(unit.Tile.Coordinate, range))
             {
-                foreach (KeyValuePair<int, Tile> tile in item.Value)
+                foreach (var tile in item.Value.Where(tile => tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index))
                 {
-                    if (tile.Value.HasUnit() && tile.Value.unitGameObject.index != unit.index)
+                    // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
+                    if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
                     {
-                        // If unit is an archer we don't need to calculate paths because archer can shoot over units, water etc.
-                        if (!unit.UnitGame.CanAttackAfterMove && !tile.Value.IsFogShown)
+                        tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
+                        highlight.HighlightObjects.Add(tile.Value.Highlight);
+                    }
+                    else
+                    {
+                        List<Node> path = movement.CalculateShortestPath(unit.Tile, tile.Value, true);
+
+                        if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
                         {
                             tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                            _manager.Highlight.HighlightObjects.Add(tile.Value.Highlight);
-                        }
-                        else
-                        {
-                            List<Node> path = _manager.Movement.CalculateShortestPath(unit.Tile, tile.Value, true);
-
-                            if (path != null && path.Count <= unit.UnitGame.GetAttackMoveRange && !tile.Value.IsFogShown)
-                            {
-                                tile.Value.Highlight.ChangeHighlight(HighlightTypes.highlight_attack);
-                                _manager.Highlight.HighlightObjects.Add(tile.Value.Highlight);
-                            }
+                            highlight.HighlightObjects.Add(tile.Value.Highlight);
                         }
                     }
                 }
             }
-            int count = _manager.Highlight.HighlightObjects.Count;
-            _manager.Highlight.IsHighlightOn = count > 0;
+            int count = highlight.HighlightObjects.Count;
+            highlight.IsHighlightOn = count > 0;
             return count;
         }
 
@@ -79,12 +73,12 @@ namespace Assets.Scripts.UnitActions
         {
             if (evt.highlight != null)
             {
-                HighlightObject highlight = evt.highlight;
-                if (_manager.Highlight.IsHighlightOn && !_manager.Movement.NeedsMoving &&
-                    highlight.highlightTypeActive == HighlightTypes.highlight_attack)
+                HighlightObject highlightObj = evt.highlight;
+                if (highlight.IsHighlightOn && !movement.NeedsMoving &&
+                    highlightObj.highlightTypeActive == HighlightTypes.highlight_attack)
                 {
-                    UnitGameObject attackingUnit = _manager.Highlight.UnitSelected;
-                    UnitGameObject defendingUnit = highlight.tile.unitGameObject;
+                    UnitGameObject attackingUnit = highlight.UnitSelected;
+                    UnitGameObject defendingUnit = highlightObj.Tile.unitGameObject;
 
 
                     if (!attackingUnit.UnitGame.HasAttacked)
@@ -99,7 +93,7 @@ namespace Assets.Scripts.UnitActions
                                 attackingUnit.UnitGame.HasMoved = true;
                                 attackingUnit.UnitGame.PlaySound(UnitSoundType.Attack);
 
-                                _manager.Highlight.ClearHighlights();
+                                highlight.ClearHighlights();
 
                                 // Check if units are faces the wrong way
                                 FacingDirectionUnits(attackingUnit, defendingUnit);
@@ -109,7 +103,7 @@ namespace Assets.Scripts.UnitActions
                                 fight.attacker = attackingUnit;
                                 fight.defender = defendingUnit;
                                 fight.needsAnimating = true;
-                                EventHandler.dispatch<OnAnimFight>(fight);
+                                EventHandler.dispatch(fight);
                             }
                             else
                             {
@@ -122,7 +116,7 @@ namespace Assets.Scripts.UnitActions
         }
 
         /// <summary>
-        /// The method which does all the complicated battle simulation. From calculating damage to dealing damage and so forth.
+        /// The method which does all the complicated battle simulation. From calculating Damage to dealing Damage and so forth.
         /// Gets called when the event OnAnimFight is fired. When the needsAnimating property is false it will execute this code.
         /// </summary>
         /// <param Name="Attacker"></param>
@@ -179,13 +173,13 @@ namespace Assets.Scripts.UnitActions
             Vector3 attDirection = defender.transform.position - attacker.transform.position;
             Vector3 defDirection = attacker.transform.position - defender.transform.position;
 
-            Quaternion attackerQ = new Quaternion(0, (attDirection.x >= 0 ? 0 : 180), 0, 0);
-            Quaternion defenderQ = new Quaternion(0, (defDirection.x >= 0 ? 0 : 180), 0, 0);
+            var attackerQ = new Quaternion(0, (attDirection.x >= 0 ? 0 : 180), 0, 0);
+            var defenderQ = new Quaternion(0, (defDirection.x >= 0 ? 0 : 180), 0, 0);
             attacker.transform.rotation = attackerQ;
             defender.transform.rotation = defenderQ;
 
-            Quaternion attackerHealthQ = new Quaternion(0, 0, 0, (attacker.transform.position.y > 0 ? 0 : 180));
-            Quaternion defenderHealthQ = new Quaternion(0, 0, 0, (defender.transform.position.y > 0 ? 0 : 180));
+            var attackerHealthQ = new Quaternion(0, 0, 0, (attacker.transform.position.y > 0 ? 0 : 180));
+            var defenderHealthQ = new Quaternion(0, 0, 0, (defender.transform.position.y > 0 ? 0 : 180));
             attacker.UnitHealthText.transform.rotation = attackerHealthQ;
             defender.UnitHealthText.transform.rotation = defenderHealthQ;
 
